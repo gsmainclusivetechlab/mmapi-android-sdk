@@ -1,0 +1,3 @@
+rootProject.name = "GSMASdk"
+include ':GSMASdk'
+include ':GSMATest'
