@@ -68,4 +68,13 @@ public interface APIService {
      */
     @GET("{version}/requeststates/{id}")
     Call<RequestStateObject> viewRequestState(@Path(value = "version", encoded = true) String version,@Path("id") String id,@HeaderMap Map<String, String> headers);
+
+    /**
+     * Obtain Authorisation code.
+     *
+     * @return the call
+     */
+    @POST("{version}/accounts/accountid/{id}/authorisationcodes")
+    Call<RequestStateObject> obtainAuthorisationCode(@Path("id") String accountId, @Path(value = "version", encoded = true) String version, @Body RequestBody codeRequest, @HeaderMap Map<String, String> headers);
+
 }

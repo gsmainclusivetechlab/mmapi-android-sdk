@@ -8,6 +8,7 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.CodeRequest;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -144,6 +145,16 @@ public final class GSMAApi {
      */
     public void viewRequestState(String serverCorrelationId,APIRequestCallback<RequestStateObject> apiRequestCallback) {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewRequestState(PaymentConfiguration.getUrlVersion(),serverCorrelationId,headers),apiRequestCallback));
+    }
+
+    /**
+     * obtain Authorisation code.
+     *
+     * @param codeRequest
+     */
+    public void obtainAuthorisationCode(String accountId, CodeRequest codeRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        setHeaders();
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.obtainAuthorisationCode(accountId, PaymentConfiguration.getUrlVersion(),RequestBody.create(new Gson().toJson(codeRequest),mediaType),headers),apiRequestCallback));
     }
 
 }

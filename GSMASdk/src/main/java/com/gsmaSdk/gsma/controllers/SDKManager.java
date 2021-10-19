@@ -5,6 +5,7 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.TokenInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.CodeRequest;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
@@ -121,7 +122,7 @@ public class SDKManager {
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
 
-        if (transactionReference!=null) {
+        if (transactionReference.isEmpty()) {
             transactionInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid transaction reference"));
         } else {
             GSMAApi.getInstance().viewTransaction(transactionReference, new APIRequestCallback<TransactionObject>() {
@@ -148,7 +149,7 @@ public class SDKManager {
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
 
-        if (serverCorrelationId!=null) {
+        if (serverCorrelationId.isEmpty()) {
             requestStateInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid server correlation id"));
         } else {
             GSMAApi.getInstance().viewRequestState(serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
@@ -165,5 +166,33 @@ public class SDKManager {
             );
         }
     }
+
+    /**
+     * Create Authorisation code
+     *
+     * @param accountId accountId
+     * @param codeRequest Authorisation code request object
+     */
+
+    public void obtainAuthorisationCode(@NonNull String accountId, @NonNull CodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
+
+        if (accountId.isEmpty()) {
+            requestStateInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid accountId format"));
+        } else {
+            GSMAApi.getInstance().obtainAuthorisationCode(accountId, codeRequest, new APIRequestCallback<RequestStateObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            requestStateInterface.onRequestStateFailure(errorDetails);
+                        }
+                    }
+            );
+        }
+    }
+
 
 }
