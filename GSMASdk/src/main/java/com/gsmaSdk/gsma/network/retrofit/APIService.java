@@ -2,6 +2,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 
 
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
@@ -25,6 +26,17 @@ import retrofit2.http.Path;
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface APIService {
+
+
+
+
+    /**
+     * merchant pay refund
+     * @return the call
+     */
+
+    @POST("{version}/transactions/type/adjustment")
+    Call<Refund> refund(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
     /**
      * Generate Access Token call.

@@ -11,10 +11,12 @@ import com.gsmaSdk.gsma.controllers.SDKManager;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
+import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnPayeeInitiated = findViewById(R.id.btnPayeeInitiated);
         Button btnTransaction = findViewById(R.id.btnViewTransaction);
         Button btnRequestState = findViewById(R.id.btnRequestState);
+        Button btnRefund=findViewById(R.id.btnRefund);
         txtResponse = findViewById(R.id.txtResponse);
 
         /**
@@ -57,10 +60,12 @@ public class MainActivity extends AppCompatActivity {
          * Initialise the payment system
          * consumerkey,cosumersecret,level of authentication,callbackurl
          //         */
-//        PaymentConfiguration.
-//                init("59vthmq3f6i15v6jmcjskfkmh",
-//                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
-//           ,AuthenticationType.STANDARD_LEVEL,"https://www.google.com/");
+
+
+        PaymentConfiguration.
+                init("59vthmq3f6i15v6jmcjskfkmh",
+                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
+                        ,AuthenticationType.STANDARD_LEVEL,"https://www.google.com/");
 ////
 //
 //        /**
@@ -79,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 //         * Initialise the payment system without authorization
 //         *
 //         */
-            PaymentConfiguration.init("https://www.google.com/");
+        PaymentConfiguration.init("https://www.google.com/");
 
         //iniliase the preference object
         PreferenceManager.getInstance().init(this);
@@ -162,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 txtResponse.setText("Error: "+gsmaError.getErrorCode());
-          }
+            }
 
         }));
 
@@ -171,11 +176,30 @@ public class MainActivity extends AppCompatActivity {
          * API to view Request state.
          */
 
+        btnRefund.setOnClickListener(v->SDKManager.getInstance().getRefundMerchantPay(transactionRequest, new RefundInterface() {
+            @Override
+            public void onRefundSuccess(Refund refund) {
+                Log.d("TAG", "onRefundSuccess"+refund.getServerCorrelationId());
+            }
+
+            @Override
+            public void onRefundFailure(GSMAError gsmaError) {
+                txtResponse.setText(new StringBuilder().append(getString(R.string.error)).append(new Gson().toJson(gsmaError.getErrorBody())));
+                Log.d("TAG", "onRequestStateFailure: "+new Gson().toJson(gsmaError));
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Log.d("TAG", "onValidationError: "+new Gson().toJson(errorObject));
+            }
+        }));
         btnRequestState.setOnClickListener(v -> SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
                 Log.d("TAG", "onValidationError: "+new Gson().toJson(errorObject));
             }
 

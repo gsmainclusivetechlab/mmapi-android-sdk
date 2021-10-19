@@ -8,6 +8,7 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -144,6 +145,11 @@ public final class GSMAApi {
      */
     public void viewRequestState(String serverCorrelationId,APIRequestCallback<RequestStateObject> apiRequestCallback) {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewRequestState(PaymentConfiguration.getUrlVersion(),serverCorrelationId,headers),apiRequestCallback));
+    }
+
+    public void refund(TransactionRequest transactionRequest, APIRequestCallback<Refund> apiRequestCallback){
+        setHeaders();
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(),RequestBody.create(new Gson().toJson(transactionRequest),mediaType),headers),apiRequestCallback));
     }
 
 }

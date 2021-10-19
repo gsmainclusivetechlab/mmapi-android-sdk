@@ -1,10 +1,12 @@
 package com.gsmaSdk.gsma.controllers;
 
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
+import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.TokenInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
@@ -166,4 +168,22 @@ public class SDKManager {
         }
     }
 
+
+    public void getRefundMerchantPay(@NonNull TransactionRequest transactionRequest, @NonNull RefundInterface refundInterface) {
+        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()) {
+            refundInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid accountId format"));
+        } else {
+            GSMAApi.getInstance().refund(transactionRequest, new APIRequestCallback<Refund>() {
+                @Override
+                public void onSuccess(int responseCode, Refund serializedResponse) {
+                    refundInterface.onRefundSuccess(serializedResponse);
+                }
+
+                @Override
+                public void onFailure(GSMAError errorDetails) {
+                    refundInterface.onRefundFailure(errorDetails);
+                }
+            });
+        }
+    }
 }
