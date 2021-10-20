@@ -4,6 +4,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 
 import java.util.Map;
@@ -68,4 +69,12 @@ public interface APIService {
      */
     @GET("{version}/requeststates/{id}")
     Call<RequestStateObject> viewRequestState(@Path(value = "version", encoded = true) String version,@Path("id") String id,@HeaderMap Map<String, String> headers);
+
+    /**
+     * Check Service Availability.
+     *
+     * @return the call
+     */
+    @GET("{version}/heartbeat")
+    Call<ServiceAvailability> checkServiceAvailability(@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 }

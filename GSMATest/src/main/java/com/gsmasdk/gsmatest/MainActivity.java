@@ -12,12 +12,14 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
+import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
@@ -96,11 +98,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         createTransactionObject();
+        checkServiceAvailability();
 
         /**
          * API for checking Balance.
@@ -220,7 +219,32 @@ public class MainActivity extends AppCompatActivity {
 
         }));
 
+    }
 
+    private void checkServiceAvailability() {
+        /**
+         * API for checking Service Availability.
+         */
+
+        SDKManager.getInstance().checkServiceAvailability( new ServiceAvailabilityInterface() {
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onValidationError: "+new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
+                txtResponse.setText(new StringBuilder().append("Service Availability: ").append(serviceAvailability.getServiceStatus()).toString());
+            }
+
+            @Override
+            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
+                txtResponse.setText(new StringBuilder().append(getString(R.string.error)).append(new Gson().toJson(gsmaError.getErrorBody())));
+                Log.d("TAG", "onServiceAvailabilityFailure: "+new Gson().toJson(gsmaError));
+            }
+        });
     }
 
     /**
