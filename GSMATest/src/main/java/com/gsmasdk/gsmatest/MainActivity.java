@@ -2,6 +2,7 @@ package com.gsmasdk.gsmatest;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,10 +13,13 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+import com.gsmaSdk.gsma.interfaces.ReversalInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.RequestStateObject;
+import com.gsmaSdk.gsma.models.Reversal;
+import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnPayeeInitiated = findViewById(R.id.btnPayeeInitiated);
         Button btnTransaction = findViewById(R.id.btnViewTransaction);
         Button btnRequestState = findViewById(R.id.btnRequestState);
+        Button btnReversal=findViewById(R.id.btnReversal);
         txtResponse = findViewById(R.id.txtResponse);
 
         /**
@@ -57,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
          * Initialise the payment system
          * consumerkey,cosumersecret,level of authentication,callbackurl
          //         */
-//        PaymentConfiguration.
-//                init("59vthmq3f6i15v6jmcjskfkmh",
-//                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
-//           ,AuthenticationType.STANDARD_LEVEL,"https://www.google.com/");
-////
+        PaymentConfiguration.
+                init("59vthmq3f6i15v6jmcjskfkmh",
+                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
+           ,AuthenticationType.STANDARD_LEVEL,"https://www.google.com/");
 //
+
 //        /**
 //         * Configure the payment system
 //         * Initialise the payment system
@@ -79,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 //         * Initialise the payment system without authorization
 //         *
 //         */
-            PaymentConfiguration.init("https://www.google.com/");
+         //   PaymentConfiguration.init("https://www.google.com/");
 
         //iniliase the preference object
         PreferenceManager.getInstance().init(this);
@@ -125,6 +130,31 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TAG", "onBalanceFailure: "+new Gson().toJson(gsmaError));
             }
         }));
+
+        // payment revesal object
+
+        ReversalObject reversalObject=new ReversalObject();
+        reversalObject.setReversal("reversal");
+
+        btnReversal.setOnClickListener(v-> SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new ReversalInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onValidationError: "+new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onReversalSuccess(Reversal reversal) {
+                Log.d("TAG", "onReversalSuccess:"+reversal);
+            }
+
+            @Override
+            public void onReversalFailure(GSMAError gsmaError) {
+                Log.d("TAG", "onReversalFailure: "+gsmaError);
+            }
+        }));
+
+
 
 //        /**
 //         * API to generate token
