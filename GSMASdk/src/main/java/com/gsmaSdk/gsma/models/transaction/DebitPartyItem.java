@@ -2,9 +2,6 @@ package com.gsmaSdk.gsma.models.transaction;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Model class for Debit Party
- * */
 public class DebitPartyItem{
 
 	@SerializedName("value")

@@ -2,9 +2,6 @@ package com.gsmaSdk.gsma.models.transaction;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Model class for Credit Party
- * */
 public class CreditPartyItem{
 
 	@SerializedName("value")
