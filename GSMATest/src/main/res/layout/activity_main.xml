@@ -117,9 +117,6 @@
 
 	</LinearLayout>
 
-	
-
-	
 
 	<TextView
 		android:id="@+id/txtResponse"

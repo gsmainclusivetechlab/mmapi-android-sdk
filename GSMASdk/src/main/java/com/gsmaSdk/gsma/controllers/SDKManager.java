@@ -3,9 +3,10 @@ package com.gsmaSdk.gsma.controllers;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+
 import com.gsmaSdk.gsma.interfaces.ReversalInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
-
+import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TokenInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
@@ -17,6 +18,7 @@ import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
+import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
@@ -246,6 +248,26 @@ public class SDKManager {
                     }
             );
         }
+    }
+
+
+    /**
+     * Check Service Availability
+     */
+
+    public void checkServiceAvailability(@NonNull ServiceAvailabilityInterface serviceAvailabilityInterface) {
+            GSMAApi.getInstance().checkServiceAvailability(new APIRequestCallback<ServiceAvailability>() {
+                        @Override
+                        public void onSuccess(int responseCode, ServiceAvailability serializedResponse) {
+                            serviceAvailabilityInterface.onServiceAvailabilitySuccess(serializedResponse);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            serviceAvailabilityInterface.onServiceAvailabilityFailure(errorDetails);
+                        }
+                    }
+            );
     }
 
 

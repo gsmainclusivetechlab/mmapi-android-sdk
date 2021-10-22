@@ -14,7 +14,11 @@ import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+
 import com.gsmaSdk.gsma.models.transaction.Transaction;
+
+import com.gsmaSdk.gsma.models.common.ServiceAvailability;
+
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
@@ -153,9 +157,7 @@ public final class GSMAApi {
     }
 
 
-
     public void refund(TransactionRequest transactionRequest, APIRequestCallback<Refund> apiRequestCallback) {
-        setHeaders();
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
     public void reversal(String referenceId, ReversalObject reversalObject, APIRequestCallback<Reversal> apiRequestCallback){
@@ -171,6 +173,15 @@ public final class GSMAApi {
     public void retrieveTransaction(String accountId,int offset,int limit, APIRequestCallback<Transaction> apiRequestCallback) {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(),accountId,headers,offset,limit),apiRequestCallback));
     }
+
+
+    /**
+     * Check Service Availability.
+     */
+    public void checkServiceAvailability(APIRequestCallback<ServiceAvailability> apiRequestCallback) {
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.checkServiceAvailability(PaymentConfiguration.getUrlVersion(),headers),apiRequestCallback));
+    }
+
 
 
 }

@@ -13,16 +13,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb3939fc-e2a5-43c8-9246-5556452ae4fb" name="Default Changelist" comment="add merchant payment refund api">
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/interfaces/RetrieveTransactionInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/IdDocumentItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/InternationalTransferInformation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/PostalAddress.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/RequestingOrganisation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/SenderKyc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/SubjectName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/Transaction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/TransactionItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/deserializers/TransactionResponseDeserializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/interfaces/ServiceAvailabilityInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/common/ServiceAvailability.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -33,16 +25,10 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/controllers/SDKManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/controllers/SDKManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/interfaces/TransactionInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/interfaces/TransactionInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/CreditPartyItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/CreditPartyItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/DebitPartyItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/transaction/DebitPartyItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/APIService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/APIService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/GSMAApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/GSMAApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/RetrofitHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/RetrofitHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GSMATest/src/main/java/com/gsmasdk/gsmatest/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMATest/src/main/java/com/gsmasdk/gsmatest/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GSMATest/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/GSMATest/src/main/res/layout/activity_main.xml" afterDir="false" />
     </list>
@@ -83,7 +69,7 @@
     </option>
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="origin/merchant-payments-retrieve-payments" />
+    <option name="BRANCH" value="origin/merchant-payments-service-availability" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">

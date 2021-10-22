@@ -8,6 +8,7 @@ import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionItem;
+import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 
 import java.util.List;
@@ -31,9 +32,6 @@ import retrofit2.http.Query;
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface APIService {
-
-
-
 
 
     @POST("{version}/transactions/type/adjustment")
@@ -95,4 +93,8 @@ public interface APIService {
      */
     @GET("{version}/accounts/accountid/{id}/transactions")
     Call<Transaction> retrieveTransaction(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers, @Query(value = "offset") int offset, @Query(value = "limit") int limit);
+
+    @GET("{version}/heartbeat")
+    Call<ServiceAvailability> checkServiceAvailability(@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
 }
