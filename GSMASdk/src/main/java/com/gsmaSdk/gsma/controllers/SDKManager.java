@@ -4,6 +4,8 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.ReversalInterface;
+import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
+
 import com.gsmaSdk.gsma.interfaces.TokenInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
@@ -14,6 +16,7 @@ import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
@@ -128,21 +131,22 @@ public class SDKManager {
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
 
         if (transactionReference != null) {
-            transactionInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid transaction reference"));
-        } else {
-            GSMAApi.getInstance().viewTransaction(transactionReference, new APIRequestCallback<TransactionObject>() {
+            if (transactionReference.isEmpty()) {
+                transactionInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid transaction reference"));
+            } else {
+                GSMAApi.getInstance().viewTransaction(transactionReference, new APIRequestCallback<TransactionObject>() {
+                            @Override
+                            public void onSuccess(int responseCode, TransactionObject serializedResponse) {
+                                transactionInterface.onTransactionSuccess(serializedResponse);
+                            }
 
-                        @Override
-                        public void onSuccess(int responseCode, TransactionObject serializedResponse) {
-                            transactionInterface.onTransactionSuccess(serializedResponse);
+                            @Override
+                            public void onFailure(GSMAError errorDetails) {
+                                transactionInterface.onTransactionFailure(errorDetails);
+                            }
                         }
-
-                        @Override
-                        public void onFailure(GSMAError errorDetails) {
-                            transactionInterface.onTransactionFailure(errorDetails);
-                        }
-                    }
-            );
+                );
+            }
         }
     }
 
@@ -153,22 +157,23 @@ public class SDKManager {
      */
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
-
         if (serverCorrelationId != null) {
-            requestStateInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid server correlation id"));
-        } else {
-            GSMAApi.getInstance().viewRequestState(serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
-                        @Override
-                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse);
-                        }
+            if (serverCorrelationId.isEmpty()) {
+                requestStateInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid server correlation id"));
+            } else {
+                GSMAApi.getInstance().viewRequestState(serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
+                            @Override
+                            public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                                requestStateInterface.onRequestStateSuccess(serializedResponse);
+                            }
 
-                        @Override
-                        public void onFailure(GSMAError errorDetails) {
-                            requestStateInterface.onRequestStateFailure(errorDetails);
+                            @Override
+                            public void onFailure(GSMAError errorDetails) {
+                                requestStateInterface.onRequestStateFailure(errorDetails);
+                            }
                         }
-                    }
-            );
+                );
+            }
         }
     }
 
@@ -190,15 +195,17 @@ public class SDKManager {
             });
         }
     }
-    public void reversal(@NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull ReversalInterface reversalInterface) {
+
+    public void reversal(@NonNull String referenceId, @NonNull ReversalObject
+            reversal, @NonNull ReversalInterface reversalInterface) {
 
         if (referenceId.isEmpty()) {
             reversalInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid reference id"));
             return;
         }
-        if(reversal==null){
+        if (reversal == null) {
             reversalInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid json format"));
-           return;
+            return;
         }
         GSMAApi.getInstance().reversal(referenceId, reversal, new APIRequestCallback<Reversal>() {
             @Override
@@ -213,6 +220,35 @@ public class SDKManager {
         });
 
     }
+
+
+    /**
+     * View Request State
+     *
+     * @param accountId Account ID
+     */
+
+    public void retrieveTransaction(@NonNull String accountId, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+
+        if (accountId.isEmpty()) {
+            retrieveTransactionInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid account id"));
+        } else {
+            GSMAApi.getInstance().retrieveTransaction(accountId, offset, limit, new APIRequestCallback<Transaction>() {
+                       @Override
+                        public void onSuccess(int responseCode, Transaction serializedResponse) {
+                            retrieveTransactionInterface.onRetrieveTransactionSuccess(serializedResponse);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            retrieveTransactionInterface.onRetrieveTransactionFailure(errorDetails);
+                        }
+                    }
+            );
+        }
+    }
+
+
 }
 
 

@@ -14,7 +14,11 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+
 import com.gsmaSdk.gsma.interfaces.ReversalInterface;
+
+import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
+
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
@@ -26,6 +30,8 @@ import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
+import com.gsmaSdk.gsma.models.transaction.Transaction;
+import com.gsmaSdk.gsma.models.transaction.TransactionItem;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -56,10 +62,9 @@ public class MainActivity extends AppCompatActivity {
         Button btnPayeeInitiated = findViewById(R.id.btnPayeeInitiated);
         Button btnTransaction = findViewById(R.id.btnViewTransaction);
         Button btnRequestState = findViewById(R.id.btnRequestState);
-
         Button btnRefund=findViewById(R.id.btnRefund);
-
         Button btnReversal=findViewById(R.id.btnReversal);
+        Button btnRetrieveTransaction = findViewById(R.id.btnRetrieveTransaction);
 
         txtResponse = findViewById(R.id.txtResponse);
 
@@ -273,6 +278,29 @@ public class MainActivity extends AppCompatActivity {
 
         }));
 
+        /**
+         * API for retrieving transaction
+         */
+
+        btnRetrieveTransaction.setOnClickListener(v -> SDKManager.getInstance().retrieveTransaction("2000",0,1, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onValidationError: "+new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
+                txtResponse.setText(new Gson().toJson(transaction));
+                Log.d("TAG", "onRetrieveTransactionSuccess: "+new Gson().toJson(transaction));
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+                txtResponse.setText(new StringBuilder().append(getString(R.string.error)).append(new Gson().toJson(gsmaError.getErrorBody())));
+                Log.d("TAG", "onRetrieveTransactionFailure: "+new Gson().toJson(gsmaError));
+            }
+        }));
 
     }
 
