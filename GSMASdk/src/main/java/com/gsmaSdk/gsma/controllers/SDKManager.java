@@ -11,6 +11,7 @@ import com.gsmaSdk.gsma.interfaces.TokenInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.Refund;
+import com.gsmaSdk.gsma.models.CodeRequest;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.ReversalObject;
@@ -198,8 +199,7 @@ public class SDKManager {
         }
     }
 
-    public void reversal(@NonNull String referenceId, @NonNull ReversalObject
-            reversal, @NonNull ReversalInterface reversalInterface) {
+    public void reversal(@NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull ReversalInterface reversalInterface) {
 
         if (referenceId.isEmpty()) {
             reversalInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid reference id"));
@@ -223,6 +223,26 @@ public class SDKManager {
 
     }
 
+    public void obtainAuthorisationCode(@NonNull String accountId, @NonNull CodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
+
+        if (accountId.isEmpty()) {
+            requestStateInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid accountId format"));
+        } else {
+            GSMAApi.getInstance().obtainAuthorisationCode(accountId, codeRequest, new APIRequestCallback<RequestStateObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            requestStateInterface.onRequestStateFailure(errorDetails);
+                        }
+                    }
+            );
+        }
+    }
+
 
     /**
      * View Request State
@@ -236,7 +256,7 @@ public class SDKManager {
             retrieveTransactionInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid account id"));
         } else {
             GSMAApi.getInstance().retrieveTransaction(accountId, offset, limit, new APIRequestCallback<Transaction>() {
-                       @Override
+                        @Override
                         public void onSuccess(int responseCode, Transaction serializedResponse) {
                             retrieveTransactionInterface.onRetrieveTransactionSuccess(serializedResponse);
                         }
@@ -250,26 +270,24 @@ public class SDKManager {
         }
     }
 
-
     /**
      * Check Service Availability
      */
 
     public void checkServiceAvailability(@NonNull ServiceAvailabilityInterface serviceAvailabilityInterface) {
-            GSMAApi.getInstance().checkServiceAvailability(new APIRequestCallback<ServiceAvailability>() {
-                        @Override
-                        public void onSuccess(int responseCode, ServiceAvailability serializedResponse) {
-                            serviceAvailabilityInterface.onServiceAvailabilitySuccess(serializedResponse);
-                        }
+        GSMAApi.getInstance().checkServiceAvailability(new APIRequestCallback<ServiceAvailability>() {
+            @Override
+            public void onSuccess(int responseCode, ServiceAvailability serializedResponse) {
+                serviceAvailabilityInterface.onServiceAvailabilitySuccess(serializedResponse);
+            }
 
-                        @Override
-                        public void onFailure(GSMAError errorDetails) {
-                            serviceAvailabilityInterface.onServiceAvailabilityFailure(errorDetails);
-                        }
-                    }
-            );
+            @Override
+            public void onFailure(GSMAError errorDetails) {
+                serviceAvailabilityInterface.onServiceAvailabilityFailure(errorDetails);
+            }
+          }
+        );
     }
-
 
 }
 

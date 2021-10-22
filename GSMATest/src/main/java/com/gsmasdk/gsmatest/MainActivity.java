@@ -21,19 +21,20 @@ import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.Refund;
+import com.gsmaSdk.gsma.models.CodeRequest;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
+import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionItem;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
-import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
@@ -48,8 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView txtResponse;
     private TransactionRequest transactionRequest;
-    private String transactionRef="";
-    private String serverCorrelationId="";
+    private CodeRequest codeRequest;
+    private String transactionRef = "";
+    private String serverCorrelationId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +63,12 @@ public class MainActivity extends AppCompatActivity {
         Button btnPayeeInitiated = findViewById(R.id.btnPayeeInitiated);
         Button btnTransaction = findViewById(R.id.btnViewTransaction);
         Button btnRequestState = findViewById(R.id.btnRequestState);
+
         Button btnRefund=findViewById(R.id.btnRefund);
         Button btnReversal=findViewById(R.id.btnReversal);
         Button btnRetrieveTransaction = findViewById(R.id.btnRetrieveTransaction);
+
+        Button btnObtainAuthCode = findViewById(R.id.btnObtainAuthCode);
 
         txtResponse = findViewById(R.id.txtResponse);
 
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         PaymentConfiguration.
                 init("59vthmq3f6i15v6jmcjskfkmh",
                         "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
-                        ,AuthenticationType.STANDARD_LEVEL,"https://www.google.com/");
+                        , AuthenticationType.STANDARD_LEVEL,"https://www.google.com/");
 
 
         /**
@@ -91,26 +96,29 @@ public class MainActivity extends AppCompatActivity {
 //         *
 //         */
 
+
          //   PaymentConfiguration.init("https://www.google.com/");
-
-
+        PaymentConfiguration.init("https://www.google.com/");
         //iniliase the preference object
         PreferenceManager.getInstance().init(this);
 
         GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
             @Override
             public void onSuccess(Token token) {
-                Log.d("TAG", "onSuccess: "+token);
+                Log.d("TAG", "onSuccess: " + token);
             }
 
             @Override
             public void onFailure(GSMAError gsmaError) {
-                Log.d("TAG", "onFailure: "+gsmaError);
+                Log.d("TAG", "onFailure: " + gsmaError);
             }
         });
 
+
         createTransactionObject();
         checkServiceAvailability();
+        createCodeRequestObject();
+
 
         /**
          * API for checking Balance.
@@ -119,20 +127,20 @@ public class MainActivity extends AppCompatActivity {
         btnBalance.setOnClickListener(v -> SDKManager.getInstance().getBalance("1", new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
-                Log.d("TAG", "onValidationError: "+new Gson().toJson(errorObject));
+                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onBalanceSuccess(Balance balance) {
                 txtResponse.setText(new StringBuilder().append(balance.getCurrentBalance()).append(" ").append(balance.getAccountStatus()).toString());
-                Log.d("TAG", "onBalanceSuccess: "+new Gson().toJson(balance));
+                Log.d("TAG", "onBalanceSuccess: " + new Gson().toJson(balance));
             }
 
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
                 txtResponse.setText(new StringBuilder().append(getString(R.string.error)).append(new Gson().toJson(gsmaError.getErrorBody())));
-                Log.d("TAG", "onBalanceFailure: "+new Gson().toJson(gsmaError));
+                Log.d("TAG", "onBalanceFailure: " + new Gson().toJson(gsmaError));
             }
         }));
 
@@ -184,8 +192,8 @@ public class MainActivity extends AppCompatActivity {
         btnPayeeInitiated.setOnClickListener(v -> SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
-                Log.d("TAG", "onValidationError: "+new Gson().toJson(errorObject));
+                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
@@ -229,21 +237,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 Toast.makeText(
-                        MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
-                Log.d("TAG", "onValidationError: "+new Gson().toJson(errorObject));
+                        MainActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onValidationError: " + new Gson().toJson(errorObject));
             }
-
-            @Override
+                @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 txtResponse.setText(new StringBuilder().append(requestStateObject.getStatus()).append(" ").append(requestStateObject.getObjectReference()).toString());
-                Log.d("TAG", "onRequestStateSuccess: "+new Gson().toJson(requestStateObject));
+                Log.d("TAG", "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 txtResponse.setText(new StringBuilder().append(getString(R.string.error)).append(new Gson().toJson(gsmaError.getErrorBody())));
-                Log.d("TAG", "onRequestStateFailure: "+new Gson().toJson(gsmaError));
+                Log.d("TAG", "onRequestStateFailure: " + new Gson().toJson(gsmaError));
             }
 
         }));
@@ -256,20 +263,43 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
-                Log.d("TAG", "onValidationError: "+new Gson().toJson(errorObject));
+                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onTransactionSuccess(TransactionObject transactionObject) {
                 txtResponse.setText(new StringBuilder().append(transactionObject.getTransactionStatus()).append(" ").append(transactionObject.getAmount()).toString());
-                Log.d("TAG", "onTransactionSuccess: "+new Gson().toJson(transactionObject));
+                Log.d("TAG", "onTransactionSuccess: " + new Gson().toJson(transactionObject));
             }
 
             @Override
             public void onTransactionFailure(GSMAError gsmaError) {
                 txtResponse.setText(new StringBuilder().append(getString(R.string.error)).append(new Gson().toJson(gsmaError.getErrorBody())));
-                Log.d("TAG", "onTransactionFailure: "+new Gson().toJson(gsmaError));
+                Log.d("TAG", "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        }));
+
+        /**
+         * API for Obtaining Authorisation code
+         */
+        btnObtainAuthCode.setOnClickListener(v -> SDKManager.getInstance().obtainAuthorisationCode("1", codeRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(MainActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                txtResponse.setText("Correlation ID :" + requestStateObject.getServerCorrelationId());
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                txtResponse.setText("Error: " + gsmaError.getErrorCode());
             }
 
         }));
@@ -331,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     *Transaction Object for Merchant Pay.
+     * Transaction Object for Merchant Pay.
      */
     private void createTransactionObject() {
         transactionRequest = new TransactionRequest();
@@ -355,6 +385,20 @@ public class MainActivity extends AppCompatActivity {
 
         String gson = new Gson().toJson(transactionRequest, TransactionRequest.class);
         Log.d("TAG", "createTransactionObject: " + gson);
+
+    }
+
+    /**
+     * Code Request Object for Obtaining Authorisation code.
+     */
+    private void createCodeRequestObject() {
+        codeRequest = new CodeRequest();
+        codeRequest.setAmount("200.00");
+        codeRequest.setRequestDate("2021-10-18T10:43:27.405Z");
+        codeRequest.setCurrency("RWF");
+
+        String gson = new Gson().toJson(codeRequest, CodeRequest.class);
+        Log.d("TAG", "createCodeRequestObject: " + gson);
 
     }
 }

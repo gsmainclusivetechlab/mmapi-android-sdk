@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.RestrictTo;
+
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -39,8 +40,7 @@ public interface APIService {
 
 
     @POST("{version}/transactions/{referenceId}/reversals")
-    Call<Reversal> reversal(@Path(value = "version", encoded = true) String version,@Path("referenceId") String referenceId, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
-
+    Call<Reversal> reversal(@Path(value = "version", encoded = true) String version, @Path("referenceId") String referenceId, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
 
     /**
@@ -50,8 +50,8 @@ public interface APIService {
      * @return the call
      */
     @FormUrlEncoded
-    @POST(APIConstants.URL_VER_TOKEN+APIConstants.ACCESS_TOKEN)
-    Call<Token> createToken(@Header(APIConstants.AUTHORIZATION) String key,@Field("grant_type") String clientCredentials);
+    @POST(APIConstants.URL_VER_TOKEN + APIConstants.ACCESS_TOKEN)
+    Call<Token> createToken(@Header(APIConstants.AUTHORIZATION) String key, @Field("grant_type") String clientCredentials);
 
     /**
      * Retrieve Balance.
@@ -59,7 +59,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/accounts/accountid/{id}/balance")
-    Call<Balance> retrieveBalance(@Path(value = "version", encoded = true) String version,@Path("id") String id,@HeaderMap Map<String, String> headers);
+    Call<Balance> retrieveBalance(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
 
     /**
      * Start a Merchant Pay Transaction.
@@ -84,7 +84,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/requeststates/{id}")
-    Call<RequestStateObject> viewRequestState(@Path(value = "version", encoded = true) String version,@Path("id") String id,@HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> viewRequestState(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
 
     /**
      * View Request state.
@@ -94,7 +94,21 @@ public interface APIService {
     @GET("{version}/accounts/accountid/{id}/transactions")
     Call<Transaction> retrieveTransaction(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers, @Query(value = "offset") int offset, @Query(value = "limit") int limit);
 
+    /**
+     * Check for service availability
+     *
+     * @return the call
+     */
     @GET("{version}/heartbeat")
     Call<ServiceAvailability> checkServiceAvailability(@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
+    /**
+     * Obtain Authorisation code.
+     *
+     * @return the call
+     */
+    @POST("{version}/accounts/accountid/{id}/authorisationcodes")
+    Call<RequestStateObject> obtainAuthorisationCode(@Path("id") String accountId, @Path(value = "version", encoded = true) String version, @Body RequestBody codeRequest, @HeaderMap Map<String, String> headers);
+
 
 }

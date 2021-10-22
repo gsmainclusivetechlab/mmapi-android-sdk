@@ -9,6 +9,8 @@ import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.Refund;
+
+import com.gsmaSdk.gsma.models.CodeRequest;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.ReversalObject;
@@ -157,9 +159,22 @@ public final class GSMAApi {
     }
 
 
+    /**
+     * Refund
+     *
+     * @param transactionRequest
+     */
+
+
     public void refund(TransactionRequest transactionRequest, APIRequestCallback<Refund> apiRequestCallback) {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
+
+    /**
+     *Reversal
+     * @param referenceId
+     * @param reversalObject
+     */
     public void reversal(String referenceId, ReversalObject reversalObject, APIRequestCallback<Reversal> apiRequestCallback){
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.reversal(PaymentConfiguration.getUrlVersion(),referenceId,RequestBody.create(new Gson().toJson(reversalObject),mediaType),headers), apiRequestCallback));
     }
@@ -174,7 +189,6 @@ public final class GSMAApi {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(),accountId,headers,offset,limit),apiRequestCallback));
     }
 
-
     /**
      * Check Service Availability.
      */
@@ -182,6 +196,13 @@ public final class GSMAApi {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.checkServiceAvailability(PaymentConfiguration.getUrlVersion(),headers),apiRequestCallback));
     }
 
-
+    /**
+     * obtain Authorisation code.
+     *
+     * @param codeRequest
+     */
+    public void obtainAuthorisationCode(String accountId, CodeRequest codeRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.obtainAuthorisationCode(accountId, PaymentConfiguration.getUrlVersion(),RequestBody.create(new Gson().toJson(codeRequest),mediaType),headers),apiRequestCallback));
+    }
 
 }
