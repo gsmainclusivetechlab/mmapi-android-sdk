@@ -1,7 +1,6 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
 
-import com.google.gson.JsonElement;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
@@ -9,7 +8,6 @@ import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionItem;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

@@ -31,6 +31,7 @@ public final class GSMAApi {
     private final APIService apiHelper;
     // Declare and pending requests to initialization
     private final RequestManager requestManager;
+//    private final TRequestManager requestManagerT;
     private final HashMap<String,String> headers;
     private final MediaType mediaType = MediaType.parse("application/json");
     private Context context;
@@ -39,6 +40,7 @@ public final class GSMAApi {
     private GSMAApi() {
         apiHelper = RetrofitHelper.getApiHelper();
         requestManager = new RequestManager(apiHelper);
+//        requestManagerT = new TRequestManager(apiHelper);
         headers = new HashMap<>();
 
         headers.put(APIConstants.CALL_BACK_URL, PaymentConfiguration.getCallBackURL());
@@ -151,7 +153,12 @@ public final class GSMAApi {
      * Retrieve Transaction.
      *
      * @param accountId
+     * @param apiRequestCallback
      */
+//    public void retrieveTransactionT(String accountId, int offset, int limit, APIRequestCallbackT<List<TransactionItem>> apiRequestCallback) {
+//        requestManagerT.request(new TRequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(),accountId,headers,offset,limit),apiRequestCallback));
+//    }
+
     public void retrieveTransaction(String accountId,int offset,int limit, APIRequestCallback<Transaction> apiRequestCallback) {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(),accountId,headers,offset,limit),apiRequestCallback));
     }
