@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
          * API for retrieving transaction
          */
 
-        btnRetrieveTransaction.setOnClickListener(v -> SDKManager.getInstance().retrieveTransaction("1",0,2, new RetrieveTransactionInterface() {
+        btnRetrieveTransaction.setOnClickListener(v -> SDKManager.getInstance().retrieveTransaction("2000",0,1, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 Toast.makeText(MainActivity.this, errorObject.getErrorDescription(),Toast.LENGTH_SHORT).show();
@@ -237,8 +237,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onRetrieveTransactionSuccess(Transaction transaction) {
-//                txtResponse.setText(transaction.getTransaction());
-                Log.d("TAG", "onRetrieveTransactionSuccess: "+new Gson().toJson(transaction.getTransaction(),Transaction.class));
+                txtResponse.setText(new Gson().toJson(transaction));
+                Log.d("TAG", "onRetrieveTransactionSuccess: "+new Gson().toJson(transaction));
             }
 
             @Override
@@ -247,8 +247,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TAG", "onRetrieveTransactionFailure: "+new Gson().toJson(gsmaError));
             }
         }));
-
-
 
     }
 

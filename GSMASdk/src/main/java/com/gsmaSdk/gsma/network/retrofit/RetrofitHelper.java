@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.transaction.Transaction;
+import com.gsmaSdk.gsma.network.deserializers.TransactionResponseDeserializer;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -57,6 +59,7 @@ public final class RetrofitHelper {
     private static GsonConverterFactory buildGsonConverter() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         // Adding custom deserializers
+        gsonBuilder.registerTypeAdapter(Transaction.class, new TransactionResponseDeserializer());
         Gson myGson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
         return GsonConverterFactory.create(myGson);
     }

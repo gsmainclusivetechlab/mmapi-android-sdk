@@ -155,10 +155,6 @@ public final class GSMAApi {
      * @param accountId
      * @param apiRequestCallback
      */
-//    public void retrieveTransactionT(String accountId, int offset, int limit, APIRequestCallbackT<List<TransactionItem>> apiRequestCallback) {
-//        requestManagerT.request(new TRequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(),accountId,headers,offset,limit),apiRequestCallback));
-//    }
-
     public void retrieveTransaction(String accountId,int offset,int limit, APIRequestCallback<Transaction> apiRequestCallback) {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(),accountId,headers,offset,limit),apiRequestCallback));
     }
