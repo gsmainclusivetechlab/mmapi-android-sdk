@@ -3,11 +3,14 @@ package com.gsmaSdk.gsma.controllers;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+import com.gsmaSdk.gsma.interfaces.ReversalInterface;
 import com.gsmaSdk.gsma.interfaces.TokenInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
+import com.gsmaSdk.gsma.models.Reversal;
+import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -115,6 +118,7 @@ public class SDKManager {
         }
     }
 
+
     /**
      * View Transaction
      *
@@ -123,7 +127,7 @@ public class SDKManager {
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
 
-        if (transactionReference!=null) {
+        if (transactionReference != null) {
             transactionInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid transaction reference"));
         } else {
             GSMAApi.getInstance().viewTransaction(transactionReference, new APIRequestCallback<TransactionObject>() {
@@ -150,7 +154,7 @@ public class SDKManager {
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
 
-        if (serverCorrelationId!=null) {
+        if (serverCorrelationId != null) {
             requestStateInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid server correlation id"));
         } else {
             GSMAApi.getInstance().viewRequestState(serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
@@ -186,4 +190,29 @@ public class SDKManager {
             });
         }
     }
+    public void reversal(@NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull ReversalInterface reversalInterface) {
+
+        if (referenceId.isEmpty()) {
+            reversalInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid reference id"));
+            return;
+        }
+        if(reversal==null){
+            reversalInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid json format"));
+           return;
+        }
+        GSMAApi.getInstance().reversal(referenceId, reversal, new APIRequestCallback<Reversal>() {
+            @Override
+            public void onSuccess(int responseCode, Reversal serializedResponse) {
+                reversalInterface.onReversalSuccess(serializedResponse);
+            }
+
+            @Override
+            public void onFailure(GSMAError errorDetails) {
+                reversalInterface.onReversalFailure(errorDetails);
+            }
+        });
+
+    }
 }
+
+

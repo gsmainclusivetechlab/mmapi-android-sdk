@@ -13,6 +13,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb3939fc-e2a5-43c8-9246-5556452ae4fb" name="Default Changelist" comment="add merchant payment refund api">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/GSMASdk.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/GSMASdk/GSMASdk.GSMASdk.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/GSMATest/GSMASdk.GSMATest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/interfaces/ReversalInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/Reversal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/models/ReversalObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/origin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -23,6 +33,18 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/controllers/SDKManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/controllers/SDKManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/APIService.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/APIService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/GSMAApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMASdk/src/main/java/com/gsmaSdk/gsma/network/retrofit/GSMAApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GSMATest/src/main/java/com/gsmasdk/gsmatest/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/GSMATest/src/main/java/com/gsmasdk/gsmatest/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GSMATest/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/GSMATest/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +83,7 @@
     </option>
   </component>
   <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="merchant-payment-refunds" />
+    <option name="BRANCH" value="origin/merchant-payment-reversal" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">

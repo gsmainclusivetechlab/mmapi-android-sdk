@@ -4,6 +4,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
+import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 
@@ -30,13 +31,15 @@ public interface APIService {
 
 
 
-    /**
-     * merchant pay refund
-     * @return the call
-     */
 
     @POST("{version}/transactions/type/adjustment")
     Call<Refund> refund(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+
+
+    @POST("{version}/transactions/{referenceId}/reversals")
+    Call<Reversal> reversal(@Path(value = "version", encoded = true) String version,@Path("referenceId") String referenceId, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+
+
 
     /**
      * Generate Access Token call.

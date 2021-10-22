@@ -10,6 +10,8 @@ import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
+import com.gsmaSdk.gsma.models.Reversal;
+import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
@@ -45,6 +47,7 @@ public final class GSMAApi {
         if(PaymentConfiguration.getxAPIKey()!=null){
             headers.put(APIConstants.X_API_KEY,PaymentConfiguration.getxAPIKey());
         }
+        setHeaders();
     }
 
     /**
@@ -78,14 +81,13 @@ public final class GSMAApi {
 
     }
 
-    private void setHeaders(){
+    public void setHeaders(){
         PreferenceManager.getInstance().init(context);
         if(PaymentConfiguration.getAuthType()!=AuthenticationType.NO_AUTH){
             headers.put(APIConstants.AUTHORIZATION,APIConstants.AUTH_TOKEN_BEARER+PreferenceManager.getInstance().retrieveToken());
         }
         headers.put(APIConstants.X_CORRELATION_ID, UUID.randomUUID().toString());
     }
-
     private static class SingletonCreationAdmin {
         private static final GSMAApi INSTANCE = new GSMAApi();
     }
@@ -96,6 +98,7 @@ public final class GSMAApi {
      * @return the instance
      */
     public static GSMAApi getInstance() {
+        SingletonCreationAdmin.INSTANCE.setHeaders();
         return SingletonCreationAdmin.INSTANCE;
     }
 
@@ -114,7 +117,7 @@ public final class GSMAApi {
      * @param accountId
      */
     public void checkBalance(String accountId,APIRequestCallback<Balance> apiRequestCallback) {
-        setHeaders();
+      //  setHeaders();
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBalance(PaymentConfiguration.getUrlVersion(),accountId,headers),apiRequestCallback));
     }
 
@@ -124,7 +127,6 @@ public final class GSMAApi {
      * @param transactionRequest
      */
     public void merchantPay(String transactionType, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
-        setHeaders();
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.merchantPay(transactionType, PaymentConfiguration.getUrlVersion(),RequestBody.create(new Gson().toJson(transactionRequest),mediaType),headers),apiRequestCallback));
     }
 
@@ -134,7 +136,7 @@ public final class GSMAApi {
      * @param transactionReference
      */
     public void viewTransaction(String transactionReference,APIRequestCallback<TransactionObject> apiRequestCallback) {
-        setHeaders();
+
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewTransaction(PaymentConfiguration.getUrlVersion(),transactionReference,headers),apiRequestCallback));
     }
 
@@ -147,9 +149,15 @@ public final class GSMAApi {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewRequestState(PaymentConfiguration.getUrlVersion(),serverCorrelationId,headers),apiRequestCallback));
     }
 
-    public void refund(TransactionRequest transactionRequest, APIRequestCallback<Refund> apiRequestCallback){
+
+    public void refund(TransactionRequest transactionRequest, APIRequestCallback<Refund> apiRequestCallback) {
         setHeaders();
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(),RequestBody.create(new Gson().toJson(transactionRequest),mediaType),headers),apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
+    public void reversal(String referenceId, ReversalObject reversalObject, APIRequestCallback<Reversal> apiRequestCallback){
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.reversal(PaymentConfiguration.getUrlVersion(),referenceId,RequestBody.create(new Gson().toJson(reversalObject),mediaType),headers), apiRequestCallback));
+
+    }
+
 
 }
