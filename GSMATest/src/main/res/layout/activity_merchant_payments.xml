@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MerchantPaymentsActivity">
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		tools:context=".MerchantPaymentsActivity">
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+			
+			<Button
+				android:id="@+id/btnCheckBalance"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="2dp"
+				android:layout_weight="1"
+				android:text="Balance"
+				android:textSize="10sp" />
+			
+			<Button
+				android:id="@+id/btnPayeeInitiated"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="2dp"
+				android:layout_weight="1"
+				android:text="Payee Initiated"
+				android:textSize="10sp" />
+		
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+			
+			<Button
+				android:id="@+id/btnRequestState"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="2dp"
+				android:layout_weight="1"
+				android:text="Request State"
+				android:textSize="10sp" />
+			
+			<Button
+				android:id="@+id/btnViewTransaction"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="2dp"
+				android:layout_weight="1"
+				android:text="View Transaction"
+				android:textSize="10sp" />
+		
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+			
+			<Button
+				android:id="@+id/btnRefund"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="2dp"
+				android:layout_weight="1"
+				android:text="Payment Refund"
+				android:textSize="10sp" />
+			
+			<Button
+				android:id="@+id/btnReversal"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="2dp"
+				android:layout_weight="1"
+				android:text="Payment reversal"
+				android:textSize="10sp" />
+		
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+			
+			
+			<Button
+				android:id="@+id/btnRetrieveTransaction"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="2dp"
+				android:layout_weight="1"
+				android:text="Retrieve Transaction"
+				android:textSize="10sp" />
+			
+			
+			<Button
+				android:id="@+id/btnObtainAuthCode"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="2dp"
+				android:layout_weight="1"
+				android:text="Auth Code"
+				android:textSize="10sp" />
+		
+		</LinearLayout>
+		
+		<TextView
+			android:id="@+id/txtResponse"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:textColor="@color/white" />
+	
+	</LinearLayout>
+	
+</androidx.core.widget.NestedScrollView>
