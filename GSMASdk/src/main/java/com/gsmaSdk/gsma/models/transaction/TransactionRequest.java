@@ -2,11 +2,11 @@ package com.gsmaSdk.gsma.models.transaction;
 
 import java.util.ArrayList;
 import com.google.gson.annotations.SerializedName;
-import com.gsmaSdk.gsma.models.common.ErrorObject;
 
 /**
  * Model class for Transaction Request
  * */
+@SuppressWarnings("ALL")
 public class TransactionRequest {
 
 	@SerializedName("amount")

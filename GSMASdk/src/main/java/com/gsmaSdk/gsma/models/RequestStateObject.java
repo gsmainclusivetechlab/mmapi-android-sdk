@@ -7,6 +7,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
 /**
  * Model class for Request State Object
  * */
+@SuppressWarnings({"ALL", "unused"})
 public class RequestStateObject implements BaseResponse {
     @SerializedName("serverCorrelationId")
     @Expose

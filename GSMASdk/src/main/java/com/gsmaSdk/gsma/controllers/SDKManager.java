@@ -32,6 +32,7 @@ import androidx.annotation.NonNull;
  * Class for managing sdk function calls
  */
 
+@SuppressWarnings("ALL")
 public class SDKManager {
     /**
      * Singleton getInstance method

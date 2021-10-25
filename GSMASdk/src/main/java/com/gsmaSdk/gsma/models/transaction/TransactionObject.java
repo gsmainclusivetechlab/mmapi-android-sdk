@@ -51,15 +51,18 @@ public class TransactionObject implements BaseResponse {
 	@Expose
 	private List<CreditPartyItem> creditParty;
 
-	public void setDebitParty(List<DebitPartyItem> debitParty){
+	@SuppressWarnings("unused")
+    public void setDebitParty(List<DebitPartyItem> debitParty){
 		this.debitParty = debitParty;
 	}
 
-	public List<DebitPartyItem> getDebitParty(){
+	@SuppressWarnings("unused")
+    public List<DebitPartyItem> getDebitParty(){
 		return debitParty;
 	}
 
-	public void setAmount(String amount){
+	@SuppressWarnings("unused")
+    public void setAmount(String amount){
 		this.amount = amount;
 	}
 
@@ -67,23 +70,28 @@ public class TransactionObject implements BaseResponse {
 		return amount;
 	}
 
-	public void setModificationDate(String modificationDate){
+	@SuppressWarnings("unused")
+    public void setModificationDate(String modificationDate){
 		this.modificationDate = modificationDate;
 	}
 
-	public String getModificationDate(){
+	@SuppressWarnings("unused")
+    public String getModificationDate(){
 		return modificationDate;
 	}
 
-	public void setTransactionReference(String transactionReference){
+	@SuppressWarnings("unused")
+    public void setTransactionReference(String transactionReference){
 		this.transactionReference = transactionReference;
 	}
 
-	public String getTransactionReference(){
+	@SuppressWarnings("unused")
+    public String getTransactionReference(){
 		return transactionReference;
 	}
 
-	public void setTransactionStatus(String transactionStatus){
+	@SuppressWarnings("unused")
+    public void setTransactionStatus(String transactionStatus){
 		this.transactionStatus = transactionStatus;
 	}
 
@@ -91,43 +99,53 @@ public class TransactionObject implements BaseResponse {
 		return transactionStatus;
 	}
 
-	public void setRequestDate(String requestDate){
+	@SuppressWarnings("unused")
+    public void setRequestDate(String requestDate){
 		this.requestDate = requestDate;
 	}
 
-	public String getRequestDate(){
+	@SuppressWarnings("unused")
+    public String getRequestDate(){
 		return requestDate;
 	}
 
-	public void setCurrency(String currency){
+	@SuppressWarnings("unused")
+    public void setCurrency(String currency){
 		this.currency = currency;
 	}
 
-	public String getCurrency(){
+	@SuppressWarnings("unused")
+    public String getCurrency(){
 		return currency;
 	}
 
-	public void setType(String type){
+	@SuppressWarnings("unused")
+    public void setType(String type){
 		this.type = type;
 	}
 
-	public String getType(){
+	@SuppressWarnings("unused")
+    public String getType(){
 		return type;
 	}
 
-	public void setCreationDate(String creationDate){
+	@SuppressWarnings("unused")
+    public void setCreationDate(String creationDate){
 		this.creationDate = creationDate;
 	}
 
-	public String getCreationDate(){
+	@SuppressWarnings("unused")
+    public String getCreationDate(){
 		return creationDate;
 	}
 
-	public void setCreditParty(List<CreditPartyItem> creditParty){
+	@SuppressWarnings("unused")
+    public void setCreditParty(List<CreditPartyItem> creditParty){
 		this.creditParty = creditParty;
 	}
 
-	public List<CreditPartyItem> getCreditParty(){
+	@SuppressWarnings("unused")
+    public List<CreditPartyItem> getCreditParty(){
 		return creditParty;
 	}
 }

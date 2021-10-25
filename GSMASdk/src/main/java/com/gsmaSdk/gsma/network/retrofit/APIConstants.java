@@ -3,12 +3,13 @@ package com.gsmaSdk.gsma.network.retrofit;
 /**
  * The type Api constants.
  */
+@SuppressWarnings("SpellCheckingInspection")
 final class APIConstants {
 
 
     /**
      *
-     * The udid of the transcation
+     * The udid of the transaction
      */
 
     static final String X_CORRELATION_ID="X-CorrelationID";
@@ -57,25 +58,6 @@ final class APIConstants {
      * The X APi key.
      */
     static final String X_API_KEY = "X-API-Key";
-    /**
-
-    static final String APPLICATION = "Application";
-    /**
-     * The Content type key.
-     */
-    static final String CONTENT_TYPE_KEY = "content-type";
-    /**
-     * The Content type value.
-     */
-    static final String CONTENT_TYPE_VALUE = "application/json";
-    /**
-     * The Accept key.
-     */
-    static final String ACCEPT_KEY = "Accept";
-    /**
-     * The Accept value.
-     */
-    static final String ACCEPT_VALUE = "application/json";
     /**
      * The Access Token.
      */

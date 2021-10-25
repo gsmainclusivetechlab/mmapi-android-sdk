@@ -1,10 +1,6 @@
 package com.gsmaSdk.gsma.models;
 
 import com.google.gson.annotations.SerializedName;
-import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
-import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
-
-import java.util.ArrayList;
 
 /**
  * Model class for Authorisation Code Request
@@ -21,6 +17,7 @@ public class CodeRequest {
 	private String amount;
 
 
+	@SuppressWarnings("unused")
 	public String getRequestDate() {
 		return requestDate;
 	}
@@ -29,6 +26,7 @@ public class CodeRequest {
 		this.requestDate = requestDate;
 	}
 
+	@SuppressWarnings("unused")
 	public String getCurrency() {
 		return currency;
 	}
@@ -37,6 +35,7 @@ public class CodeRequest {
 		this.currency = currency;
 	}
 
+	@SuppressWarnings("unused")
 	public String getAmount() {
 		return amount;
 	}

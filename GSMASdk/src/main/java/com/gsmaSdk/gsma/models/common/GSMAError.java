@@ -60,14 +60,17 @@ public class GSMAError implements Serializable {
         return throwable;
     }
 
+    @SuppressWarnings("unused")
     public void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
     }
 
+    @SuppressWarnings("unused")
     public void setErrorBody(ErrorObject errorBody) {
         this.errorBody = errorBody;
     }
 
+    @SuppressWarnings("unused")
     public void setThrowable(Throwable throwable) {
         this.throwable = throwable;
     }

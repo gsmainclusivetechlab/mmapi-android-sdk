@@ -11,7 +11,7 @@ import android.content.SharedPreferences;
 public class PreferenceManager {
 
     private SharedPreferences preferences ;
-    private Context context;
+
 
 
     /**
@@ -21,7 +21,6 @@ public class PreferenceManager {
 
     public void init(Context context) {
         if(preferences==null) preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
-        this.context=context;
     }
 
     /*
@@ -55,7 +54,7 @@ public class PreferenceManager {
      *
      */
     private static class SingleInstanceAdmin{
-        static PreferenceManager instance = new PreferenceManager();
+        static final PreferenceManager instance = new PreferenceManager();
     }
 
 }

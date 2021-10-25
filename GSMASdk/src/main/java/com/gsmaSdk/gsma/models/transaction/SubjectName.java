@@ -2,47 +2,60 @@ package com.gsmaSdk.gsma.models.transaction;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class SubjectName{
 
-	@SerializedName("firstName")
+	@SuppressWarnings("unused")
+    @SerializedName("firstName")
 	private String firstName;
 
-	@SerializedName("lastName")
+	@SuppressWarnings("unused")
+    @SerializedName("lastName")
 	private String lastName;
 
-	@SerializedName("nativeName")
+	@SuppressWarnings("unused")
+    @SerializedName("nativeName")
 	private String nativeName;
 
-	@SerializedName("fullName")
+	@SuppressWarnings("unused")
+    @SerializedName("fullName")
 	private String fullName;
 
-	@SerializedName("middleName")
+	@SuppressWarnings("unused")
+    @SerializedName("middleName")
 	private String middleName;
 
-	@SerializedName("title")
+	@SuppressWarnings("unused")
+    @SerializedName("title")
 	private String title;
 
-	public String getFirstName(){
+	@SuppressWarnings("unused")
+    public String getFirstName(){
 		return firstName;
 	}
 
-	public String getLastName(){
+	@SuppressWarnings("unused")
+    public String getLastName(){
 		return lastName;
 	}
 
-	public String getNativeName(){
+	@SuppressWarnings("unused")
+    public String getNativeName(){
 		return nativeName;
 	}
 
-	public String getFullName(){
+	@SuppressWarnings("unused")
+    public String getFullName(){
 		return fullName;
 	}
 
-	public String getMiddleName(){
+	@SuppressWarnings("unused")
+    public String getMiddleName(){
 		return middleName;
 	}
 
-	public String getTitle(){
+	@SuppressWarnings("unused")
+    public String getTitle(){
 		return title;
 	}
 }

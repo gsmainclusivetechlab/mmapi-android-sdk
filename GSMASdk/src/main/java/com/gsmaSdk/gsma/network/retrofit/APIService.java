@@ -7,11 +7,9 @@ import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionItem;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 
-import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.RestrictTo;
@@ -31,6 +29,7 @@ import retrofit2.http.Query;
 /**
  * Interface for Retrofit methods
  */
+@SuppressWarnings("SpellCheckingInspection")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface APIService {
 
@@ -58,6 +57,7 @@ public interface APIService {
      *
      * @return the call
      */
+    @SuppressWarnings("SpellCheckingInspection")
     @GET("{version}/accounts/accountid/{id}/balance")
     Call<Balance> retrieveBalance(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
 

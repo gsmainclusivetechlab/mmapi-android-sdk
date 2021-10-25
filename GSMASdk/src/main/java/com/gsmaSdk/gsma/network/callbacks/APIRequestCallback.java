@@ -18,7 +18,7 @@ public interface APIRequestCallback<T extends BaseResponse> {
      * @param responseCode       Response code, from 200 to 299
      * @param serializedResponse Serialized response of {@link T} type or null in case when response could not be serialized into {@link T} type
      */
-    void onSuccess(int responseCode, T serializedResponse);
+    void onSuccess(@SuppressWarnings("unused") int responseCode, T serializedResponse);
 
     /**
      * General failure callback

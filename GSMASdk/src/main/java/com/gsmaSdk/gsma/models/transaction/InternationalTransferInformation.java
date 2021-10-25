@@ -2,61 +2,78 @@ package com.gsmaSdk.gsma.models.transaction;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class InternationalTransferInformation{
 
-	@SerializedName("quotationReference")
+	@SuppressWarnings("unused")
+    @SerializedName("quotationReference")
 	private String quotationReference;
 
-	@SerializedName("deliveryMethod")
+	@SuppressWarnings("unused")
+    @SerializedName("deliveryMethod")
 	private String deliveryMethod;
 
-	@SerializedName("receivingCountry")
+	@SuppressWarnings("unused")
+    @SerializedName("receivingCountry")
 	private String receivingCountry;
 
-	@SerializedName("originCountry")
+	@SuppressWarnings("unused")
+    @SerializedName("originCountry")
 	private String originCountry;
 
-	@SerializedName("relationshipSender")
+	@SuppressWarnings("unused")
+    @SerializedName("relationshipSender")
 	private String relationshipSender;
 
-	@SerializedName("remittancePurpose")
+	@SuppressWarnings("unused")
+    @SerializedName("remittancePurpose")
 	private String remittancePurpose;
 
-	@SerializedName("sendingServiceProviderCountry")
+	@SuppressWarnings("unused")
+    @SerializedName("sendingServiceProviderCountry")
 	private String sendingServiceProviderCountry;
 
-	@SerializedName("quoteId")
+	@SuppressWarnings("unused")
+    @SerializedName("quoteId")
 	private String quoteId;
 
-	public String getQuotationReference(){
+	@SuppressWarnings("unused")
+    public String getQuotationReference(){
 		return quotationReference;
 	}
 
-	public String getDeliveryMethod(){
+	@SuppressWarnings("unused")
+    public String getDeliveryMethod(){
 		return deliveryMethod;
 	}
 
-	public String getReceivingCountry(){
+	@SuppressWarnings("unused")
+    public String getReceivingCountry(){
 		return receivingCountry;
 	}
 
-	public String getOriginCountry(){
+	@SuppressWarnings("unused")
+    public String getOriginCountry(){
 		return originCountry;
 	}
 
-	public String getRelationshipSender(){
+	@SuppressWarnings("unused")
+    public String getRelationshipSender(){
 		return relationshipSender;
 	}
 
-	public String getRemittancePurpose(){
+	@SuppressWarnings("unused")
+    public String getRemittancePurpose(){
 		return remittancePurpose;
 	}
 
-	public String getSendingServiceProviderCountry(){
+	@SuppressWarnings("unused")
+    public String getSendingServiceProviderCountry(){
 		return sendingServiceProviderCountry;
 	}
 
-	public String getQuoteId(){
+	@SuppressWarnings("unused")
+    public String getQuoteId(){
 		return quoteId;
 	}
 }

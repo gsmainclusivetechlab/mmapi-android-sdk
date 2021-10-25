@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnObtainAuthCode = findViewById(R.id.btnObtainAuthCode);
 
         txtResponse = findViewById(R.id.txtResponse);
-
-
+//
+//
         PaymentConfiguration.
                 init("59vthmq3f6i15v6jmcjskfkmh",
                         "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
          //   PaymentConfiguration.init("https://www.google.com/");
-        PaymentConfiguration.init("https://www.google.com/");
+   //     PaymentConfiguration.init("https://www.google.com/");
         //iniliase the preference object
         PreferenceManager.getInstance().init(this);
 

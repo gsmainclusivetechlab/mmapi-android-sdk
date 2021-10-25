@@ -17,18 +17,18 @@ import retrofit2.Call;
 /**
  * The type Request manager - for managing Requests.
  */
+@SuppressWarnings({"ALL", "rawtypes"})
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 class RequestManager {
-    private APIService apiHelper;
+
     //all requests are wrapped in DelayedRequest, until init() would be finished
-    private ArrayList<DelayedRequest> delayedRequests;
+    private final ArrayList<DelayedRequest> delayedRequests;
     /**
      * Instantiates a new Request manager.
      *
      * @param apiHelper the api helper
      */
-    RequestManager(APIService apiHelper) {
-        this.apiHelper = apiHelper;
+    RequestManager() {
         delayedRequests = new ArrayList<>();
     }
     /**
@@ -72,9 +72,10 @@ class RequestManager {
      *
      * @param <T> the type parameter
      */
+    @SuppressWarnings("rawtypes")
     static class DelayedRequest<T extends BaseResponse> {
-        private Call<T> request;
-        private APIRequestCallback<T> requestCallback;
+        private final Call<T> request;
+        private final APIRequestCallback<T> requestCallback;
         /**
          * Instantiates a new Delayed request.
          *

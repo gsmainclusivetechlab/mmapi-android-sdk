@@ -3,6 +3,7 @@ package com.gsmaSdk.gsma.models.transaction;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("ALL")
 public class SenderKyc{
 
 	@SerializedName("emailAddress")

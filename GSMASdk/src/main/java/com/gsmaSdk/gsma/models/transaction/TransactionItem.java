@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
 
+@SuppressWarnings("ALL")
 public class TransactionItem{
 
 	@SerializedName("debitParty")

@@ -7,6 +7,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
 /**
  * Model class for Account Balance
  * */
+@SuppressWarnings("ALL")
 public class Balance implements BaseResponse {
     @SerializedName("currentBalance")
     @Expose

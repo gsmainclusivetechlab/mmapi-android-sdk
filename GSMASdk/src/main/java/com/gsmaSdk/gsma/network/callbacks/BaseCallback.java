@@ -20,7 +20,7 @@ import retrofit2.Response;
  */
 public final class BaseCallback<K extends BaseResponse> implements Callback<K> {
     private static final String UNABLE_TO_FETCH_ERROR_INFO = "Unable to fetch error information";
-    private APIRequestCallback<K> requestCallback;
+    private final APIRequestCallback<K> requestCallback;
 
     /**
      * Instantiates a new Base callback.

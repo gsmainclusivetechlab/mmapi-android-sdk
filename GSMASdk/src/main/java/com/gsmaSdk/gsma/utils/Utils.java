@@ -1,18 +1,21 @@
 package com.gsmaSdk.gsma.utils;
 
+import android.os.Build;
 import android.util.Base64;
+
 
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The type Utils - for reusable utility functions.
  */
+@SuppressWarnings("unused")
 public class Utils {
 
     /**
@@ -21,12 +24,15 @@ public class Utils {
      * @param convertedKey the formatted key
      * @return the encoded key
      */
+
+
     public static String base64EncodeString(String convertedKey) {
-        byte[] data = new byte[0];
-        try {
-            data = convertedKey.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        byte[] data;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            data = convertedKey.getBytes(StandardCharsets.UTF_8);
+        }else{
+            //noinspection CharsetObjectCanBeUsed
+            data = convertedKey.getBytes(Charset.forName("UTF-8"));
         }
         return Base64.encodeToString(data, Base64.NO_WRAP);
     }
@@ -35,15 +41,15 @@ public class Utils {
 //        JSONArray jsonErrorParams;
         JSONObject jsonObject;
         ErrorObject errorObject = new ErrorObject(null,null,null);
-        String category = "";
-        String description = "";
+        String category;
+        String description;
         String code;
         String dateTime;
         final String CATEGORY = "errorCategory";
         final String CODE = "errorCode";
         final String DESCRIPTION = "errorDescription";
         final String DATETIME = "errorDateTime";
-        final String ERRORS = "errorParameters";
+
         try {
             jsonObject = new JSONObject(response);
             description = jsonObject.getString(DESCRIPTION);

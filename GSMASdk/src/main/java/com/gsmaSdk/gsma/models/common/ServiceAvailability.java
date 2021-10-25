@@ -7,6 +7,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
 /**
  * Model class for Service Availability
  * */
+@SuppressWarnings("unused")
 public class ServiceAvailability implements BaseResponse {
     @SerializedName("serviceStatus")
     @Expose

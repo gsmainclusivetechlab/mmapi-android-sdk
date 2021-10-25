@@ -1,6 +1,6 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
-import android.content.Context;
+import android.os.Build;
 
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -8,6 +8,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 /**
  * The type App info - app info is temporarily kept for processing.
  */
+@SuppressWarnings({"unused", "rawtypes"})
 public class PaymentConfiguration {
 
     //auth information for headers
@@ -25,7 +26,7 @@ public class PaymentConfiguration {
     /**
      * @param consumerKey    ConsumerKey
      * @param consumerSecret ConsumerSecret
-     * @param authType       Levels of authenticatin
+     * @param authType       Levels of authentication
      */
 
     public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL) {
@@ -34,7 +35,9 @@ public class PaymentConfiguration {
         PaymentConfiguration.consumerKey = consumerKey;
         urlVersion = PaymentConfiguration.getAuthType() == AuthenticationType.NO_AUTH ? APIConstants.URL_VER : APIConstants.URL_VER_OAUTH;
         PaymentConfiguration.setUrlVersion(urlVersion);
-        PaymentConfiguration.base64Value = Utils.base64EncodeString(PaymentConfiguration.consumerKey + ":" + PaymentConfiguration.consumerSecret);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            PaymentConfiguration.base64Value = Utils.base64EncodeString(PaymentConfiguration.consumerKey + ":" + PaymentConfiguration.consumerSecret);
+        }
         PaymentConfiguration.callBackURL = callBackURL;
         PaymentConfiguration.xAPIKey ="";
     }

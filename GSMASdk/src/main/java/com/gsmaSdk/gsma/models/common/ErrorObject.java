@@ -7,6 +7,7 @@ import java.io.Serializable;
 /**
  * Model class for Error Object
  */
+@SuppressWarnings("unused")
 public class ErrorObject implements Serializable{
 
     @SerializedName("errorCode")
@@ -17,8 +18,7 @@ public class ErrorObject implements Serializable{
     private String errorCategory;
     @SerializedName("errorDateTime")
     private String errorDateTime;
-//    @SerializedName("errorParameters")
-//    private JSONArray errorParameters;
+
 
     public ErrorObject(String errorCategory,String errorCode, String errorDescription) {
         this.errorCategory = errorCategory;
@@ -58,11 +58,5 @@ public class ErrorObject implements Serializable{
         this.errorDateTime = errorDateTime;
     }
 
-//    public JSONArray getErrorParameters() {
-//        return errorParameters;
-//    }
-//
-//    public void setErrorParameters(JSONArray errorParameters) {
-//        this.errorParameters = errorParameters;
-//    }
+
 }

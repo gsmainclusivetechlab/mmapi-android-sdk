@@ -3,10 +3,35 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMASdk/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>
     </option>
   </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0">
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.Refund notificationMethod" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.Refund objectReference" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.Refund pollLimit" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.Refund serverCorrelationId" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.Refund status" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.RequestingOrganisation requestingOrganisationIdentifier" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.RequestingOrganisation requestingOrganisationIdentifierType" />
+    </entry_points>
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="getErrorCode" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="getErrorCategory" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GSMAError" method="getThrowable" />
+    <pattern value="com.gsmaSdk.gsma.models.Refund" method="getNotificationMethod" />
+    <pattern value="com.gsmaSdk.gsma.models.Refund" method="getObjectReference" />
+    <pattern value="com.gsmaSdk.gsma.models.Refund" method="getPollLimit" />
+    <pattern value="com.gsmaSdk.gsma.models.Refund" method="getStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.Refund" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.RequestingOrganisation" method="getRequestingOrganisationIdentifier" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.RequestingOrganisation" method="getRequestingOrganisationIdentifierType" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.RequestingOrganisation" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager" method="failDelayedRequests" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager" />
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

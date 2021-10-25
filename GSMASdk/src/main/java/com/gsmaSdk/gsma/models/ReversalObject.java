@@ -8,6 +8,7 @@ public class ReversalObject {
     private String reversal;
 
 
+    @SuppressWarnings("unused")
     public String getReversal() {
         return reversal;
     }

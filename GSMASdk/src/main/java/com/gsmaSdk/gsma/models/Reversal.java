@@ -3,8 +3,7 @@ package com.gsmaSdk.gsma.models;
 import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
-import java.io.Serializable;
-
+@SuppressWarnings("ALL")
 public class Reversal implements BaseResponse {
 
 	@SerializedName("pollLimit")

@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * The enum Authentication type - different types of Authentications provided.
  */
+@SuppressWarnings("unused")
 public enum AuthenticationType {
 
     /**
