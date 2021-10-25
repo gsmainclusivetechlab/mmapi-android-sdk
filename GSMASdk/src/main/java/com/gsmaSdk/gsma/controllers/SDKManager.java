@@ -125,7 +125,6 @@ public class SDKManager {
         }
     }
 
-
     /**
      * View Transaction
      *

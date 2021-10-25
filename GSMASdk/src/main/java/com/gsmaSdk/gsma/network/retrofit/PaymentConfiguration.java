@@ -3,6 +3,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 import android.os.Build;
 
 import com.gsmaSdk.gsma.enums.AuthenticationType;
+import com.gsmaSdk.gsma.enums.Environment;
 import com.gsmaSdk.gsma.utils.Utils;
 
 /**
@@ -29,23 +30,23 @@ public class PaymentConfiguration {
      * @param authType       Levels of authentication
      */
 
-    public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL) {
+    public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL,Enum environmentType) {
         PaymentConfiguration.authType = authType;
         PaymentConfiguration.consumerSecret = consumerSecret;
         PaymentConfiguration.consumerKey = consumerKey;
         urlVersion = PaymentConfiguration.getAuthType() == AuthenticationType.NO_AUTH ? APIConstants.URL_VER : APIConstants.URL_VER_OAUTH;
         PaymentConfiguration.setUrlVersion(urlVersion);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            PaymentConfiguration.base64Value = Utils.base64EncodeString(PaymentConfiguration.consumerKey + ":" + PaymentConfiguration.consumerSecret);
-        }
+        APIConstants.BASE_URL=environmentType==Environment.SANDBOX?APIConstants.SANDBOX_BASE_URL:APIConstants.LIVE_BASE_URL;
+        PaymentConfiguration.base64Value = Utils.base64EncodeString(PaymentConfiguration.consumerKey + ":" + PaymentConfiguration.consumerSecret);
         PaymentConfiguration.callBackURL = callBackURL;
         PaymentConfiguration.xAPIKey ="";
     }
 
-    public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL, String xAPIKey) {
+    public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL, String xAPIKey,Enum environmentType) {
         PaymentConfiguration.authType = authType;
         PaymentConfiguration.consumerSecret = consumerSecret;
         PaymentConfiguration.consumerKey = consumerKey;
+        APIConstants.BASE_URL=environmentType==Environment.SANDBOX?APIConstants.SANDBOX_BASE_URL:APIConstants.LIVE_BASE_URL;
         urlVersion = PaymentConfiguration.getAuthType() == AuthenticationType.NO_AUTH ? APIConstants.URL_VER : APIConstants.URL_VER_OAUTH;
         PaymentConfiguration.setUrlVersion(urlVersion);
         PaymentConfiguration.base64Value = Utils.base64EncodeString(PaymentConfiguration.consumerKey + ":" + PaymentConfiguration.consumerSecret);
@@ -53,10 +54,11 @@ public class PaymentConfiguration {
         PaymentConfiguration.xAPIKey = xAPIKey;
     }
 
-    public static void init( String callBackURL) {
+    public static void init( String callBackURL,Enum environmentType) {
         PaymentConfiguration.authType = AuthenticationType.NO_AUTH;
         PaymentConfiguration.consumerSecret ="";
         PaymentConfiguration.consumerKey = "";
+        APIConstants.BASE_URL=environmentType==Environment.SANDBOX?APIConstants.SANDBOX_BASE_URL:APIConstants.LIVE_BASE_URL;
         urlVersion = APIConstants.URL_VER;
         PaymentConfiguration.callBackURL = callBackURL;
         PaymentConfiguration.xAPIKey ="";

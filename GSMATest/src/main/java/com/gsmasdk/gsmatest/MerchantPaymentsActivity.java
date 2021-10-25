@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
+import com.gsmaSdk.gsma.enums.Environment;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.interfaces.RefundInterface;
@@ -83,7 +84,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
         PaymentConfiguration.
                 init("59vthmq3f6i15v6jmcjskfkmh",
                         "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
-                        , AuthenticationType.STANDARD_LEVEL, "https://www.google.com/");
+                        , AuthenticationType.STANDARD_LEVEL, "https://www.google.com/", Environment.SANDBOX);
 
 //        /**
 //         * Configure the payment system

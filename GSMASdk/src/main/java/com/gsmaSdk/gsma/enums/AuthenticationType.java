@@ -15,7 +15,7 @@ public enum AuthenticationType {
     /**
      * Development level Authentication
      */
-    @SerializedName("DEVELOPMENT_LEVEL")         DEVELOPMENT_LEVEL,
+    @SerializedName("DEVELOPMENT_LEVEL")      DEVELOPMENT_LEVEL,
     /**
      * Standard level Authentication
      */
