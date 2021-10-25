@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context=".LandingActivity">
+	
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Use Cases"
+		android:textStyle="bold"
+		android:textAllCaps="true"
+		android:textSize="16sp"
+		android:padding="16dp"/>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<Button
+			android:id="@+id/btnCaseMerchantPayment"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_margin="5dp"
+			android:text="Merchant Payments"/>
+		<Button
+			android:id="@+id/btnCaseDisbursement"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_margin="5dp"
+			android:text="Disbursements"/>
+		
+	</LinearLayout>
+	
+
+</LinearLayout>
