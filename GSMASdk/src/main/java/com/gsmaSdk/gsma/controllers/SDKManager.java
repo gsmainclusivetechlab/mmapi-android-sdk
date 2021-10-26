@@ -1,5 +1,6 @@
 package com.gsmaSdk.gsma.controllers;
 
+import com.google.gson.Gson;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
@@ -25,6 +26,7 @@ import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
+import com.gsmaSdk.gsma.validator.MerchantPayValidator;
 
 import androidx.annotation.NonNull;
 
@@ -107,8 +109,10 @@ public class SDKManager {
 
     public void merchantPay(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
 
-        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()) {
-            requestStateInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid accountId format"));
+        ErrorObject errorObject = MerchantPayValidator.checkMerchantPaymentValidation(transactionRequest, transactionType);
+
+        if (errorObject != null) {
+            requestStateInterface.onRequestStateFailure(new GSMAError(400, errorObject, null));
         } else {
             GSMAApi.getInstance().merchantPay(transactionType, transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
@@ -123,6 +127,8 @@ public class SDKManager {
                     }
             );
         }
+
+
     }
 
     /**
@@ -276,16 +282,16 @@ public class SDKManager {
 
     public void checkServiceAvailability(@NonNull ServiceAvailabilityInterface serviceAvailabilityInterface) {
         GSMAApi.getInstance().checkServiceAvailability(new APIRequestCallback<ServiceAvailability>() {
-            @Override
-            public void onSuccess(int responseCode, ServiceAvailability serializedResponse) {
-                serviceAvailabilityInterface.onServiceAvailabilitySuccess(serializedResponse);
-            }
+                                                           @Override
+                                                           public void onSuccess(int responseCode, ServiceAvailability serializedResponse) {
+                                                               serviceAvailabilityInterface.onServiceAvailabilitySuccess(serializedResponse);
+                                                           }
 
-            @Override
-            public void onFailure(GSMAError errorDetails) {
-                serviceAvailabilityInterface.onServiceAvailabilityFailure(errorDetails);
-            }
-          }
+                                                           @Override
+                                                           public void onFailure(GSMAError errorDetails) {
+                                                               serviceAvailabilityInterface.onServiceAvailabilityFailure(errorDetails);
+                                                           }
+                                                       }
         );
     }
 

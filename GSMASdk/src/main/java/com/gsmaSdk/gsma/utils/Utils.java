@@ -37,6 +37,9 @@ public class Utils {
         return Base64.encodeToString(data, Base64.NO_WRAP);
     }
 
+
+
+
     public static ErrorObject parseError(String response) {
 //        JSONArray jsonErrorParams;
         JSONObject jsonObject;
