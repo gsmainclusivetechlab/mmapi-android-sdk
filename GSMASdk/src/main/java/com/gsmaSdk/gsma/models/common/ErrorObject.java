@@ -19,7 +19,6 @@ public class ErrorObject implements Serializable{
     private String errorCategory;
     @SerializedName("errorDateTime")
     private String errorDateTime;
-
     @SerializedName("errorParameters")
     private List<ErrorParameter> errorParameterList;
 

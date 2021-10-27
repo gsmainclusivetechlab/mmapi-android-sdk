@@ -83,8 +83,9 @@ public class SDKManager {
      */
 
     public void getBalance(@NonNull String accountId, @NonNull BalanceInterface balanceInterface) {
-        if (accountId.isEmpty()) {
-            balanceInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid accountId format"));
+        ErrorObject errorObject=MerchantPayValidator.checkBalancePaymentValidation(accountId);
+        if (errorObject != null) {
+            balanceInterface.onBalanceFailure(new GSMAError(400, errorObject, null));
         } else {
             GSMAApi.getInstance().checkBalance(accountId, new APIRequestCallback<Balance>() {
                         @Override
@@ -108,9 +109,7 @@ public class SDKManager {
      */
 
     public void merchantPay(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-
         ErrorObject errorObject = MerchantPayValidator.checkMerchantPaymentValidation(transactionRequest, transactionType);
-
         if (errorObject != null) {
             requestStateInterface.onRequestStateFailure(new GSMAError(400, errorObject, null));
         } else {
@@ -138,24 +137,22 @@ public class SDKManager {
      */
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
-
-        if (transactionReference != null) {
-            if (transactionReference.isEmpty()) {
-                transactionInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid transaction reference"));
-            } else {
-                GSMAApi.getInstance().viewTransaction(transactionReference, new APIRequestCallback<TransactionObject>() {
-                            @Override
-                            public void onSuccess(int responseCode, TransactionObject serializedResponse) {
-                                transactionInterface.onTransactionSuccess(serializedResponse);
-                            }
-
-                            @Override
-                            public void onFailure(GSMAError errorDetails) {
-                                transactionInterface.onTransactionFailure(errorDetails);
-                            }
+        ErrorObject errorObject = MerchantPayValidator.checkViewTransactionValidation(transactionReference);
+        if (errorObject != null) {
+            transactionInterface.onTransactionFailure(new GSMAError(400, errorObject, null));
+        } else {
+            GSMAApi.getInstance().viewTransaction(transactionReference, new APIRequestCallback<TransactionObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, TransactionObject serializedResponse) {
+                            transactionInterface.onTransactionSuccess(serializedResponse);
                         }
-                );
-            }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            transactionInterface.onTransactionFailure(errorDetails);
+                        }
+                    }
+            );
         }
     }
 
@@ -166,11 +163,11 @@ public class SDKManager {
      */
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
-        if (serverCorrelationId != null) {
-            if (serverCorrelationId.isEmpty()) {
-                requestStateInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid server correlation id"));
-            } else {
-                GSMAApi.getInstance().viewRequestState(serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
+         ErrorObject errorObject=MerchantPayValidator.checkRequestStatePaymentValidation(serverCorrelationId);
+        if (errorObject != null) {
+            requestStateInterface.onRequestStateFailure(new GSMAError(400, errorObject, null));
+        } else {
+            GSMAApi.getInstance().viewRequestState(serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
                             @Override
                             public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                                 requestStateInterface.onRequestStateSuccess(serializedResponse);
@@ -182,14 +179,14 @@ public class SDKManager {
                             }
                         }
                 );
-            }
         }
     }
 
 
     public void getRefundMerchantPay(@NonNull TransactionRequest transactionRequest, @NonNull RefundInterface refundInterface) {
-        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()) {
-            refundInterface.onValidationError(new ErrorObject("validation", "genericError", "Invalid accountId format"));
+        ErrorObject errorObject=MerchantPayValidator.checkRefundValidation(transactionRequest);
+        if (errorObject != null) {
+            refundInterface.onRefundFailure(new GSMAError(400, errorObject, null));
         } else {
             GSMAApi.getInstance().refund(transactionRequest, new APIRequestCallback<Refund>() {
                 @Override

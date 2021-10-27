@@ -49,8 +49,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
     private TextView txtResponse;
     private TransactionRequest transactionRequest;
     private CodeRequest codeRequest;
-    private String transactionRef = "";
-    private String serverCorrelationId = "";
+    private String transactionRef="";
+    private String serverCorrelationId;
     private ReversalObject reversalObject;
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
@@ -382,8 +382,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
         transactionRequest.setAmount("200.00");
         transactionRequest.setCurrency("RWF");
 
-//        String gson = new Gson().toJson(transactionRequest, TransactionRequest.class);
-//        Log.d("TAG", "createTransactionObject: " + gson);
 
     }
 

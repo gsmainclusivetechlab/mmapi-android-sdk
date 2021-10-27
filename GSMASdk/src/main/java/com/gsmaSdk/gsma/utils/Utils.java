@@ -4,13 +4,21 @@ import android.os.Build;
 import android.util.Base64;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
+import com.gsmaSdk.gsma.models.common.ErrorParameter;
+import com.gsmaSdk.gsma.models.transaction.TransactionItem;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type Utils - for reusable utility functions.
@@ -41,7 +49,7 @@ public class Utils {
 
 
     public static ErrorObject parseError(String response) {
-//        JSONArray jsonErrorParams;
+        JSONArray jsonErrorParams;
         JSONObject jsonObject;
         ErrorObject errorObject = new ErrorObject(null,null,null);
         String category;
@@ -52,19 +60,25 @@ public class Utils {
         final String CODE = "errorCode";
         final String DESCRIPTION = "errorDescription";
         final String DATETIME = "errorDateTime";
+        final String ERRORS = "errorParameters";
+
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<ErrorParameter>>(){}.getType();
 
         try {
             jsonObject = new JSONObject(response);
+            System.out.println("json"+jsonObject);
             description = jsonObject.getString(DESCRIPTION);
             category = jsonObject.getString(CATEGORY);
             code = jsonObject.getString(CODE);
             dateTime = jsonObject.getString(DATETIME);
-//            jsonErrorParams = jsonObject.getJSONArray(ERRORS);
+           jsonErrorParams = jsonObject.getJSONArray(ERRORS);
             errorObject.setErrorCategory(category);
             errorObject.setErrorCode(code);
             errorObject.setErrorDateTime(dateTime);
             errorObject.setErrorDescription(description);
-//            errorObject.setErrorParameters(jsonErrorParams);
+            List<ErrorParameter> errorParameters = gson.fromJson(String.valueOf(jsonErrorParams),listType);
+            errorObject.setErrorParameterList(errorParameters);
         } catch (JSONException e) {
             e.printStackTrace();
         }
