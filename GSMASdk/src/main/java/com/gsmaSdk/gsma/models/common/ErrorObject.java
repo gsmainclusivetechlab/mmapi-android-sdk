@@ -9,7 +9,7 @@ import java.util.List;
  * Model class for Error Object
  */
 @SuppressWarnings("unused")
-public class ErrorObject implements Serializable{
+public class ErrorObject implements Serializable {
 
     @SerializedName("errorCode")
     private String errorCode;
@@ -19,16 +19,10 @@ public class ErrorObject implements Serializable{
     private String errorCategory;
     @SerializedName("errorDateTime")
     private String errorDateTime;
-
     @SerializedName("errorParameters")
     private List<ErrorParameter> errorParameterList;
-
-
-    public ErrorObject(String errorCategory,String errorCode, String errorDescription) {
-        this.errorCategory = errorCategory;
-        this.errorCode = errorCode;
-        this.errorDescription = errorDescription;
-    }
+    @SerializedName("message")
+    private String message;
 
     public List<ErrorParameter> getErrorParameterList() {
         return errorParameterList;
@@ -70,5 +64,11 @@ public class ErrorObject implements Serializable{
         this.errorDateTime = errorDateTime;
     }
 
+    public String getMessage() {
+        return message;
+    }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
