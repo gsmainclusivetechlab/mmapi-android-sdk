@@ -140,26 +140,26 @@ public class SDKManager {
      */
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
-
-        if (transactionReference != null) {
-            if (transactionReference.isEmpty()) {
-                transactionInterface.onValidationError(Utils.setError(3));
-            } else if (!Utils.isOnline()) {
-                transactionInterface.onValidationError(Utils.setError(0));
-            } else {
-                GSMAApi.getInstance().viewTransaction(transactionReference, new APIRequestCallback<TransactionObject>() {
-                            @Override
-                            public void onSuccess(int responseCode, TransactionObject serializedResponse) {
-                                transactionInterface.onTransactionSuccess(serializedResponse);
-                            }
-
-                            @Override
-                            public void onFailure(GSMAError errorDetails) {
-                                transactionInterface.onTransactionFailure(errorDetails);
-                            }
+        if (transactionInterface == null) {
+            transactionInterface.onValidationError(Utils.setError(3));
+            return;
+        } else if (transactionReference.isEmpty()) {
+            transactionInterface.onValidationError(Utils.setError(3));
+        } else if (!Utils.isOnline()) {
+            transactionInterface.onValidationError(Utils.setError(0));
+        } else {
+            GSMAApi.getInstance().viewTransaction(transactionReference, new APIRequestCallback<TransactionObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, TransactionObject serializedResponse) {
+                            transactionInterface.onTransactionSuccess(serializedResponse);
                         }
-                );
-            }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            transactionInterface.onTransactionFailure(errorDetails);
+                        }
+                    }
+            );
         }
     }
 
@@ -311,6 +311,33 @@ public class SDKManager {
             );
         } else {
             serviceAvailabilityInterface.onValidationError(Utils.setError(0));
+        }
+    }
+
+
+
+    public void disbursementPay(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if(transactionRequest.getAmount()==null||transactionRequest.getCurrency()==null||transactionType==null){
+            requestStateInterface.onValidationError(Utils.setError(1));
+            return;
+        }
+        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()||transactionType.isEmpty()) {
+            requestStateInterface.onValidationError(Utils.setError(1));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        } else {
+            GSMAApi.getInstance().merchantPay(transactionType, transactionRequest, new APIRequestCallback<RequestStateObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            requestStateInterface.onRequestStateFailure(errorDetails);
+                        }
+                    }
+            );
         }
     }
 
