@@ -49,8 +49,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
     private TextView txtResponse;
     private TransactionRequest transactionRequest;
     private CodeRequest codeRequest;
-    private String transactionRef = "";
-    private String serverCorrelationId = "";
+    private String transactionRef="";
+    private String serverCorrelationId;
     private ReversalObject reversalObject;
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
@@ -75,52 +75,10 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
 
         txtResponse = findViewById(R.id.txtResponse);
 
-
-        /*
-         //         * Configure the payment system
-         //         * Initialise the payment system
-         //         * consumerKey,cosumerSecret,level of authentication,callBackURL,xAPI key
-         //         */
-        PaymentConfiguration.
-                init("59vthmq3f6i15v6jmcjskfkmh",
-                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
-                        , AuthenticationType.STANDARD_LEVEL, "https://www.google.com/", Environment.SANDBOX);
-
-//        /**
-//         * Configure the payment system
-//         * Initialise the payment system without authorization
-//         *
-//         */
-
-
-         //   PaymentConfiguration.init("https://www.google.com/");
-   //     PaymentConfiguration.init("https://www.google.com/");
-        //iniliase the preference object
-
-   //     PaymentConfiguration.init("https://www.google.com/");
-
-        /*Initialise the preference object*/
-        PreferenceManager.getInstance().init(this);
-
-        GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
-            @Override
-            public void onSuccess(Token token) {
-                Log.d(SUCCESS, "onSuccess: " + token);
-            }
-
-            @Override
-            public void onFailure(GSMAError gsmaError) {
-                Log.d(FAILURE, "onFailure: " + gsmaError);
-                txtResponse.setText(new Gson().toJson(gsmaError));
-            }
-        });
-
-
         createTransactionObject();
         checkServiceAvailability();
         createCodeRequestObject();
         createPaymentReversalObject();
-
 
         /*
           API for checking Balance.
@@ -382,8 +340,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
         transactionRequest.setAmount("200.00");
         transactionRequest.setCurrency("RWF");
 
-//        String gson = new Gson().toJson(transactionRequest, TransactionRequest.class);
-//        Log.d("TAG", "createTransactionObject: " + gson);
 
     }
 

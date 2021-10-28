@@ -6,7 +6,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 /**
  * Interface for clients to receive Token creation response
  * */
-public interface TokenInterface {
+public interface TokenInterface extends BaseInterface {
 
     void onTokenSuccess(Token token);
 
