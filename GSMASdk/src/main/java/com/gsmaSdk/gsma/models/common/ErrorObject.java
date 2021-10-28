@@ -19,18 +19,18 @@ public class ErrorObject implements Serializable {
     private String errorCategory;
     @SerializedName("errorDateTime")
     private String errorDateTime;
-    @SerializedName("errorParameters")
-    private List<ErrorParameter> errorParameterList;
+//    @SerializedName("errorParameters")
+//    private List<ErrorParameter> errorParameterList;
     @SerializedName("message")
     private String message;
 
-    public List<ErrorParameter> getErrorParameterList() {
-        return errorParameterList;
-    }
-
-    public void setErrorParameterList(List<ErrorParameter> errorParameterList) {
-        this.errorParameterList = errorParameterList;
-    }
+//    public List<ErrorParameter> getErrorParameterList() {
+//        return errorParameterList;
+//    }
+//
+//    public void setErrorParameterList(List<ErrorParameter> errorParameterList) {
+//        this.errorParameterList = errorParameterList;
+//    }
 
     public String getErrorCode() {
         return errorCode;

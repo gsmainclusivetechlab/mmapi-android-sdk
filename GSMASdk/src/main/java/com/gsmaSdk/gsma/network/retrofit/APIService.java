@@ -70,6 +70,7 @@ public interface APIService {
     @POST("{version}/transactions/type/{transactionType}")
     Call<RequestStateObject> merchantPay(@Path("transactionType") String type, @Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
+
     /**
      * View Transaction
      *
