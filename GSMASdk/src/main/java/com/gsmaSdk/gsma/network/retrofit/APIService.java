@@ -6,6 +6,7 @@ import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
@@ -110,5 +111,11 @@ public interface APIService {
     @POST("{version}/accounts/accountid/{id}/authorisationcodes")
     Call<RequestStateObject> obtainAuthorisationCode(@Path("id") String accountId, @Path(value = "version", encoded = true) String version, @Body RequestBody codeRequest, @HeaderMap Map<String, String> headers);
 
-
+    /**
+     * Check for Retrieve Missing Response
+     *
+     * @return the call
+     */
+    @GET("{version}/responses/{correlationId}")
+    Call<MissingResponse> retrieveMissingResponse(@Path("correlationId") String correlationId, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 }

@@ -8,34 +8,29 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
-import com.gsmaSdk.gsma.enums.AuthenticationType;
-import com.gsmaSdk.gsma.enums.Environment;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
-import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ReversalInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.CodeRequest;
 import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.ReversalObject;
-import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
-import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
-import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
 import java.util.ArrayList;
 
@@ -49,8 +44,9 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
     private TextView txtResponse;
     private TransactionRequest transactionRequest;
     private CodeRequest codeRequest;
-    private String transactionRef="";
-    private String serverCorrelationId;
+    private String transactionRef = "";
+    private String serverCorrelationId = "";
+    private String correlationId = "";
     private ReversalObject reversalObject;
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
@@ -66,12 +62,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
         Button btnPayeeInitiated = findViewById(R.id.btnPayeeInitiated);
         Button btnTransaction = findViewById(R.id.btnViewTransaction);
         Button btnRequestState = findViewById(R.id.btnRequestState);
-
         Button btnRefund = findViewById(R.id.btnRefund);
         Button btnReversal = findViewById(R.id.btnReversal);
         Button btnRetrieveTransaction = findViewById(R.id.btnRetrieveTransaction);
-
         Button btnObtainAuthCode = findViewById(R.id.btnObtainAuthCode);
+        Button btnRetrieveMissingResponse = findViewById(R.id.btnRetrieveMissingResponse);
 
         txtResponse = findViewById(R.id.txtResponse);
 
@@ -92,7 +87,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onBalanceSuccess(Balance balance) {
+            public void onBalanceSuccess(Balance balance, String correlationID) {
                 txtResponse.setText(new Gson().toJson(balance));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
@@ -115,8 +110,9 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onReversalSuccess(Reversal reversal) {
+            public void onReversalSuccess(Reversal reversal, String correlationID) {
                 txtResponse.setText(new Gson().toJson(reversal));
+                correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(reversal));
             }
 
@@ -139,9 +135,10 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
+                correlationId = correlationID;
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
 
@@ -167,9 +164,10 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRefundSuccess(Refund refund) {
+            public void onRefundSuccess(Refund refund, String correlationID) {
                 Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(refund));
                 txtResponse.setText(new Gson().toJson(refund));
+                correlationId = correlationID;
             }
 
             @Override
@@ -188,9 +186,10 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
+                correlationId = correlationID;
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
             }
 
@@ -215,8 +214,9 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTransactionSuccess(TransactionObject transactionObject) {
+            public void onTransactionSuccess(TransactionObject transactionObject, String correlationID) {
                 txtResponse.setText(new Gson().toJson(transactionObject));
+                correlationId = correlationID;
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
             }
 
@@ -239,9 +239,10 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
+                correlationId = correlationID;
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
             }
 
@@ -267,8 +268,9 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction) {
+            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
                 txtResponse.setText(new Gson().toJson(transaction));
+                correlationId = correlationID;
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
@@ -277,6 +279,35 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
             }
+        }));
+
+         /*
+          API for retrieving missing response
+         */
+
+        btnRetrieveMissingResponse.setOnClickListener(v -> SDKManager.getInstance().retrieveMissingResponse(correlationId, new MissingResponseInterface() {
+
+            @Override
+            public void onMissingResponseSuccess(MissingResponse missingResponse, String correlationID) {
+                txtResponse.setText(new Gson().toJson(missingResponse));
+               if(missingResponse.getLink().startsWith("/transactions/")){
+                   transactionRef = missingResponse.getLink().substring(14);
+               }
+                Log.d(SUCCESS, "onMissingResponseSuccess: " + new Gson().toJson(missingResponse));
+            }
+
+            @Override
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(MerchantPaymentsActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
         }));
 
     }
@@ -295,8 +326,9 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
                 txtResponse.setText(new Gson().toJson(serviceAvailability));
+                correlationId = correlationID;
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
 

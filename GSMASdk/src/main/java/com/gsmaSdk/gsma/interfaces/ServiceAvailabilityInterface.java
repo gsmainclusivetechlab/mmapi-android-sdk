@@ -9,7 +9,7 @@ import com.gsmaSdk.gsma.models.common.ServiceAvailability;
  * */
 public interface ServiceAvailabilityInterface extends BaseInterface{
 
-    void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability);
+    void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID);
 
     void onServiceAvailabilityFailure(GSMAError gsmaError);
 }

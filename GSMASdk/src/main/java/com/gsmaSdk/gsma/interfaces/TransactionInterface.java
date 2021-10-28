@@ -9,7 +9,7 @@ import com.gsmaSdk.gsma.models.transaction.TransactionObject;
  * */
 public interface TransactionInterface extends BaseInterface{
 
-    void onTransactionSuccess(TransactionObject transactionObject);
+    void onTransactionSuccess(TransactionObject transactionObject,String correlationId);
 
     void onTransactionFailure(GSMAError gsmaError);
 }

@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 /**
  * The type Utils - for reusable utility functions.
@@ -130,6 +131,11 @@ public class Utils {
                 errorObject.setErrorCode("GenericError");
                 errorObject.setErrorDescription("Invalid json format");
                 break;
+            case 6:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid correlation id");
+                break;
             default:
                 errorObject.setErrorCategory("");
                 errorObject.setErrorCode("GenericError");
@@ -139,4 +145,9 @@ public class Utils {
 
         return errorObject;
     }
+
+    public static String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
+
 }

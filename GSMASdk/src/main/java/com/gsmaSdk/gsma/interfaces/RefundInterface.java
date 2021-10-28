@@ -5,7 +5,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 
 public interface RefundInterface  extends BaseInterface{
 
-    void onRefundSuccess(Refund refund);
+    void onRefundSuccess(Refund refund, String correlationId);
 
     void onRefundFailure(GSMAError gsmaError);
 }

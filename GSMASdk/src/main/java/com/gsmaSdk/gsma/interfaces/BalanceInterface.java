@@ -9,7 +9,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
  * */
 public interface BalanceInterface extends BaseInterface{
 
-    void onBalanceSuccess(Balance balance);
+    void onBalanceSuccess(Balance balance, String correlationId);
 
     void onBalanceFailure(GSMAError gsmaError);
 }
