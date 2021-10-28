@@ -62,8 +62,9 @@ public class LandingActivity extends AppCompatActivity {
             }
         });
 
-
-
         btnMerchantPay.setOnClickListener(v -> startActivity(new Intent(LandingActivity.this, MerchantPaymentsActivity.class)));
+        btnDisbursement.setOnClickListener(v -> startActivity(new Intent(LandingActivity.this, DisbursementActivity.class)));
+
+
     }
 }
