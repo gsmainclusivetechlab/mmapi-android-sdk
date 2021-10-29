@@ -10,17 +10,13 @@ import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
-import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
-import com.gsmaSdk.gsma.interfaces.ReversalInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.CodeRequest;
-import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
-import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -102,27 +98,26 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
          /*
           API for Reversal.
          */
-        btnReversal.setOnClickListener(v -> SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new ReversalInterface() {
+        btnReversal.setOnClickListener(v->SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+               correlationId = correlationID;
+                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+            }
+
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 Toast.makeText(MerchantPaymentsActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
-
-            @Override
-            public void onReversalSuccess(Reversal reversal, String correlationID) {
-                txtResponse.setText(new Gson().toJson(reversal));
-                correlationId = correlationID;
-                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(reversal));
-            }
-
-            @Override
-            public void onReversalFailure(GSMAError gsmaError) {
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
-            }
         }));
-
 
         /*
           API for Merchant Pay
@@ -155,28 +150,27 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
           API to view Request state.
          */
 
-        btnRefund.setOnClickListener(v -> SDKManager.getInstance().getRefundMerchantPay(transactionRequest, new RefundInterface() {
+        btnRefund.setOnClickListener(v->SDKManager.getInstance().refundMerchantPay(transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                correlationId = correlationID;
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                Log.d(FAILURE, "onRefundFailure: " + new Gson().toJson(gsmaError));
+                txtResponse.setText(new Gson().toJson(gsmaError));
+            }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 Toast.makeText(MerchantPaymentsActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
-
-            @Override
-            public void onRefundSuccess(Refund refund, String correlationID) {
-                Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(refund));
-                txtResponse.setText(new Gson().toJson(refund));
-                correlationId = correlationID;
-            }
-
-            @Override
-            public void onRefundFailure(GSMAError gsmaError) {
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
-
-            }
         }));
+
         btnRequestState.setOnClickListener(v -> SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
 
             @Override

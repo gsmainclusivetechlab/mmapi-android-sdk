@@ -2,18 +2,14 @@ package com.gsmaSdk.gsma.controllers;
 
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
-import com.gsmaSdk.gsma.interfaces.RefundInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
-import com.gsmaSdk.gsma.interfaces.ReversalInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TokenInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.CodeRequest;
-import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
-import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -86,7 +82,10 @@ public class SDKManager {
      */
 
     public void getBalance(@NonNull String accountId, @NonNull BalanceInterface balanceInterface) {
-        System.out.println("is conenected" + Utils.isOnline());
+        if (accountId == null) {
+            balanceInterface.onValidationError(Utils.setError(1));
+            return;
+        }
         if (accountId.isEmpty()) {
             balanceInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {
@@ -115,8 +114,12 @@ public class SDKManager {
      */
 
     public void merchantPay(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()) {
-            requestStateInterface.onValidationError(Utils.setError(1));
+        if (transactionType == null) {
+            requestStateInterface.onValidationError(Utils.setError(7));
+            return;
+        }
+        if (transactionType.isEmpty()) {
+            requestStateInterface.onValidationError(Utils.setError(7));
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
@@ -144,7 +147,10 @@ public class SDKManager {
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
 
-
+        if (transactionInterface == null) {
+            transactionInterface.onValidationError(Utils.setError(3));
+            return;
+        }
         if (transactionReference.isEmpty()) {
             transactionInterface.onValidationError(Utils.setError(3));
         } else if (!Utils.isOnline()) {
@@ -173,6 +179,11 @@ public class SDKManager {
      */
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
+
+        if (serverCorrelationId == null) {
+            requestStateInterface.onValidationError(Utils.setError(2));
+            return;
+        }
         if (serverCorrelationId.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(2));
         } else if (!Utils.isOnline()) {
@@ -195,58 +206,63 @@ public class SDKManager {
     }
 
 
-    public void getRefundMerchantPay(@NonNull TransactionRequest transactionRequest, @NonNull RefundInterface refundInterface) {
-        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()) {
-            refundInterface.onValidationError(Utils.setError(1));
-        } else if (!Utils.isOnline()) {
-            refundInterface.onValidationError(Utils.setError(0));
+    public void refundMerchantPay(@NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().refund(uuid, transactionRequest, new APIRequestCallback<Refund>() {
+            GSMAApi.getInstance().refund(uuid, transactionRequest, new APIRequestCallback<RequestStateObject>() {
                 @Override
-                public void onSuccess(int responseCode, Refund serializedResponse) {
-                    refundInterface.onRefundSuccess(serializedResponse, uuid);
+                public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                    requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
                 }
 
                 @Override
                 public void onFailure(GSMAError errorDetails) {
-                    refundInterface.onRefundFailure(errorDetails);
+                    requestStateInterface.onRequestStateFailure(errorDetails);
+                    ;
                 }
             });
         }
     }
 
-    public void reversal(@NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull ReversalInterface reversalInterface) {
-
+    public void reversal(@NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
+        if(referenceId==null){
+            requestStateInterface.onValidationError(Utils.setError(4));
+            return;
+        }
         if (referenceId.isEmpty()) {
-            reversalInterface.onValidationError(Utils.setError(4));
+            requestStateInterface.onValidationError(Utils.setError(4));
             return;
         }
         if (reversal == null) {
-            reversalInterface.onValidationError(Utils.setError(5));
+            requestStateInterface.onValidationError(Utils.setError(5));
             return;
         }
         if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().reversal(uuid, referenceId, reversal, new APIRequestCallback<Reversal>() {
+            GSMAApi.getInstance().reversal(uuid, referenceId, reversal, new APIRequestCallback<RequestStateObject>() {
                 @Override
-                public void onSuccess(int responseCode, Reversal serializedResponse) {
-                    reversalInterface.onReversalSuccess(serializedResponse, uuid);
+                public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                    requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
                 }
 
                 @Override
                 public void onFailure(GSMAError errorDetails) {
-                    reversalInterface.onReversalFailure(errorDetails);
+                    requestStateInterface.onRequestStateFailure(errorDetails);
                 }
             });
         } else {
-            reversalInterface.onValidationError(Utils.setError(0));
+            requestStateInterface.onValidationError(Utils.setError(0));
         }
 
     }
 
     public void obtainAuthorisationCode(@NonNull String accountId, @NonNull CodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
-
+        if(accountId==null){
+            requestStateInterface.onValidationError(Utils.setError(1));
+            return;
+        }
         if (accountId.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {
@@ -276,6 +292,9 @@ public class SDKManager {
      */
 
     public void retrieveTransaction(@NonNull String accountId, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+        if(accountId==null){
+            retrieveTransactionInterface.onValidationError(Utils.setError(1));
+        }
         if (accountId.isEmpty()) {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {

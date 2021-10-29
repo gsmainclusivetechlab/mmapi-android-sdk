@@ -2,9 +2,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 
 
 import com.gsmaSdk.gsma.models.Balance;
-import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
-import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
@@ -36,11 +34,11 @@ public interface APIService {
 
 
     @POST("{version}/transactions/type/adjustment")
-    Call<Refund> refund(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> refund(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
 
     @POST("{version}/transactions/{referenceId}/reversals")
-    Call<Reversal> reversal(@Path(value = "version", encoded = true) String version, @Path("referenceId") String referenceId, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> reversal(@Path(value = "version", encoded = true) String version, @Path("referenceId") String referenceId, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
 
     /**

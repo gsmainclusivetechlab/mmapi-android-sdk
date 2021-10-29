@@ -10,9 +10,7 @@ import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.CodeRequest;
-import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
-import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -25,7 +23,6 @@ import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import androidx.annotation.RestrictTo;
 import okhttp3.MediaType;
@@ -179,7 +176,7 @@ public final class GSMAApi {
      * @param apiRequestCallback Listener for api operation
      */
 
-    public void refund(String uuid, TransactionRequest transactionRequest, APIRequestCallback<Refund> apiRequestCallback) {
+    public void refund(String uuid, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
@@ -191,7 +188,7 @@ public final class GSMAApi {
      * @param reversalObject     Model class for Reversal Object
      * @param apiRequestCallback Listener for api operation
      */
-    public void reversal(String uuid, String referenceId, ReversalObject reversalObject, APIRequestCallback<Reversal> apiRequestCallback) {
+    public void reversal(String uuid, String referenceId, ReversalObject reversalObject, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.reversal(PaymentConfiguration.getUrlVersion(), referenceId, RequestBody.create(new Gson().toJson(reversalObject), mediaType), headers), apiRequestCallback));
     }

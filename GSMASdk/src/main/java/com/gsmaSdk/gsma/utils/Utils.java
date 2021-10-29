@@ -136,6 +136,11 @@ public class Utils {
                 errorObject.setErrorCode("GenericError");
                 errorObject.setErrorDescription("Invalid correlation id");
                 break;
+            case 7:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid Transaction type");
+                break;
             default:
                 errorObject.setErrorCategory("");
                 errorObject.setErrorCode("GenericError");
