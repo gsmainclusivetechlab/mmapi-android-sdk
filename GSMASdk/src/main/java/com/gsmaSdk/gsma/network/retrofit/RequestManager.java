@@ -90,7 +90,7 @@ class RequestManager {
          * Run.
          */
         void run() {
-            Log.d("Request Url", "****  "+request.request().url() + "");
+//            Log.d("Request Url", "****  "+request.request().url() + "");
             request.enqueue(new BaseCallback<>(requestCallback));
         }
         /**

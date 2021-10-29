@@ -9,12 +9,13 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
-import com.gsmaSdk.gsma.models.CodeRequest;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.common.MissingResponse;
+import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
@@ -219,13 +220,13 @@ public final class GSMAApi {
     /**
      * obtain Authorisation code.
      *
-     * @param codeRequest        Model class for Authorisation Code Request
+     * @param authorisationCodeRequest        Model class for Authorisation Code Request
      * @param accountId          Account id
      * @param apiRequestCallback Listener for api operation
      */
-    public void obtainAuthorisationCode(String uuid, String accountId, CodeRequest codeRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void obtainAuthorisationCode(String uuid, String accountId, AuthorisationCodeRequest authorisationCodeRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.obtainAuthorisationCode(accountId, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(codeRequest), mediaType), headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.obtainAuthorisationCode(accountId, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(authorisationCodeRequest), mediaType), headers), apiRequestCallback));
     }
 
     /**
@@ -233,9 +234,27 @@ public final class GSMAApi {
      *
      * @param apiRequestCallback Listener for api operation
      */
-    public void retrieveMissingResponse(String uuid, String correlationId, APIRequestCallback<MissingResponse> apiRequestCallback) {
+    public void retrieveMissingResponse(String uuid, String correlationId, APIRequestCallback<GetLink> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveMissingResponse(correlationId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Missing Transaction.
+     *
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void getMissingTransactions(String link, APIRequestCallback<TransactionObject> apiRequestCallback) {
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingTransactions(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Missing Code.
+     *
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void getMissingCodes(String link, APIRequestCallback<AuthorisationCode> apiRequestCallback) {
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingCodes(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
 
 }

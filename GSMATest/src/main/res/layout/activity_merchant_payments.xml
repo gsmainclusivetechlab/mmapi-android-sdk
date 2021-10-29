@@ -118,14 +118,22 @@
 			android:layout_height="wrap_content"
 			android:orientation="horizontal">
 			
-			
 			<Button
-				android:id="@+id/btnRetrieveMissingResponse"
+				android:id="@+id/btnRetrieveMissingTransactionResponse"
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
 				android:layout_margin="2dp"
 				android:layout_weight="1"
-				android:text="Retrieve Missing Response"
+				android:text="Missing Transaction"
+				android:textSize="10sp" />
+			
+			<Button
+				android:id="@+id/btnRetrieveMissingCodeResponse"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_margin="2dp"
+				android:layout_weight="1"
+				android:text="Missing Code"
 				android:textSize="10sp" />
 			
 		</LinearLayout>

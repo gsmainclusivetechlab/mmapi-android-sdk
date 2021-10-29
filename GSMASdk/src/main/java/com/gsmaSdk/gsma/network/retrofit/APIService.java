@@ -4,15 +4,15 @@ package com.gsmaSdk.gsma.network.retrofit;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.Token;
-import com.gsmaSdk.gsma.models.common.MissingResponse;
-import com.gsmaSdk.gsma.models.transaction.Transaction;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
+import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 
 import java.util.Map;
 
 import androidx.annotation.RestrictTo;
-
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -115,5 +115,21 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/responses/{correlationId}")
-    Call<MissingResponse> retrieveMissingResponse(@Path("correlationId") String correlationId, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<GetLink> retrieveMissingResponse(@Path("correlationId") String correlationId, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
+    /**
+     * Check for Retrieve Missing Transaction
+     *
+     * @return the call
+     */
+    @GET("{version}/{url}")
+    Call<TransactionObject> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
+    /**
+     * Check for Retrieve Missing Code
+     *
+     * @return the call
+     */
+    @GET("{version}/{url}")
+    Call<AuthorisationCode> getMissingCodes(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 }

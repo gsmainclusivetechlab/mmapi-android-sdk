@@ -8,19 +8,19 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
+import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
-import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
-import com.gsmaSdk.gsma.models.CodeRequest;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.ReversalObject;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
@@ -39,7 +39,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
 
     private TextView txtResponse;
     private TransactionRequest transactionRequest;
-    private CodeRequest codeRequest;
+    private AuthorisationCodeRequest authorisationCodeRequest;
     private String transactionRef = "";
     private String serverCorrelationId = "";
     private String correlationId = "";
@@ -62,7 +62,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
         Button btnReversal = findViewById(R.id.btnReversal);
         Button btnRetrieveTransaction = findViewById(R.id.btnRetrieveTransaction);
         Button btnObtainAuthCode = findViewById(R.id.btnObtainAuthCode);
-        Button btnRetrieveMissingResponse = findViewById(R.id.btnRetrieveMissingResponse);
+        Button btnRetrieveMissingTransactionResponse = findViewById(R.id.btnRetrieveMissingTransactionResponse);
+        Button btnRetrieveMissingCodeResponse = findViewById(R.id.btnRetrieveMissingCodeResponse);
 
         txtResponse = findViewById(R.id.txtResponse);
 
@@ -118,6 +119,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         }));
+
 
         /*
           API for Merchant Pay
@@ -225,7 +227,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
         /*
           API for Obtaining Authorisation code
          */
-        btnObtainAuthCode.setOnClickListener(v -> SDKManager.getInstance().obtainAuthorisationCode("1", codeRequest, new RequestStateInterface() {
+        btnObtainAuthCode.setOnClickListener(v -> SDKManager.getInstance().obtainAuthorisationCode("2000", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 Toast.makeText(MerchantPaymentsActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
@@ -276,25 +278,48 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
         }));
 
          /*
-          API for retrieving missing response
+          API for retrieving missing transaction response
          */
 
-        btnRetrieveMissingResponse.setOnClickListener(v -> SDKManager.getInstance().retrieveMissingResponse(correlationId, new MissingResponseInterface() {
-
+        btnRetrieveMissingTransactionResponse.setOnClickListener(v -> SDKManager.getInstance().retrieveMissingTransaction(correlationId, new TransactionInterface() {
             @Override
-            public void onMissingResponseSuccess(MissingResponse missingResponse, String correlationID) {
-                txtResponse.setText(new Gson().toJson(missingResponse));
-               if(missingResponse.getLink().startsWith("/transactions/")){
-                   transactionRef = missingResponse.getLink().substring(14);
-               }
-                Log.d(SUCCESS, "onMissingResponseSuccess: " + new Gson().toJson(missingResponse));
+            public void onTransactionSuccess(TransactionObject transactionObject, String correlationId) {
+                txtResponse.setText(new Gson().toJson(transactionObject));
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionObject.class));
             }
 
             @Override
-            public void onMissingResponseFailure(GSMAError gsmaError) {
+            public void onTransactionFailure(GSMAError gsmaError) {
                 txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+
             }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(MerchantPaymentsActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+        }));
+
+           /*
+          API for retrieving missing code response
+         */
+
+        btnRetrieveMissingCodeResponse.setOnClickListener(v -> SDKManager.getInstance().retrieveMissingCode(correlationId, new AuthorisationCodeInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode, String correlationId) {
+                txtResponse.setText(new Gson().toJson(authorisationCode));
+                Log.d(SUCCESS, "onAuthorisationCodeSuccess: " + new Gson().toJson(authorisationCode, AuthorisationCode.class));
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onAuthorisationCodeFailure: " + new Gson().toJson(gsmaError));
+            }
+
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -373,10 +398,10 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
      * Code Request Object for Obtaining Authorisation code.
      */
     private void createCodeRequestObject() {
-        codeRequest = new CodeRequest();
-        codeRequest.setAmount("200.00");
-        codeRequest.setRequestDate("2021-10-18T10:43:27.405Z");
-        codeRequest.setCurrency("RWF");
+        authorisationCodeRequest = new AuthorisationCodeRequest();
+        authorisationCodeRequest.setAmount("200.00");
+        authorisationCodeRequest.setRequestDate("2021-10-18T10:43:27.405Z");
+        authorisationCodeRequest.setCurrency("RWF");
 
 //        String gson = new Gson().toJson(codeRequest, CodeRequest.class);
 //        Log.d("TAG", "createCodeRequestObject: " + gson);

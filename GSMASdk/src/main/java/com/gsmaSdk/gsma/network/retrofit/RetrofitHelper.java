@@ -5,7 +5,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
+import com.gsmaSdk.gsma.network.deserializers.MissingCodeDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.TransactionResponseDeserializer;
 
 import java.util.Objects;
@@ -13,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RestrictTo;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -56,6 +57,7 @@ public final class RetrofitHelper {
         GsonBuilder gsonBuilder = new GsonBuilder();
         // Adding custom deserializers
         gsonBuilder.registerTypeAdapter(Transaction.class, new TransactionResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(AuthorisationCode.class, new MissingCodeDeserializer());
         Gson myGson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
         return GsonConverterFactory.create(myGson);
     }
