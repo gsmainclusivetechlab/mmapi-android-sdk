@@ -19,10 +19,6 @@ final class APIConstants {
      * The Base url.
      */
     static String BASE_URL = "https://sandbox.mobilemoneyapi.io/";
-    /**
-     * The Base url version.
-     *
-     */
 
     /**
      * Base url for live account

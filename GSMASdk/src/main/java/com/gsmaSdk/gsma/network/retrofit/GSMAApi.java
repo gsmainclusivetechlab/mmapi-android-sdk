@@ -9,13 +9,13 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
-import com.gsmaSdk.gsma.models.CodeRequest;
-import com.gsmaSdk.gsma.models.Refund;
 import com.gsmaSdk.gsma.models.RequestStateObject;
-import com.gsmaSdk.gsma.models.Reversal;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
@@ -24,7 +24,6 @@ import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import androidx.annotation.RestrictTo;
 import okhttp3.MediaType;
@@ -99,7 +98,7 @@ public final class GSMAApi {
         if (PaymentConfiguration.getAuthType() != AuthenticationType.NO_AUTH) {
             headers.put(APIConstants.AUTHORIZATION, APIConstants.AUTH_TOKEN_BEARER + PreferenceManager.getInstance().retrieveToken());
         }
-        headers.put(APIConstants.X_CORRELATION_ID, UUID.randomUUID().toString());
+//        headers.put(APIConstants.X_CORRELATION_ID, UUID.randomUUID().toString());
     }
 
     private static class SingletonCreationAdmin {
@@ -133,7 +132,8 @@ public final class GSMAApi {
      * @param accountId          Account id
      * @param apiRequestCallback Listener for api operation
      */
-    public void checkBalance(String accountId, APIRequestCallback<Balance> apiRequestCallback) {
+    public void checkBalance(String uuid, String accountId, APIRequestCallback<Balance> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBalance(PaymentConfiguration.getUrlVersion(), accountId, headers), apiRequestCallback));
     }
 
@@ -143,7 +143,8 @@ public final class GSMAApi {
      * @param transactionType    Type of transaction,merchant pay
      * @param transactionRequest Model class for Transaction Request
      */
-    public void merchantPay(String transactionType, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void merchantPay(String uuid, String transactionType, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.merchantPay(transactionType, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
 
@@ -153,7 +154,8 @@ public final class GSMAApi {
      * @param transactionReference Reference to a particular transaction
      * @param apiRequestCallback   apiRequestCallback listener for api operation
      */
-    public void viewTransaction(String transactionReference, APIRequestCallback<TransactionObject> apiRequestCallback) {
+    public void viewTransaction(String uuid, String transactionReference, APIRequestCallback<TransactionObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewTransaction(PaymentConfiguration.getUrlVersion(), transactionReference, headers), apiRequestCallback));
     }
 
@@ -163,7 +165,8 @@ public final class GSMAApi {
      * @param serverCorrelationId UUID generated in server
      * @param apiRequestCallback  Listener for api operation
      */
-    public void viewRequestState(String serverCorrelationId, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void viewRequestState(String uuid, String serverCorrelationId, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewRequestState(PaymentConfiguration.getUrlVersion(), serverCorrelationId, headers), apiRequestCallback));
     }
 
@@ -174,7 +177,8 @@ public final class GSMAApi {
      * @param apiRequestCallback Listener for api operation
      */
 
-    public void refund(TransactionRequest transactionRequest, APIRequestCallback<Refund> apiRequestCallback) {
+    public void refund(String uuid, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
 
@@ -185,7 +189,8 @@ public final class GSMAApi {
      * @param reversalObject     Model class for Reversal Object
      * @param apiRequestCallback Listener for api operation
      */
-    public void reversal(String referenceId, ReversalObject reversalObject, APIRequestCallback<Reversal> apiRequestCallback) {
+    public void reversal(String uuid, String referenceId, ReversalObject reversalObject, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.reversal(PaymentConfiguration.getUrlVersion(), referenceId, RequestBody.create(new Gson().toJson(reversalObject), mediaType), headers), apiRequestCallback));
     }
 
@@ -197,7 +202,8 @@ public final class GSMAApi {
      * @param limit              Offset
      * @param apiRequestCallback Listener for api operation
      */
-    public void retrieveTransaction(String accountId, int offset, int limit, APIRequestCallback<Transaction> apiRequestCallback) {
+    public void retrieveTransaction(String uuid, String accountId, int offset, int limit, APIRequestCallback<Transaction> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(), accountId, headers, offset, limit), apiRequestCallback));
     }
 
@@ -206,19 +212,49 @@ public final class GSMAApi {
      *
      * @param apiRequestCallback Listener for api operation
      */
-    public void checkServiceAvailability(APIRequestCallback<ServiceAvailability> apiRequestCallback) {
+    public void checkServiceAvailability(String uuid, APIRequestCallback<ServiceAvailability> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.checkServiceAvailability(PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
 
     /**
      * obtain Authorisation code.
      *
-     * @param codeRequest        Model class for Authorisation Code Request
+     * @param authorisationCodeRequest        Model class for Authorisation Code Request
      * @param accountId          Account id
      * @param apiRequestCallback Listener for api operation
      */
-    public void obtainAuthorisationCode(String accountId, CodeRequest codeRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.obtainAuthorisationCode(accountId, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(codeRequest), mediaType), headers), apiRequestCallback));
+    public void obtainAuthorisationCode(String uuid, String accountId, AuthorisationCodeRequest authorisationCodeRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.obtainAuthorisationCode(accountId, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(authorisationCodeRequest), mediaType), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Missing Response.
+     *
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void retrieveMissingResponse(String uuid, String correlationId, APIRequestCallback<GetLink> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveMissingResponse(correlationId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Missing Transaction.
+     *
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void getMissingTransactions(String link, APIRequestCallback<TransactionObject> apiRequestCallback) {
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingTransactions(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Missing Code.
+     *
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void getMissingCodes(String link, APIRequestCallback<AuthorisationCode> apiRequestCallback) {
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingCodes(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
 
 }

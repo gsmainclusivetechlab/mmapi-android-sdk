@@ -1,1 +1,0 @@
-# mmapi-android-sdk
