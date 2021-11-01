@@ -1,7 +1,5 @@
 package com.gsmasdk.gsmatest;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -10,31 +8,41 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
+import com.gsmaSdk.gsma.interfaces.BatchCompletionInterface;
+import com.gsmaSdk.gsma.interfaces.BatchRejectionInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
+import com.gsmaSdk.gsma.models.transaction.TransactionItem;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class DisbursementActivity extends AppCompatActivity {
 
     private TransactionRequest transactionRequest;
+    private BulkTransactionObject bulkTransactionObject;
     private TextView txtResponse;
 
-    private String transactionRef="";
+    private String transactionRef = "";
     private String serverCorrelationId;
     private ReversalObject reversalObject;
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
     private String correlationId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +51,15 @@ public class DisbursementActivity extends AppCompatActivity {
         Button btnIndividualDisbursement = findViewById(R.id.btnIndividualDisbursement);
         Button btnViewTransactionDisbursement = findViewById(R.id.btnViewTransactionDisbursement);
         Button btnRequestStateDisbursement = findViewById(R.id.btnRequestStateDisbursement);
-
+        Button btnBulkDisbursement = findViewById(R.id.btnBulkDisbursement);
+        Button btnBatchRejections = findViewById(R.id.btnBatchRejections);
+        Button btnBatchCompletions = findViewById(R.id.btnBatchCompletions);
 
 
         txtResponse = findViewById(R.id.txtDisbursementResponse);
         //create object for transaction request
         createTransactionObject();
+        createBulkTransactionObject();
 
         btnIndividualDisbursement.setOnClickListener(v -> SDKManager.getInstance().disbursementPay("disbursement", transactionRequest, new RequestStateInterface() {
             @Override
@@ -58,13 +69,12 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject,String correlationID) {
-               correlationId=correlationID;
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
-
 
 
             @Override
@@ -83,8 +93,8 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject,String correlationID) {
-                correlationId=correlationID;
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
@@ -97,8 +107,8 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
         }));
-        //individual disbursement using polling method-view transaction
 
+        //individual disbursement using polling method-view transaction
         btnViewTransactionDisbursement.setOnClickListener(v -> SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
 
             @Override
@@ -108,7 +118,7 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTransactionSuccess(TransactionObject transactionObject,String correlationId) {
+            public void onTransactionSuccess(TransactionObject transactionObject, String correlationId) {
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
             }
@@ -120,6 +130,74 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
         }));
+
+        //Bulk disbursement using polling method-view transaction
+        btnBulkDisbursement.setOnClickListener(v -> SDKManager.getInstance().bulkTransaction(bulkTransactionObject, new RequestStateInterface() {
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationId) {
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        }));
+
+        //Bulk disbursement rejection
+        btnBatchRejections.setOnClickListener(v -> SDKManager.getInstance().retrieveBatchRejections("REF-1635765084301", new BatchRejectionInterface() {
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void batchTransactionRejections(BatchTransactionRejection batchTransactionRejection, String correlationId) {
+                txtResponse.setText(new Gson().toJson(batchTransactionRejection));
+                Log.d(SUCCESS, "batchTransactionRejections: " + new Gson().toJson(batchTransactionRejection));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+        }));
+
+        //Bulk disbursement completion
+        btnBatchCompletions.setOnClickListener(v -> SDKManager.getInstance().retrieveBatchCompletions("REF-1635765084301", new BatchCompletionInterface() {
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion, String correlationId) {
+                txtResponse.setText(new Gson().toJson(batchTransactionCompletion));
+                Log.d(SUCCESS, "batchTransactionCompleted: " + new Gson().toJson(batchTransactionCompletion));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+        }));
+
 
     }
 
@@ -142,6 +220,39 @@ public class DisbursementActivity extends AppCompatActivity {
         transactionRequest.setCreditParty(creditPartyList);
         transactionRequest.setAmount("200.00");
         transactionRequest.setCurrency("RWF");
+
+    }
+
+    private void createBulkTransactionObject() {
+        bulkTransactionObject = new BulkTransactionObject();
+
+        ArrayList<TransactionItem> transactionItems = new ArrayList<>();
+        TransactionItem transactionItem = new TransactionItem();
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("2000");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("2999");
+        creditPartyList.add(creditPartyItem);
+
+        transactionItem.setAmount("200");
+        transactionItem.setType("transfer");
+        transactionItem.setCurrency("RWF");
+        transactionItem.setCreditParty(creditPartyList);
+        transactionItem.setDebitParty(debitPartyList);
+        transactionItems.add(transactionItem);
+        transactionItems.add(transactionItem);
+
+        bulkTransactionObject.setBatchDescription("Testing a Batch transaction");
+        bulkTransactionObject.setBatchTitle("Batch Test");
+        bulkTransactionObject.setScheduledStartDate("2019-12-11T15:08:03.158Z");
+        bulkTransactionObject.setTransactions(transactionItems);
 
     }
 

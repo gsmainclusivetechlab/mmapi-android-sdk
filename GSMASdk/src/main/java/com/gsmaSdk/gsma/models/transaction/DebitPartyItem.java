@@ -2,7 +2,6 @@ package com.gsmaSdk.gsma.models.transaction;
 
 import com.google.gson.annotations.SerializedName;
 
-@SuppressWarnings("ALL")
 public class DebitPartyItem{
 
 	@SerializedName("value")

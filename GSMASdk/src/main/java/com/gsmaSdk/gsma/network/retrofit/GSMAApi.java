@@ -17,6 +17,9 @@ import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
@@ -255,6 +258,37 @@ public final class GSMAApi {
      */
     public void getMissingCodes(String link, APIRequestCallback<AuthorisationCode> apiRequestCallback) {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingCodes(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+    /**
+     * Bulk Transaction
+     *
+     * @param bulkTransactionObject Model class for Bulk Transaction
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void bulkTransaction(String uuid, BulkTransactionObject bulkTransactionObject, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.bulkTransaction(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(bulkTransactionObject), mediaType), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Batch Transaction Rejections.
+     *
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void retrieveBatchRejections(String uuid, String batchId, APIRequestCallback<BatchTransactionRejection> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchRejections(batchId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Batch Transaction Completions.
+     *
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void retrieveBatchCompletions(String uuid, String batchId, APIRequestCallback<BatchTransactionCompletion> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchCompletions(batchId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
 
 }
