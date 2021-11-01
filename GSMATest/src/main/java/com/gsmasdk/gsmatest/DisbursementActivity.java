@@ -28,6 +28,7 @@ public class DisbursementActivity extends AppCompatActivity {
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
     private String serverCorrelationId;
+    private String correlationId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,8 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject,String correlationID) {
+                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));

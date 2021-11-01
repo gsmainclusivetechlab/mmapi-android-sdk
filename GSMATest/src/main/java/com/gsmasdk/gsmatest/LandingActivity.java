@@ -19,6 +19,7 @@ import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+@SuppressWarnings("ALL")
 public class LandingActivity extends AppCompatActivity {
 
     @Override

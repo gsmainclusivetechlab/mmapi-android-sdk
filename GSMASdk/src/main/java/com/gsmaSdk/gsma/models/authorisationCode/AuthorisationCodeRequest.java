@@ -1,11 +1,11 @@
-package com.gsmaSdk.gsma.models;
+package com.gsmaSdk.gsma.models.authorisationCode;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Model class for Authorisation Code Request
  * */
-public class CodeRequest {
+public class AuthorisationCodeRequest {
 
 	@SerializedName("requestDate")
 	private String requestDate;
