@@ -2,11 +2,6 @@
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_disbursement.xml" value="0.33" />
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_landing.xml" value="0.11730072463768115" />
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_merchant_payments.xml" value="0.33" />
-      </map>
     </option>
   </component>
   <component name="EntryPointsManager">
