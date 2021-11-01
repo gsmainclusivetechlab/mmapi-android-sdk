@@ -10,8 +10,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
+import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
@@ -45,6 +47,7 @@ public class DisbursementActivity extends AppCompatActivity {
         Button btnViewTransactionDisbursement = findViewById(R.id.btnViewTransactionDisbursement);
         Button btnRequestStateDisbursement = findViewById(R.id.btnRequestStateDisbursement);
         Button btnReversalDisbursement = findViewById(R.id.btnReversalDisbursement);
+        Button btnBalanceDisbursement = findViewById(R.id.btnBalanceDisbursement);
 
         txtResponse = findViewById(R.id.txtDisbursementResponse);
         //create object for transaction request
@@ -146,7 +149,27 @@ public class DisbursementActivity extends AppCompatActivity {
             });
         });
 
+        btnBalanceDisbursement.setOnClickListener(v -> {
+            SDKManager.getInstance().getBalance("1", new BalanceInterface() {
+                @Override
+                public void onValidationError(ErrorObject errorObject) {
+                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                }
 
+                @Override
+                public void onBalanceSuccess(Balance balance, String correlationID) {
+                    txtResponse.setText(new Gson().toJson(balance));
+                    Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+                }
+
+                @Override
+                public void onBalanceFailure(GSMAError gsmaError) {
+                    txtResponse.setText(new Gson().toJson(gsmaError));
+                    Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                }
+            });
+        });
 
     }
 
