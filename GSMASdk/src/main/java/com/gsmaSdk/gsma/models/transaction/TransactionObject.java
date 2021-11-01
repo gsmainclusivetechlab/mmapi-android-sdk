@@ -9,6 +9,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
 /**
  * Model class for Transaction Object
  * */
+@SuppressWarnings("unused")
 public class TransactionObject implements BaseResponse {
 
 	@SerializedName("debitParty")

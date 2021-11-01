@@ -1,7 +1,5 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
-import android.os.Build;
-
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.enums.Environment;
 import com.gsmaSdk.gsma.utils.Utils;

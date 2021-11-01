@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Model class for Redemption Account Identifier
  * */
+@SuppressWarnings("ALL")
 public class RedemptionAccountIdentifiersItem{
 
 	@SerializedName("value")

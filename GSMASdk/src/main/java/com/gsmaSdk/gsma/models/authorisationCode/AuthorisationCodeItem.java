@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Model class for Authorisation Code Items
  * */
+@SuppressWarnings("ALL")
 public class AuthorisationCodeItem {
 
 	@SerializedName("amount")

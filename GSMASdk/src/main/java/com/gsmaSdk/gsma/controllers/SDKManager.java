@@ -356,7 +356,7 @@ public class SDKManager {
                         @Override
                         public void onSuccess(int responseCode, GetLink serializedResponse) {
 
-                          GSMAApi.getInstance().getMissingTransactions(serializedResponse.getLink(), new APIRequestCallback<TransactionObject>() {
+                    GSMAApi.getInstance().getMissingTransactions(serializedResponse.getLink(), new APIRequestCallback<TransactionObject>() {
                               @Override
                               public void onSuccess(int responseCode, TransactionObject serializedResponse) {
                                   missingTransactionInterface.onTransactionSuccess(serializedResponse,uuid);
@@ -364,7 +364,7 @@ public class SDKManager {
 
                               @Override
                               public void onFailure(GSMAError errorDetails) {
-
+                                  missingTransactionInterface.onTransactionFailure(errorDetails);
                               }
                           });
                         }
@@ -383,6 +383,10 @@ public class SDKManager {
      */
 
     public void retrieveMissingCode(String correlationId, @NonNull AuthorisationCodeInterface authorisationCodeInterface) {
+        if(correlationId==null){
+            authorisationCodeInterface.onValidationError(Utils.setError(6));
+            return;
+        }
         if (correlationId.isEmpty()) {
             authorisationCodeInterface.onValidationError(Utils.setError(6));
         } else if (!Utils.isOnline()) {
@@ -401,6 +405,7 @@ public class SDKManager {
 
                                 @Override
                                 public void onFailure(GSMAError errorDetails) {
+                                    authorisationCodeInterface.onAuthorisationCodeFailure(errorDetails);
 
                                 }
                             });
