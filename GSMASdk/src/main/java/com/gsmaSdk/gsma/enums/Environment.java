@@ -2,6 +2,7 @@ package com.gsmaSdk.gsma.enums;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public enum Environment{
     /**
      * SANDBOX URL

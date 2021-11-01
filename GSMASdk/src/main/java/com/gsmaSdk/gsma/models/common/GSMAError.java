@@ -9,6 +9,7 @@ import java.io.Serializable;
  * <br>
  * And vice versa, if {@link #getErrorCode()} or {@link #getErrorBody()} return {@link #ERROR_CODE_UNAVAILABLE} and null accordingly, then use {@link #getThrowable()} to obtain error details.
  */
+@SuppressWarnings("ALL")
 public class GSMAError implements Serializable {
     /**
      * The constant ERROR_CODE_UNAVAILABLE.

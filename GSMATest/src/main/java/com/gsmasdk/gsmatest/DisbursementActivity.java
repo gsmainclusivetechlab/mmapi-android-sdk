@@ -34,7 +34,7 @@ public class DisbursementActivity extends AppCompatActivity {
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
-
+    private String correlationId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +58,14 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject,String correlationID) {
+               correlationId=correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
+
+
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
@@ -80,7 +83,8 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject,String correlationID) {
+                correlationId=correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
@@ -104,7 +108,7 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTransactionSuccess(TransactionObject transactionObject) {
+            public void onTransactionSuccess(TransactionObject transactionObject,String correlationId) {
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
             }
