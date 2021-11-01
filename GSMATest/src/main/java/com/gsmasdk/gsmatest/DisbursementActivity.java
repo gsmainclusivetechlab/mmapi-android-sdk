@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
 import com.gsmaSdk.gsma.models.RequestStateObject;
@@ -20,6 +21,7 @@ import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
+import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
@@ -48,6 +50,7 @@ public class DisbursementActivity extends AppCompatActivity {
         Button btnRequestStateDisbursement = findViewById(R.id.btnRequestStateDisbursement);
         Button btnReversalDisbursement = findViewById(R.id.btnReversalDisbursement);
         Button btnBalanceDisbursement = findViewById(R.id.btnBalanceDisbursement);
+        Button btnRetrieveTransactionDisbursement = findViewById(R.id.btnRetrieveTransactionDisbursement);
 
         txtResponse = findViewById(R.id.txtDisbursementResponse);
         //create object for transaction request
@@ -68,8 +71,6 @@ public class DisbursementActivity extends AppCompatActivity {
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
-
-
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
@@ -167,6 +168,31 @@ public class DisbursementActivity extends AppCompatActivity {
                 public void onBalanceFailure(GSMAError gsmaError) {
                     txtResponse.setText(new Gson().toJson(gsmaError));
                     Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                }
+            });
+        });
+
+
+
+        btnRetrieveTransactionDisbursement.setOnClickListener(v -> {
+            SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+                @Override
+                public void onValidationError(ErrorObject errorObject) {
+                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                }
+
+                @Override
+                public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+                    txtResponse.setText(new Gson().toJson(transaction));
+                    correlationId = correlationID;
+                    Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+                }
+
+                @Override
+                public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+                    txtResponse.setText(new Gson().toJson(gsmaError));
+                    Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
                 }
             });
         });

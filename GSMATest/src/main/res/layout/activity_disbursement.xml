@@ -85,6 +85,16 @@
                 android:textSize="10sp" />
 
 
+            <Button
+                android:id="@+id/btnRetrieveTransactionDisbursement"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_weight="1"
+                android:text="Retrieve Transaction"
+                android:textSize="10sp"
+                tools:ignore="ButtonStyle,HardcodedText,SmallSp" />
+
 
 
         </LinearLayout>
