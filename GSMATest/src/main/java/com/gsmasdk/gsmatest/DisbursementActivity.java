@@ -35,6 +35,7 @@ public class DisbursementActivity extends AppCompatActivity {
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
     private String correlationId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +44,12 @@ public class DisbursementActivity extends AppCompatActivity {
         Button btnIndividualDisbursement = findViewById(R.id.btnIndividualDisbursement);
         Button btnViewTransactionDisbursement = findViewById(R.id.btnViewTransactionDisbursement);
         Button btnRequestStateDisbursement = findViewById(R.id.btnRequestStateDisbursement);
-
-
+        Button btnReversalDisbursement = findViewById(R.id.btnReversalDisbursement);
 
         txtResponse = findViewById(R.id.txtDisbursementResponse);
         //create object for transaction request
         createTransactionObject();
+        createPaymentReversalObject();
 
         btnIndividualDisbursement.setOnClickListener(v -> SDKManager.getInstance().disbursementPay("disbursement", transactionRequest, new RequestStateInterface() {
             @Override
@@ -74,6 +75,7 @@ public class DisbursementActivity extends AppCompatActivity {
             }
 
         }));
+
 
         btnRequestStateDisbursement.setOnClickListener(v -> SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
@@ -121,6 +123,31 @@ public class DisbursementActivity extends AppCompatActivity {
 
         }));
 
+        btnReversalDisbursement.setOnClickListener(v-> {
+            SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new RequestStateInterface() {
+                @Override
+                public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                    txtResponse.setText(new Gson().toJson(requestStateObject));
+                    correlationId = correlationID;
+                    Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+                }
+
+                @Override
+                public void onRequestStateFailure(GSMAError gsmaError) {
+                    txtResponse.setText(new Gson().toJson(gsmaError));
+                    Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+                }
+
+                @Override
+                public void onValidationError(ErrorObject errorObject) {
+                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                }
+            });
+        });
+
+
+
     }
 
     private void createTransactionObject() {
@@ -144,5 +171,11 @@ public class DisbursementActivity extends AppCompatActivity {
         transactionRequest.setCurrency("RWF");
 
     }
+
+    private void createPaymentReversalObject() {
+        reversalObject = new ReversalObject();
+        reversalObject.setReversal("reversal");
+    }
+
 
 }

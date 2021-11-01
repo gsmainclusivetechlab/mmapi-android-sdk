@@ -54,6 +54,17 @@
                 android:textSize="10sp" />
 
 
+            <Button
+                android:layout_margin="12dp"
+                android:id="@+id/btnReversalDisbursement"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reversal"
+                android:textSize="10sp" />
+
+
+
 
         </LinearLayout>
 
