@@ -12,9 +12,9 @@ import com.gsmaSdk.gsma.models.common.ErrorObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 /**
  * The type Utils - for reusable utility functions.
@@ -43,7 +43,6 @@ public class Utils {
 
 
     public static ErrorObject parseError(String response) {
-//        JSONArray jsonErrorParams;
         JSONObject jsonObject;
         ErrorObject errorObject = new ErrorObject();
         String category;
@@ -79,8 +78,7 @@ public class Utils {
                 message = jsonObject.getString(MESSAGE);
                 errorObject.setMessage(message);
             }
-//            jsonErrorParams = jsonObject.getJSONArray(ERRORS);
-//            errorObject.setErrorParameters(jsonErrorParams);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -90,11 +88,7 @@ public class Utils {
     public static boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager)MyApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        if ((activeNetworkInfo != null)&&(activeNetworkInfo.isConnected())){
-            return true;
-        }else{
-            return false;
-        }
+        return (activeNetworkInfo != null) && (activeNetworkInfo.isConnected());
     }
 
     public static ErrorObject setError(int errorCode) {
@@ -130,6 +124,16 @@ public class Utils {
                 errorObject.setErrorCode("GenericError");
                 errorObject.setErrorDescription("Invalid json format");
                 break;
+            case 6:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid correlation id");
+                break;
+            case 7:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid Transaction type");
+                break;
             default:
                 errorObject.setErrorCategory("");
                 errorObject.setErrorCode("GenericError");
@@ -139,4 +143,9 @@ public class Utils {
 
         return errorObject;
     }
+
+    public static String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
+
 }

@@ -1,7 +1,5 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
-import android.util.Log;
-
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.callbacks.BaseCallback;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -90,7 +88,7 @@ class RequestManager {
          * Run.
          */
         void run() {
-            Log.d("Request Url", "****  "+request.request().url() + "");
+//            Log.d("Request Url", "****  "+request.request().url() + "");
             request.enqueue(new BaseCallback<>(requestCallback));
         }
         /**
