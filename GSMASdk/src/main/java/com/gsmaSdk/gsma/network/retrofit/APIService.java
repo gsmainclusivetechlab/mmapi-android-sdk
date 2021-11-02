@@ -8,6 +8,7 @@ import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
@@ -23,6 +24,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -142,6 +144,25 @@ public interface APIService {
      */
     @POST("{version}/batchtransactions")
     Call<RequestStateObject> bulkTransaction(@Path(value = "version", encoded = true) String version, @Body RequestBody bulkTransactionObject, @HeaderMap Map<String, String> headers);
+
+
+    /**
+     *
+     * update a batch
+     */
+    @PATCH("{version}/batchtransactions/{batchId}")
+    Call<RequestStateObject> updateBatchTransaction(@Path(value = "version", encoded = true) String version,@Path("batchId") String batchId,@Body RequestBody batchTransactionObject, @HeaderMap Map<String, String> headers);
+
+
+    /**
+     * Retrieve a batch transaction
+     *
+     */
+
+    @GET("{version}/batchtransactions/{batchId}")
+    Call<BatchTransactionItem> retrieveBatchTransaction(@Path(value = "version", encoded = true) String version, @Path("batchId") String batchId,@HeaderMap Map<String, String> headers);
+
+
 
     /**
      * Batch Transaction Rejection

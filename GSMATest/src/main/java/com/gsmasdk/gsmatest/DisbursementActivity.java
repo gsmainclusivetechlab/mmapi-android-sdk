@@ -11,15 +11,18 @@ import com.gsmaSdk.gsma.controllers.SDKManager;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.BatchCompletionInterface;
 import com.gsmaSdk.gsma.interfaces.BatchRejectionInterface;
+import com.gsmaSdk.gsma.interfaces.BatchTransactionItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.Batch;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
@@ -49,6 +52,8 @@ public class DisbursementActivity extends AppCompatActivity {
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
     private String correlationId = "";
+    private Batch batchObject;
+    private ArrayList<Batch> batchArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +71,16 @@ public class DisbursementActivity extends AppCompatActivity {
         Button btnBulkDisbursement = findViewById(R.id.btnBulkDisbursement);
         Button btnBatchRejections = findViewById(R.id.btnBatchRejections);
         Button btnBatchCompletions = findViewById(R.id.btnBatchCompletions);
+        Button btnBatchUpdate = findViewById(R.id.btnBatchUpdate);
+        Button btnRetrieveBatch = findViewById(R.id.btnRetrieveBatch);
 
         txtResponse = findViewById(R.id.txtDisbursementResponse);
         //create object for transaction request
         createTransactionObject();
-
         createPaymentReversalObject();
-
         createBulkTransactionObject();
+        createBatchRequestObject();
+
 
 
         btnIndividualDisbursement.setOnClickListener(v -> SDKManager.getInstance().disbursementPay("disbursement", transactionRequest, new RequestStateInterface() {
@@ -192,6 +199,30 @@ public class DisbursementActivity extends AppCompatActivity {
             });
         });
 
+        //Get the batch details
+
+        btnRetrieveBatch.setOnClickListener(v -> {
+            SDKManager.getInstance().retrieveBatchTransaction("REF-1635765084301", new BatchTransactionItemInterface() {
+                @Override
+                public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationId) {
+                    txtResponse.setText(new Gson().toJson(batchTransactionItem));
+                    Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(batchTransactionItem));
+                }
+
+                @Override
+                public void onTransactionFailure(GSMAError gsmaError) {
+                    txtResponse.setText(new Gson().toJson(gsmaError));
+                    Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                }
+
+                @Override
+                public void onValidationError(ErrorObject errorObject) {
+                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                }
+            });
+        });
+
 
          //Retrieve a list of transaction of a particular account
         btnRetrieveTransactionDisbursement.setOnClickListener(v -> {
@@ -284,6 +315,27 @@ public class DisbursementActivity extends AppCompatActivity {
             }
         }));
 
+        btnBatchUpdate.setOnClickListener(v -> SDKManager.getInstance().updateBatch("REF-1635765084301",batchArrayList, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationId) {
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        }));
+
 
 
     }
@@ -315,6 +367,18 @@ public class DisbursementActivity extends AppCompatActivity {
         reversalObject = new ReversalObject();
         reversalObject.setReversal("reversal");
     }
+
+    private void createBatchRequestObject(){
+        //create a batch object
+        batchObject=new Batch();
+        batchObject.setOp("replace");
+        batchObject.setPath("/status");
+        batchObject.setValue("approved");
+        batchArrayList=new ArrayList<>();
+        batchArrayList.add(batchObject);
+    }
+
+
 
     private void createBulkTransactionObject() {
         bulkTransactionObject = new BulkTransactionObject();

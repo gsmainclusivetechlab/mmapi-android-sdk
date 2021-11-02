@@ -5,10 +5,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.Batch;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
@@ -18,6 +20,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
@@ -26,9 +29,13 @@ import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import androidx.annotation.RestrictTo;
+
+import org.json.JSONArray;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -103,6 +110,7 @@ public final class GSMAApi {
         }
 //        headers.put(APIConstants.X_CORRELATION_ID, UUID.randomUUID().toString());
     }
+
 
     private static class SingletonCreationAdmin {
         @SuppressLint("StaticFieldLeak")
@@ -269,6 +277,17 @@ public final class GSMAApi {
     public void bulkTransaction(String uuid, BulkTransactionObject bulkTransactionObject, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.bulkTransaction(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(bulkTransactionObject), mediaType), headers), apiRequestCallback));
+    }
+
+
+    public void updateBatch(String uuid, String batchId, ArrayList<Batch> batchArrayList, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.updateBatchTransaction(PaymentConfiguration.getUrlVersion(),batchId,RequestBody.create(String.valueOf(new Gson().toJsonTree(batchArrayList).getAsJsonArray()),mediaType), headers), apiRequestCallback));
+    }
+
+    public void retrieveBatch(String uuid, String batchId,APIRequestCallback<BatchTransactionItem> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchTransaction(PaymentConfiguration.getUrlVersion(),batchId,headers), apiRequestCallback));
     }
 
     /**

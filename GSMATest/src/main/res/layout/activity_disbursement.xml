@@ -103,8 +103,6 @@
                 tools:ignore="ButtonStyle,HardcodedText,SmallSp" />
 
 
-
-
         </LinearLayout>
     
         <LinearLayout
@@ -163,7 +161,45 @@
                 android:layout_marginLeft="4dp"
                 android:textSize="10sp" />
 
+
+
+            <Button
+                android:id="@+id/btnBatchUpdate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Update Batch"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:textSize="10sp" />
+
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal">
+
+
+
+            <Button
+                android:id="@+id/btnRetrieveBatch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Get Batch Details"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:textSize="10sp" />
+
+
+
+
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/txtDisbursementResponse"

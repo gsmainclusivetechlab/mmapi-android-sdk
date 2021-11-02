@@ -5,12 +5,14 @@ import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.BatchCompletionInterface;
 import com.gsmaSdk.gsma.interfaces.BatchRejectionInterface;
+import com.gsmaSdk.gsma.interfaces.BatchTransactionItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TokenInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.Batch;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.Token;
@@ -20,6 +22,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
@@ -30,6 +33,8 @@ import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
 
 import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
 
 /**
  * Class for managing sdk function calls
@@ -509,6 +514,69 @@ public class SDKManager {
         }
     }
 
+    public void updateBatch(String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
+        if (batchId == null) {
+            requestStateInterface.onValidationError(Utils.setError(1));
+            return;
+        }
+        else if(batchId.isEmpty()){
+            requestStateInterface.onValidationError(Utils.setError(1));
+        }
+        else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        } else {
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().updateBatch(uuid,batchId,batchArrayList, new APIRequestCallback<RequestStateObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            requestStateInterface.onRequestStateFailure(errorDetails);
+                        }
+                    }
+            );
+
+        }
+    }
+
+
+    /**
+     * Retrieve Batch transaction completions
+     */
+    public void retrieveBatchTransaction(String batchId, @NonNull BatchTransactionItemInterface batchTransactionItemInterface) {
+        if (batchId == null) {
+            batchTransactionItemInterface.onValidationError(Utils.setError(1));
+            return;
+        }
+        else if(batchId.isEmpty()){
+            batchTransactionItemInterface.onValidationError(Utils.setError(1));
+        }
+        else if (!Utils.isOnline()) {
+            batchTransactionItemInterface.onValidationError(Utils.setError(0));
+        } else {
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().retrieveBatch(uuid,batchId,new APIRequestCallback<BatchTransactionItem>() {
+                        @Override
+                        public void onSuccess(int responseCode,BatchTransactionItem serializedResponse) {
+                            batchTransactionItemInterface.batchTransactionSuccess(serializedResponse, uuid);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            batchTransactionItemInterface.onTransactionFailure(errorDetails);
+                        }
+                    }
+            );
+
+        }
+    }
+
+
+
+
     /**
      * Retrieve Batch transaction completions
      */
@@ -535,6 +603,8 @@ public class SDKManager {
 
         }
     }
+
+
 
 
 }

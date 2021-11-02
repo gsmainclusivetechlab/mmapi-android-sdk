@@ -16,6 +16,7 @@ import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Balance;
+import com.gsmaSdk.gsma.models.Batch;
 import com.gsmaSdk.gsma.models.RequestStateObject;
 import com.gsmaSdk.gsma.models.ReversalObject;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
@@ -433,6 +434,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity {
         reversalObject = new ReversalObject();
         reversalObject.setReversal("reversal");
     }
+
+
 
     /**
      * Transaction Object for Merchant Pay.

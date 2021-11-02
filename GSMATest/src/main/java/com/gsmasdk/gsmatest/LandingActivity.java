@@ -37,10 +37,16 @@ public class LandingActivity extends AppCompatActivity {
          //         * Initialise the payment system
          //         * consumerKey,consumerSecret,level of authentication,callBackURL,xAPI key
          //         */
-        PaymentConfiguration.
+//        PaymentConfiguration.
+//                init("59vthmq3f6i15v6jmcjskfkmh",
+//                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
+//                        , AuthenticationType.STANDARD_LEVEL, "https://93248bb1-c64e-4961-bacf-b1d4aaa103bc.mock.pstmn.io/callback", Environment.SANDBOX);
+
+                PaymentConfiguration.
                 init("59vthmq3f6i15v6jmcjskfkmh",
                         "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"
                         , AuthenticationType.STANDARD_LEVEL, "https://93248bb1-c64e-4961-bacf-b1d4aaa103bc.mock.pstmn.io/callback", Environment.SANDBOX);
+
 
         /*Initialise the preference object*/
         PreferenceManager.getInstance().init(this);
