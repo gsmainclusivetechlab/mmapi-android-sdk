@@ -7,6 +7,8 @@ import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 
@@ -132,4 +134,28 @@ public interface APIService {
      */
     @GET("{version}/{url}")
     Call<AuthorisationCode> getMissingCodes(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
+    /**
+     * Obtain Authorisation code.
+     *
+     * @return the call
+     */
+    @POST("{version}/batchtransactions")
+    Call<RequestStateObject> bulkTransaction(@Path(value = "version", encoded = true) String version, @Body RequestBody bulkTransactionObject, @HeaderMap Map<String, String> headers);
+
+    /**
+     * Batch Transaction Rejection
+     *
+     * @return the call
+     */
+    @GET("{version}/batchtransactions/{id}/rejections")
+    Call<BatchTransactionRejection> retrieveBatchRejections(@Path("id") String id,@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
+    /**
+     * Batch Transaction Completion
+     *
+     * @return the call
+     */
+    @GET("{version}/batchtransactions/{id}/completions")
+    Call<BatchTransactionCompletion> retrieveBatchCompletions(@Path("id") String id,@Path(value = "version", encoded = true) String version,  @HeaderMap Map<String, String> headers);
 }

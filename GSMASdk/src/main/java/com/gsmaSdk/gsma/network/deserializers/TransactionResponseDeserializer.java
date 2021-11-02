@@ -13,9 +13,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class TransactionResponseDeserializer implements JsonDeserializer<Transaction> {
+
     @Override
     public Transaction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-
         Gson gson = new Gson();
         Type listType = new TypeToken<List<TransactionItem>>(){}.getType();
         List<TransactionItem> transactionItems = gson.fromJson(json,listType);

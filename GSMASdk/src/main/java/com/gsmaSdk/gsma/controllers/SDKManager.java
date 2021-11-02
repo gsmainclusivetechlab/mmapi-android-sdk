@@ -3,6 +3,8 @@ package com.gsmaSdk.gsma.controllers;
 
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
+import com.gsmaSdk.gsma.interfaces.BatchCompletionInterface;
+import com.gsmaSdk.gsma.interfaces.BatchRejectionInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
@@ -17,6 +19,9 @@ import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
@@ -421,12 +426,15 @@ public class SDKManager {
         }
     }
 
+    /**
+     * Disbursement
+     */
     public void disbursementPay(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if(transactionRequest.getAmount()==null||transactionRequest.getCurrency()==null||transactionType==null){
+        if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null || transactionType == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
         }
-        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()||transactionType.isEmpty()) {
+        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty() || transactionType.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
@@ -444,6 +452,86 @@ public class SDKManager {
                         }
                     }
             );
+
+        }
+    }
+
+    /**
+     * Bulk Transaction
+     */
+    public void bulkTransaction(@NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
+        if (bulkTransactionObject == null) {
+            requestStateInterface.onValidationError(Utils.setError(1));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        } else {
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().bulkTransaction(uuid, bulkTransactionObject, new APIRequestCallback<RequestStateObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            requestStateInterface.onRequestStateFailure(errorDetails);
+                        }
+                    }
+            );
+
+        }
+    }
+
+    /**
+     * Retrieve Batch transaction Rejections
+     */
+
+    public void retrieveBatchRejections(String batchId, @NonNull BatchRejectionInterface batchRejectionInterface) {
+        if (batchId.isEmpty()) {
+            batchRejectionInterface.onValidationError(Utils.setError(6));
+        } else if (!Utils.isOnline()) {
+            batchRejectionInterface.onValidationError(Utils.setError(0));
+        } else {
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().retrieveBatchRejections(uuid, batchId, new APIRequestCallback<BatchTransactionRejection>() {
+                @Override
+                public void onSuccess(int responseCode, BatchTransactionRejection serializedResponse) {
+
+                    batchRejectionInterface.batchTransactionRejections(serializedResponse, uuid);
+                }
+
+                @Override
+                public void onFailure(GSMAError errorDetails) {
+                    batchRejectionInterface.onTransactionFailure(errorDetails);
+                }
+            });
+
+        }
+    }
+
+    /**
+     * Retrieve Batch transaction completions
+     */
+
+    public void retrieveBatchCompletions(String batchId, @NonNull BatchCompletionInterface batchCompletionInterface) {
+        if (batchId.isEmpty()) {
+            batchCompletionInterface.onValidationError(Utils.setError(6));
+        } else if (!Utils.isOnline()) {
+            batchCompletionInterface.onValidationError(Utils.setError(0));
+        } else {
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().retrieveBatchCompletions(uuid, batchId, new APIRequestCallback<BatchTransactionCompletion>() {
+
+                @Override
+                public void onSuccess(int responseCode, BatchTransactionCompletion serializedResponse) {
+                    batchCompletionInterface.batchTransactionCompleted(serializedResponse, uuid);
+                }
+
+                @Override
+                public void onFailure(GSMAError errorDetails) {
+                    batchCompletionInterface.onTransactionFailure(errorDetails);
+                }
+            });
 
         }
     }

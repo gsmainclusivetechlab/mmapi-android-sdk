@@ -6,7 +6,11 @@ import com.google.gson.GsonBuilder;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.Token;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
+import com.gsmaSdk.gsma.network.deserializers.BatchCompletionsDeserializer;
+import com.gsmaSdk.gsma.network.deserializers.BatchRejectionsDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.MissingCodeDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.TransactionResponseDeserializer;
 
@@ -58,6 +62,8 @@ public final class RetrofitHelper {
         // Adding custom deserializers
         gsonBuilder.registerTypeAdapter(Transaction.class, new TransactionResponseDeserializer());
         gsonBuilder.registerTypeAdapter(AuthorisationCode.class, new MissingCodeDeserializer());
+        gsonBuilder.registerTypeAdapter(BatchTransactionRejection.class, new BatchRejectionsDeserializer());
+        gsonBuilder.registerTypeAdapter(BatchTransactionCompletion.class, new BatchCompletionsDeserializer());
         Gson myGson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
         return GsonConverterFactory.create(myGson);
     }
