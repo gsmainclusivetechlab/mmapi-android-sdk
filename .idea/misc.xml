@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_disbursement.xml" value="0.33" />
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_landing.xml" value="0.1322463768115942" />
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_merchant_payments.xml" value="0.2" />
-      </map>
-    </option>
-  </component>
-  <component name="EntryPointsManager">
+   <component name="EntryPointsManager">
     <entry_points version="2.0">
       <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.Refund notificationMethod" />
       <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.Refund objectReference" />
