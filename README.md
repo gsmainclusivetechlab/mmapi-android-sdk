@@ -48,7 +48,7 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
     private String consumerSecret;//optional paramater if the security level
     private String securityOption;// options  NO_AUTH , DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
     private String callBackURL;//The backend server URL for your app for handling callbacks in application
-
+    private String xAPIKey;//The backend server URL for your app for handling callbacks in application
 
  //inside oncreate method setup the payment configuration constructor with required parameters
  
@@ -66,11 +66,30 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
   
   //Example mock URL for handling callback,Change the url into your live callback URL
   callbackURL="https://93248bb1-c64e-4961-bacf-b1d4aaa103bc.mock.pstmn.io/callback"
+  
+   xAPIKey="put your x api key here"
  
    //Confgure the SDK 
-   PaymentConfiguration.init(consumerKey,consumerSecret,securityOption,Environment.SANDBOX);
+   PaymentConfiguration.init(consumerKey,consumerSecret,securityOption,callBackURL,xAPIKey,Environment.SANDBOX);
 
-  //Create a token  if the security option 
+  /**
+  * Create a token  if the security option is DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,For initailiase the following instance 
+  */
+  
+  GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
+    @Override
+    public void onValidationError(ErrorObject errorObject) {
+             
+    }
+    @Override
+    public void onSuccess(Token token) {
+            
+    }
+    @Override
+    public void onFailure(GSMAError gsmaError) {
+            
+      }
+    });
 
 
 
