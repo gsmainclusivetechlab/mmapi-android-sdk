@@ -16,4 +16,8 @@
 		<item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 		<!-- Customize your theme here. -->
 	</style>
+
+	<style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+		<item name="colorAccent">@color/purple_500</item>
+	</style>
 </resources>
