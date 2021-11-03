@@ -4,7 +4,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
-import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;

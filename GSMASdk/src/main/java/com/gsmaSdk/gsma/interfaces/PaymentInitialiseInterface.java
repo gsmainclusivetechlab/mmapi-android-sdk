@@ -1,6 +1,6 @@
 package com.gsmaSdk.gsma.interfaces;
 
-import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 
 public interface PaymentInitialiseInterface extends BaseInterface{

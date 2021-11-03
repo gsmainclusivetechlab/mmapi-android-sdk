@@ -1,9 +1,9 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
 
-import com.gsmaSdk.gsma.models.Balance;
-import com.gsmaSdk.gsma.models.RequestStateObject;
-import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;

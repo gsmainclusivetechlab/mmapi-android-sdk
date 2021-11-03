@@ -11,7 +11,7 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.enums.Environment;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
-import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;

@@ -1,214 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MerchantPaymentsActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".MerchantPaymentsActivity">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnIndividualDisbursement"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:text="Individual Disbursement"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/btnRequestStateDisbursement"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1"
-                android:text="Request State"
-                android:textSize="10sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnViewTransactionDisbursement"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="View Transaction"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:textSize="10sp" />
-    
-
-
-
-            <Button
-
-                android:id="@+id/btnReversalDisbursement"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Reversal"
-                android:textSize="10sp" />
-
-
-
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_marginLeft="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-            <Button
-                android:id="@+id/btnBalanceDisbursement"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Balance"
-                android:textSize="10sp" />
-
-
-            <Button
-                android:id="@+id/btnRetrieveTransactionDisbursement"
-                android:layout_width="0dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Retrieve Transaction"
-                android:textSize="10sp"
-                tools:ignore="ButtonStyle,HardcodedText,SmallSp" />
-
-
-        </LinearLayout>
-    
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-
-            android:layout_marginEnd="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_margin="8dp"
-                android:id="@+id/btnBulkDisbursement"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bulk Transaction"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:textSize="10sp" />
-
-
-            <Button
-                android:layout_margin="8dp"
-                android:id="@+id/btnBatchRejections"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Batch Rejections"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
-                android:textSize="10sp" />
-
-
-    
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="horizontal">
-
-
-
-            <Button
-                android:id="@+id/btnBatchCompletions"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Batch Completions"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:textSize="10sp" />
-
-
-
-            <Button
-                android:id="@+id/btnBatchUpdate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Update Batch"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:textSize="10sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="horizontal">
-
-
-
-            <Button
-                android:id="@+id/btnRetrieveBatch"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Get Batch Details"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:textSize="10sp" />
-
-
-
-
-
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/txtDisbursementResponse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            />
-
-    </LinearLayout>
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".MerchantPaymentsActivity">
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		tools:context=".MerchantPaymentsActivity">
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="8dp"
+			android:orientation="horizontal">
+			
+			<Button
+				android:id="@+id/btnIndividualDisbursement"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="4dp"
+				android:layout_marginRight="4dp"
+				android:layout_weight="1"
+				android:text="Individual Disbursement"
+				android:textSize="10sp" />
+			
+			<Button
+				android:id="@+id/btnRequestStateDisbursement"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="4dp"
+				android:layout_marginLeft="4dp"
+				android:layout_weight="1"
+				android:text="Request State"
+				android:textSize="10sp" />
+		
+		</LinearLayout>
+		
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="8dp"
+			android:orientation="horizontal">
+			
+			<Button
+				android:id="@+id/btnViewTransactionDisbursement"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="4dp"
+				android:layout_marginRight="4dp"
+				android:layout_weight="1"
+				android:text="View Transaction"
+				android:textSize="10sp" />
+			
+			<Button
+				android:id="@+id/btnReversalDisbursement"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="4dp"
+				android:layout_marginLeft="4dp"
+				android:layout_weight="1"
+				android:text="Reversal"
+				android:textSize="10sp" />
+		
+		</LinearLayout>
+		
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="8dp"
+			android:orientation="horizontal">
+			
+			<Button
+				android:id="@+id/btnBalanceDisbursement"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="4dp"
+				android:layout_marginRight="4dp"
+				android:layout_weight="1"
+				android:text="Balance"
+				android:textSize="10sp" />
+			
+			
+			<Button
+				android:id="@+id/btnRetrieveTransactionDisbursement"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="4dp"
+				android:layout_marginLeft="4dp"
+				android:layout_weight="1"
+				android:text="Retrieve Transaction"
+				android:textSize="10sp"
+				tools:ignore="ButtonStyle,HardcodedText,SmallSp" />
+		
+		
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="8dp"
+			android:orientation="horizontal">
+			
+			<Button
+				android:id="@+id/btnBulkDisbursement"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="4dp"
+				android:layout_marginRight="4dp"
+				android:layout_weight="1"
+				android:text="Bulk Transaction"
+				android:textSize="10sp" />
+			
+			
+			<Button
+				android:id="@+id/btnBatchRejections"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="4dp"
+				android:layout_marginLeft="4dp"
+				android:layout_weight="1"
+				android:text="Batch Rejections"
+				android:textSize="10sp" />
+		
+		
+		</LinearLayout>
+		
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="8dp"
+			android:orientation="horizontal">
+			
+			
+			<Button
+				android:id="@+id/btnBatchCompletions"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="4dp"
+				android:layout_marginRight="4dp"
+				android:layout_weight="1"
+				android:text="Batch Completions"
+				android:textSize="10sp" />
+			
+			
+			<Button
+				android:id="@+id/btnBatchUpdate"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="4dp"
+				android:layout_marginLeft="4dp"
+				android:layout_weight="1"
+				android:text="Update Batch"
+				android:textSize="10sp" />
+		
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="8dp"
+			android:orientation="horizontal">
+			
+			
+			<Button
+				android:id="@+id/btnRetrieveBatch"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Get Batch Details"
+				android:textSize="10sp" />
+		</LinearLayout>
+		
+		
+		<TextView
+			android:id="@+id/txtDisbursementResponse"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp" />
+	
+	</LinearLayout>
 
 
 </androidx.core.widget.NestedScrollView>

@@ -5,15 +5,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
-import com.gsmaSdk.gsma.models.Balance;
-import com.gsmaSdk.gsma.models.Batch;
-import com.gsmaSdk.gsma.models.RequestStateObject;
-import com.gsmaSdk.gsma.models.ReversalObject;
-import com.gsmaSdk.gsma.models.Token;
+import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.transaction.Batch;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.transaction.ReversalObject;
+import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -33,8 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import androidx.annotation.RestrictTo;
-
-import org.json.JSONArray;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
