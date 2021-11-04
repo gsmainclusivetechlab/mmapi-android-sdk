@@ -19,7 +19,13 @@ A library that fully covers payment process inside your Android application
       3. [Payer-Initiated Merchant Payment](#payee-merchant-pay)
       4. [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#payee-merchant-pay-authcode)
       5. [Merchant Payment Refund](#merchant-pay-refund)
-   2. [Disbursement](#payee-mechant-pay)
+      6. [Merchant Payment Reversal](#merchant-pay-reversal)
+      7. [Obtain a Merchant Balance](#merchant-pay-balance)
+      8. [Retrieve Payments for a Merchant](#merchant-pay-retrieve)
+      9. [Check for Service Availability](#check-for-service)
+      10. [Retrieve a Missing API Response](#missing-response)
+ 
+    2. [Disbursement](#payee-mechant-pay)
    
 <a name="requirements"></a>
 # Requirements
@@ -398,6 +404,231 @@ Obtain Authorization code to perform merchant payment,The authorization code is 
 ```
 <a name="merchant-pay-refund"></a>
 
+# Merchant Payment Refund
+
+Merchants can issue a refund to payers. Create transcation object for refund 
+
+```
+private TransactionRequest transactionRequest;
+
+```
+
+```
+private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("Place your account id of debit party here");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("Place your account id of credt party here");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("Place your amount"); //eg:200.00
+        transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
+  }
+```
+Create a refund request with transaction parameter
+
+```
+SDKManager.getInstance().refundMerchantPay(transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+               
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+        });
+
+```
+<a name="merchant-pay-reversal"></a>
+
+# Merchant Payment Reversal
+
+In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
+
+Declare the revesal object
+
+```
+private ReversalObject reversalObject;
+```
+
+```
+private void createPaymentReversalObject() {
+        reversalObject = new ReversalObject();
+        reversalObject.setReversal("reversal");
+ }
+```
+Call the reversal function with reversal and reference Id of transaction obtained using the polling method
+
+```
+
+ SDKManager.getInstance().reversal("Place your reference id here", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+               
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+          
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+              
+            }
+        });
+
+```
+
+<a name="merchant-pay-balance"></a>
+
+# Obtain a Merchant Balance
+
+Obtain the balance of requested account,Pass the accountid to the function to retrieve the balance details 
+
+```
+  SDKManager.getInstance().getBalance("Place your account id here", new BalanceInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+              
+            }
+
+            @Override
+            public void onBalanceSuccess(Balance balance, String correlationID) {
+              ;
+            }
+
+            @Override
+            public void onBalanceFailure(GSMAError gsmaError) {
+             
+            }
+        });
+```
+<a name="merchant-pay-retrieve"></a>
+
+# Retrieve Payments for a Merchant
+
+Merchant can retrieve all transaction details
+
+```
+        /**
+         * @param accountid account identifier
+         * @param offset Offset
+         * @param limit  Limit
+         * @param Retrieve transaction Listener
+         */
+
+ SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+               
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+           
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+                
+            }
+        });
+
+```
+<a name="check-for-service"></a>
+
+# Check for Service Availability
+
+The application should perform service availabilty check before calling the payment scenarios
+
+    private void checkServiceAvailability() {
+           SDKManager.getInstance().checkServiceAvailability(new ServiceAvailabilityInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+              
+            }
+
+            @Override
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+
+            }
+
+            @Override
+            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
+             
+            }
+        });
+     
+<a name="missing-response"></a>     
+# Retrieve a Missing API Response
+
+Merchant to retrieve a link to the final representation of the resource for which it attempted to create. Use this API when a callback is not received from the mobile money provider.
+
+1.Missing Transaction Response
+
+```
+SDKManager.getInstance().retrieveMissingTransaction(correlationId, new TransactionInterface() {
+            @Override
+            public void onTransactionSuccess(TransactionObject transactionObject, String correlationId) {
+              
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+               
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+   
+           }
+
+        });
+
+```
+2.Missing Authorization code response
+
+```
+
+ SDKManager.getInstance().retrieveMissingCode(correlationId, new AuthorisationCodeInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode, String correlationId) {
+                
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+      
+            }
+
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+              
+            }
+
+        });
+
+```
 
 
 
