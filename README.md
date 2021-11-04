@@ -17,6 +17,8 @@ A library that fully covers payment process inside your Android application
       1. [Payee-Initiated Merchant Payment](#payee-merchant-pay)
       2. [Payee-Initiated Merchant Payment using the Polling Method](#merchant-pay-polling)
       3. [Payer-Initiated Merchant Payment](#payee-merchant-pay)
+      4. [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#payee-merchant-pay-authcode)
+      5. [Merchant Payment Refund](#merchant-pay-refund)
    2. [Disbursement](#payee-mechant-pay)
    
 <a name="requirements"></a>
@@ -348,4 +350,57 @@ private void createTransactionObject() {
 
 ```
   
+<a name="payee-merchant-pay-authcode"></a>
+
+# Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
+
+Mobile money app submit the request to generate the authorisation code to MMP,The mmp return the request state object to indicate the request is pending,The payer communicate the code to merchant,via verabally or QR code
+
+ Declare the Authorization code object
+
+ ```
+ private AuthorisationCodeRequest authorisationCodeRequest;
  
+ ```
+ Initialise the  authorizarion code with  amount,date and currency
+ 
+
+ ```
+     private void createCodeRequestObject() {
+        authorisationCodeRequest = new AuthorisationCodeRequest();
+        authorisationCodeRequest.setAmount("Place your amount here"); // eg:200.00
+        authorisationCodeRequest.setRequestDate("Place your date here"); //sample format 2021-10-18T10:43:27.405Z
+        authorisationCodeRequest.setCurrency("Place your currency"); //eg:RWF
+
+    }
+      
+```
+Obtain Authorization code to perform merchant payment,The authorization code is send to the user,These scenario can be achieved by passing account number and authorization code request to the function
+
+```
+     SDKManager.getInstance().obtainAuthorisationCode("2000", authorisationCodeRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+          
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+      
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                
+            }
+
+        });  
+```
+<a name="merchant-pay-refund"></a>
+
+
+
+
+
+
+
