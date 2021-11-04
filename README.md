@@ -15,6 +15,8 @@ A library that fully covers payment process inside your Android application
 4. [Use cases](#usecases)
    1. [Merchant Payment](#merchant-pay)
       1. [Payee-Initiated Merchant Payment](#payee-merchant-pay)
+      2. [Payee-Initiated Merchant Payment using the Polling Method](#merchant-pay-polling)
+      3. [Payer-Initiated Merchant Payment](#payee-merchant-pay)
    2. [Disbursement](#payee-mechant-pay)
    
 <a name="requirements"></a>
@@ -78,7 +80,7 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
  
    //Confgure the SDK 
    PaymentConfiguration.init(consumerKey,consumerSecret,securityOption,callBackURL,xAPIKey,Environment.SANDBOX);
-
+   PreferenceManager.getInstance().init(this);
   ```
 
   Create a token  if the security option is DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
@@ -87,7 +89,7 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
      *Initialise the preference object
     */
 
- PreferenceManager.getInstance().init(this);
+
 
 GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
     @Override
@@ -125,6 +127,7 @@ A transcation object is to be created before calling the payee-initiated merchan
 ```
 private TransactionRequest transactionRequest;
 
+
 ```
 
 ```
@@ -148,10 +151,201 @@ private void createTransactionObject() {
         transactionRequest.setAmount("Place your amount"); //eg:200.00
         transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
   }
+```
+ Initiate the mechant pay request using the following code
+ 
+ 
+```
+    SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+              
+             }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                
+              }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+              
+            }
+        });
 
 ```
+<a name="merchant-pay-polling"></a>
+# Payee-Initiated Merchant Payment using the Polling Method
+
+An asynchronous payment flow is used with the polling method. The client polls against the request state object to determine the outcome of the payment request.These payment flow can achieved using the following API
+   
+    1.Payee Initiated Merchant Payment
+    2.Poll to Determine the Request State
+    3.Retrieve a Transaction
+    
+   
+## 1.Payee Initiated Merchant Payment   
+
+The merchant initiates the request and will be credited when the payer approves the request.
+
+A transcation object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
 
 
+```
+private TransactionRequest transactionRequest;
+private String serverCorrelationId = "";
+private String transactionRef = "";
+```
+
+```
+private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("Place your account id of debit party here");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("Place your account id of credt party here");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("Place your amount"); //eg:200.00
+        transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
+  }
+```
+ Initiate the mechant pay request using the following code
+ 
+ 
+```
+    SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+              
+             }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                   serverCorrelationId = requestStateObject.getServerCorrelationId();
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+              
+            }
+        });
+
+```
+   ### 2.Poll to Determine the Request State
+   ````
+   SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+  
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                transactionRef = requestStateObject.getObjectReference();
+         }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+ 
+            }
+
+        });
+  ````
+  ### 3.Retrieve a Transaction  
+  
+  ```
+    /**
+         * @param accountid account identifier
+         * @param offset Offset
+         * @param limit  Limit
+         * @param transaction Listener
+         */
+         SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+    
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+                hideLoading();
+             
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+         
+            }
+        });
+  ```
+  <a name="payer-merchant-pay"></a>
+
+# Payer Initiated Merchant Payment   
+
+The merchant initiates the request and will be credited when the payer approves the request.
+
+A transcation object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
 
 
+```
+private TransactionRequest transactionRequest;
+private String serverCorrelationId = "";
+private String transactionRef = "";
+```
 
+```
+private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("Place your account id of debit party here");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("Place your account id of credt party here");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("Place your amount"); //eg:200.00
+        transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
+  }
+```
+ Initiate the mechant pay request using the following code
+ 
+ 
+```
+    SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+              
+             }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                   serverCorrelationId = requestStateObject.getServerCorrelationId();
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+              
+            }
+        });
+
+```
+  
+ 
