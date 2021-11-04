@@ -10,9 +10,13 @@ A library that fully covers payment process inside your Android application
 # Table of Contents
 ---
 1. [Requirements](#requirements)
-2. [How to include payments-sdk in your android application](#Setup)
+2. [How to include GSMA-SDK in your android application](#Setup)
 3. [Configure the SDK](#Configure)
-
+4. [Use cases](#usecases)
+   1. [Merchant Payment](#merchant-pay)
+      1. [Payee-Initiated Merchant Payment](#payee-merchant-pay)
+   2. [Disbursement](#payee-mechant-pay)
+   
 <a name="requirements"></a>
 # Requirements
 ---
@@ -46,17 +50,20 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
 
     private String consumerKey;//optional parameter
     private String consumerSecret;//optional paramater if the security level
-    private String securityOption;// options  NO_AUTH , DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
+    private Enum securityOption;// options  NO_AUTH , DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
     private String callBackURL;//The backend server URL for your app for handling callbacks in application
-    private String xAPIKey;//The backend server URL for your app for handling callbacks in application
+    private String xAPIKey;//The API key provided from MMAPI dashboard
 
- //inside oncreate method setup the payment configuration constructor with required parameters
+```
  
+ Inside oncreate method setup the payment configuration constructor with required parameters
+ 
+ ```
  
  //sample consumer key for testing,you can generate a consumer key for your app from MMAPI dashboard under apps 
   consumerKey="9vthmq3f6i15v6jmcjskfkmh"; 
   
-  /sample consumer secret for testing,you can generate a consumer secret for your app from MMAPI dashboard under apps 
+  //sample consumer secret for testing,you can generate a consumer secret for your app from MMAPI dashboard under apps 
   consumerSecret="ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb"; 
   
   
@@ -65,18 +72,24 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
   securityOption=AuthenticationType.STANDARD_LEVEL;
   
   //Example mock URL for handling callback,Change the url into your live callback URL
-  callbackURL="https://93248bb1-c64e-4961-bacf-b1d4aaa103bc.mock.pstmn.io/callback"
+   callBackURL="Put your callback URL here";
   
-   xAPIKey="put your x api key here"
+   xAPIKey="Put your x api key here";
  
    //Confgure the SDK 
    PaymentConfiguration.init(consumerKey,consumerSecret,securityOption,callBackURL,xAPIKey,Environment.SANDBOX);
 
-  /**
-  * Create a token  if the security option is DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,For initailiase the following instance 
-  */
-  
-  GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
+  ```
+
+  Create a token  if the security option is DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
+```
+   /**
+     *Initialise the preference object
+    */
+
+ PreferenceManager.getInstance().init(this);
+
+GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
     @Override
     public void onValidationError(ErrorObject errorObject) {
              
@@ -90,11 +103,55 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
             
       }
     });
+  ```
+  
+<a name="usecases"></a>  
+
+<a name="merchant-pay"></a>
+
+# Merchant Payment
+The Merchant Payment Mobile Money APIs allow merchants to accept payments from mobile money customers.
 
 
+<a name="payee-merchant-pay"></a>
 
+# Payee-initiated merchant payment.    
+
+The merchant initiates the request and will be credited when the payer approves the request.
+
+A transcation object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
 
 
 ```
+private TransactionRequest transactionRequest;
+
+```
+
+```
+private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("Place your account id of debit party here");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("Place your account id of credt party here");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("Place your amount"); //eg:200.00
+        transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
+  }
+
+```
+
+
+
 
 
