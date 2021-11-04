@@ -1,196 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context=".MerchantPaymentsActivity">
-	
-	<LinearLayout
+	android:layout_height="match_parent">
+
+	<ListView
+		android:id="@+id/disbursemenList"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:orientation="vertical"
-		tools:context=".MerchantPaymentsActivity">
-		
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="8dp"
-			android:layout_marginEnd="8dp"
-			android:orientation="horizontal">
-			
-			<Button
-				android:id="@+id/btnIndividualDisbursement"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="4dp"
-				android:layout_marginRight="4dp"
-				android:layout_weight="1"
-				android:text="Individual Disbursement"
-				android:textSize="10sp" />
-			
-			<Button
-				android:id="@+id/btnRequestStateDisbursement"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="4dp"
-				android:layout_marginLeft="4dp"
-				android:layout_weight="1"
-				android:text="Request State"
-				android:textSize="10sp" />
-		
-		</LinearLayout>
-		
-		
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="8dp"
-			android:layout_marginEnd="8dp"
-			android:orientation="horizontal">
-			
-			<Button
-				android:id="@+id/btnViewTransactionDisbursement"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="4dp"
-				android:layout_marginRight="4dp"
-				android:layout_weight="1"
-				android:text="View Transaction"
-				android:textSize="10sp" />
-			
-			<Button
-				android:id="@+id/btnReversalDisbursement"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="4dp"
-				android:layout_marginLeft="4dp"
-				android:layout_weight="1"
-				android:text="Reversal"
-				android:textSize="10sp" />
-		
-		</LinearLayout>
-		
-		
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="8dp"
-			android:layout_marginEnd="8dp"
-			android:orientation="horizontal">
-			
-			<Button
-				android:id="@+id/btnBalanceDisbursement"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="4dp"
-				android:layout_marginRight="4dp"
-				android:layout_weight="1"
-				android:text="Balance"
-				android:textSize="10sp" />
-			
-			
-			<Button
-				android:id="@+id/btnRetrieveTransactionDisbursement"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="4dp"
-				android:layout_marginLeft="4dp"
-				android:layout_weight="1"
-				android:text="Retrieve Transaction"
-				android:textSize="10sp"
-				tools:ignore="ButtonStyle,HardcodedText,SmallSp" />
-		
-		
-		</LinearLayout>
-		
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="8dp"
-			android:layout_marginEnd="8dp"
-			android:orientation="horizontal">
-			
-			<Button
-				android:id="@+id/btnBulkDisbursement"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="4dp"
-				android:layout_marginRight="4dp"
-				android:layout_weight="1"
-				android:text="Bulk Transaction"
-				android:textSize="10sp" />
-			
-			
-			<Button
-				android:id="@+id/btnBatchRejections"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="4dp"
-				android:layout_marginLeft="4dp"
-				android:layout_weight="1"
-				android:text="Batch Rejections"
-				android:textSize="10sp" />
-		
-		
-		</LinearLayout>
-		
-		
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="8dp"
-			android:layout_marginEnd="8dp"
-			android:orientation="horizontal">
-			
-			
-			<Button
-				android:id="@+id/btnBatchCompletions"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginEnd="4dp"
-				android:layout_marginRight="4dp"
-				android:layout_weight="1"
-				android:text="Batch Completions"
-				android:textSize="10sp" />
-			
-			
-			<Button
-				android:id="@+id/btnBatchUpdate"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_marginStart="4dp"
-				android:layout_marginLeft="4dp"
-				android:layout_weight="1"
-				android:text="Update Batch"
-				android:textSize="10sp" />
-		
-		</LinearLayout>
-		
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="8dp"
-			android:layout_marginEnd="8dp"
-			android:orientation="horizontal">
-			
-			
-			<Button
-				android:id="@+id/btnRetrieveBatch"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:text="Get Batch Details"
-				android:textSize="10sp" />
-		</LinearLayout>
-		
-		
-		<TextView
-			android:id="@+id/txtDisbursementResponse"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="10dp" />
-	
-	</LinearLayout>
+		android:layout_above="@id/divider"
+		android:layout_alignParentTop="true" />
+
+	<View
+		android:id="@+id/divider"
+		android:layout_width="match_parent"
+		android:layout_height="2dp"
+		android:layout_marginTop="10dp"
+		android:layout_marginBottom="10dp"
+		android:layout_centerVertical="true"
+		android:background="@android:color/darker_gray" />
+
+	<TextView
+		android:id="@+id/txtResponseDisbursement"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@id/divider"
+		android:textSize="16sp"
+		android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		android:textColor="@android:color/darker_gray"
+		android:layout_alignParentBottom="true"
+		android:layout_margin="10dp" />
 
 
-</androidx.core.widget.NestedScrollView>
+</RelativeLayout>

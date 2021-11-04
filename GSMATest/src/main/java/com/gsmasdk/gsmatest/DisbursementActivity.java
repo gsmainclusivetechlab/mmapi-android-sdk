@@ -1,8 +1,13 @@
 package com.gsmasdk.gsmatest;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,8 +19,10 @@ import com.gsmaSdk.gsma.interfaces.BatchRejectionInterface;
 import com.gsmaSdk.gsma.interfaces.BatchTransactionItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
+import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.Batch;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
@@ -36,10 +43,11 @@ import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DisbursementActivity extends AppCompatActivity {
+public class DisbursementActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private TransactionRequest transactionRequest;
     private BulkTransactionObject bulkTransactionObject;
@@ -54,291 +62,44 @@ public class DisbursementActivity extends AppCompatActivity {
     private String correlationId = "";
     private Batch batchObject;
     private ArrayList<Batch> batchArrayList;
+    private ProgressDialog progressdialog;
 
+    private String[] disbursementArray = {
+            "Individual Disbursement",
+            "Request State",
+            "View Transaction",
+            "Reversal",
+            "Retrieve Transaction",
+            "Disbursement Organisation Balance",
+            "Bulk Transaction",
+            "Batch Rejection",
+            "Batch Completions",
+            "Update Batch",
+            "Get batch Details",
+            "Missing Transaction Disbursement",
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disbursement);
+        setTitle("Disbursement");
 
-        Button btnIndividualDisbursement = findViewById(R.id.btnIndividualDisbursement);
-        Button btnViewTransactionDisbursement = findViewById(R.id.btnViewTransactionDisbursement);
-        Button btnRequestStateDisbursement = findViewById(R.id.btnRequestStateDisbursement);
+        ListView listUseCases = findViewById(R.id.disbursemenList);
+        CustomUseCaseAdapter customListAdapter = new CustomUseCaseAdapter(DisbursementActivity.this, new ArrayList(Arrays.asList(disbursementArray)));
+        listUseCases.setAdapter(customListAdapter);
+        listUseCases.setOnItemClickListener(this);
+        txtResponse = findViewById(R.id.txtResponseDisbursement);
+        txtResponse.setMovementMethod(new ScrollingMovementMethod());
 
-        Button btnReversalDisbursement = findViewById(R.id.btnReversalDisbursement);
-        Button btnBalanceDisbursement = findViewById(R.id.btnBalanceDisbursement);
-        Button btnRetrieveTransactionDisbursement = findViewById(R.id.btnRetrieveTransactionDisbursement);
+        progressdialog = Utils.initProgress(DisbursementActivity.this);
 
-        Button btnBulkDisbursement = findViewById(R.id.btnBulkDisbursement);
-        Button btnBatchRejections = findViewById(R.id.btnBatchRejections);
-        Button btnBatchCompletions = findViewById(R.id.btnBatchCompletions);
-        Button btnBatchUpdate = findViewById(R.id.btnBatchUpdate);
-        Button btnRetrieveBatch = findViewById(R.id.btnRetrieveBatch);
-
-        txtResponse = findViewById(R.id.txtDisbursementResponse);
-        //create object for transaction request
+        checkServiceAvailability();
         createTransactionObject();
         createPaymentReversalObject();
         createBulkTransactionObject();
         createBatchRequestObject();
-
-
-
-        btnIndividualDisbursement.setOnClickListener(v -> SDKManager.getInstance().disbursementPay("disbursement", transactionRequest, new RequestStateInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-            }
-
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                correlationId = correlationID;
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
-            }
-
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
-            }
-
-        }));
-
-
-        btnRequestStateDisbursement.setOnClickListener(v -> SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-            }
-
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                correlationId = correlationID;
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                transactionRef = requestStateObject.getObjectReference();
-                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
-            }
-
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
-            }
-
-        }));
-
-        //individual disbursement using polling method-view transaction
-        btnViewTransactionDisbursement.setOnClickListener(v -> SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-            }
-
-            @Override
-            public void onTransactionSuccess(TransactionObject transactionObject, String correlationId) {
-                txtResponse.setText(new Gson().toJson(transactionObject));
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
-            }
-
-            @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
-            }
-
-        }));
-
-        btnReversalDisbursement.setOnClickListener(v-> {
-            SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new RequestStateInterface() {
-                @Override
-                public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                    txtResponse.setText(new Gson().toJson(requestStateObject));
-                    correlationId = correlationID;
-                    Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
-                }
-
-                @Override
-                public void onRequestStateFailure(GSMAError gsmaError) {
-                    txtResponse.setText(new Gson().toJson(gsmaError));
-                    Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
-                }
-
-                @Override
-                public void onValidationError(ErrorObject errorObject) {
-                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                }
-            });
-        });
-
-        //balance of organisation
-        btnBalanceDisbursement.setOnClickListener(v -> {
-            SDKManager.getInstance().getBalance("1", new BalanceInterface() {
-                @Override
-                public void onValidationError(ErrorObject errorObject) {
-                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                }
-
-                @Override
-                public void onBalanceSuccess(Balance balance, String correlationID) {
-                    txtResponse.setText(new Gson().toJson(balance));
-                    Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
-                }
-
-                @Override
-                public void onBalanceFailure(GSMAError gsmaError) {
-                    txtResponse.setText(new Gson().toJson(gsmaError));
-                    Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
-                }
-            });
-        });
-
-        //Get the batch details
-
-        btnRetrieveBatch.setOnClickListener(v -> {
-            SDKManager.getInstance().retrieveBatchTransaction("REF-1635765084301", new BatchTransactionItemInterface() {
-                @Override
-                public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationId) {
-                    txtResponse.setText(new Gson().toJson(batchTransactionItem));
-                    Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(batchTransactionItem));
-                }
-
-                @Override
-                public void onTransactionFailure(GSMAError gsmaError) {
-                    txtResponse.setText(new Gson().toJson(gsmaError));
-                    Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
-                }
-
-                @Override
-                public void onValidationError(ErrorObject errorObject) {
-                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                }
-            });
-        });
-
-
-         //Retrieve a list of transaction of a particular account
-        btnRetrieveTransactionDisbursement.setOnClickListener(v -> {
-            SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
-                @Override
-                public void onValidationError(ErrorObject errorObject) {
-                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                }
-
-                @Override
-                public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
-                    txtResponse.setText(new Gson().toJson(transaction));
-                    correlationId = correlationID;
-                    Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
-                }
-
-                @Override
-                public void onRetrieveTransactionFailure(GSMAError gsmaError) {
-                    txtResponse.setText(new Gson().toJson(gsmaError));
-                    Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
-                }
-            });
-        });
-
-        //Bulk disbursement using polling method-view transaction
-        btnBulkDisbursement.setOnClickListener(v -> SDKManager.getInstance().bulkTransaction(bulkTransactionObject, new RequestStateInterface() {
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-            }
-
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationId) {
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
-            }
-
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
-            }
-
-        }));
-
-        //Bulk disbursement rejection
-        btnBatchRejections.setOnClickListener(v -> SDKManager.getInstance().retrieveBatchRejections("REF-1635765084301", new BatchRejectionInterface() {
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-            }
-
-            @Override
-            public void batchTransactionRejections(BatchTransactionRejection batchTransactionRejection, String correlationId) {
-                txtResponse.setText(new Gson().toJson(batchTransactionRejection));
-                Log.d(SUCCESS, "batchTransactionRejections: " + new Gson().toJson(batchTransactionRejection));
-            }
-
-            @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
-            }
-        }));
-
-        //Bulk disbursement completion
-        btnBatchCompletions.setOnClickListener(v -> SDKManager.getInstance().retrieveBatchCompletions("REF-1635765084301", new BatchCompletionInterface() {
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-            }
-
-            @Override
-            public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion, String correlationId) {
-                txtResponse.setText(new Gson().toJson(batchTransactionCompletion));
-                Log.d(SUCCESS, "batchTransactionCompleted: " + new Gson().toJson(batchTransactionCompletion));
-            }
-
-            @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
-            }
-        }));
-
-        btnBatchUpdate.setOnClickListener(v -> SDKManager.getInstance().updateBatch("REF-1635765084301",batchArrayList, new RequestStateInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-            }
-
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationId) {
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
-            }
-
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
-            }
-
-        }));
-
-
-
     }
 
     private void createTransactionObject() {
@@ -412,5 +173,430 @@ public class DisbursementActivity extends AppCompatActivity {
         bulkTransactionObject.setScheduledStartDate("2019-12-11T15:08:03.158Z");
         bulkTransactionObject.setTransactions(transactionItems);
 
+    }
+
+    /**
+     * Method for checking Service Availability.
+     */
+    private void checkServiceAvailability() {
+        showLoading();
+        SDKManager.getInstance().checkServiceAvailability(new ServiceAvailabilityInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(DisbursementActivity.this,"Validation Error");
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(serviceAvailability));
+                correlationId = correlationID;
+                Utils.showToast(DisbursementActivity.this,"Success");
+                Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
+            }
+
+            @Override
+            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(DisbursementActivity.this,"Failure");
+                Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
+            }
+        });
+    }
+
+    private void viewTransaction(){
+        showLoading();
+        SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onTransactionSuccess(TransactionObject transactionObject, String correlationID) {
+                correlationId = correlationID;
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(transactionObject));
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        });
+    }
+
+
+    public void showLoading() {
+        progressdialog.show();
+    }
+
+    public void hideLoading() {
+        progressdialog.dismiss();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        switch (i) {
+            case 0:
+                //individual disbursement;
+                 individualDisbursement();
+                break;
+            case 1:
+                //request state
+                 requestState();
+                 break;
+            case 2:
+                //view Transaction
+                viewTransaction();
+                break;
+            case 3:
+                //reversal
+                reversal();
+                break;
+            case  4:
+                retrieveTransactionDisbursement();
+                break;
+            case 5:
+                balanceCheck();
+                break;
+            case  6:
+                bulkDisbursement();
+                break;
+
+            case  7:
+                batchRejections();
+                break;
+
+            case 8:
+               batchCompletion();
+               break;
+            case  9:
+                updateBatch();
+                break;
+            case  10:
+                getBatchDetails();
+                break;
+
+            case 11:
+                getMissingTransaction();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    //get the request state of a transaction
+    private void requestState(){
+        showLoading();
+        SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                hideLoading();
+                correlationId = correlationID;
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                transactionRef = requestStateObject.getObjectReference();
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+       });
+    }
+   //individual disbursement
+    private void individualDisbursement(){
+        showLoading();
+        SDKManager.getInstance().disbursementPay("disbursement", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                hideLoading();
+                correlationId = correlationID;
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        });
+    }
+
+    private void reversal(){
+        showLoading();
+        SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new RequestStateInterface() {
+                @Override
+                public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                    hideLoading();
+                    txtResponse.setText(new Gson().toJson(requestStateObject));
+                    correlationId = correlationID;
+                    Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+                }
+
+                @Override
+                public void onRequestStateFailure(GSMAError gsmaError) {
+                     hideLoading();
+                    txtResponse.setText(new Gson().toJson(gsmaError));
+                    Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+                }
+
+                @Override
+                public void onValidationError(ErrorObject errorObject) {
+                    hideLoading();
+                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                }
+            });
+    }
+    private void retrieveTransactionDisbursement(){
+        showLoading();
+        SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+                @Override
+                public void onValidationError(ErrorObject errorObject) {
+                    hideLoading();
+                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                }
+
+                @Override
+                public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+                    hideLoading();
+                    txtResponse.setText(new Gson().toJson(transaction));
+                    correlationId = correlationID;
+                    Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+                }
+
+                @Override
+                public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+                    hideLoading();
+                    txtResponse.setText(new Gson().toJson(gsmaError));
+                    Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+                }
+            });
+    }
+    public void bulkDisbursement(){
+        showLoading();
+        SDKManager.getInstance().bulkTransaction(bulkTransactionObject, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                hideLoading();
+                correlationId=correlationID;
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        });
+    }
+    private void batchRejections(){
+        showLoading();
+        SDKManager.getInstance().retrieveBatchRejections("REF-1635765084301", new BatchRejectionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void batchTransactionRejections(BatchTransactionRejection batchTransactionRejection, String correlationID) {
+                hideLoading();
+                correlationId=correlationID;
+                txtResponse.setText(new Gson().toJson(batchTransactionRejection));
+                Log.d(SUCCESS, "batchTransactionRejections: " + new Gson().toJson(batchTransactionRejection));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+        });
+    }
+
+    private void balanceCheck(){
+        showLoading();
+        SDKManager.getInstance().getBalance("1", new BalanceInterface() {
+                @Override
+                public void onValidationError(ErrorObject errorObject) {
+                    hideLoading();
+                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                }
+
+                @Override
+                public void onBalanceSuccess(Balance balance, String correlationID) {
+                    hideLoading();
+                    correlationId=correlationID;
+                    txtResponse.setText(new Gson().toJson(balance));
+                    Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+                }
+
+                @Override
+                public void onBalanceFailure(GSMAError gsmaError) {
+                    hideLoading();
+                    txtResponse.setText(new Gson().toJson(gsmaError));
+                    Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                }
+            });
+    }
+    private void batchCompletion(){
+        showLoading();
+        SDKManager.getInstance().retrieveBatchCompletions("REF-1635765084301", new BatchCompletionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion, String correlationID) {
+                hideLoading();
+                correlationId=correlationID;
+                txtResponse.setText(new Gson().toJson(batchTransactionCompletion));
+                Log.d(SUCCESS, "batchTransactionCompleted: " + new Gson().toJson(batchTransactionCompletion));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+        });
+    }
+
+    private void updateBatch(){
+        showLoading();
+        SDKManager.getInstance().updateBatch("REF-1635765084301",batchArrayList, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                hideLoading();
+                correlationId=correlationID;
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        });
+    }
+
+    private void getBatchDetails(){
+        showLoading();
+        SDKManager.getInstance().retrieveBatchTransaction("REF-1635765084301", new BatchTransactionItemInterface() {
+                @Override
+                public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationID) {
+                    hideLoading();
+                    correlationId=correlationID;
+                    txtResponse.setText(new Gson().toJson(batchTransactionItem));
+                    Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(batchTransactionItem));
+                }
+
+                @Override
+                public void onTransactionFailure(GSMAError gsmaError) {
+                    hideLoading();
+                    txtResponse.setText(new Gson().toJson(gsmaError));
+                    Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                }
+
+                @Override
+                public void onValidationError(ErrorObject errorObject) {
+                    hideLoading();
+                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                }
+            });
+
+    }
+
+    private void getMissingTransaction() {
+        showLoading();
+        SDKManager.getInstance().retrieveMissingTransaction(correlationId, new TransactionInterface() {
+            @Override
+            public void onTransactionSuccess(TransactionObject transactionObject, String correlationId) {
+                hideLoading();
+                Utils.showToast(DisbursementActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(transactionObject));
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionObject.class));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(DisbursementActivity.this, "Failure");
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(DisbursementActivity.this, "Validation Error");
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+        });
     }
 }

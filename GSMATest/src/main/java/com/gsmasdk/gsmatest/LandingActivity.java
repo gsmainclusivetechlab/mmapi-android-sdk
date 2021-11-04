@@ -113,6 +113,9 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case 1:
                 //Disbursements
+
+                startActivity(new Intent(LandingActivity.this, DisbursementActivity.class));
+
                 break;
             case 2:
                 //International Transfers

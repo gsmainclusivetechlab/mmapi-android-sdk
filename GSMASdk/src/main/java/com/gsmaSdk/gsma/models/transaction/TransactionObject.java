@@ -52,6 +52,19 @@ public class TransactionObject implements BaseResponse {
 	@Expose
 	private List<CreditPartyItem> creditParty;
 
+	@SerializedName("oneTimeCode")
+	@Expose
+	private String oneTimeCode;
+
+
+	public String getOneTimeCode() {
+		return oneTimeCode;
+	}
+
+	public void setOneTimeCode(String oneTimeCode) {
+		this.oneTimeCode = oneTimeCode;
+	}
+
 	@SuppressWarnings("unused")
     public void setDebitParty(List<DebitPartyItem> debitParty){
 		this.debitParty = debitParty;
