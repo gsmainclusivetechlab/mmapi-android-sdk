@@ -40,7 +40,7 @@ To use the SDK the following requirements must be met:
 
 # How to include payments-sdk in your android application
 
-Copy the aar GSMASdk-debug.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
+Copy the GSMASdk-debug.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
 
 Add the below line in dependencies of your build.gradle file in your application.
 
@@ -58,8 +58,8 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
 
 //Declare the configuration parameter
 
-    private String consumerKey;//optional parameter
-    private String consumerSecret;//optional paramater if the security level
+    private String consumerKey;//optional parameter is NO_AUTH
+    private String consumerSecret;//optional paramater if the security level is NO_AUTH
     private Enum securityOption;// options  NO_AUTH , DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
     private String callBackURL;//The backend server URL for your app for handling callbacks in application
     private String xAPIKey;//The API key provided from MMAPI dashboard
@@ -151,7 +151,7 @@ private void createTransactionObject() {
         debitPartyList.add(debitPartyItem);
 
         creditPartyItem.setKey("accountid");
-        creditPartyItem.setValue("Place your account id of credt party here");
+        creditPartyItem.setValue("Place your account id of credit party here");
         creditPartyList.add(creditPartyItem);
 
         transactionRequest.setDebitParty(debitPartyList);
@@ -286,7 +286,6 @@ private void createTransactionObject() {
 
             @Override
             public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
-                hideLoading();
              
             }
 
