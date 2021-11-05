@@ -10,7 +10,7 @@ A library that fully covers payment process inside your Android application
 # Table of Contents
 ---
 1. [Requirements](#requirements)
-2. [How to test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
+2. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
 3. [How to include GSMA-SDK in your android application](#Setup)
 4. [Configure the SDK](#Configure)
 5. [Use cases](#usecases)
