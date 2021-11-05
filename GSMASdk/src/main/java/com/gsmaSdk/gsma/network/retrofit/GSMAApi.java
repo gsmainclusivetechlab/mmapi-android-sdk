@@ -39,6 +39,7 @@ import okhttp3.RequestBody;
 /**
  * The type GSMA api - api call related data is processed here.
  */
+@SuppressWarnings("unused")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class GSMAApi {
     private final APIService apiHelper;

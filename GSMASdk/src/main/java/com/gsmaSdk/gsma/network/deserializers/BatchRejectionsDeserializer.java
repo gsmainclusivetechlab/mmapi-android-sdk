@@ -12,6 +12,7 @@ import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem;
 import java.lang.reflect.Type;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class BatchRejectionsDeserializer implements JsonDeserializer<BatchTransactionRejection> {
     @Override
     public BatchTransactionRejection deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

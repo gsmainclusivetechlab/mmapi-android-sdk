@@ -4,8 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
-import java.io.Serializable;
-
 public class BatchTransactionItem  implements BaseResponse {
 
 

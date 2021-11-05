@@ -32,7 +32,7 @@ import retrofit2.http.Query;
 /**
  * Interface for Retrofit methods
  */
-@SuppressWarnings("SpellCheckingInspection")
+@SuppressWarnings("ALL")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface APIService {
 

@@ -12,6 +12,7 @@ import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem;
 import java.lang.reflect.Type;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class BatchCompletionsDeserializer implements JsonDeserializer<BatchTransactionCompletion> {
     @Override
     public BatchTransactionCompletion deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

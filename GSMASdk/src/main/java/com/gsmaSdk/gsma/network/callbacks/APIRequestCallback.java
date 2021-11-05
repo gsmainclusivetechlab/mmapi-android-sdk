@@ -10,6 +10,7 @@ import androidx.annotation.RestrictTo;
  *
  * @param <T> {@link Class} implementing {@link BaseResponse} interface
  */
+@SuppressWarnings("ALL")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface APIRequestCallback<T extends BaseResponse> {
     /**

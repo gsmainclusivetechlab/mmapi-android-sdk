@@ -7,6 +7,7 @@ import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 /**
  * Interface for clients to receive Service Availability response
  * */
+@SuppressWarnings("ALL")
 public interface ServiceAvailabilityInterface extends BaseInterface{
 
     void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID);

@@ -7,6 +7,7 @@ import com.gsmaSdk.gsma.models.transaction.Transaction;
 /**
  * Interface for clients to retrieve Transaction
  * */
+@SuppressWarnings("ALL")
 public interface RetrieveTransactionInterface extends BaseInterface{
 
     void onRetrieveTransactionSuccess(Transaction transaction, String correlationId);

@@ -12,6 +12,7 @@ import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import java.lang.reflect.Type;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class MissingCodeDeserializer implements JsonDeserializer<AuthorisationCode> {
     @Override
     public AuthorisationCode deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

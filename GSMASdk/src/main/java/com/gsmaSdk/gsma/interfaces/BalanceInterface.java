@@ -7,7 +7,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 /**
  * Interface for clients to receive Account Balance response
  * */
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public interface BalanceInterface extends BaseInterface{
 
     void onBalanceSuccess(Balance balance, String correlationId);

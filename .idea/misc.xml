@@ -618,6 +618,9 @@
     <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewRequestState" />
     <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewTransaction" />
     <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="viewTransasction" />
+    <pattern value="com.gsmaSdk.gsma.interfaces.TokenInterface" method="onTokenFailure" />
+    <pattern value="com.gsmaSdk.gsma.interfaces.TokenInterface" method="onTokenSuccess" />
+    <pattern value="com.gsmaSdk.gsma.interfaces.TokenInterface" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />

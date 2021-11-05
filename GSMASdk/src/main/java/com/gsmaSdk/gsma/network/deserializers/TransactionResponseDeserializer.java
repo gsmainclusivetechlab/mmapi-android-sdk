@@ -12,6 +12,7 @@ import com.gsmaSdk.gsma.models.transaction.TransactionItem;
 import java.lang.reflect.Type;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class TransactionResponseDeserializer implements JsonDeserializer<Transaction> {
 
     @Override

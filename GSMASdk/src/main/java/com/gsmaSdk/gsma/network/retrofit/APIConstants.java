@@ -3,7 +3,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 /**
  * The type Api constants.
  */
-@SuppressWarnings("SpellCheckingInspection")
+@SuppressWarnings("ALL")
 final class APIConstants {
 
 
