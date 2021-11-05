@@ -19,11 +19,11 @@ As usual, you get started by
 
 ## How  to install the apk in real Device
 
-1.Copy or download the file GSMMA-test-1.0.apk from the following path  into the filemanager of your  device
+1.Download the file GSMA-test-1.0.apk from the following link into the filemanager of your  device
  
 [Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
 
-2.Click on the file GSMMA-test-1.0.apk from your device and system will ask for the installation dialog and continue the installation process 
+2.Click on the file GSMM-test-1.0.apk from your device and system will ask for the installation dialog and continue the installation process 
 
 3.Once the Apk is installed in your device,Open the application from app drawer of your device 
 
@@ -66,13 +66,13 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 1.Once's the app is deployed in your device,Open the application and it will redirect to the Landing page
 
-2.The landing page contains buttons for both Merchant Payment and Disbursement Feature
+2.The landing page will have list of all uses cases
 
-3.Click on merchant payment button and the app will redirect to merchant payment activity
+3.Click on merchant payment link and the app will redirect to merchant payment activity
 
-4.The merchant payment activity contains buttons for testing all use cases for merchant payment
+4.The merchant payment activity contains all use cases of merchant payment
 
-5.Each uses cases can be tested using the buttons provided in the test application
+5.Each uses cases can be tested using the link  provided in the test application
 
 
 ## Features
@@ -90,42 +90,42 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 ### Payee/payer-Initiated Merchant Payment
 
-The merchant initiates the request and will be credited when the payer approves the request.This use case scenario can be tested by clicking the  button "mechant pay initiated"
+The merchant initiates the request and will be credited when the payer approves the request.This use case scenario can be tested by clicking the on item "Payee Initiated" in the list
 
 ### Payee-Initiated Merchant Payment using the Polling Method
 
 In this scenario the client polls against the request state object to determine the outcome of the payment request.Three Api operations are to be performed to complete this use cases,
 
-1.First click on the "mechant payment" button and the api will return the server correlation id for the above request
+1.First click on the "Payee initiated" item in the list again and this api will return the server correlation id for the above request
 
-2.Then click on the "Request state" button and will return the request of the object with reference of transaction,Server correlation id obtained from result of mechant payment api is passed to request state api to get the request state of a transaction(step 1)
+2.Then click on the "Request state" item in the list and will return the request of the object with reference of transaction,Server correlation id obtained from result of mechant payment api is passed to request state api to get the request state of a transaction(step 1)
 
-3.Finally click "view transaction" button,It will  call the view transaction api using the transaction id obtained as result of request state api(step 2),
+3.Finally click "view transaction" text,It will  call the view transaction api using the transaction id obtained as result of request state api(step 2),
 
 
 ### Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
 
 Authorisationcodes API is used to obtain a pre-authorised payment code. This in turn is presented by the payer to the merchant who initiates the payment request.
 
-1.In this scenario,Initially we call the AuthorizationCodes Api using the button "Auth Code",An One time code is send to the payer,The payer communicate the code to merchant via qrcode or verbally 
+1.In this scenario,Initially we call the AuthorizationCodes Api using the "Auth Code" item in the list,An One time code is send to the payer,The payer communicate the code to merchant via qrcode or verbally 
 
 2.The One time code is added in the request body of transaction request and call the merchant pay api to initiate a transaction using authorization code, 
 
 ### Merchant Payment Refund
 
-Merchants can issue a refund to payers. The refund operation is performed using button "Payment refund"
+Merchants can issue a refund to payers. The refund operation is performed using item "Payment refund" in the list
 
 ### Merchant Payment Reversal
 
-In some failure scenarios, a merchant may need to reverse a transaction,The Revesal operation can be tested using "Payment Reversal"
+In some failure scenarios, a merchant may need to reverse a transaction,The Revesal operation can be tested using "Payment Reversal" item
 
 ### Obtain a Merchant Balance
 
-The button "balance" is used to check the balance of a particular account
+The "balance" item  is used to check the balance of a particular account
 
 ### Retrieve Payments for a Merchant
 
-The "retrieve transaction" button is used to retrieve all payments for a merchant via multiple requests.
+The "retrieve transaction" item is used to retrieve all payments for a merchant via multiple requests.
 
 ## Check for Service Availability
 
@@ -135,6 +135,6 @@ The service availabilty is automtically called once application is visible to th
 
 The details of missing response can be tested using the "Missing transaction" and "missing code" button
 
-1."Missing transaction" button  will retrieve the missing response of the  particular transaction,For that we should click "merchant pay" button before clicking the "missing transaction"" button
+1."Missing transaction" item  will retrieve the missing response of the  particular transaction,For that we should click "merchant pay" button before clicking the "missing transaction"" button
 
-2."Missing Code" button will retrieve the missing response for authorization code request API
+2."Missing Code" item  will retrieve the missing response for authorization code request API
