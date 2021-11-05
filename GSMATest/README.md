@@ -19,7 +19,7 @@ As usual, you get started by
 
 ## How  to install the apk in real Device
 
-1.Download the file GSMA-test-1.0.apk from the following link into the filemanager of your  device
+1.Download the file GSMA-Test-debug-1.0 from the following link into the filemanager of your  device
  
 [Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/release/GSMA-Test-debug-1.0.apk)
 
