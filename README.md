@@ -36,7 +36,7 @@ To use the SDK the following requirements must be met:
 
 <a name="Setup"></a>
 
-# How to include payments-sdk in your android application
+# How to include GSMA SDK in your android application
 
 Copy the GSMASdk-debug-1.0.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
 
