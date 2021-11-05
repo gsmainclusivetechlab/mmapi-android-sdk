@@ -10,10 +10,9 @@ A library that fully covers payment process inside your Android application
 # Table of Contents
 ---
 1. [Requirements](#requirements)
-2. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
-3. [How to include GSMA-SDK in your android application](#Setup)
-4. [Configure the SDK](#Configure)
-5. [Use cases](#usecases)
+2. [How to include GSMA-SDK in your android application](#Setup)
+3. [Configure the SDK](#Configure)
+4. [Use cases](#usecases)
    1. [Merchant Payment](#merchant-pay)
       1. [Payee-Initiated Merchant Payment](#payee-merchant-pay)
       2. [Payee-Initiated Merchant Payment using the Polling Method](#merchant-pay-polling)
@@ -25,10 +24,8 @@ A library that fully covers payment process inside your Android application
       8. [Retrieve Payments for a Merchant](#merchant-pay-retrieve)
       9. [Check for Service Availability](#check-for-service)
       10. [Retrieve a Missing API Response](#missing-response)
- 
-    2. [Disbursement](#payee-mechant-pay)
- 
-<a name="requirements"></a>
+ 5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
+ <a name="requirements"></a>
 # Requirements
 ---
 To use the SDK the following requirements must be met:
