@@ -19,7 +19,9 @@ As usual, you get started by
 
 ## How  to install the apk in real Device
 
-1.Copy or download the file GSMMA-test-1.0.apk into the filemanager of your  device
+1.Copy or download the file GSMMA-test-1.0.apk from the following path  into the filemanager of your  device
+ 
+ [Download]
 
 2.Click on the file GSMMA-test-1.0.apk from your device and system will ask for the installation dialog and continue the installation process 
 
