@@ -18,6 +18,235 @@
       <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.Refund status" />
       <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.RequestingOrganisation requestingOrganisationIdentifier" />
       <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.RequestingOrganisation requestingOrganisationIdentifierType" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.Token accessToken" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.Balance accountStatus" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.PostalAddress addressLine1" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem amount" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem amount" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject amount" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionRequest amount" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem approvalDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode authCode" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem authorisationCode" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity authorisationCodeRequest" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration authToken" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration authType" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.Balance availableBalance" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration base64Value" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem batchDescription" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem batchId" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem batchStatus" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem batchTitle" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc birthCountry" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration callBackURL" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.PostalAddress city" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem codeState" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem completedCount" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem completionDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration consumerKey" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration consumerSecret" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc contactPhone" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity correlationId" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.PostalAddress country" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem creationDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem creationDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem creationDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject creationDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem creditParty" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject creditParty" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionRequest creditParty" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem currency" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.Balance currency" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem currency" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject currency" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionRequest currency" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.Balance currentBalance" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc dateOfBirth" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem debitParty" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject debitParty" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionRequest debitParty" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.RequestManager delayedRequests" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation deliveryMethod" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.enums.AuthenticationType DEVELOPMENT_LEVEL" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc emailAddress" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc employerName" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.enums.AuthenticationType ENHANCED_LEVEL" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.GSMAError ERROR_CODE_UNAVAILABLE" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.GSMAError errorBody" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.ErrorObject errorCategory" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.ErrorObject errorCode" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.GSMAError errorCode" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.ErrorObject errorDateTime" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.ErrorObject errorDescription" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.ErrorObject errorParameterList" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.Token expiresIn" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.IdDocumentItem expiryDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity FAILURE" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SubjectName firstName" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SubjectName fullName" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc gender" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc idDocument" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.IdDocumentItem idNumber" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.IdDocumentItem idType" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager.SingletonCreationAdmin INSTANCE" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem internationalTransferInformation" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.IdDocumentItem issueDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.IdDocumentItem issuer" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.IdDocumentItem issuerCountry" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.IdDocumentItem issuerPlace" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.RedemptionAccountIdentifiersItem key" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SubjectName lastName" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.GetLink link" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.enums.Environment LIVE" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.LandingActivity LOG_TAG" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity merchantPaymentsArray" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.ErrorObject message" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SubjectName middleName" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem modificationDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem modificationDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem modificationDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject modificationDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc nationality" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SubjectName nativeName" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.enums.AuthenticationType NO_AUTH" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.RequestStateObject notificationMethod" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.RequestStateObject objectReference" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc occupation" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$11 void onAuthorisationCodeFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$11 void onAuthorisationCodeSuccess(com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode authorisationCode, java.lang.String correlationId)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.DisbursementActivity$9 void onBalanceFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$2 void onBalanceFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.DisbursementActivity$9 void onBalanceSuccess(com.gsmaSdk.gsma.models.common.Balance balance, java.lang.String correlationID)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$2 void onBalanceSuccess(com.gsmaSdk.gsma.models.common.Balance balance, java.lang.String correlationID)" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject oneTimeCode" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.LandingActivity$1 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$1 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$2 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$3 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$4 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$5 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$6 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$7 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$8 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$9 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$10 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$12$1 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$12 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$14$1 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$14 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$15 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$16 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$17 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$18 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$19 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$20 void onFailure(com.gsmaSdk.gsma.models.common.GSMAError errorDetails)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$3 void onRequestStateFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$4 void onRequestStateFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$6 void onRequestStateFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$7 void onRequestStateFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$9 void onRequestStateFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$3 void onRequestStateSuccess(com.gsmaSdk.gsma.models.common.RequestStateObject requestStateObject, java.lang.String correlationID)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$4 void onRequestStateSuccess(com.gsmaSdk.gsma.models.common.RequestStateObject requestStateObject, java.lang.String correlationID)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$6 void onRequestStateSuccess(com.gsmaSdk.gsma.models.common.RequestStateObject requestStateObject, java.lang.String correlationID)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$7 void onRequestStateSuccess(com.gsmaSdk.gsma.models.common.RequestStateObject requestStateObject, java.lang.String correlationID)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$9 void onRequestStateSuccess(com.gsmaSdk.gsma.models.common.RequestStateObject requestStateObject, java.lang.String correlationID)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$8 void onRetrieveTransactionFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$8 void onRetrieveTransactionSuccess(com.gsmaSdk.gsma.models.transaction.Transaction transaction, java.lang.String correlationID)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$1 void onServiceAvailabilityFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$1 void onServiceAvailabilitySuccess(com.gsmaSdk.gsma.models.common.ServiceAvailability serviceAvailability, java.lang.String correlationID)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$14$1 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$2 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.Balance serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$20 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$19 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.transaction.BatchTransactionItem serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$17 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$12 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.GetLink serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$14 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.GetLink serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$3 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.RequestStateObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$5 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.RequestStateObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$6 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.RequestStateObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$7 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.RequestStateObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$8 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.RequestStateObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$15 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.RequestStateObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$16 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.RequestStateObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$18 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.RequestStateObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$10 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.ServiceAvailability serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$1 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.common.Token serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$9 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.transaction.Transaction serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$4 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.transaction.TransactionObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmaSdk.gsma.controllers.SDKManager$12$1 void onSuccess(int responseCode, com.gsmaSdk.gsma.models.transaction.TransactionObject serializedResponse)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.LandingActivity$1 void onSuccess(com.gsmaSdk.gsma.models.common.Token token)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$5 void onTransactionFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$10 void onTransactionFailure(com.gsmaSdk.gsma.models.common.GSMAError gsmaError)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$5 void onTransactionSuccess(com.gsmaSdk.gsma.models.transaction.TransactionObject transactionObject, java.lang.String correlationID)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$10 void onTransactionSuccess(com.gsmaSdk.gsma.models.transaction.TransactionObject transactionObject, java.lang.String correlationId)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.LandingActivity$1 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$1 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$2 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$3 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$4 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$5 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$6 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$7 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$8 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$9 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$10 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="method" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity$11 void onValidationError(com.gsmaSdk.gsma.models.common.ErrorObject errorObject)" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation originCountry" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem parsingSuccessCount" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.RequestStateObject pollLimit" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc postalAddress" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.PostalAddress postalCode" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem processingFlag" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.LandingActivity progressdialog" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity progressdialog" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation quotationReference" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation quoteId" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation receivingCountry" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem redemptionAccountIdentifiers" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem rejectionCount" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation relationshipSender" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation remittancePurpose" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.RequestManager.DelayedRequest request" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.RequestManager.DelayedRequest requestCallback" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem requestDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem requestDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem requestDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject requestDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem requestingOrganisation" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.Balance reservedBalance" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity reversalObject" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.enums.Environment SANDBOX" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem scheduledStartDate" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem senderKyc" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation sendingServiceProviderCountry" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity serverCorrelationId" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.RequestStateObject serverCorrelationId" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.ServiceAvailability serviceStatus" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.enums.AuthenticationType STANDARD_LEVEL" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.PostalAddress stateProvince" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.RequestStateObject status" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SenderKyc subjectName" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity SUCCESS" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.GSMAError throwable" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.SubjectName title" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.LandingActivity toastText" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.Token tokenType" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.Transaction transaction" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity transactionRef" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem transactionReference" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject transactionReference" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity transactionRequest" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem transactionStatus" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject transactionStatus" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity txtResponse" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionItem type" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.transaction.TransactionObject type" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.common.Balance unclearedBalance" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration urlVersion" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.LandingActivity usecasesArray" />
+      <entry_point TYPE="field" FQNAME="com.gsmasdk.gsmatest.MerchantPaymentsActivity VALIDATION" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.models.authorisationCode.RedemptionAccountIdentifiersItem value" />
+      <entry_point TYPE="field" FQNAME="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration xAPIKey" />
     </entry_points>
     <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="getErrorCode" />
     <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="getErrorCategory" />
@@ -32,6 +261,363 @@
     <pattern value="com.gsmaSdk.gsma.models.transaction.RequestingOrganisation" />
     <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager" method="failDelayedRequests" />
     <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager" />
+    <pattern value="com.gsmaSdk.gsma.ExampleUnitTest" method="addition_isCorrect" />
+    <pattern value="com.gsmasdk.gsmatest.ExampleUnitTest" method="addition_isCorrect" />
+    <pattern value="com.gsmaSdk.gsma.enums.AuthenticationType" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode" />
+    <pattern value="com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" />
+    <pattern value="com.gsmasdk.gsmatest.DisbursementActivity" method="balanceCheck" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="balanceCheck" />
+    <pattern value="com.gsmaSdk.gsma.interfaces.BalanceInterface" />
+    <pattern value="com.gsmaSdk.gsma.utils.Utils" method="base64EncodeString" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.Batch" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="bulkTransaction" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BulkTransactionObject" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="checkServiceAvailability" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="checkServiceAvailability" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="createCodeRequestObject" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="createPaymentReversalObject" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="createTransactionObject" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.CreditPartyItem" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.CustomDataItem" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.DebitPartyItem" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager.DelayedRequest" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager.DelayedRequest" method="DelayedRequest" />
+    <pattern value="com.gsmasdk.gsmatest.DisbursementActivity" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="disbursementPay" />
+    <pattern value="com.gsmaSdk.gsma.enums.Environment" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorParameter" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorParameter" method="ErrorParameter" />
+    <pattern value="com.gsmaSdk.gsma.ExampleInstrumentedTest" />
+    <pattern value="com.gsmasdk.gsmatest.ExampleInstrumentedTest" />
+    <pattern value="com.gsmaSdk.gsma.ExampleUnitTest" />
+    <pattern value="com.gsmasdk.gsmatest.ExampleUnitTest" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager.DelayedRequest" method="fail" />
+    <pattern value="com.gsmaSdk.gsma.utils.Utils" method="generateUUID" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Token" method="getAccessToken" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="getAccountStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.PostalAddress" method="getAddressLine1" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="getAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest" method="getAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionRequest" method="getAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getApprovalDate" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode" method="getAuthCode" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="getAuthorisationCode" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" method="getAuthToken" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" method="getAuthType" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="getAvailableBalance" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="getBalance" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" method="getBase64Value" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getBatchDescription" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BulkTransactionObject" method="getBatchDescription" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getBatchId" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getBatchStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getBatchTitle" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BulkTransactionObject" method="getBatchTitle" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion" method="getBatchTransactionCompletion" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection" method="getBatchTransactionRejection" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getBirthCountry" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" method="getCallBackURL" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.PostalAddress" method="getCity" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="getCodeState" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getCompletedCount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="getCompletedDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="getCompletionDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getCompletionDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getContactPhone" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.PostalAddress" method="getCountry" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="getCreationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getCreationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getCreationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getCreationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="getCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="getCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionRequest" method="getCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="getCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest" method="getCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="getCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionRequest" method="getCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="getCurrentBalance" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="getCustomData" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="getCustomData" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getDateOfBirth" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="getDateRejected" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="getDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="getDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionRequest" method="getDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation" method="getDeliveryMethod" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getEmailAddress" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getEmployerName" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GSMAError" method="getErrorBody" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GSMAError" method="getErrorCode" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="getErrorDateTime" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="getErrorDescription" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="getErrorParameterList" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Token" method="getExpiresIn" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.IdDocumentItem" method="getExpiryDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SubjectName" method="getFirstName" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SubjectName" method="getFullName" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getGender" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getIdDocument" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.IdDocumentItem" method="getIdNumber" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.IdDocumentItem" method="getIdType" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="getInstance" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getInternationalTransferInformation" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.IdDocumentItem" method="getIssueDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.IdDocumentItem" method="getIssuer" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.IdDocumentItem" method="getIssuerCountry" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.IdDocumentItem" method="getIssuerPlace" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.CreditPartyItem" method="getKey" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.CustomDataItem" method="getKey" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.DebitPartyItem" method="getKey" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorParameter" method="getKey" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.RedemptionAccountIdentifiersItem" method="getKey" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SubjectName" method="getLastName" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GetLink" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="getLink" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GetLink" method="getLink" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="getMessage" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SubjectName" method="getMiddleName" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="getMissingTransaction" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="getModificationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getModificationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getModificationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getModificationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getNationality" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SubjectName" method="getNativeName" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="getNotificationMethod" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="getObjectReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getOccupation" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getOneTimeCode" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.Batch" method="getOp" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation" method="getOriginCountry" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getParsingSuccessCount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.Batch" method="getPath" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="getPollLimit" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getPostalAddress" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.PostalAddress" method="getPostalCode" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation" method="getQuotationReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation" method="getQuoteId" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation" method="getReceivingCountry" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="getRedemptionAccountIdentifiers" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getRejectionCount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="getRejectionDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="getRejectionReason" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation" method="getRelationshipSender" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation" method="getRemittancePurpose" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager.DelayedRequest" method="getRequest" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="getRequestDate" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest" method="getRequestDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getRequestDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getRequestDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getRequestDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getRequestingOrganisation" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="getRequestingOrganisationTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="getRequestingOrganisationTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="getReservedBalance" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.ReversalObject" method="getReversal" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="getScheduledStartDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BulkTransactionObject" method="getScheduledStartDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getSenderKyc" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation" method="getSendingServiceProviderCountry" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="getServerCorrelationId" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ServiceAvailability" method="getServiceStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.PostalAddress" method="getStateProvince" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="getStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" method="getSubjectName" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SubjectName" method="getTitle" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="getToken" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Token" method="getTokenType" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.Transaction" method="getTransaction" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="getTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="getTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BulkTransactionObject" method="getTransactions" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getTransactionStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getTransactionStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="getType" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="getType" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="getUnclearedBalance" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" method="getUrlVersion" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.Batch" method="getValue" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.CreditPartyItem" method="getValue" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.CustomDataItem" method="getValue" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.DebitPartyItem" method="getValue" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorParameter" method="getValue" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.RedemptionAccountIdentifiersItem" method="getValue" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" method="getxAPIKey" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GSMAError" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GSMAError" method="GSMAError" />
+    <pattern value="com.gsmasdk.gsmatest.LandingActivity" method="hideLoading" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="hideLoading" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.IdDocumentItem" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation" />
+    <pattern value="com.gsmasdk.gsmatest.LandingActivity" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.PostalAddress" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.RedemptionAccountIdentifiersItem" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SenderKyc" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ServiceAvailability" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager.SingletonCreationAdmin" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.SubjectName" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Token" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.Transaction" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionRequest" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager" method="init" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" method="init" />
+    <pattern value="com.gsmaSdk.gsma.utils.Utils" method="isOnline" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionItem" method="isProcessingFlag" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="merchantPay" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="obtainAuthorisationCode" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="obtainAuthorizationCode" />
+    <pattern value="com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface" method="onAuthorisationCodeFailure" />
+    <pattern value="com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface" method="onAuthorisationCodeSuccess" />
+    <pattern value="com.gsmaSdk.gsma.interfaces.BalanceInterface" method="onBalanceFailure" />
+    <pattern value="com.gsmaSdk.gsma.interfaces.BalanceInterface" method="onBalanceSuccess" />
+    <pattern value="com.gsmasdk.gsmatest.LandingActivity" method="onCreate" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="onCreate" />
+    <pattern value="com.gsmasdk.gsmatest.LandingActivity" method="onItemClick" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="onItemClick" />
+    <pattern value="com.gsmaSdk.gsma.utils.Utils" method="parseError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="payeeInitiated" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="paymentRefund" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="paymentReversal" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="refundMerchantPay" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager" method="request" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager" method="RequestManager" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="requestState" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="retrieveBatchCompletions" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="retrieveBatchRejections" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="retrieveBatchTransaction" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="retrieveMissingCode" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="retrieveMissingTransaction" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="retrieveTransaction" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="retrieveTransaction" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="retriveMissingCodeResponse" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="reversal" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.ReversalObject" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager.DelayedRequest" method="run" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.RequestManager" method="runDelayedRequests" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Token" method="setAccessToken" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="setAccountStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="setAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionRequest" method="setAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode" method="setAuthCode" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="setAuthorisationCode" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" method="setAuthToken" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="setAvailableBalance" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="setCodeState" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="setCompletedDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="setCompletionDate" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="setCreationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setCreationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setCreationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionRequest" method="setCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="setCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="setCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setCreditParty" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="setCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="setCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionRequest" method="setCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="setCurrentBalance" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="setCustomData" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="setCustomData" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="setDateRejected" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionRequest" method="setDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="setDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="setDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setDebitParty" />
+    <pattern value="com.gsmaSdk.gsma.utils.Utils" method="setError" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GSMAError" method="setErrorBody" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="setErrorCategory" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GSMAError" method="setErrorCode" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="setErrorCode" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="setErrorDateTime" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="setErrorDescription" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="setErrorParameterList" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Token" method="setExpiresIn" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setInternationalTransferInformation" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.CustomDataItem" method="setKey" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorParameter" method="setKey" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.RedemptionAccountIdentifiersItem" method="setKey" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="setLink" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GetLink" method="setLink" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorObject" method="setMessage" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="setModificationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setModificationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setModificationDate" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="setNotificationMethod" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="setObjectReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setOneTimeCode" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="setPollLimit" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="setRedemptionAccountIdentifiers" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="setRejectionDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="setRejectionReason" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem" method="setRequestDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setRequestDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setRequestDate" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setRequestingOrganisation" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="setRequestingOrganisationTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="setRequestingOrganisationTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="setReservedBalance" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setSenderKyc" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="setServerCorrelationId" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ServiceAvailability" method="setServiceStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.common.RequestStateObject" method="setStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.common.GSMAError" method="setThrowable" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Token" method="setTokenType" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.Transaction" method="setTransaction" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletionItem" method="setTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.BatchTransactionRejectionItem" method="setTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setTransactionReference" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setTransactionStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setTransactionStatus" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionItem" method="setType" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.TransactionObject" method="setType" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Balance" method="setUnclearedBalance" />
+    <pattern value="com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration" method="setUrlVersion" />
+    <pattern value="com.gsmaSdk.gsma.models.transaction.CustomDataItem" method="setValue" />
+    <pattern value="com.gsmaSdk.gsma.models.common.ErrorParameter" method="setValue" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.RedemptionAccountIdentifiersItem" method="setValue" />
+    <pattern value="com.gsmasdk.gsmatest.LandingActivity" method="showLoading" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="showLoading" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="updateBatch" />
+    <pattern value="com.gsmaSdk.gsma.ExampleInstrumentedTest" method="useAppContext" />
+    <pattern value="com.gsmasdk.gsmatest.ExampleInstrumentedTest" method="useAppContext" />
+    <pattern value="com.gsmaSdk.gsma.utils.Utils" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewRequestState" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewTransaction" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="viewTransasction" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />

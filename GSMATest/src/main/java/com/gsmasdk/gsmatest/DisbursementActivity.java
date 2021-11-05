@@ -47,6 +47,7 @@ import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+@SuppressWarnings("ALL")
 public class DisbursementActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private TransactionRequest transactionRequest;
@@ -60,11 +61,10 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
     private String correlationId = "";
-    private Batch batchObject;
     private ArrayList<Batch> batchArrayList;
     private ProgressDialog progressdialog;
 
-    private String[] disbursementArray = {
+    private final String[] disbursementArray = {
             "Individual Disbursement",
             "Request State",
             "View Transaction",
@@ -94,6 +94,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
 
         progressdialog = Utils.initProgress(DisbursementActivity.this);
+
 
         checkServiceAvailability();
         createTransactionObject();
@@ -132,9 +133,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
     private void createBatchRequestObject(){
         //create a batch object
-        batchObject=new Batch();
+        Batch batchObject = new Batch();
         batchObject.setOp("replace");
-        batchObject.setPath("/status");
+        batchObject.setPath("/batchStatus");
         batchObject.setValue("approved");
         batchArrayList=new ArrayList<>();
         batchArrayList.add(batchObject);

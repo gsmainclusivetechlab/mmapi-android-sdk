@@ -52,6 +52,7 @@ public class TransactionObject implements BaseResponse {
 	@Expose
 	private List<CreditPartyItem> creditParty;
 
+
 	@SerializedName("oneTimeCode")
 	@Expose
 	private String oneTimeCode;

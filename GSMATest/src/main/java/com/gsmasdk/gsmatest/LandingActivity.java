@@ -66,6 +66,7 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
          * callbackUrl - server url to which long running operation responses are delivered
          * environment - sandbox or production
          */
+
         PaymentConfiguration.
                 init("59vthmq3f6i15v6jmcjskfkmh",
                         "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb",

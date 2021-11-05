@@ -1,6 +1,8 @@
 package com.gsmaSdk.gsma.models.transaction;
 
 import java.util.ArrayList;
+
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -20,6 +22,21 @@ public class TransactionRequest {
 
 	@SerializedName("creditParty")
 	private ArrayList<CreditPartyItem> creditParty;
+
+
+	@SerializedName("oneTimeCode")
+	@Expose
+	private String oneTimeCode;
+
+
+	public String getOneTimeCode() {
+		return oneTimeCode;
+	}
+
+	public void setOneTimeCode(String oneTimeCode) {
+		this.oneTimeCode = oneTimeCode;
+	}
+
 
 	public void setAmount(String amount){
 		this.amount = amount;
