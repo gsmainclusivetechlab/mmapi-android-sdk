@@ -38,7 +38,7 @@ To use the SDK the following requirements must be met:
 
 # How to include payments-sdk in your android application
 
-Copy the GSMASdk-debug.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
+Copy the GSMASdk-debug-1.0.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
 
 Add the below line in dependencies of your build.gradle file in your application.
 
