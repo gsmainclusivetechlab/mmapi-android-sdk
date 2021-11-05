@@ -26,7 +26,7 @@ A library that fully covers payment process inside your Android application
       10. [Retrieve a Missing API Response](#missing-response)
  
     2. [Disbursement](#payee-mechant-pay)
-   
+ 5.[How to test the sample application][https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md]  
 <a name="requirements"></a>
 # Requirements
 ---
