@@ -27,7 +27,7 @@ A library that fully covers payment process inside your Android application
    
    2. [Disbursement](#disbursement)
       1. [Individual Disbursement](#individual)
-     
+      2. [Individual Disbursement using polling method](#individual-polling)
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
 # Requirements
@@ -744,3 +744,119 @@ Intiate the disbursement using the following code
         });
 
 ```
+<a name="individual-polling"></a>
+
+# Individual Disbursement Using the Polling Method
+
+The individual disbursement using polling method can be completed using the following function calls
+
+An asynchronous payment flow is used with the polling method. The client polls against the request state object to determine the outcome of the payment request.These payment flow can achieved using the following API
+
+    1.Disbursement Request
+    2.Poll to Determine the Request State
+    3.Retrieve a Transaction
+
+
+## 1.Disbursement Request
+
+A transaction object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
+
+
+```
+private TransactionRequest transactionRequest;
+private String serverCorrelationId = "";
+private String transactionRef = "";
+```
+
+```
+private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("Place your account id of debit party here");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("Place your account id of credit party here");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("Place your amount"); //eg:200.00
+        transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
+  }
+```
+ Initiate the mechant pay request using the following code
+
+
+```
+    SDKManager.getInstance().merchantPay("disbursement", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+             }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                   serverCorrelationId = requestStateObject.getServerCorrelationId();
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+
+            }
+        });
+
+```
+   ### 2.Poll to Determine the Request State
+   ````
+   SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                transactionRef = requestStateObject.getObjectReference();
+         }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+
+            }
+
+        });
+  ````
+  ### 3.Retrieve a Transaction
+
+  ```
+    /**
+         * @param accountid account identifier
+         * @param offset Offset
+         * @param limit  Limit
+         * @param transaction Listener
+         */
+         SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+  ```
+
+
