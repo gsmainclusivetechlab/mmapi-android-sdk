@@ -29,7 +29,7 @@ A library that fully covers payment process inside your Android application
       1. [Individual Disbursement](#individual)
       2. [Individual Disbursement using polling method](#individual-polling)
       3. [Bulk Disbursement](#bulk-disbursement)
-      4. [Bulk Disbursement with maker/checker](bulk-maker-checker)
+      4. [Bulk Disbursement with maker/checker](#bulk-maker-checker)
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
 # Requirements
@@ -999,14 +999,14 @@ This use case allows the disbursement organisation to retrieve all rejected tran
     5.Retrieve the batch request
     
     
-# 3.Approve the batch request
+## 3.Approve the batch request
 
 ```
 private ArrayList<Batch> batchArrayList;
 
 ```
     
-Create a bacth array with following object
+Create a batch array with following object
 
 ```
  private void createBatchRequestObject(){
@@ -1019,11 +1019,11 @@ Create a bacth array with following object
         batchArrayList.add(batchObject);
     }
 ```
-Call the update batch request function with batch id as input parameter
+Call the update batch request function with batch id and batch array as input parameter
 
 ```
 
-  SDKManager.getInstance().updateBatch("REF-1635765084301",batchArrayList, new RequestStateInterface() {
+  SDKManager.getInstance().updateBatch("place your batch id here",batchArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
              
