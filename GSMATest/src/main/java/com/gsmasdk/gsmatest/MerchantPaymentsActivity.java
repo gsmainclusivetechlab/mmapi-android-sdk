@@ -119,7 +119,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         });
     }
 
-
     /**
      * Create Payment Reversal Object.
      */
@@ -127,8 +126,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         reversalObject = new ReversalObject();
         reversalObject.setReversal("reversal");
     }
-
-
 
     /**
      * Transaction Object for Merchant Pay.
@@ -223,7 +220,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         }
 
     }
-
 
     /**
      * Checking Balance.

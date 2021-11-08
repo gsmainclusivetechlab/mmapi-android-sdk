@@ -23,11 +23,11 @@ public class PaymentConfiguration {
 
 
     /**
-     * @param consumerKey    ConsumerKey
+     * @param consumerKey ConsumerKey
      * @param consumerSecret ConsumerSecret
-     * @param authType       Levels of authentication
+     * @param authType Levels of authentication
+     * @param callBackURL URL which should receive the Callback for asynchronous requests
      */
-
     public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL,Enum environmentType) {
         PaymentConfiguration.authType = authType;
         PaymentConfiguration.consumerSecret = consumerSecret;
@@ -40,6 +40,13 @@ public class PaymentConfiguration {
         PaymentConfiguration.xAPIKey ="";
     }
 
+    /**
+     * @param consumerKey ConsumerKey
+     * @param consumerSecret ConsumerSecret
+     * @param authType Levels of authentication
+     * @param callBackURL URL which should receive the Callback for asynchronous requests
+     * @param xAPIKey pre-shared client's API key
+     */
     public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL, String xAPIKey,Enum environmentType) {
         PaymentConfiguration.authType = authType;
         PaymentConfiguration.consumerSecret = consumerSecret;
@@ -52,6 +59,10 @@ public class PaymentConfiguration {
         PaymentConfiguration.xAPIKey = xAPIKey;
     }
 
+    /**
+     * @param callBackURL URL which should receive the Callback for asynchronous requests
+     * @param environmentType production environment
+     */
     public static void init( String callBackURL,Enum environmentType) {
         PaymentConfiguration.authType = AuthenticationType.NO_AUTH;
         PaymentConfiguration.consumerSecret ="";

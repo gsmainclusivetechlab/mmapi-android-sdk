@@ -45,12 +45,10 @@ class RequestManager {
 
     private void runDelayedRequests() {
         for (DelayedRequest delayedRequest : delayedRequests) {
-//            System.out.println("delayedRequest.toString() : " + delayedRequest.getRequest().request());
             try {
                 final Buffer buffer = new Buffer();
                 if (delayedRequest.getRequest().request().body() != null) {
                     delayedRequest.getRequest().request().body().writeTo(buffer);
-//                System.out.println("delayedRequest.toString() :" + buffer.readUtf8().toString());
                 }
             } catch (IOException s) {
                 System.out.println("ex : " + s.getLocalizedMessage());
@@ -88,7 +86,6 @@ class RequestManager {
          * Run.
          */
         void run() {
-//            Log.d("Request Url", "****  "+request.request().url() + "");
             request.enqueue(new BaseCallback<>(requestCallback));
         }
         /**
