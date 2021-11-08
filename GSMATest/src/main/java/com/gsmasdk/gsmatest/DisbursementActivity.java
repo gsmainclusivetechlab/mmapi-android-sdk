@@ -94,7 +94,6 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
         progressdialog = Utils.initProgress(DisbursementActivity.this);
 
-
         checkServiceAvailability();
         createTransactionObject();
         createPaymentReversalObject();
@@ -124,7 +123,6 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
     }
 
-
     private void createPaymentReversalObject() {
         reversalObject = new ReversalObject();
         reversalObject.setReversal("reversal");
@@ -140,8 +138,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         batchArrayList.add(batchObject);
     }
 
-
-
+    /**
+     * Method for creating Bulk transaction object.
+     */
     private void createBulkTransactionObject() {
         bulkTransactionObject = new BulkTransactionObject();
 
@@ -207,6 +206,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         });
     }
 
+    /**
+     * Method for fetching a particular transaction.
+     */
     private void viewTransaction(){
         showLoading();
         SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
@@ -355,6 +357,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         });
     }
 
+    //Reversal
     private void reversal(){
         showLoading();
         SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new RequestStateInterface() {
@@ -381,6 +384,8 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 }
             });
     }
+
+    //Retrieve Disbursement
     private void retrieveTransactionDisbursement(){
         showLoading();
         SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
@@ -407,6 +412,8 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 }
             });
     }
+
+    //Bulk Disbursement
     public void bulkDisbursement(){
         showLoading();
         SDKManager.getInstance().bulkTransaction(bulkTransactionObject, new RequestStateInterface() {
@@ -434,6 +441,8 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
         });
     }
+
+    //Rejected Disbursements
     private void batchRejections(){
         showLoading();
         SDKManager.getInstance().retrieveBatchRejections("REF-1635765084301", new BatchRejectionInterface() {
@@ -461,6 +470,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         });
     }
 
+    //Check Balance
     private void balanceCheck(){
         showLoading();
         SDKManager.getInstance().getBalance("1", new BalanceInterface() {
@@ -487,6 +497,8 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 }
             });
     }
+
+    //Completed Batch Transactions
     private void batchCompletion(){
         showLoading();
         SDKManager.getInstance().retrieveBatchCompletions("REF-1635765084301", new BatchCompletionInterface() {
@@ -514,6 +526,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         });
     }
 
+    //Update Batch Transaction
     private void updateBatch(){
         showLoading();
         SDKManager.getInstance().updateBatch("REF-1635765084301",batchArrayList, new RequestStateInterface() {
@@ -542,6 +555,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         });
     }
 
+    //Get Batch Transaction Details
     private void getBatchDetails(){
         showLoading();
         SDKManager.getInstance().retrieveBatchTransaction("REF-1635765084301", new BatchTransactionItemInterface() {
@@ -570,6 +584,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
     }
 
+    //Retrieve a missing Transaction
     private void getMissingTransaction() {
         showLoading();
         SDKManager.getInstance().retrieveMissingTransaction(correlationId, new TransactionInterface() {

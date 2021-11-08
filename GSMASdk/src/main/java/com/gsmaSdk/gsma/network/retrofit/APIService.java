@@ -36,14 +36,21 @@ import retrofit2.http.Query;
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface APIService {
 
-
+    /**
+     * Refund.
+     *
+     * @return the call
+     */
     @POST("{version}/transactions/type/adjustment")
     Call<RequestStateObject> refund(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
-
+    /**
+     * Reversal.
+     *
+     * @return the call
+     */
     @POST("{version}/transactions/{referenceId}/reversals")
     Call<RequestStateObject> reversal(@Path(value = "version", encoded = true) String version, @Path("referenceId") String referenceId, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
-
 
     /**
      * Generate Access Token call.
@@ -69,7 +76,6 @@ public interface APIService {
      *
      * @return the call
      */
-
     @POST("{version}/transactions/type/{transactionType}")
     Call<RequestStateObject> merchantPay(@Path("transactionType") String type, @Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
@@ -145,10 +151,9 @@ public interface APIService {
     @POST("{version}/batchtransactions")
     Call<RequestStateObject> bulkTransaction(@Path(value = "version", encoded = true) String version, @Body RequestBody bulkTransactionObject, @HeaderMap Map<String, String> headers);
 
-
     /**
      *
-     * update a batch
+     * Update a batch transaction
      */
     @PATCH("{version}/batchtransactions/{batchId}")
     Call<RequestStateObject> updateBatchTransaction(@Path(value = "version", encoded = true) String version,@Path("batchId") String batchId,@Body RequestBody batchTransactionObject, @HeaderMap Map<String, String> headers);
@@ -158,11 +163,8 @@ public interface APIService {
      * Retrieve a batch transaction
      *
      */
-
     @GET("{version}/batchtransactions/{batchId}")
     Call<BatchTransactionItem> retrieveBatchTransaction(@Path(value = "version", encoded = true) String version, @Path("batchId") String batchId,@HeaderMap Map<String, String> headers);
-
-
 
     /**
      * Batch Transaction Rejection

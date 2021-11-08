@@ -90,7 +90,7 @@ public class SDKManager {
     /**
      * Get Balance
      *
-     * @param accountId account id
+     * @param accountId account identifier of the user
      */
 
     public void getBalance(@NonNull String accountId, @NonNull BalanceInterface balanceInterface) {
@@ -122,7 +122,8 @@ public class SDKManager {
     /**
      * Merchant Payment
      *
-     * @param transactionRequest Transaction Object
+     * @param transactionRequest Transaction Object containing details required for initiating the transaction
+     * @param transactionType Type of the transaction that is being carried out
      */
 
     public void merchantPay(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
@@ -152,9 +153,9 @@ public class SDKManager {
     }
 
     /**
-     * View Transaction
+     * View a Transaction
      *
-     * @param transactionReference Transaction Reference ID
+     * @param transactionReference Transaction Reference ID for identifying a transaction that is already initiated
      */
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
@@ -185,9 +186,9 @@ public class SDKManager {
     }
 
     /**
-     * View Request State
+     * View Request State - returns the state of a transaction
      *
-     * @param serverCorrelationId Server Correlation ID
+     * @param serverCorrelationId A unique identifier issued by the provider to enable the client to identify the RequestState resource on subsequent polling requests.
      */
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
@@ -217,7 +218,11 @@ public class SDKManager {
         }
     }
 
-
+    /**
+     * Refund - provides refund to a given account
+     *
+     * @param transactionRequest Transaction Object containing details required for initiating the refund process
+     */
     public void refundMerchantPay(@NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
@@ -238,6 +243,12 @@ public class SDKManager {
         }
     }
 
+    /**
+     * Reversal - provides transaction reversal
+     *
+     * @param referenceId Reference id of a previous transaction
+     * @param reversal Reversal Object containing the type of the transaction
+     */
     public void reversal(@NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
         if (referenceId == null) {
             requestStateInterface.onValidationError(Utils.setError(4));
@@ -270,6 +281,12 @@ public class SDKManager {
 
     }
 
+    /**
+     * Obtain Authorisation code for a transaction
+     *
+     * @param accountId Account identifier of a user
+     * @param codeRequest An Object containing required details for getting the authorisation code
+     */
     public void obtainAuthorisationCode(@NonNull String accountId, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (accountId == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
@@ -296,11 +313,12 @@ public class SDKManager {
         }
     }
 
-
     /**
-     * View Request State
+     * Retrieve a transaction
      *
-     * @param accountId Account ID
+     * @param accountId Account identifier of a user
+     * @param offset offset required for pagination
+     * @param limit limit set for receiving records per request
      */
 
     public void retrieveTransaction(@NonNull String accountId, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
@@ -329,7 +347,7 @@ public class SDKManager {
     }
 
     /**
-     * Check Service Availability
+     * Check Service Availability - To check whether the service is available
      */
 
     public void checkServiceAvailability(@NonNull ServiceAvailabilityInterface serviceAvailabilityInterface) {
@@ -354,6 +372,8 @@ public class SDKManager {
 
     /**
      * Retrieve Missing Transaction Response
+     *
+     * @param correlationId UUID that enables the client to correlate the API request with the resource created/updated by the provider
      */
 
     public void retrieveMissingTransaction(String correlationId, @NonNull TransactionInterface missingTransactionInterface) {
@@ -390,7 +410,9 @@ public class SDKManager {
     }
 
     /**
-     * Retrieve Missing Code
+     * Retrieve Missing Code - To retrieve a missing Authorisation code
+     *
+     * @param correlationId UUID that enables the client to correlate the API request with the resource created/updated by the provider
      */
 
     public void retrieveMissingCode(String correlationId, @NonNull AuthorisationCodeInterface authorisationCodeInterface) {
@@ -432,7 +454,10 @@ public class SDKManager {
     }
 
     /**
-     * Disbursement
+     * Individual Disbursement - Organisations can make disbursements to customers
+     *
+     * @param transactionType Type of the transaction that is being carried out
+     * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
     public void disbursementPay(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null || transactionType == null) {
@@ -462,7 +487,9 @@ public class SDKManager {
     }
 
     /**
-     * Bulk Transaction
+     * Bulk Disbursement - Organisations can make bulk disbursements to customers
+     *
+     * @param bulkTransactionObject Transaction Object containing details required for initiating the bulk transaction
      */
     public void bulkTransaction(@NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
         if (bulkTransactionObject == null) {
@@ -488,7 +515,9 @@ public class SDKManager {
     }
 
     /**
-     * Retrieve Batch transaction Rejections
+     * Retrieve rejected transactions from a batch transaction
+     *
+     * @param batchId Unique identifier for identifying a batch transaction
      */
 
     public void retrieveBatchRejections(String batchId, @NonNull BatchRejectionInterface batchRejectionInterface) {
@@ -514,6 +543,12 @@ public class SDKManager {
         }
     }
 
+    /**
+     * Update a batch transaction
+     *
+     * @param batchId Unique identifier for identifying a batch transaction
+     * @param batchArrayList list containing required details for updating a batch disbursement
+     */
     public void updateBatch(String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
         if (batchId == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
@@ -542,9 +577,10 @@ public class SDKManager {
         }
     }
 
-
     /**
-     * Retrieve Batch transaction completions
+     * Retrieve a batch transaction
+     *
+     * @param batchId Unique identifier for identifying a batch transaction
      */
     public void retrieveBatchTransaction(String batchId, @NonNull BatchTransactionItemInterface batchTransactionItemInterface) {
         if (batchId == null) {
@@ -574,11 +610,10 @@ public class SDKManager {
         }
     }
 
-
-
-
     /**
-     * Retrieve Batch transaction completions
+     * Retrieve completed transactions from a batch transaction
+     *
+     * @param batchId Unique identifier for identifying a batch transaction
      */
 
     public void retrieveBatchCompletions(String batchId, @NonNull BatchCompletionInterface batchCompletionInterface) {
@@ -603,8 +638,5 @@ public class SDKManager {
 
         }
     }
-
-
-
 
 }
