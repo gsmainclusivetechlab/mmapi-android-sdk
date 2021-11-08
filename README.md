@@ -29,6 +29,7 @@ A library that fully covers payment process inside your Android application
       1. [Individual Disbursement](#individual)
       2. [Individual Disbursement using polling method](#individual-polling)
       3. [Bulk Disbursement](#bulk-disbursement)
+      4. [Bulk Disbursement with maker/checker](bulk-maker-checker)
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
 # Requirements
@@ -335,7 +336,7 @@ private void createTransactionObject() {
         transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
   }
 ```
- Initiate the mechant pay request using the following code
+ Initiate the merchant pay request using the following code
 
 
 ```
@@ -869,7 +870,7 @@ private void createTransactionObject() {
     3.Retrieve Batch Transactions that have been Rejected
   
   
-  # Perform a  bulk Disbursment
+  ## 1.Perform a  bulk Disbursment
   
   Create a bulk Transaction Object before performing the bulk disbursement
   
@@ -912,6 +913,138 @@ private void createTransactionObject() {
 
     }
 ```
+Perform the bulk transaction using the following code
+
+```
+ SDKManager.getInstance().bulkTransaction(bulkTransactionObject, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
   
+            }
+
+        });
   
+ ``` 
+ 
+  ## 2.Retrieve Batch Transactions that have Completed
+  
+  This use case allows the disbursement organisation to retrieve all completed transactions for a given batch.
+  
+  Pass the batch id as first parameter of function obtained as result of the bulk disbursment request(# 1) to a function to retrieve the completed 
+  
+  ```
+  
+   SDKManager.getInstance().retrieveBatchCompletions("Place your batch id here", new BatchCompletionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+              
+            }
+
+            @Override
+            public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion, String correlationID) {
+           
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+      
+            }
+        });
+  
+  ```
+  
+ ## 3.Retrieve Batch Transactions that have been Rejected
+
+This use case allows the disbursement organisation to retrieve all rejected transactions for a given batch
+
+```
+ SDKManager.getInstance().retrieveBatchRejections("Place your batch id here", new BatchRejectionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+
+            @Override
+            public void batchTransactionRejections(BatchTransactionRejection batchTransactionRejection, String correlationID) {
+      
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+              
+            }
+        });
+  
+```
+<a name="bulk-maker-checker"></a>
+
+# Bulk Disbursement with maker/checker
+
+    The bulk disbursment with maker/checkeer use case consist of  following  request
+      
+    1.Perform a Bulk Disbursement
+    2.Retrieve Batch Transactions that have Completed
+    3.Retrieve Batch Transactions that have been Rejected
+    4.Approve Batch request
+    5.Retrieve the batch request
+    
+    
+# 3.Approve the batch request
+
+```
+private ArrayList<Batch> batchArrayList;
+
+```
+    
+Create a bacth array with following object
+
+```
+ private void createBatchRequestObject(){
+        //create a batch object
+        Batch batchObject = new Batch();
+        batchObject.setOp("replace");
+        batchObject.setPath("/batchStatus");
+        batchObject.setValue("approved");
+        batchArrayList=new ArrayList<>();
+        batchArrayList.add(batchObject);
+    }
+```
+Call the update batch request function with batch id as input parameter
+
+```
+
+  SDKManager.getInstance().updateBatch("REF-1635765084301",batchArrayList, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+              
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+         
+            }
+
+        });
+
+
+```
+
+
+
+
+
 
