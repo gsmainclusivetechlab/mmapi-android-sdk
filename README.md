@@ -863,10 +863,55 @@ private void createTransactionObject() {
   # Bulk Disbursment
   
   The bulk disbursment use case consist of  follwing  request
+      
+    1.Perform a Bulk Disbursement
+    2.Retrieve Batch Transactions that have Completed
+    3.Retrieve Batch Transactions that have been Rejected
   
-  1.Perform a Bulk Disbursement
-  2.Retrieve Batch Transactions that have Completed
-  3.Retrieve Batch Transactions that have been Rejected
+  
+  # Perform a  bulk Disbursment
+  
+  Create a bulk Transaction Object before performing the bulk disbursement
+  
+  ```
+  private BulkTransactionObject bulkTransactionObject;
+  
+  ```
+  
+  ```
+    private void createBulkTransactionObject() {
+        bulkTransactionObject = new BulkTransactionObject();
+
+        ArrayList<TransactionItem> transactionItems = new ArrayList<>();
+        TransactionItem transactionItem = new TransactionItem();
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("Place debit party account id here");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("Place credit party account id here");
+        creditPartyList.add(creditPartyItem);
+
+        transactionItem.setAmount("Place your amount here");//amount
+        transactionItem.setType("transfer");
+        transactionItem.setCurrency("RWF");//country code
+        transactionItem.setCreditParty(creditPartyList);
+        transactionItem.setDebitParty(debitPartyList);
+        transactionItems.add(transactionItem);
+        transactionItems.add(transactionItem);
+
+        bulkTransactionObject.setBatchDescription("Testing a Batch transaction");
+        bulkTransactionObject.setBatchTitle("Batch Test");
+        bulkTransactionObject.setScheduledStartDate("2019-12-11T15:08:03.158Z");//scheduled time
+        bulkTransactionObject.setTransactions(transactionItems);
+
+    }
+```
   
   
 
