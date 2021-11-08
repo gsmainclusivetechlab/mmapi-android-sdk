@@ -30,6 +30,12 @@ A library that fully covers payment process inside your Android application
       2. [Individual Disbursement using polling method](#individual-polling)
       3. [Bulk Disbursement](#bulk-disbursement)
       4. [Bulk Disbursement with maker/checker](#bulk-maker-checker)
+      5. [Disbursement Reversal](#merchant-pay-reversal)
+      6. [Organizational balance](#merchant-pay-balance)
+      7. [Retrieve Transactions for a Disbursement Organisation](#merchant-pay-retrieve)
+      8. [Check for Service Availability](#check-for-service)
+      9. [Retrieve a Missing API Response](#missing-response)
+     
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
 # Requirements
@@ -513,7 +519,7 @@ SDKManager.getInstance().refundMerchantPay(transactionRequest, new RequestStateI
 ```
 <a name="merchant-pay-reversal"></a>
 
-# Merchant Payment Reversal
+# Payment Reversal
 
 In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
 
@@ -554,7 +560,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
 <a name="merchant-pay-balance"></a>
 
-# Obtain a Merchant Balance
+# Balance
 
 Obtain the balance of requested account,Pass the accountid to the function to retrieve the balance details
 
@@ -578,7 +584,7 @@ Obtain the balance of requested account,Pass the accountid to the function to re
 ```
 <a name="merchant-pay-retrieve"></a>
 
-# Retrieve Payments for a Merchant
+# Retrieve Payments
 
 Merchant can retrieve all transaction details
 
@@ -1042,6 +1048,32 @@ Call the update batch request function with batch id and batch array as input pa
 
 
 ```
+Retrieve the details of batch request
+
+# 3.Retrieve the batch request
+
+```
+
+SDKManager.getInstance().retrieveBatchTransaction("Place your batch id here", new BatchTransactionItemInterface() {
+                @Override
+                public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationID) {
+                   
+                }
+
+                @Override
+                public void onTransactionFailure(GSMAError gsmaError) {
+         
+                }
+
+                @Override
+                public void onValidationError(ErrorObject errorObject) {
+              
+                }
+            });
+
+
+```
+
 
 
 
