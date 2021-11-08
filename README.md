@@ -24,6 +24,10 @@ A library that fully covers payment process inside your Android application
       8. [Retrieve Payments for a Merchant](#merchant-pay-retrieve)
       9. [Check for Service Availability](#check-for-service)
       10. [Retrieve a Missing API Response](#missing-response)
+   
+   2. [Disbursement](#disbursement)
+      1. [Individual Disbursement](#individual)
+     
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
 # Requirements
@@ -127,7 +131,7 @@ The Merchant Payment Mobile Money APIs allow merchants to accept payments from m
 
 The merchant initiates the request and will be credited when the payer approves the request.
 
-A transcation object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
+A transaction object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
 
 
 ```
@@ -194,7 +198,7 @@ An asynchronous payment flow is used with the polling method. The client polls a
 
 The merchant initiates the request and will be credited when the payer approves the request.
 
-A transcation object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
+A transaction object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
 
 
 ```
@@ -299,7 +303,7 @@ private void createTransactionObject() {
 
 The merchant initiates the request and will be credited when the payer approves the request.
 
-A transcation object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
+A transaction object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
 
 
 ```
@@ -403,7 +407,7 @@ Obtain Authorization code to perform merchant payment,The authorization code is 
 
 ```
 
-A transcation object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
+A transaction object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
 ```
 private void createTransactionObject() {
         transactionRequest = new TransactionRequest();
@@ -678,9 +682,65 @@ SDKManager.getInstance().retrieveMissingTransaction(correlationId, new Transacti
         });
 
 ```
+<a name="disbursement"></a>
+
+The Disbursement Mobile Money APIs allow organisations to disburse funds to mobile money recipients.
+# Individual Disbursement
+
+<a name="individual"></a>
+
+Individual disbursement using an asynchronous flow with the notification provided via a callback.
 
 
+A transaction object is to be created before calling the individual disbursement,The example for transaction object as follows
 
 
+```
+private TransactionRequest transactionRequest;
+private String serverCorrelationId = "";
+private String transactionRef = "";
+```
 
+```
+private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
 
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("Place your account id of debit party here");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("Place your account id of credt party here");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("Place your amount"); //eg:200.00
+        transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
+  }
+```
+Intiate the disbursement using the following code
+
+```
+ SDKManager.getInstance().disbursementPay("disbursement", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+               
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+             
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+          
+            }
+
+        });
+
+```
