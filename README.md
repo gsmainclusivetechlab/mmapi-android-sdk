@@ -28,6 +28,7 @@ A library that fully covers payment process inside your Android application
    2. [Disbursement](#disbursement)
       1. [Individual Disbursement](#individual)
       2. [Individual Disbursement using polling method](#individual-polling)
+      3. [Bulk Disbursement](#bulk-disbursement)
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
 # Requirements
@@ -858,5 +859,14 @@ private void createTransactionObject() {
             }
         });
   ```
-
+  <a name="bulk-disbursement"></a>
+  # Bulk Disbursment
+  
+  The bulk disbursment use case consist of  follwing  request
+  
+  1.Perform a Bulk Disbursement
+  2.Retrieve Batch Transactions that have Completed
+  3.Retrieve Batch Transactions that have been Rejected
+  
+  
 
