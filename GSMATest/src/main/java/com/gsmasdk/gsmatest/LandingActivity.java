@@ -115,6 +115,8 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case 2:
                 //International Transfers
+                startActivity(new Intent(LandingActivity.this, InternationalTransfersActivity.class));
+
                 break;
             case 3:
                 //P2P Transfers

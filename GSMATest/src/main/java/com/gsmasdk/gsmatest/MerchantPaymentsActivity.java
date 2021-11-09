@@ -257,7 +257,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void payeeInitiated() {
         showLoading();
-        SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().initiatePayment("merchantpay", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

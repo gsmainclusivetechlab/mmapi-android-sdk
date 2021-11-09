@@ -118,40 +118,6 @@ public class SDKManager {
             );
         }
     }
-
-    /**
-     * Merchant Payment
-     *
-     * @param transactionRequest Transaction Object containing details required for initiating the transaction
-     * @param transactionType Type of the transaction that is being carried out
-     */
-
-    public void merchantPay(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (transactionType == null) {
-            requestStateInterface.onValidationError(Utils.setError(7));
-            return;
-        }
-        if (transactionType.isEmpty()) {
-            requestStateInterface.onValidationError(Utils.setError(7));
-        } else if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-        } else {
-            String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().merchantPay(uuid, transactionType, transactionRequest, new APIRequestCallback<RequestStateObject>() {
-                        @Override
-                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
-                        }
-
-                        @Override
-                        public void onFailure(GSMAError errorDetails) {
-                            requestStateInterface.onRequestStateFailure(errorDetails);
-                        }
-                    }
-            );
-        }
-    }
-
     /**
      * View a Transaction
      *
@@ -454,12 +420,12 @@ public class SDKManager {
     }
 
     /**
-     * Individual Disbursement - Organisations can make disbursements to customers
+     * Intiate Payment - Intiate merchant pay,disbursements to customers
      *
      * @param transactionType Type of the transaction that is being carried out
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
-    public void disbursementPay(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void initiatePayment(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null || transactionType == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;

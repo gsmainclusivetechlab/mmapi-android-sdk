@@ -85,7 +85,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         setContentView(R.layout.activity_disbursement);
         setTitle("Disbursement");
 
-        ListView listUseCases = findViewById(R.id.disbursemenList);
+        ListView listUseCases = findViewById(R.id.disbursementList);
         CustomUseCaseAdapter customListAdapter = new CustomUseCaseAdapter(DisbursementActivity.this, new ArrayList(Arrays.asList(disbursementArray)));
         listUseCases.setAdapter(customListAdapter);
         listUseCases.setOnItemClickListener(this);
@@ -330,7 +330,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
    //individual disbursement
     private void individualDisbursement(){
         showLoading();
-        SDKManager.getInstance().disbursementPay("disbursement", transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().initiatePayment("disbursement", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
