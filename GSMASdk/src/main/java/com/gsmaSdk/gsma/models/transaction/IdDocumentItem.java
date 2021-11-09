@@ -17,6 +17,10 @@ public class IdDocumentItem{
 	@SerializedName("idType")
 	private String idType;
 
+	@SerializedName("otherIdDescription")
+	private String otherIdDescription;
+
+
 	@SuppressWarnings("unused")
 	@SerializedName("issuerPlace")
 	private String issuerPlace;
@@ -32,6 +36,42 @@ public class IdDocumentItem{
 	@SuppressWarnings("unused")
 	@SerializedName("issuer")
 	private String issuer;
+
+	public void setExpiryDate(String expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	public void setIssuerCountry(String issuerCountry) {
+		this.issuerCountry = issuerCountry;
+	}
+
+	public void setIdType(String idType) {
+		this.idType = idType;
+	}
+
+	public String getOtherIdDescription() {
+		return otherIdDescription;
+	}
+
+	public void setOtherIdDescription(String otherIdDescription) {
+		this.otherIdDescription = otherIdDescription;
+	}
+
+	public void setIssuerPlace(String issuerPlace) {
+		this.issuerPlace = issuerPlace;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+
+	public void setIssueDate(String issueDate) {
+		this.issueDate = issueDate;
+	}
+
+	public void setIssuer(String issuer) {
+		this.issuer = issuer;
+	}
 
 	@SuppressWarnings("unused")
 	public String getExpiryDate(){

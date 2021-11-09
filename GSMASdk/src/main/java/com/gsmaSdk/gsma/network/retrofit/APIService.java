@@ -77,7 +77,12 @@ public interface APIService {
      * @return the call
      */
     @POST("{version}/transactions/type/{transactionType}")
-    Call<RequestStateObject> merchantPay(@Path("transactionType") String type, @Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> initiatePayment(@Path("transactionType") String type, @Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+
+
+
+    @POST("{version}/quotations")
+    Call<RequestStateObject> requestQuotation(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
     /**
      * View Transaction

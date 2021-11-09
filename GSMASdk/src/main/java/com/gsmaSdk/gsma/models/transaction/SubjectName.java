@@ -29,7 +29,32 @@ public class SubjectName{
     @SerializedName("title")
 	private String title;
 
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setNativeName(String nativeName) {
+		this.nativeName = nativeName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	@SuppressWarnings("unused")
+
     public String getFirstName(){
 		return firstName;
 	}

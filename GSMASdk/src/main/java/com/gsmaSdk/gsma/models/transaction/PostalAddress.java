@@ -36,6 +36,26 @@ public class PostalAddress{
 		return addressLine1;
 	}
 
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public void setAddressLine1(String addressLine1) {
+		this.addressLine1 = addressLine1;
+	}
+
+	public void setStateProvince(String stateProvince) {
+		this.stateProvince = stateProvince;
+	}
+
 	public String getStateProvince(){
 		return stateProvince;
 	}

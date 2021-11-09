@@ -248,6 +248,35 @@ public class SDKManager {
     }
 
     /**
+    * @param  transactionRequest the request object-International Transfers
+    * @param  requestStateInterface callback for request state object
+    */
+    public void requestQuotation( @NonNull TransactionRequest transactionRequest,@NonNull RequestStateInterface requestStateInterface) {
+        if (transactionRequest==null) {
+            requestStateInterface.onValidationError(Utils.setError(5));
+            return;
+        }
+        if (Utils.isOnline()) {
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().requestQuotation(uuid,transactionRequest, new APIRequestCallback<RequestStateObject>() {
+                @Override
+                public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                    requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                }
+
+                @Override
+                public void onFailure(GSMAError errorDetails) {
+                    requestStateInterface.onRequestStateFailure(errorDetails);
+                }
+            });
+        } else {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        }
+
+    }
+
+
+    /**
      * Obtain Authorisation code for a transaction
      *
      * @param accountId Account identifier of a user
@@ -436,7 +465,7 @@ public class SDKManager {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().merchantPay(uuid, transactionType, transactionRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().initiatePayment(uuid, transactionType, transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);

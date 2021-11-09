@@ -151,9 +151,9 @@ public final class GSMAApi {
      * @param transactionType Type of transaction - merchant pay
      * @param transactionRequest Model class for Transaction Request
      */
-    public void merchantPay(String uuid, String transactionType, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void initiatePayment(String uuid, String transactionType, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.merchantPay(transactionType, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.initiatePayment(transactionType, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
 
     /**
@@ -205,6 +205,20 @@ public final class GSMAApi {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.reversal(PaymentConfiguration.getUrlVersion(), referenceId, RequestBody.create(new Gson().toJson(reversalObject), mediaType), headers), apiRequestCallback));
     }
+
+    /**
+     * Request Quotation
+     *
+     * @param uuid UUID
+     * @param  @param transactionType - International Transfer
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void requestQuotation(String uuid,TransactionRequest transactionRequest,APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.requestQuotation(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
+    }
+
+
 
     /**
      * Retrieve Transaction.

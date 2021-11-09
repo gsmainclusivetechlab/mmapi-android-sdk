@@ -39,6 +39,51 @@ public class SenderKyc{
 	@SerializedName("subjectName")
 	private SubjectName subjectName;
 
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public void setPostalAddress(PostalAddress postalAddress) {
+		this.postalAddress = postalAddress;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public void setIdDocument(List<IdDocumentItem> idDocument) {
+		this.idDocument = idDocument;
+	}
+
+	public void setBirthCountry(String birthCountry) {
+		this.birthCountry = birthCountry;
+	}
+
+	public void setEmployerName(String employerName) {
+		this.employerName = employerName;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
+	}
+
+	public void setSubjectName(SubjectName subjectName) {
+		this.subjectName = subjectName;
+	}
+
 	public String getEmailAddress(){
 		return emailAddress;
 	}
