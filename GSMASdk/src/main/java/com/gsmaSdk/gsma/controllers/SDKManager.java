@@ -274,6 +274,34 @@ public class SDKManager {
         }
 
     }
+    /**
+     * @param  transactionRequest the request object-International Transfers
+     * @param  requestStateInterface callback for request state object
+     */
+
+    public void intiateInternationalTransfer( @NonNull TransactionRequest transactionRequest,@NonNull RequestStateInterface requestStateInterface) {
+        if (transactionRequest==null) {
+            requestStateInterface.onValidationError(Utils.setError(5));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        } else {
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().initiatePayment(uuid,"inttransfer", transactionRequest, new APIRequestCallback<RequestStateObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            requestStateInterface.onRequestStateFailure(errorDetails);
+                        }
+                    }
+            );
+
+        }
+    }
+
 
 
     /**
@@ -454,18 +482,18 @@ public class SDKManager {
      * @param transactionType Type of the transaction that is being carried out
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
-    public void initiatePayment(@NonNull String transactionType, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null || transactionType == null) {
+    public void initiateMerchantPayment(@NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
         }
-        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty() || transactionType.isEmpty()) {
+        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty() ) {
             requestStateInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().initiatePayment(uuid, transactionType, transactionRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().initiatePayment(uuid,"merchantpay", transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
@@ -480,6 +508,36 @@ public class SDKManager {
 
         }
     }
+
+    public void initiateDisbursementPayment(@NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null ) {
+            requestStateInterface.onValidationError(Utils.setError(1));
+            return;
+        }
+        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()) {
+            requestStateInterface.onValidationError(Utils.setError(1));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        } else {
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().initiatePayment(uuid,"disbursement", transactionRequest, new APIRequestCallback<RequestStateObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            requestStateInterface.onRequestStateFailure(errorDetails);
+                        }
+                    }
+            );
+
+        }
+    }
+
+
+
 
     /**
      * Bulk Disbursement - Organisations can make bulk disbursements to customers

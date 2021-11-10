@@ -14,6 +14,14 @@ public class RequestingOrganisation{
 		return requestingOrganisationIdentifierType;
 	}
 
+	public void setRequestingOrganisationIdentifierType(String requestingOrganisationIdentifierType) {
+		this.requestingOrganisationIdentifierType = requestingOrganisationIdentifierType;
+	}
+
+	public void setRequestingOrganisationIdentifier(String requestingOrganisationIdentifier) {
+		this.requestingOrganisationIdentifier = requestingOrganisationIdentifier;
+	}
+
 	public String getRequestingOrganisationIdentifier(){
 		return requestingOrganisationIdentifier;
 	}

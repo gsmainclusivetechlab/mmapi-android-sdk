@@ -330,7 +330,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
    //individual disbursement
     private void individualDisbursement(){
         showLoading();
-        SDKManager.getInstance().initiatePayment("disbursement", transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().initiateDisbursementPayment(transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
