@@ -842,27 +842,22 @@ private void createTransactionObject() {
   ### 3.Retrieve a Transaction
 
   ```
-    /**
-         * @param accountid account identifier
-         * @param offset Offset
-         * @param limit  Limit
-         * @param transaction Listener
-         */
-         SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+         SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+    
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
-
+            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
+         
             }
 
             @Override
-            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
-
+            public void onTransactionFailure(GSMAError gsmaError) {
+   
             }
+
         });
   ```
   <a name="bulk-disbursement"></a>
