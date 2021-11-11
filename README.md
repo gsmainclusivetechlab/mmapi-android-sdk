@@ -999,8 +999,9 @@ This use case allows the disbursement organisation to retrieve all rejected tran
     5.Retrieve the batch request
     
     
-## 3.Approve the batch request
-
+perfom the step 1 to step 3 which is already mentioned in bulk disbursment use cases     
+    
+## 4.Approve the batch request
 ```
 private ArrayList<Batch> batchArrayList;
 
@@ -1044,7 +1045,7 @@ Call the update batch request function with batch id and batch array as input pa
 ```
 Retrieve the details of batch request
 
-# 3.Retrieve the batch request
+## 5.Retrieve the batch request
 
 ```
 
