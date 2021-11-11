@@ -1238,10 +1238,59 @@ Request a quotation to perform international transfer with transaction request o
 
 
 ```
+2.Perform an International Transfer<br />
+
+To perform international request add the international transfer information,amount and currency to existing request object
+
+```
+           //set amount and currency
+            transactionRequest.setAmount("100");
+            transactionRequest.setCurrency("GBP");
+
+            //create international information object to perform international transfer
+
+            InternationalTransferInformation internationalTransferInformation = new InternationalTransferInformation();
+            internationalTransferInformation.setOriginCountry("GB");
+            internationalTransferInformation.setQuotationReference("REF-1636521507766");
+            internationalTransferInformation.setQuoteId("REF-1636521507766");
+            internationalTransferInformation.setReceivingCountry("RW");
+            internationalTransferInformation.setRemittancePurpose("personal");
+            internationalTransferInformation.setRelationshipSender("none");
+            internationalTransferInformation.setDeliveryMethod("agent");
+            internationalTransferInformation.setSendingServiceProviderCountry("AD");
+            transactionRequest.setInternationalTransferInformation(internationalTransferInformation);
+
+            RequestingOrganisation requestingOrganisation = new RequestingOrganisation();
+            requestingOrganisation.setRequestingOrganisationIdentifierType("organisationid");
+            requestingOrganisation.setRequestingOrganisationIdentifier("testorganisation");
+
+            //add requesting organisation object into transaction request
+            transactionRequest.setRequestingOrganisation(requestingOrganisation);
+
+
+```
+Perform internatioal transfer request using transaction request
+
+```
+  SDKManager.getInstance().initiateInternationalTransfer(transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+              
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+    
+            }
+        });
 
 
 
-
+```
 
 
 
