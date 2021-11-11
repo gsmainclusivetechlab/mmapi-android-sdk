@@ -604,7 +604,7 @@ Merchant can retrieve all transaction details
          * @param Retrieve transaction Listener
          */
 
- SDKManager.getInstance().retrieveTransaction("Place your account id", "Place your offse", "Place your limit", new RetrieveTransactionInterface() {
+ SDKManager.getInstance().retrieveTransaction("Place your account id", "Place your offset", "Place your limit", new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
@@ -656,20 +656,20 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ```
 SDKManager.getInstance().retrieveMissingTransaction(correlationId, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionObject transactionObject, String correlationId) {
-
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+              
             }
 
             @Override
             public void onTransactionFailure(GSMAError gsmaError) {
-
+   
 
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
-           }
+                
+            }
 
         });
 
@@ -742,7 +742,7 @@ private void createTransactionObject() {
 Intiate the disbursement using the following code
 
 ```
- SDKManager.getInstance().disbursementPay("disbursement", transactionRequest, new RequestStateInterface() {
+ SDKManager.getInstance().initiateDisbursementPayment("disbursement", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                
@@ -810,7 +810,7 @@ private void createTransactionObject() {
 
 
 ```
-    SDKManager.getInstance().merchantPay("disbursement", transactionRequest, new RequestStateInterface() {
+    SDKManager.getInstance().initiateDisbursementPayment("disbursement", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
@@ -851,28 +851,26 @@ private void createTransactionObject() {
   ### 3.Retrieve a Transaction
 
   ```
-    /**
-         * @param accountid account identifier
-         * @param offset Offset
-         * @param limit  Limit
-         * @param transaction Listener
-         */
-         SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+   
+      SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+    
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
-
+            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
+         
             }
 
             @Override
-            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
-
+            public void onTransactionFailure(GSMAError gsmaError) {
+   
             }
+
         });
+   
+   
   ```
   <a name="bulk-disbursement"></a>
   # Bulk Disbursment
