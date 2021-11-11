@@ -481,6 +481,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
         });
+
     }
 
     /**

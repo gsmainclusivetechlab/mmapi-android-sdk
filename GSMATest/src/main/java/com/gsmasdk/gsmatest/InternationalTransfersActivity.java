@@ -98,7 +98,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             case 1:
                 createInternationalTransferObject();
                 //Request a International Transfer Quotation;
-
+                break;
             case 2:
                 //Reversal
                 reversal();
@@ -125,106 +125,38 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
 
     private void createInternationalTransferObject(){
-        transactionRequest=new TransactionRequest();
-        transactionRequest.setAmount("100");
-        transactionRequest.setCurrency("GBP");
+//        transactionRequest=new TransactionRequest();
+        if(transactionRequest==null){
+            Utils.showToast(this,"Please request for Quotation before perfoming this request");
+           return;
+        }else {
 
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+            //set amount and currency
+            transactionRequest.setAmount("100");
+            transactionRequest.setCurrency("GBP");
 
-        debitPartyItem.setKey("walletid");
-        debitPartyItem.setValue("1");
-        debitPartyList.add(debitPartyItem);
+            //create international information object to perform international transfer
 
-        creditPartyItem.setKey("msisdn");
-        creditPartyItem.setValue("+44012345678");
-        creditPartyList.add(creditPartyItem);
+            InternationalTransferInformation internationalTransferInformation = new InternationalTransferInformation();
+            internationalTransferInformation.setOriginCountry("GB");
+            internationalTransferInformation.setQuotationReference("REF-1636521507766");
+            internationalTransferInformation.setQuoteId("REF-1636521507766");
+            internationalTransferInformation.setReceivingCountry("RW");
+            internationalTransferInformation.setRemittancePurpose("personal");
+            internationalTransferInformation.setRelationshipSender("none");
+            internationalTransferInformation.setDeliveryMethod("agent");
+            internationalTransferInformation.setSendingServiceProviderCountry("AD");
+            transactionRequest.setInternationalTransferInformation(internationalTransferInformation);
 
-        transactionRequest.setDebitParty(debitPartyList);
-        transactionRequest.setCreditParty(creditPartyList);
+            RequestingOrganisation requestingOrganisation = new RequestingOrganisation();
+            requestingOrganisation.setRequestingOrganisationIdentifierType("organisationid");
+            requestingOrganisation.setRequestingOrganisationIdentifier("testorganisation");
 
-        InternationalTransferInformation internationalTransferInformation=new InternationalTransferInformation();
-        internationalTransferInformation.setOriginCountry("GB");
-        internationalTransferInformation.setQuotationReference("REF-1636521507766");
-        internationalTransferInformation.setQuoteId("REF-1636521507766");
-        internationalTransferInformation.setReceivingCountry("RW");
-        internationalTransferInformation.setRemittancePurpose("personal");
-        internationalTransferInformation.setRelationshipSender("none");
-        internationalTransferInformation.setDeliveryMethod("agent");
-        internationalTransferInformation.setSendingServiceProviderCountry("AD");
-        transactionRequest.setInternationalTransferInformation(internationalTransferInformation);
+            //add requesting organisation object into transaction request
+            transactionRequest.setRequestingOrganisation(requestingOrganisation);
 
-         //sender kyc object
-
-        SenderKyc senderKyc=new SenderKyc();
-        senderKyc.setNationality("GB");
-        senderKyc.setDateOfBirth("1970-07-03T11:43:27.405Z");
-        senderKyc.setOccupation("manager");
-        senderKyc.setEmployerName("MFX");
-        senderKyc.setContactPhone("447125588999");
-        senderKyc.setGender("m"); // m or f
-        senderKyc.setEmailAddress("luke.skywalkeraaabbb@gmail.com");
-        senderKyc.setBirthCountry("GB");
-
-        // create object for documentation
-
-        ArrayList<IdDocumentItem> idDocumentItemList=new ArrayList<>();
-        IdDocumentItem idDocumentItem=new IdDocumentItem();
-        idDocumentItem.setIdType("nationalidcard");
-        idDocumentItem.setIdNumber("1234567");
-        idDocumentItem.setIssueDate("2018-07-03T11:43:27.405Z");
-        idDocumentItem.setExpiryDate("2021-07-03T11:43:27.405Z");
-        idDocumentItem.setIssuer("UKPA");
-        idDocumentItem.setIssuerPlace("GB");
-        idDocumentItem.setIssuerCountry("GB");
-        idDocumentItem.setOtherIdDescription("test");
-
-        idDocumentItemList.add(idDocumentItem);
-
-        //add document details to kyc object
-        senderKyc.setIdDocument(idDocumentItemList);
-
-        //create object for postal address
-
-        PostalAddress postalAddress=new PostalAddress();
-        postalAddress.setCountry("GB");
-        postalAddress.setAddressLine1("111 ABC Street");
-        postalAddress.setCity("New York");
-        postalAddress.setStateProvince("New York");
-        postalAddress.setPostalCode("ABCD");
-
-        //add postal address to kyc object
-        senderKyc.setPostalAddress(postalAddress);
-
-        //create subject model
-
-        SubjectName subjectName=new SubjectName();
-        subjectName.setTitle("Mr");
-        subjectName.setFirstName("Luke");
-        subjectName.setMiddleName("R");
-        subjectName.setLastName("Skywalker");
-        subjectName.setFullName("Luke R Skywalker");
-        subjectName.setNativeName("ABC");
-
-        //add  subject to kyc model
-
-
-        senderKyc.setSubjectName(subjectName);
-
-        //requesting organization object
-
-        RequestingOrganisation requestingOrganisation=new RequestingOrganisation();
-        requestingOrganisation.setRequestingOrganisationIdentifierType("organisationid");
-        requestingOrganisation.setRequestingOrganisationIdentifier("testorganisation");
-
-        //add requesting organisation object into transaction request
-        transactionRequest.setRequestingOrganisation(requestingOrganisation);
-
-        Log.d(SUCCESS, "onTransaction " + new Gson().toJson(transactionRequest));
-
-        performInternationalTransfer();
+            performInternationalTransfer();
+        }
     }
 
 
