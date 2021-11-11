@@ -68,7 +68,7 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
 
 //Declare the configuration parameter
 
-    private String consumerKey;//optional parameter is NO_AUTH
+    private String consumerKey;//optional paramater if the security level is NO_AUTH
     private String consumerSecret;//optional paramater if the security level is NO_AUTH
     private Enum securityOption;// options  NO_AUTH , DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
     private String callBackURL;//The backend server URL for your app for handling callbacks in application
@@ -174,21 +174,22 @@ private void createTransactionObject() {
 
 
 ```
-    SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
+    SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
-             }
+            
+            }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-
-              }
+ 
+            }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-
+    
             }
+
         });
 
 ```
@@ -241,69 +242,81 @@ private void createTransactionObject() {
 
 
 ```
-    SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
+  SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
-             }
+            
+            }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                   serverCorrelationId = requestStateObject.getServerCorrelationId();
+ 
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-
+    
             }
+
         });
 
 ```
    ### 2.Poll to Determine the Request State
    ````
-   SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+   SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+             
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                transactionRef = requestStateObject.getObjectReference();
-         }
+            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
+  
+            }
 
             @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-
+            public void onTransactionFailure(GSMAError gsmaError) {
+               
+        
             }
 
         });
+  
   ````
   ### 3.Retrieve a Transaction
 
   ```
-    /**
-         * @param accountid account identifier
-         * @param offset Offset
-         * @param limit  Limit
-         * @param transaction Listener
-         */
-         SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+   
+    SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
-
+            public void onTransactionSuccess(TransactionObject transactionObject, String correlationID) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(transactionObject));
+                correlationId = correlationID;
+                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
             }
 
             @Override
-            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
-
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
             }
+
         });
+
+   
+   
+   
   ```
   <a name="payer-merchant-pay"></a>
 
