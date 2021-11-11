@@ -39,7 +39,14 @@ A library that fully covers payment process inside your Android application
       
    3. [International Transfers](#international-transfer)
        1. [International Transfer via Hub](#international-transfer-feature)
-     
+       2. [Bilateral International Transfer](#international-transfer-feature)
+       3. [International Transfer Reversal](#merchant-pay-reversal)
+       4. [Obtain an FSP Balance](#merchant-pay-balance)
+       5. [Retrieve Transactions for an FSP](#merchant-pay-retrieve)
+       6. [Check for Service Availability](#check-for-service)
+       7. [Retrieve a Missing API Response](#missing-response)
+
+       
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
 # Requirements
@@ -1238,7 +1245,7 @@ Request a quotation to perform international transfer with transaction request o
 
 
 ```
-2.Perform an International Transfer<br />
+## 2.Perform an International Transfer<br />
 
 To perform international request add the international transfer information,amount and currency to existing request object
 
@@ -1269,7 +1276,7 @@ To perform international request add the international transfer information,amou
 
 
 ```
-Perform internatioal transfer request using transaction request
+Perform international transfer request using transaction request
 
 ```
   SDKManager.getInstance().initiateInternationalTransfer(transactionRequest, new RequestStateInterface() {
