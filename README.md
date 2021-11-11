@@ -588,12 +588,13 @@ Merchant can retrieve all transaction details
 ```
         /**
          * @param accountid account identifier
-         * @param offset Offset
-         * @param limit  Limit
+         * @param offset Offset// eg 0
+         * @param limit  Limit// eg  5
          * @param Retrieve transaction Listener
          */
 
- SDKManager.getInstance().retrieveTransaction("Place your account id", 0, 5, new RetrieveTransactionInterface() {
+
+ SDKManager.getInstance().retrieveTransaction("Place your account id", "Place your offset", "Place your limit", new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
@@ -609,6 +610,7 @@ Merchant can retrieve all transaction details
 
             }
         });
+
 
 ```
 <a name="check-for-service"></a>
