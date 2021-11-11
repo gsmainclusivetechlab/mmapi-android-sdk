@@ -250,7 +250,8 @@ private void createTransactionObject() {
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
- 
+                 serverCorrelationId = requestStateObject.getServerCorrelationId();
+
             }
 
             @Override
@@ -263,21 +264,21 @@ private void createTransactionObject() {
 ```
    ### 2.Poll to Determine the Request State
    ````
-   SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
+ 
+    SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-             
+
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
-  
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                 transactionRef = requestStateObject.getObjectReference();
+      
             }
-
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-               
-        
+            public void onRequestStateFailure(GSMAError gsmaError) {
+
             }
 
         });
@@ -287,34 +288,24 @@ private void createTransactionObject() {
 
   ```
    
-    SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
+
+      SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+    
             }
 
             @Override
-            public void onTransactionSuccess(TransactionObject transactionObject, String correlationID) {
-                hideLoading();
-                txtResponse.setText(new Gson().toJson(transactionObject));
-                correlationId = correlationID;
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
+            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
+         
             }
 
             @Override
             public void onTransactionFailure(GSMAError gsmaError) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+   
             }
 
         });
-
-   
    
    
   ```
@@ -359,22 +350,25 @@ private void createTransactionObject() {
 
 
 ```
-    SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
+ SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
-             }
+            
+            }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                   serverCorrelationId = requestStateObject.getServerCorrelationId();
+                 serverCorrelationId = requestStateObject.getServerCorrelationId();
+
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-
+    
             }
+
         });
+
 
 ```
 
@@ -390,7 +384,6 @@ Mobile money app submit the request to generate the authorisation code to MMP,Th
  private AuthorisationCodeRequest authorisationCodeRequest;
  private TransactionRequest transactionRequest;
  private String serverCorrelationId = "";
- private String transactionRef = "";
  ```
  Initialise the  authorizarion code with  amount,date and currency
 
@@ -457,21 +450,23 @@ private void createTransactionObject() {
 Initiate the mechant pay request using the following code
 
 ```
-    SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
+   SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
-             }
+            
+            }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                   serverCorrelationId = requestStateObject.getServerCorrelationId();
+                 serverCorrelationId = requestStateObject.getServerCorrelationId();
+
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-
+    
             }
+
         });
 
 ```
@@ -552,7 +547,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
 ```
 
- SDKManager.getInstance().reversal("Place your reference id here", reversalObject, new RequestStateInterface() {
+ SDKManager.getInstance().reversal("Place your transaction reference id here", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
 
@@ -604,12 +599,12 @@ Merchant can retrieve all transaction details
 ```
         /**
          * @param accountid account identifier
-         * @param offset Offset
-         * @param limit  Limit
+         * @param offset Offset// for eg 0
+         * @param limit  Limit // for eg 5
          * @param Retrieve transaction Listener
          */
 
- SDKManager.getInstance().retrieveTransaction("Place your account id", 0, 5, new RetrieveTransactionInterface() {
+ SDKManager.getInstance().retrieveTransaction("Place your account id", "Place your offse", "Place your limit", new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
