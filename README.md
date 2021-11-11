@@ -35,6 +35,7 @@ A library that fully covers payment process inside your Android application
       7. [Retrieve Transactions for a Disbursement Organisation](#merchant-pay-retrieve)
       8. [Check for Service Availability](#check-for-service)
       9. [Retrieve a Missing API Response](#missing-response)
+  3. [International Transfer via Hub])(#international-transfer)
      
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
@@ -1081,9 +1082,7 @@ SDKManager.getInstance().retrieveBatchTransaction("Place your batch id here", ne
 
 
 ```
-
-
-
+<a name="international-transfer"></a>
 
 
 
