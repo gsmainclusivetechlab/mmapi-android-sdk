@@ -26,7 +26,6 @@ import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
@@ -136,9 +135,9 @@ public class SDKManager {
             transactionInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().viewTransaction(uuid, transactionReference, new APIRequestCallback<TransactionObject>() {
+            GSMAApi.getInstance().viewTransaction(uuid, transactionReference,new APIRequestCallback<TransactionRequest>() {
                         @Override
-                        public void onSuccess(int responseCode, TransactionObject serializedResponse) {
+                        public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
                             transactionInterface.onTransactionSuccess(serializedResponse, uuid);
                         }
 
@@ -279,7 +278,7 @@ public class SDKManager {
      * @param  requestStateInterface callback for request state object
      */
 
-    public void intiateInternationalTransfer( @NonNull TransactionRequest transactionRequest,@NonNull RequestStateInterface requestStateInterface) {
+    public void initiateInternationalTransfer(@NonNull TransactionRequest transactionRequest,@NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest==null) {
             requestStateInterface.onValidationError(Utils.setError(5));
         } else if (!Utils.isOnline()) {
@@ -298,7 +297,6 @@ public class SDKManager {
                         }
                     }
             );
-
         }
     }
 
@@ -410,9 +408,9 @@ public class SDKManager {
                         @Override
                         public void onSuccess(int responseCode, GetLink serializedResponse) {
 
-                            GSMAApi.getInstance().getMissingTransactions(serializedResponse.getLink(), new APIRequestCallback<TransactionObject>() {
+                            GSMAApi.getInstance().getMissingTransactions(serializedResponse.getLink(), new APIRequestCallback<TransactionRequest>() {
                                 @Override
-                                public void onSuccess(int responseCode, TransactionObject serializedResponse) {
+                                public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
                                     missingTransactionInterface.onTransactionSuccess(serializedResponse, uuid);
                                 }
 
@@ -458,7 +456,6 @@ public class SDKManager {
                                 public void onSuccess(int responseCode, AuthorisationCode serializedResponse) {
                                     authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse, uuid);
                                 }
-
                                 @Override
                                 public void onFailure(GSMAError errorDetails) {
                                     authorisationCodeInterface.onAuthorisationCodeFailure(errorDetails);
@@ -477,7 +474,7 @@ public class SDKManager {
     }
 
     /**
-     * Intiate Payment - Intiate merchant pay,disbursements to customers
+     * Intiate Payment - Intiate merchant pay
      *
      * @param transactionType Type of the transaction that is being carried out
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
@@ -508,6 +505,12 @@ public class SDKManager {
 
         }
     }
+    /**
+     * Intiate Payment Disbursment - Intiate disbursement transaction
+     *
+     * @param transactionType Type of the transaction that is being carried out
+     * @param transactionRequest Transaction Object containing details required for initiating the transaction
+     */
 
     public void initiateDisbursementPayment(@NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null ) {

@@ -11,7 +11,7 @@ import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionObject;
+import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
 import java.util.Map;
 
@@ -90,7 +90,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/transactions/{id}")
-    Call<TransactionObject> viewTransaction(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
+    Call<TransactionRequest> viewTransaction(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
 
     /**
      * View Request state.
@@ -138,7 +138,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/{url}")
-    Call<TransactionObject> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<TransactionRequest> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
     /**
      * Check for Retrieve Missing Code

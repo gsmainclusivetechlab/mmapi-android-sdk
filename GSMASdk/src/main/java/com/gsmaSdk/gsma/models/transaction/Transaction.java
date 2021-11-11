@@ -8,14 +8,14 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
 public class Transaction implements BaseResponse {
 
 	@SerializedName("Transaction")
-	private List<TransactionItem> transaction;
+	private List<TransactionRequest> transaction;
 
 
-	public void setTransaction(List<TransactionItem> transaction) {
+	public void setTransaction(List<TransactionRequest> transaction) {
 		this.transaction = transaction;
 	}
 
-	public List<TransactionItem> getTransaction(){
+	public List<TransactionRequest> getTransaction(){
 		return transaction;
 	}
 }
