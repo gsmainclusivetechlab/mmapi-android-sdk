@@ -12,7 +12,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
  * Model class for Transaction Request
  */
 @SuppressWarnings("ALL")
-public class TransactionRequest implements BaseResponse {
+public class TransactionRequest extends BaseResponse {
 
     @SerializedName("amount")
     @Expose

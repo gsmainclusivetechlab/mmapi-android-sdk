@@ -8,7 +8,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
  * Model class for Authorisation Code
  * */
 @SuppressWarnings("ALL")
-public class AuthorisationCode implements BaseResponse {
+public class AuthorisationCode extends BaseResponse {
 
 	@SerializedName("AuthCode")
 	private List<AuthorisationCodeItem> authCode;

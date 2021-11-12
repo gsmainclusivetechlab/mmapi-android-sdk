@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
-public class BatchTransactionItem  implements BaseResponse {
+public class BatchTransactionItem extends BaseResponse {
 
 
 	@SerializedName("approvalDate")

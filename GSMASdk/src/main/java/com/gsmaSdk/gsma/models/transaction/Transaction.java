@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 @SuppressWarnings("unused")
-public class Transaction implements BaseResponse {
+public class Transaction extends BaseResponse {
 
 	@SerializedName("Transaction")
 	private List<TransactionRequest> transaction;

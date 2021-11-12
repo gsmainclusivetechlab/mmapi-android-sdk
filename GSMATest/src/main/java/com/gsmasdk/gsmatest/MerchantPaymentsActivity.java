@@ -422,7 +422,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void retrieveTransaction() {
         showLoading();
-        SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+        SDKManager.getInstance().retrieveTransaction("2000", 0, 2, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

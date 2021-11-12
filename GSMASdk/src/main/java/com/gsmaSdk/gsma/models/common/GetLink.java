@@ -8,7 +8,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
  * Model class for Missing Response
  * */
 @SuppressWarnings("unused")
-public class GetLink implements BaseResponse {
+public class GetLink extends BaseResponse {
     @SerializedName("link")
     @Expose
     private String link;

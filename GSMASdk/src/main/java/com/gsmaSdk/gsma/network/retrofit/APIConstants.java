@@ -18,23 +18,24 @@ final class APIConstants {
     /**
      * The Base url.
      */
-    static String BASE_URL = "https://sandbox.mobilemoneyapi.io/";
+    static String BASE_URL = "http://18.132.20.60/";
 
     /**
      * Base url for live account
      */
 
-    static final String LIVE_BASE_URL="https://sandbox.mobilemoneyapi.io/";
+    static final String LIVE_BASE_URL="http://18.132.20.60/";
 
     /**
      *
      * Sandbox Base URL
      */
-    static final String SANDBOX_BASE_URL="https://sandbox.mobilemoneyapi.io/";
+    //static final String SANDBOX_BASE_URL="https://sandbox.mobilemoneyapi.io/";
+
+    static final String SANDBOX_BASE_URL="http://18.132.20.60/";
 
 
-
-    static final String URL_VER = "simulator/v1.2/passthrough/mm/";
+    static final String URL_VER = "";
     /**
      * The Base url version with O Auth.
      */

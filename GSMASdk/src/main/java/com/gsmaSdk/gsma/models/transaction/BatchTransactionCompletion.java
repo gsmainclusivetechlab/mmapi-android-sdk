@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 @SuppressWarnings({"ALL", "unused"})
-public class BatchTransactionCompletion implements BaseResponse {
+public class BatchTransactionCompletion extends BaseResponse {
 
 	@SerializedName("BatchTransactionCompletion")
 	private List<BatchTransactionCompletionItem> batchTransactionCompletion;

@@ -8,7 +8,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
  * Model class for Token
  * */
 @SuppressWarnings("unused")
-public class Token implements BaseResponse {
+public class Token extends BaseResponse {
     @SerializedName("access_token")
     @Expose
     private String accessToken;
