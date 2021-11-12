@@ -23,7 +23,6 @@ import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -151,9 +150,9 @@ public final class GSMAApi {
      * @param transactionType Type of transaction - merchant pay
      * @param transactionRequest Model class for Transaction Request
      */
-    public void merchantPay(String uuid, String transactionType, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void initiatePayment(String uuid, String transactionType, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.merchantPay(transactionType, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.initiatePayment(transactionType, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
 
     /**
@@ -163,7 +162,7 @@ public final class GSMAApi {
      * @param transactionReference Reference to a particular transaction
      * @param apiRequestCallback apiRequestCallback listener for api operation
      */
-    public void viewTransaction(String uuid, String transactionReference, APIRequestCallback<TransactionObject> apiRequestCallback) {
+    public void viewTransaction(String uuid, String transactionReference, APIRequestCallback<TransactionRequest> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewTransaction(PaymentConfiguration.getUrlVersion(), transactionReference, headers), apiRequestCallback));
     }
@@ -205,6 +204,20 @@ public final class GSMAApi {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.reversal(PaymentConfiguration.getUrlVersion(), referenceId, RequestBody.create(new Gson().toJson(reversalObject), mediaType), headers), apiRequestCallback));
     }
+
+    /**
+     * Request Quotation
+     *
+     * @param uuid UUID
+     * @param transactionRequest - International Transfer
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void requestQuotation(String uuid,TransactionRequest transactionRequest,APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.requestQuotation(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
+    }
+
+
 
     /**
      * Retrieve Transaction.
@@ -261,7 +274,7 @@ public final class GSMAApi {
      * @param link url received from the response
      * @param apiRequestCallback Listener for api operation
      */
-    public void getMissingTransactions(String link, APIRequestCallback<TransactionObject> apiRequestCallback) {
+    public void getMissingTransactions(String link, APIRequestCallback<TransactionRequest> apiRequestCallback) {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingTransactions(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
 

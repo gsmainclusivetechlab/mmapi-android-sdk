@@ -11,7 +11,7 @@ import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionObject;
+import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
 import java.util.Map;
 
@@ -77,7 +77,12 @@ public interface APIService {
      * @return the call
      */
     @POST("{version}/transactions/type/{transactionType}")
-    Call<RequestStateObject> merchantPay(@Path("transactionType") String type, @Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> initiatePayment(@Path("transactionType") String type, @Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+
+
+
+    @POST("{version}/quotations")
+    Call<RequestStateObject> requestQuotation(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
     /**
      * View Transaction
@@ -85,7 +90,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/transactions/{id}")
-    Call<TransactionObject> viewTransaction(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
+    Call<TransactionRequest> viewTransaction(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
 
     /**
      * View Request state.
@@ -133,7 +138,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/{url}")
-    Call<TransactionObject> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<TransactionRequest> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
     /**
      * Check for Retrieve Missing Code

@@ -2,78 +2,93 @@ package com.gsmaSdk.gsma.models.transaction;
 
 import com.google.gson.annotations.SerializedName;
 
-@SuppressWarnings("unused")
 public class InternationalTransferInformation{
 
-	@SuppressWarnings("unused")
-    @SerializedName("quotationReference")
+	@SerializedName("quotationReference")
 	private String quotationReference;
 
-	@SuppressWarnings("unused")
-    @SerializedName("deliveryMethod")
-	private String deliveryMethod;
-
-	@SuppressWarnings("unused")
-    @SerializedName("receivingCountry")
+	@SerializedName("receivingCountry")
 	private String receivingCountry;
 
-	@SuppressWarnings("unused")
-    @SerializedName("originCountry")
+	@SerializedName("deliveryMethod")
+	private String deliveryMethod;
+
+	@SerializedName("originCountry")
 	private String originCountry;
 
-	@SuppressWarnings("unused")
-    @SerializedName("relationshipSender")
+	@SerializedName("relationshipSender")
 	private String relationshipSender;
 
-	@SuppressWarnings("unused")
-    @SerializedName("remittancePurpose")
+	@SerializedName("remittancePurpose")
 	private String remittancePurpose;
 
-	@SuppressWarnings("unused")
-    @SerializedName("sendingServiceProviderCountry")
+	@SerializedName("sendingServiceProviderCountry")
 	private String sendingServiceProviderCountry;
 
-	@SuppressWarnings("unused")
-    @SerializedName("quoteId")
+	@SerializedName("quoteId")
 	private String quoteId;
 
-	@SuppressWarnings("unused")
-    public String getQuotationReference(){
+	public String getQuotationReference(){
 		return quotationReference;
 	}
 
-	@SuppressWarnings("unused")
-    public String getDeliveryMethod(){
-		return deliveryMethod;
-	}
-
-	@SuppressWarnings("unused")
-    public String getReceivingCountry(){
+	public String getReceivingCountry(){
 		return receivingCountry;
 	}
 
-	@SuppressWarnings("unused")
-    public String getOriginCountry(){
+	public String getDeliveryMethod(){
+		return deliveryMethod;
+	}
+
+	public String getOriginCountry(){
 		return originCountry;
 	}
 
-	@SuppressWarnings("unused")
-    public String getRelationshipSender(){
+	public String getRelationshipSender(){
 		return relationshipSender;
 	}
 
-	@SuppressWarnings("unused")
-    public String getRemittancePurpose(){
+	public String getRemittancePurpose(){
 		return remittancePurpose;
 	}
 
-	@SuppressWarnings("unused")
-    public String getSendingServiceProviderCountry(){
+	public String getSendingServiceProviderCountry(){
 		return sendingServiceProviderCountry;
 	}
 
-	@SuppressWarnings("unused")
-    public String getQuoteId(){
+	public String getQuoteId(){
 		return quoteId;
+	}
+
+	public void setQuotationReference(String quotationReference) {
+		this.quotationReference = quotationReference;
+	}
+
+	public void setReceivingCountry(String receivingCountry) {
+		this.receivingCountry = receivingCountry;
+	}
+
+	public void setDeliveryMethod(String deliveryMethod) {
+		this.deliveryMethod = deliveryMethod;
+	}
+
+	public void setOriginCountry(String originCountry) {
+		this.originCountry = originCountry;
+	}
+
+	public void setRelationshipSender(String relationshipSender) {
+		this.relationshipSender = relationshipSender;
+	}
+
+	public void setRemittancePurpose(String remittancePurpose) {
+		this.remittancePurpose = remittancePurpose;
+	}
+
+	public void setSendingServiceProviderCountry(String sendingServiceProviderCountry) {
+		this.sendingServiceProviderCountry = sendingServiceProviderCountry;
+	}
+
+	public void setQuoteId(String quoteId) {
+		this.quoteId = quoteId;
 	}
 }

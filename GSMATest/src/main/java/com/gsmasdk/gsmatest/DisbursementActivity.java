@@ -36,9 +36,7 @@ import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
 
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 
-import com.gsmaSdk.gsma.models.transaction.TransactionItem;
 
-import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
 import java.util.ArrayList;
@@ -85,7 +83,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         setContentView(R.layout.activity_disbursement);
         setTitle("Disbursement");
 
-        ListView listUseCases = findViewById(R.id.disbursemenList);
+        ListView listUseCases = findViewById(R.id.disbursementList);
         CustomUseCaseAdapter customListAdapter = new CustomUseCaseAdapter(DisbursementActivity.this, new ArrayList(Arrays.asList(disbursementArray)));
         listUseCases.setAdapter(customListAdapter);
         listUseCases.setOnItemClickListener(this);
@@ -144,8 +142,8 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     private void createBulkTransactionObject() {
         bulkTransactionObject = new BulkTransactionObject();
 
-        ArrayList<TransactionItem> transactionItems = new ArrayList<>();
-        TransactionItem transactionItem = new TransactionItem();
+        ArrayList<TransactionRequest> transactionItems = new ArrayList<>();
+        TransactionRequest transactionItem = new TransactionRequest();
         ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
         ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
         DebitPartyItem debitPartyItem = new DebitPartyItem();
@@ -220,7 +218,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onTransactionSuccess(TransactionObject transactionObject, String correlationID) {
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
                 correlationId = correlationID;
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -330,7 +328,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
    //individual disbursement
     private void individualDisbursement(){
         showLoading();
-        SDKManager.getInstance().disbursementPay("disbursement", transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().initiateDisbursementPayment(transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -589,11 +587,11 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         showLoading();
         SDKManager.getInstance().retrieveMissingTransaction(correlationId, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionObject transactionObject, String correlationId) {
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionObject.class));
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionRequest.class));
             }
 
             @Override

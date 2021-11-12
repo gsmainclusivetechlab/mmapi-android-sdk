@@ -10,7 +10,7 @@ public class BulkTransactionObject{
 	private String batchTitle;
 
 	@SerializedName("transactions")
-	private ArrayList<TransactionItem> transactions;
+	private ArrayList<TransactionRequest> transactions;
 
 	@SerializedName("batchDescription")
 	private String batchDescription;
@@ -26,11 +26,11 @@ public class BulkTransactionObject{
 		return batchTitle;
 	}
 
-	public void setTransactions(ArrayList<TransactionItem> transactions){
+	public void setTransactions(ArrayList<TransactionRequest> transactions){
 		this.transactions = transactions;
 	}
 
-	public List<TransactionItem> getTransactions(){
+	public List<TransactionRequest> getTransactions(){
 		return transactions;
 	}
 

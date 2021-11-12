@@ -68,7 +68,7 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                 init("59vthmq3f6i15v6jmcjskfkmh",
                         "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb",
                         AuthenticationType.STANDARD_LEVEL,
-                        "https://93248bb1-c64e-4961-bacf-b1d4aaa103bc.mock.pstmn.io/callback",
+                        "https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",
                         Environment.SANDBOX);
 
         /**
@@ -115,6 +115,8 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case 2:
                 //International Transfers
+                startActivity(new Intent(LandingActivity.this, InternationalTransfersActivity.class));
+
                 break;
             case 3:
                 //P2P Transfers

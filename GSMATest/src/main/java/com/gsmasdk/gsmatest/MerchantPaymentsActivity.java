@@ -28,7 +28,6 @@ import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
 import java.util.ArrayList;
@@ -257,7 +256,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void payeeInitiated() {
         showLoading();
-        SDKManager.getInstance().merchantPay("merchantpay", transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -334,12 +333,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onTransactionSuccess(TransactionObject transactionObject, String correlationID) {
+            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(transactionObject));
+                txtResponse.setText(new Gson().toJson(transactionRequest));
                 correlationId = correlationID;
                 Utils.showToast(MerchantPaymentsActivity.this,"Success");
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
             }
 
             @Override
@@ -482,6 +481,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
         });
+
     }
 
     /**
@@ -491,11 +491,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         showLoading();
         SDKManager.getInstance().retrieveMissingTransaction(correlationId, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionObject transactionObject, String correlationId) {
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this,"Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionObject.class));
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionRequest.class));
             }
 
             @Override
@@ -518,7 +518,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
     }
 
     /**
-     * Retrive Missing Code
+     * Retrieve Missing Code
      */
     private void retriveMissingCodeResponse() {
         showLoading();
