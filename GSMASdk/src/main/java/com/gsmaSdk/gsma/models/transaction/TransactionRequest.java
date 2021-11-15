@@ -14,6 +14,11 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
 @SuppressWarnings("ALL")
 public class TransactionRequest extends BaseResponse {
 
+
+    @SerializedName("quotationReference")
+    private String quotationReference;
+
+
     @SerializedName("amount")
     @Expose
     private String amount;

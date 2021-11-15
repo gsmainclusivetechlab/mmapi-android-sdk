@@ -64,14 +64,14 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
          * environment - sandbox or production
          */
 
-//        PaymentConfiguration.
-//                init("59vthmq3f6i15v6jmcjskfkmh",
-//                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb",
-//                        AuthenticationType.STANDARD_LEVEL,
-//                        "https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",
-//                        Environment.SANDBOX);
+        PaymentConfiguration.
+                init("59vthmq3f6i15v6jmcjskfkmh",
+                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb",
+                        AuthenticationType.STANDARD_LEVEL,
+                        "https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",
+                        Environment.SANDBOX);
 
-        PaymentConfiguration.init("https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",Environment.LIVE);
+      //  PaymentConfiguration.init("https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",Environment.LIVE);
         /**
          * Initialise the preference objects.
          */
@@ -79,28 +79,28 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
         /**
          * GSMAApi initialization
          */
-//        GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
-//            @Override
-//            public void onValidationError(ErrorObject errorObject) {
-//                hideLoading();
-//                Utils.showToast(LandingActivity.this,"Validation Error");
-//                Log.d(LOG_TAG, "Validation Error: " + errorObject);
-//            }
-//
-//            @Override
-//            public void onSuccess(Token token) {
-//                hideLoading();
-//                Utils.showToast(LandingActivity.this,"Success");
-//                Log.d(LOG_TAG, "onSuccess : " + new Gson().toJson(token));
-//            }
-//
-//            @Override
-//            public void onFailure(GSMAError gsmaError) {
-//                hideLoading();
-//                Utils.showToast(LandingActivity.this,"Failure");
-//                Log.d(LOG_TAG, "onFailure : " + new Gson().toJson(gsmaError));
-//            }
-//        });
+        GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(LandingActivity.this,"Validation Error");
+                Log.d(LOG_TAG, "Validation Error: " + errorObject);
+            }
+
+            @Override
+            public void onSuccess(Token token) {
+                hideLoading();
+                Utils.showToast(LandingActivity.this,"Success");
+                Log.d(LOG_TAG, "onSuccess : " + new Gson().toJson(token));
+            }
+
+            @Override
+            public void onFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(LandingActivity.this,"Failure");
+                Log.d(LOG_TAG, "onFailure : " + new Gson().toJson(gsmaError));
+            }
+        });
     }
 
     @Override

@@ -12,11 +12,13 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
+import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
@@ -62,7 +64,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             "Retrieve Transaction",
             "Auth Code",
             "Missing Transaction",
-            "Missing Code"
+            "Missing Code",
+            "View Auth Code"
     };
 
 
@@ -95,7 +98,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -104,7 +107,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(serviceAvailability));
                 correlationId = correlationID;
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
 
@@ -112,7 +115,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             public void onServiceAvailabilityFailure(GSMAError gsmaError) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
             }
         });
@@ -214,10 +217,49 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 // Missing Code Response
                 retriveMissingCodeResponse();
                 break;
+            case 10:
+                //View an authorization Code
+                viewAuthorizationCode();
+
+                break;
             default:
                 break;
         }
 
+    }
+
+
+    /*
+     * View Authorization Code
+     *
+     */
+
+    private void viewAuthorizationCode() {
+        showLoading();
+        SDKManager.getInstance().viewAuthorisationCode("accountid", "2000", "d56df6f7-32f6-4235-b236-edf44377adcc", new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCodeItem authorisationCodeItem, String correlationId) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(authorisationCodeItem));
+                Log.d(SUCCESS, "onAuthorizationCodeItem: " + new Gson().toJson(authorisationCodeItem));
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onAuthorizationCodeFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, ""+errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
     }
 
     /**
@@ -229,14 +271,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onBalanceSuccess(Balance balance, String correlationID) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(balance).toString());
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
@@ -244,7 +286,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
             }
@@ -260,7 +302,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -270,7 +312,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 txtResponse.setText(new Gson().toJson(requestStateObject).toString());
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 correlationId = correlationID;
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
 
@@ -278,7 +320,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
             }
 
@@ -294,7 +336,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -304,7 +346,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 correlationId = correlationID;
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
             }
 
@@ -312,7 +354,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
             }
 
@@ -328,7 +370,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -337,14 +379,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(transactionRequest));
                 correlationId = correlationID;
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
             }
 
             @Override
             public void onTransactionFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
             }
@@ -361,7 +403,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 correlationId = correlationID;
@@ -370,7 +412,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRefundFailure: " + new Gson().toJson(gsmaError));
                 txtResponse.setText(new Gson().toJson(gsmaError));
             }
@@ -378,7 +420,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -393,7 +435,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
@@ -402,7 +444,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 hideLoading();
                 Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
@@ -411,7 +453,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -426,14 +468,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
                 correlationId = correlationID;
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
@@ -442,7 +484,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onRetrieveTransactionFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
             }
@@ -458,14 +500,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 correlationId = correlationID;
@@ -475,7 +517,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
             }
@@ -493,7 +535,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionRequest.class));
             }
@@ -502,7 +544,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             public void onTransactionFailure(GSMAError gsmaError) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
 
             }
@@ -510,7 +552,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -526,7 +568,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode, String correlationId) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Success");
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(authorisationCode));
                 Log.d(SUCCESS, "onAuthorisationCodeSuccess: " + new Gson().toJson(authorisationCode, AuthorisationCode.class));
             }
@@ -534,7 +576,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onAuthorisationCodeFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Failure");
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onAuthorisationCodeFailure: " + new Gson().toJson(gsmaError));
             }
@@ -543,7 +585,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this,"Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 

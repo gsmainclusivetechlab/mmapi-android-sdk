@@ -556,7 +556,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Get Batch Transaction Details
     private void getBatchDetails(){
         showLoading();
-        SDKManager.getInstance().retrieveBatchTransaction("REF-1635765084301", new BatchTransactionItemInterface() {
+        SDKManager.getInstance().viewBatchTransaction("REF-1635765084301", new BatchTransactionItemInterface() {
                 @Override
                 public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationID) {
                     hideLoading();

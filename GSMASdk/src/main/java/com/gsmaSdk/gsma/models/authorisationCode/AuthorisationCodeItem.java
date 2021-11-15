@@ -1,35 +1,47 @@
 package com.gsmaSdk.gsma.models.authorisationCode;
 
 import java.util.List;
+
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.gsmaSdk.gsma.interfaces.BaseInterface;
+import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 /**
  * Model class for Authorisation Code Items
  * */
 @SuppressWarnings("ALL")
-public class AuthorisationCodeItem {
+public class AuthorisationCodeItem extends BaseResponse {
 
+	@Expose
 	@SerializedName("amount")
 	private String amount;
 
+	@Expose
 	@SerializedName("modificationDate")
 	private String modificationDate;
 
+	@Expose
 	@SerializedName("redemptionAccountIdentifiers")
 	private List<RedemptionAccountIdentifiersItem> redemptionAccountIdentifiers;
 
+	@Expose
 	@SerializedName("requestDate")
 	private String requestDate;
 
+	@Expose
 	@SerializedName("currency")
 	private String currency;
 
+	@Expose
 	@SerializedName("authorisationCode")
 	private String authorisationCode;
 
+	@Expose
 	@SerializedName("creationDate")
 	private String creationDate;
 
+	@Expose
 	@SerializedName("codeState")
 	private String codeState;
 

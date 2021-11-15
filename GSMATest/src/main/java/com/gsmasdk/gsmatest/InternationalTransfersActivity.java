@@ -67,7 +67,9 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             "Obtain an FSP Balance",
             "Retrieve Transaction for FSP",
             "Missing Transaction",
+            "View Quotation"
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +109,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 //Obtain an FSP Balance
                 balanceCheck();
                 break;
-            case  4:
+            case 4:
                 //Retrieve Transaction for FSP
                 retrieveTransactionFSP();
                 break;
@@ -116,6 +118,11 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 getMissingTransaction();
 
                 break;
+            case 6:
+                //View Quotation
+                viewQuotation();
+                break;
+
             default:
                 break;
         }
@@ -124,12 +131,42 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
 
-    private void createInternationalTransferObject(){
+    public void viewQuotation() {
+        showLoading();
+        SDKManager.getInstance().viewQuotation("REF-1636973900963", new TransactionInterface() {
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
+                hideLoading();
+                correlationId = correlationID;
+                Utils.showToast(InternationalTransfersActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(transactionObject));
+                Log.d(SUCCESS, "onTransactionSuccess " + new Gson().toJson(transactionObject));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onTransactionFailure " + new Gson().toJson(gsmaError));
+                txtResponse.setText(new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
+
+    }
+
+
+    private void createInternationalTransferObject() {
 //        transactionRequest=new TransactionRequest();
-        if(transactionRequest==null){
-            Utils.showToast(this,"Please request for Quotation before perfoming this request");
-           return;
-        }else {
+        if (transactionRequest == null) {
+            Utils.showToast(this, "Please request for Quotation before perfoming this request");
+            return;
+        } else {
 
             //set amount and currency
             transactionRequest.setAmount("100");
@@ -161,14 +198,14 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
 
     //perform international transfer
-    private void performInternationalTransfer(){
+    private void performInternationalTransfer() {
         showLoading();
         SDKManager.getInstance().initiateInternationalTransfer(transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
-                correlationId=correlationID;
-                Utils.showToast(InternationalTransfersActivity.this,"Success");
+                correlationId = correlationID;
+                Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
             }
@@ -180,6 +217,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 txtResponse.setText(new Gson().toJson(gsmaError));
 
             }
+
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -189,14 +227,16 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         });
 
     }
+
     //Request for quotation-Request the quotation to perform international transfer
-    private void requestQuotation(){
+    private void requestQuotation() {
         showLoading();
-        SDKManager.getInstance().requestQuotation(transactionRequest, new RequestStateInterface() {@Override
+        SDKManager.getInstance().requestQuotation(transactionRequest, new RequestStateInterface() {
+            @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
-                correlationId=correlationID;
-                Utils.showToast(InternationalTransfersActivity.this,"Success");
+                correlationId = correlationID;
+                Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
             }
@@ -208,6 +248,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 txtResponse.setText(new Gson().toJson(gsmaError));
 
             }
+
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -235,7 +276,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this,"Validation Error");
+                Utils.showToast(InternationalTransfersActivity.this, "Validation Error");
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -244,7 +285,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(serviceAvailability));
                 correlationId = correlationID;
-                Utils.showToast(InternationalTransfersActivity.this,"Success");
+                Utils.showToast(InternationalTransfersActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
 
@@ -252,14 +293,15 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             public void onServiceAvailabilityFailure(GSMAError gsmaError) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
-                Utils.showToast(InternationalTransfersActivity.this,"Failure");
+                Utils.showToast(InternationalTransfersActivity.this, "Failure");
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
             }
         });
     }
+
     //create a transaction object for international transfer request
-    private void createInternationalQuotationObject(){
-        transactionRequest=new TransactionRequest();
+    private void createInternationalQuotationObject() {
+        transactionRequest = new TransactionRequest();
 
         //create debit party and credit party for internal transfer quotation
         ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
@@ -291,7 +333,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         transactionRequest.setChosenDeliveryMethod("agent");
 
         //sender kyc object
-        SenderKyc senderKyc=new SenderKyc();
+        SenderKyc senderKyc = new SenderKyc();
         senderKyc.setNationality("GB");
         senderKyc.setDateOfBirth("1970-07-03T11:43:27.405Z");
         senderKyc.setOccupation("manager");
@@ -302,8 +344,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         senderKyc.setBirthCountry("GB");
 
         // create object for documentation
-        ArrayList<IdDocumentItem> idDocumentItemList=new ArrayList<>();
-        IdDocumentItem idDocumentItem=new IdDocumentItem();
+        ArrayList<IdDocumentItem> idDocumentItemList = new ArrayList<>();
+        IdDocumentItem idDocumentItem = new IdDocumentItem();
         idDocumentItem.setIdType("nationalidcard");
         idDocumentItem.setIdNumber("1234567");
         idDocumentItem.setIssueDate("2018-07-03T11:43:27.405Z");
@@ -319,7 +361,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         senderKyc.setIdDocument(idDocumentItemList);
 
         //create object for postal address
-        PostalAddress postalAddress=new PostalAddress();
+        PostalAddress postalAddress = new PostalAddress();
         postalAddress.setCountry("GB");
         postalAddress.setAddressLine1("111 ABC Street");
         postalAddress.setCity("New York");
@@ -331,7 +373,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
         //create subject model
 
-        SubjectName subjectName=new SubjectName();
+        SubjectName subjectName = new SubjectName();
         subjectName.setTitle("Mr");
         subjectName.setFirstName("Luke");
         subjectName.setMiddleName("R");
@@ -344,10 +386,10 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         senderKyc.setSubjectName(subjectName);
 
         //create array for custom data items
-        ArrayList<CustomDataItem> customDataItemList=new ArrayList<>();
+        ArrayList<CustomDataItem> customDataItemList = new ArrayList<>();
 
         // create a custom data item
-        CustomDataItem customDataItem=new CustomDataItem();
+        CustomDataItem customDataItem = new CustomDataItem();
         customDataItem.setKey("keytest");
         customDataItem.setValue("keyvalue");
 
@@ -370,7 +412,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     //Check Balance
-    private void balanceCheck(){
+    private void balanceCheck() {
         showLoading();
         SDKManager.getInstance().getBalance("1", new BalanceInterface() {
             @Override
@@ -383,7 +425,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onBalanceSuccess(Balance balance, String correlationID) {
                 hideLoading();
-                correlationId=correlationID;
+                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(balance));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
@@ -398,7 +440,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     //Reversal
-    private void reversal(){
+    private void reversal() {
         showLoading();
         SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
@@ -426,7 +468,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     //Retrieve Transaction for an FSP
-    private void retrieveTransactionFSP(){
+    private void retrieveTransactionFSP() {
         showLoading();
         SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
             @Override

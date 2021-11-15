@@ -2,6 +2,7 @@
 package com.gsmaSdk.gsma.controllers;
 
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
+import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.BatchCompletionInterface;
 import com.gsmaSdk.gsma.interfaces.BatchRejectionInterface;
@@ -11,7 +12,9 @@ import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TokenInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.transaction.Batch;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
@@ -334,6 +337,44 @@ public class SDKManager {
         }
     }
 
+    /*
+    * View Authorization Code
+    * @param accountIdentifier Identifier of account
+    * @param accountId Account id
+    * @param authorizationCode Authorization
+    */
+
+    public void viewAuthorisationCode(@NonNull String accountIdentifier, @NonNull String accountId, String authorisationCode, AuthorisationCodeItemInterface authorisationCodeInterface){
+
+        if(accountIdentifier==null||accountIdentifier.isEmpty()){
+            authorisationCodeInterface.onValidationError(Utils.setError(8));
+            return;
+        }
+        if(accountId==null||accountId.isEmpty()){
+            authorisationCodeInterface.onValidationError(Utils.setError(1));
+         return;
+        }
+        if(authorisationCode==null||authorisationCode.isEmpty()){
+            authorisationCodeInterface.onValidationError(Utils.setError(9));
+          return;
+        }
+
+        String uuid = Utils.generateUUID();
+        GSMAApi.getInstance().viewAuthorizationCode(uuid, accountIdentifier,accountId,authorisationCode, new APIRequestCallback<AuthorisationCodeItem>() {
+                    @Override
+                    public void onSuccess(int responseCode, AuthorisationCodeItem serializedResponse) {
+                       authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse, uuid);
+                    }
+
+                    @Override
+                    public void onFailure(GSMAError errorDetails) {
+                        authorisationCodeInterface.onAuthorisationCodeFailure(errorDetails);
+                    }
+                }
+        );
+
+
+    }
     /**
      * Retrieve a transaction
      *
@@ -345,6 +386,7 @@ public class SDKManager {
     public void retrieveTransaction(@NonNull String accountId, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
         if (accountId == null) {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
+            return;
         }
         if (accountId.isEmpty()) {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
@@ -541,6 +583,32 @@ public class SDKManager {
 
 
 
+    /*
+    * View a quotation details
+    * @param quotationReference - Quotation reference obtained from callback of request quotation API
+    *
+    */
+
+    public  void viewQuotation(@NonNull String quotationReference,@NonNull TransactionInterface transactionInterface){
+        if(quotationReference==null||quotationReference.isEmpty()){
+          transactionInterface.onValidationError(Utils.setError(10));
+        }
+        String uuid = Utils.generateUUID();
+        GSMAApi.getInstance().viewQuotation(uuid,quotationReference, new APIRequestCallback<TransactionRequest>() {
+                    @Override
+                    public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
+                        transactionInterface.onTransactionSuccess(serializedResponse, uuid);
+                    }
+
+                    @Override
+                    public void onFailure(GSMAError errorDetails) {
+                        transactionInterface.onTransactionFailure((errorDetails));
+                    }
+                }
+        );
+
+    }
+
 
     /**
      * Bulk Disbursement - Organisations can make bulk disbursements to customers
@@ -638,7 +706,7 @@ public class SDKManager {
      *
      * @param batchId Unique identifier for identifying a batch transaction
      */
-    public void retrieveBatchTransaction(String batchId, @NonNull BatchTransactionItemInterface batchTransactionItemInterface) {
+    public void viewBatchTransaction(String batchId, @NonNull BatchTransactionItemInterface batchTransactionItemInterface) {
         if (batchId == null) {
             batchTransactionItemInterface.onValidationError(Utils.setError(1));
             return;

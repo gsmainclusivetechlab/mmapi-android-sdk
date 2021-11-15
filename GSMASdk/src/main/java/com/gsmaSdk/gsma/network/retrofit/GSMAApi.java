@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.transaction.Batch;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -103,7 +104,7 @@ public final class GSMAApi {
         if (PaymentConfiguration.getAuthType() != AuthenticationType.NO_AUTH) {
             headers.put(APIConstants.AUTHORIZATION, APIConstants.AUTH_TOKEN_BEARER + PreferenceManager.getInstance().retrieveToken());
         }
-//        headers.put(APIConstants.X_CORRELATION_ID, UUID.randomUUID().toString());
+
     }
 
 
@@ -179,6 +180,20 @@ public final class GSMAApi {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewRequestState(PaymentConfiguration.getUrlVersion(), serverCorrelationId, headers), apiRequestCallback));
     }
 
+    /*
+    * View Authorization Code
+    * @param uuid UUID
+    * @param accountIdentifier Identifier type of the account
+    * @param accountId Identifier No
+    * @Param authorisationCode Authorization Code
+    */
+
+    public void viewAuthorizationCode(String uuid,String accountIdentifier,String accountId,String authorizationCode,APIRequestCallback<AuthorisationCodeItem> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAuthorizationCode(PaymentConfiguration.getUrlVersion(),accountId,accountIdentifier,authorizationCode,headers),apiRequestCallback));
+    }
+
+
     /**
      * Refund
      *
@@ -191,6 +206,9 @@ public final class GSMAApi {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
+
+
+
 
     /**
      * Reversal
@@ -216,6 +234,20 @@ public final class GSMAApi {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.requestQuotation(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
+
+
+    /**
+     * View Quotation
+     *
+     * @param uuid UUID
+     * @param quotationReference - Quotation refernce of requested quotation
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void viewQuotation(String uuid,String quotationReference,APIRequestCallback<TransactionRequest> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewQuotation(PaymentConfiguration.getUrlVersion(), quotationReference, headers), apiRequestCallback));
+    }
+
 
 
 

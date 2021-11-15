@@ -1,5 +1,6 @@
 package com.gsmaSdk.gsma.models.authorisationCode;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -8,9 +9,11 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("ALL")
 public class RedemptionAccountIdentifiersItem{
 
+	@Expose
 	@SerializedName("value")
 	private String value;
 
+	@Expose
 	@SerializedName("key")
 	private String key;
 

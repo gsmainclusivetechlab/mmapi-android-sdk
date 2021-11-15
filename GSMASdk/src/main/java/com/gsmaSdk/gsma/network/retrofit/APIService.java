@@ -1,6 +1,7 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
 
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.Token;
@@ -81,9 +82,16 @@ public interface APIService {
 
 
 
+    @GET("{version}/quotations/{quotationReference}")
+    Call<TransactionRequest> viewQuotation(@Path(value = "version", encoded = true) String version, @Path("quotationReference") String quotationReference , @HeaderMap Map<String, String> headers);
+
+
+
+
     @POST("{version}/quotations")
     Call<RequestStateObject> requestQuotation(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
+    /**
     /**
      * View Transaction
      *
@@ -122,7 +130,9 @@ public interface APIService {
      * @return the call
      */
     @POST("{version}/accounts/accountid/{id}/authorisationcodes")
-    Call<RequestStateObject> obtainAuthorisationCode(@Path("id") String accountId, @Path(value = "version", encoded = true) String version, @Body RequestBody codeRequest, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> obtainAuthorisationCode(@Path("id") String accountId, @
+            Path(value = "version", encoded = true) String version,
+                                                     @Body RequestBody codeRequest, @HeaderMap Map<String, String> headers);
 
     /**
      * Check for Retrieve Missing Response
@@ -146,7 +156,24 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/{url}")
-    Call<AuthorisationCode> getMissingCodes(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<AuthorisationCode> getMissingCodes(@Path(value = "url", encoded = true)
+                                                    String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
+
+    /*
+    * View Authorization Code
+    *
+    */
+
+    @GET("{version}accounts/{accountIdentifier}/{id}/authorisationcodes/{authorizationCode}")
+    Call<AuthorisationCodeItem> viewAuthorizationCode(@Path(value = "version", encoded = true) String version,
+                                                      @Path("id") String id,
+                                                      @Path("accountIdentifier") String accountIdentifier,
+                                                      @Path("authorizationCode") String authorizationCode,
+                                                      @HeaderMap Map<String, String> headers);
+
+
+
 
     /**
      * Obtain Authorisation code.
@@ -155,6 +182,8 @@ public interface APIService {
      */
     @POST("{version}/batchtransactions")
     Call<RequestStateObject> bulkTransaction(@Path(value = "version", encoded = true) String version, @Body RequestBody bulkTransactionObject, @HeaderMap Map<String, String> headers);
+
+
 
     /**
      *

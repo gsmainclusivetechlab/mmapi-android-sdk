@@ -134,6 +134,22 @@ public class Utils {
                 errorObject.setErrorCode("GenericError");
                 errorObject.setErrorDescription("Invalid Transaction type");
                 break;
+            case 8:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid Identifier");
+                break;
+            case 9:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid Authorisation Code");
+                break;
+
+            case 10:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid Quotation Reference");
+                break;
             default:
                 errorObject.setErrorCategory("");
                 errorObject.setErrorCode("GenericError");
