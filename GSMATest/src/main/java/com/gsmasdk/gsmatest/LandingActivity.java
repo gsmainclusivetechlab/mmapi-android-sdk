@@ -9,9 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.gson.Gson;
+import com.gsmaSdk.gsma.controllers.SDKManager;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.enums.Environment;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
@@ -19,11 +18,12 @@ import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.Token;
-import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 @SuppressWarnings("ALL")
 public class LandingActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -79,7 +79,7 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
         /**
          * GSMAApi initialization
          */
-        GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
+        SDKManager.getInstance().init(this, new PaymentInitialiseInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

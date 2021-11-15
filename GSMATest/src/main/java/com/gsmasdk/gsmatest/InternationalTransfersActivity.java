@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
 
+import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
@@ -200,7 +201,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //perform international transfer
     private void performInternationalTransfer() {
         showLoading();
-        SDKManager.getInstance().initiateInternationalTransfer(transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().initiateInternationalTransfer(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -230,10 +231,10 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     //Request for quotation-Request the quotation to perform international transfer
     private void requestQuotation() {
-        showLoading();
-        SDKManager.getInstance().requestQuotation(transactionRequest, new RequestStateInterface() {
+
+        SDKManager.getInstance().requestQuotation(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+         public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
                 correlationId = correlationID;
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
@@ -257,6 +258,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             }
         });
     }
+
 
 
     public void showLoading() {
@@ -442,7 +444,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Reversal
     private void reversal() {
         showLoading();
-        SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.getInstance().reversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();

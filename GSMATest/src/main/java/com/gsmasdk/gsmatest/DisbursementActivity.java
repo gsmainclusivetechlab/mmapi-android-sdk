@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
+import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.BatchCompletionInterface;
 import com.gsmaSdk.gsma.interfaces.BatchRejectionInterface;
@@ -328,7 +329,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
    //individual disbursement
     private void individualDisbursement(){
         showLoading();
-        SDKManager.getInstance().initiateDisbursementPayment(transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().initiateDisbursementPayment(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -358,7 +359,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Reversal
     private void reversal(){
         showLoading();
-        SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.getInstance().reversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
                 @Override
                 public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                     hideLoading();
@@ -414,7 +415,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Bulk Disbursement
     public void bulkDisbursement(){
         showLoading();
-        SDKManager.getInstance().bulkTransaction(bulkTransactionObject, new RequestStateInterface() {
+        SDKManager.getInstance().bulkTransaction(NotificationMethod.POLLING,"",bulkTransactionObject, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

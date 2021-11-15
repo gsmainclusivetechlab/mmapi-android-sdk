@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
+import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
@@ -298,7 +299,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void payeeInitiated() {
         showLoading();
-        SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().initiateMerchantPayment(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -399,7 +400,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void paymentRefund() {
         showLoading();
-        SDKManager.getInstance().refundMerchantPay(transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().refundMerchantPay(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -431,7 +432,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void paymentReversal() {
         showLoading();
-        SDKManager.getInstance().reversal("REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.getInstance().reversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -496,7 +497,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void obtainAuthorizationCode() {
         showLoading();
-        SDKManager.getInstance().obtainAuthorisationCode("2000", authorisationCodeRequest, new RequestStateInterface() {
+        SDKManager.getInstance().obtainAuthorisationCode(NotificationMethod.POLLING,"","2000", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
