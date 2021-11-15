@@ -7,7 +7,9 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Base64;
 
+import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
+import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,7 +88,7 @@ public class Utils {
     }
 
     public static boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager)MyApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) MyApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return (activeNetworkInfo != null) && (activeNetworkInfo.isConnected());
     }
@@ -148,4 +150,27 @@ public class Utils {
         return UUID.randomUUID().toString();
     }
 
+    public static String setCallbackUrl(Enum notificationMethod, String callBackUrl) {
+        if (notificationMethod == NotificationMethod.CALLBACK) {
+            if (callBackUrl != null) {
+                if (callBackUrl.isEmpty()) {
+                    if (PaymentConfiguration.getCallBackURL().isEmpty()) {
+                        return "";
+                    } else {
+                        return PaymentConfiguration.getCallBackURL();
+                    }
+                } else {
+                    return callBackUrl;
+                }
+            } else {
+                if (PaymentConfiguration.getCallBackURL().isEmpty()) {
+                    return "";
+                } else {
+                    return PaymentConfiguration.getCallBackURL();
+                }
+            }
+        } else {
+            return "";
+        }
+    }
 }

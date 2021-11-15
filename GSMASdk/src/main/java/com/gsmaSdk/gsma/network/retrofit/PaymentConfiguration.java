@@ -116,4 +116,8 @@ public class PaymentConfiguration {
     public static void setUrlVersion(String urlVersion) {
         PaymentConfiguration.urlVersion = urlVersion;
     }
+
+    public static void setCallBackURL(String callBackURL) {
+        PaymentConfiguration.callBackURL = callBackURL;
+    }
 }
