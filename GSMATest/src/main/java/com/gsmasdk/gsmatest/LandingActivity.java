@@ -69,6 +69,7 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                         "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb",
                         AuthenticationType.STANDARD_LEVEL,
                         "https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",
+                        "",
                         Environment.SANDBOX);
 
       //  PaymentConfiguration.init("https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",Environment.LIVE);

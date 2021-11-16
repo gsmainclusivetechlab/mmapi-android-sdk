@@ -563,7 +563,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Update Batch Transaction
     private void updateBatch(){
         showLoading();
-        SDKManager.getInstance().updateBatch("REF-1635765084301",batchArrayList, new RequestStateInterface() {
+        SDKManager.getInstance().updateBatch(NotificationMethod.POLLING,"","REF-1635765084301",batchArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

@@ -20,38 +20,19 @@ public class PaymentConfiguration {
     private static String callBackURL;
     private static String xAPIKey;
 
-
-
     /**
-     * @param consumerKey ConsumerKey
-     * @param consumerSecret ConsumerSecret
-     * @param authType Levels of authentication
-     * @param callBackURL URL which should receive the Callback for asynchronous requests
-     */
-    public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL,Enum environmentType) {
+     * @param consumerKey     ConsumerKey
+     * @param consumerSecret  ConsumerSecret
+     * @param authType        Levels of authentication
+     * @param callBackURL     URL which should receive the Callback for asynchronous requests
+     * @param xAPIKey         pre-shared client's API key
+     * @param environmentType production environment
+     **/
+    public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL, String xAPIKey, Enum environmentType) {
         PaymentConfiguration.authType = authType;
         PaymentConfiguration.consumerSecret = consumerSecret;
         PaymentConfiguration.consumerKey = consumerKey;
-        urlVersion = PaymentConfiguration.getAuthType() == AuthenticationType.NO_AUTH ? APIConstants.URL_VER : APIConstants.URL_VER_OAUTH;
-        PaymentConfiguration.setUrlVersion(urlVersion);
-        APIConstants.BASE_URL=environmentType==Environment.SANDBOX?APIConstants.SANDBOX_BASE_URL:APIConstants.LIVE_BASE_URL;
-        PaymentConfiguration.base64Value = Utils.base64EncodeString(PaymentConfiguration.consumerKey + ":" + PaymentConfiguration.consumerSecret);
-        PaymentConfiguration.callBackURL = callBackURL;
-        PaymentConfiguration.xAPIKey ="";
-    }
-
-    /**
-     * @param consumerKey ConsumerKey
-     * @param consumerSecret ConsumerSecret
-     * @param authType Levels of authentication
-     * @param callBackURL URL which should receive the Callback for asynchronous requests
-     * @param xAPIKey pre-shared client's API key
-     */
-    public static void init(String consumerKey, String consumerSecret, Enum authType, String callBackURL, String xAPIKey,Enum environmentType) {
-        PaymentConfiguration.authType = authType;
-        PaymentConfiguration.consumerSecret = consumerSecret;
-        PaymentConfiguration.consumerKey = consumerKey;
-        APIConstants.BASE_URL=environmentType==Environment.SANDBOX?APIConstants.SANDBOX_BASE_URL:APIConstants.LIVE_BASE_URL;
+        APIConstants.BASE_URL = environmentType == Environment.SANDBOX ? APIConstants.SANDBOX_BASE_URL : APIConstants.LIVE_BASE_URL;
         urlVersion = PaymentConfiguration.getAuthType() == AuthenticationType.NO_AUTH ? APIConstants.URL_VER : APIConstants.URL_VER_OAUTH;
         PaymentConfiguration.setUrlVersion(urlVersion);
         PaymentConfiguration.base64Value = Utils.base64EncodeString(PaymentConfiguration.consumerKey + ":" + PaymentConfiguration.consumerSecret);
@@ -59,25 +40,9 @@ public class PaymentConfiguration {
         PaymentConfiguration.xAPIKey = xAPIKey;
     }
 
-    /**
-     * @param callBackURL URL which should receive the Callback for asynchronous requests
-     * @param environmentType production environment
-     */
-    public static void init( String callBackURL,Enum environmentType) {
-        PaymentConfiguration.authType = AuthenticationType.NO_AUTH;
-        PaymentConfiguration.consumerSecret ="";
-        PaymentConfiguration.consumerKey = "";
-        APIConstants.BASE_URL=environmentType==Environment.SANDBOX?APIConstants.SANDBOX_BASE_URL:APIConstants.LIVE_BASE_URL;
-        urlVersion = APIConstants.URL_VER;
-        PaymentConfiguration.callBackURL = callBackURL;
-        PaymentConfiguration.xAPIKey ="";
-    }
-
-
     public static Enum getAuthType() {
         return authType;
     }
-
 
     public static String getBase64Value() {
         return base64Value;
