@@ -23,6 +23,7 @@ import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -60,6 +61,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     private ReversalObject reversalObject;
 
     private TransactionRequest transactionRequest;
+    ArrayList<Identifier> identifierArrayList;
 
     private final String[] internationalTransfersArray = {
             "Request a International Transfer Quotation",
@@ -87,9 +89,42 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         progressdialog = Utils.initProgress(InternationalTransfersActivity.this);
         checkServiceAvailability();
         createPaymentReversalObject();
+        createAccountIdentifier();
 
 
     }
+
+    /*
+    * Account identitifers for transaction
+    *
+    */
+    private void createAccountIdentifier(){
+
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+//
+        //account id
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+
+        //msisdn
+        Identifier identifierMsisdn=new Identifier();
+        identifierMsisdn.setKey("msisdn");
+        identifierMsisdn.setValue("+44012345678");
+        identifierArrayList.add(identifierMsisdn);
+
+        //wallet id
+
+        Identifier identifierWallet=new Identifier();
+        identifierWallet.setKey("walletid");
+        identifierWallet.setValue("1");
+        identifierArrayList.add(identifierWallet);
+
+
+    }
+
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -416,7 +451,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Check Balance
     private void balanceCheck() {
         showLoading();
-        SDKManager.getInstance().getBalance("1", new BalanceInterface() {
+        SDKManager.getInstance().getBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -472,7 +507,9 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Retrieve Transaction for an FSP
     private void retrieveTransactionFSP() {
         showLoading();
-        SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+
+
+        SDKManager.getInstance().retrieveTransaction(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

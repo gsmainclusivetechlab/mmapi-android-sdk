@@ -19,6 +19,7 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -68,7 +69,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             "Missing Code",
             "View Auth Code"
     };
-
+    ArrayList<Identifier> identifierArrayList;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,8 +88,40 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         checkServiceAvailability();
         createCodeRequestObject();
         createPaymentReversalObject();
+        createAccountIdentifier();
 
     }
+    /*
+     * Account identitifers for transaction
+     *
+     */
+    private void createAccountIdentifier(){
+
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+//
+        //account id
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+
+////        //msisdn
+//        Identifier identifierMsisdn=new Identifier();
+//        identifierMsisdn.setKey("msisdn");
+//        identifierMsisdn.setValue("+44012345678");
+//        identifierArrayList.add(identifierMsisdn);
+//
+//        //wallet id
+//
+//        Identifier identifierWallet=new Identifier();
+//        identifierWallet.setKey("walletid");
+//        identifierWallet.setValue("1");
+//        identifierArrayList.add(identifierWallet);
+
+
+    }
+
 
     /**
      * Method for checking Service Availability.
@@ -237,7 +270,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
 
     private void viewAuthorizationCode() {
         showLoading();
-        SDKManager.getInstance().viewAuthorisationCode("accountid", "2000", "d56df6f7-32f6-4235-b236-edf44377adcc", new AuthorisationCodeItemInterface() {
+        SDKManager.getInstance().viewAuthorisationCode(identifierArrayList, "d56df6f7-32f6-4235-b236-edf44377adcc", new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCodeItem authorisationCodeItem, String correlationId) {
                 hideLoading();
@@ -268,11 +301,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void balanceCheck() {
         showLoading();
-        SDKManager.getInstance().getBalance("1", new BalanceInterface() {
+
+        SDKManager.getInstance().getBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -465,7 +499,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void retrieveTransaction() {
         showLoading();
-        SDKManager.getInstance().retrieveTransaction("2000", 0, 2, new RetrieveTransactionInterface() {
+        SDKManager.getInstance().retrieveTransaction(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -497,11 +531,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void obtainAuthorizationCode() {
         showLoading();
-        SDKManager.getInstance().obtainAuthorisationCode(NotificationMethod.POLLING,"","2000", authorisationCodeRequest, new RequestStateInterface() {
+        SDKManager.getInstance().obtainAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"","2000", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 

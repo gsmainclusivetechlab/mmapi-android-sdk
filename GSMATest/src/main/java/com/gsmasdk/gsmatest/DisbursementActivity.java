@@ -21,6 +21,7 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.Batch;
@@ -61,7 +62,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     private String correlationId = "";
     private ArrayList<Batch> batchArrayList;
     private ProgressDialog progressdialog;
-
+    ArrayList<Identifier> identifierArrayList;
     private final String[] disbursementArray = {
             "Individual Disbursement",
             "Request State",
@@ -98,6 +99,38 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         createPaymentReversalObject();
         createBulkTransactionObject();
         createBatchRequestObject();
+        createAccountIdentifier();
+    }
+
+    /*
+     * Account identitifers for transaction
+     *
+     */
+    private void createAccountIdentifier(){
+
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+//
+        //account id
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+
+        //msisdn
+        Identifier identifierMsisdn=new Identifier();
+        identifierMsisdn.setKey("msisdn");
+        identifierMsisdn.setValue("+44012345678");
+        identifierArrayList.add(identifierMsisdn);
+
+        //wallet id
+
+        Identifier identifierWallet=new Identifier();
+        identifierWallet.setKey("walletid");
+        identifierWallet.setValue("1");
+        identifierArrayList.add(identifierWallet);
+
+
     }
 
     private void createTransactionObject() {
@@ -387,7 +420,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Retrieve Disbursement
     private void retrieveTransactionDisbursement(){
         showLoading();
-        SDKManager.getInstance().retrieveTransaction("2000", 0, 5, new RetrieveTransactionInterface() {
+        SDKManager.getInstance().retrieveTransaction(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
                 @Override
                 public void onValidationError(ErrorObject errorObject) {
                     hideLoading();
@@ -472,7 +505,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Check Balance
     private void balanceCheck(){
         showLoading();
-        SDKManager.getInstance().getBalance("1", new BalanceInterface() {
+
+
+        SDKManager.getInstance().getBalance(identifierArrayList, new BalanceInterface() {
                 @Override
                 public void onValidationError(ErrorObject errorObject) {
                     hideLoading();

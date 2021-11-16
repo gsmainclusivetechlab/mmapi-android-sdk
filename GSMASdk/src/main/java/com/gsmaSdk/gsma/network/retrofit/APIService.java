@@ -69,8 +69,10 @@ public interface APIService {
      * @return the call
      */
     @SuppressWarnings("SpellCheckingInspection")
-    @GET("{version}/accounts/accountid/{id}/balance")
-    Call<Balance> retrieveBalance(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
+    @GET("{version}accounts/{accountIdentifier}/balance")
+    Call<Balance> retrieveBalance(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @HeaderMap Map<String, String> headers);
+
+
 
     /**
      * Start a Merchant Pay Transaction.
@@ -113,15 +115,15 @@ public interface APIService {
      *
      * @return the call
      */
-    @GET("{version}/accounts/accountid/{id}/transactions")
-    Call<Transaction> retrieveTransaction(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers, @Query(value = "offset") int offset, @Query(value = "limit") int limit);
+    @GET("{version}accounts/{accountIdentfiers}/transactions")
+    Call<Transaction> retrieveTransaction(@Path(value = "version", encoded = true) String version,@Path(value = "accountIdentfiers", encoded = true)  String accountIdentfiers, @HeaderMap Map<String, String> headers, @Query(value = "offset") int offset, @Query(value = "limit") int limit);
 
     /**
      * Check for service availability
      *
      * @return the call
      */
-    @GET("{version}/heartbeat")
+    @GET("{version}heartbeat")
     Call<ServiceAvailability> checkServiceAvailability(@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
     /**
@@ -129,8 +131,8 @@ public interface APIService {
      *
      * @return the call
      */
-    @POST("{version}/accounts/accountid/{id}/authorisationcodes")
-    Call<RequestStateObject> obtainAuthorisationCode(@Path("id") String accountId, @
+    @POST("{version}accounts/{accountIdentifier}/authorisationcodes")
+    Call<RequestStateObject> obtainAuthorisationCode(@Path(value = "accountIdentifier",encoded = true) String accountId, @
             Path(value = "version", encoded = true) String version,
                                                      @Body RequestBody codeRequest, @HeaderMap Map<String, String> headers);
 
@@ -165,10 +167,9 @@ public interface APIService {
     *
     */
 
-    @GET("{version}accounts/{accountIdentifier}/{id}/authorisationcodes/{authorizationCode}")
+    @GET("{version}accounts/{accountIdentifier}/authorisationcodes/{authorizationCode}")
     Call<AuthorisationCodeItem> viewAuthorizationCode(@Path(value = "version", encoded = true) String version,
-                                                      @Path("id") String id,
-                                                      @Path("accountIdentifier") String accountIdentifier,
+                                                      @Path(value = "accountIdentifier",encoded = true) String accountIdentifier,
                                                       @Path("authorizationCode") String authorizationCode,
                                                       @HeaderMap Map<String, String> headers);
 

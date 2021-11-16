@@ -104,7 +104,7 @@ public class Utils {
             case 1:
                 errorObject.setErrorCategory("validation");
                 errorObject.setErrorCode("GenericError");
-                errorObject.setErrorDescription("Invalid accountId format");
+                errorObject.setErrorDescription("Invalid account identifier format");
                 break;
             case 2:
                 errorObject.setErrorCategory("validation");
@@ -152,6 +152,13 @@ public class Utils {
                 errorObject.setErrorCode("GenericError");
                 errorObject.setErrorDescription("Invalid Quotation Reference");
                 break;
+
+            case 11:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid account identifier format!maximum 3 identifiers are allowed");
+                break;
+
             default:
                 errorObject.setErrorCategory("");
                 errorObject.setErrorCode("GenericError");
