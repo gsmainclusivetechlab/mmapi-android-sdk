@@ -15,17 +15,9 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
-import com.gsmaSdk.gsma.models.common.Balance;
-import com.gsmaSdk.gsma.models.common.ErrorObject;
-import com.gsmaSdk.gsma.models.transaction.Batch;
-import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
-import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
-
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -80,20 +72,20 @@ public class SDKManager {
         if (PaymentConfiguration.getAuthType() != AuthenticationType.NO_AUTH) {
             if (Utils.isOnline()) {
                 GSMAApi.getInstance().createToken(new APIRequestCallback<Token>() {
-                            @Override
-                            public void onSuccess(int responseCode, Token serializedResponse) {
-                                paymentInitialiseInterface.onSuccess(serializedResponse);
-                                PaymentConfiguration.setAuthToken(serializedResponse.getAccessToken());
+                                                      @Override
+                                                      public void onSuccess(int responseCode, Token serializedResponse) {
+                                                          paymentInitialiseInterface.onSuccess(serializedResponse);
+                                                          PaymentConfiguration.setAuthToken(serializedResponse.getAccessToken());
 
-                                PreferenceManager.getInstance().saveToken(serializedResponse.getAccessToken());
-                            }
+                                                          PreferenceManager.getInstance().saveToken(serializedResponse.getAccessToken());
+                                                      }
 
-                            @Override
-                            public void onFailure(GSMAError errorDetails) {
-                                PreferenceManager.getInstance().saveToken("");
-                                paymentInitialiseInterface.onFailure(errorDetails);
-                            }
-                        }
+                                                      @Override
+                                                      public void onFailure(GSMAError errorDetails) {
+                                                          PreferenceManager.getInstance().saveToken("");
+                                                          paymentInitialiseInterface.onFailure(errorDetails);
+                                                      }
+                                                  }
                 );
             } else {
                 paymentInitialiseInterface.onValidationError(Utils.setError(0));
@@ -204,12 +196,12 @@ public class SDKManager {
      *
      * @param transactionRequest Transaction Object containing details required for initiating the refund process
      */
-    public void refundMerchantPay(@NonNull Enum notificationMethod,@NonNull String callbackUrl,@NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void refundMerchantPay(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().refund(uuid,notificationMethod,callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().refund(uuid, notificationMethod, callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
                 @Override
                 public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                     requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
@@ -230,7 +222,7 @@ public class SDKManager {
      * @param referenceId Reference id of a previous transaction
      * @param reversal    Reversal Object containing the type of the transaction
      */
-    public void reversal(@NonNull Enum notificationMethod,@NonNull String callbackUrl,@NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
+    public void reversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
         if (referenceId == null) {
             requestStateInterface.onValidationError(Utils.setError(4));
             return;
@@ -245,7 +237,7 @@ public class SDKManager {
         }
         if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().reversal(uuid,notificationMethod,callbackUrl, referenceId, reversal, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().reversal(uuid, notificationMethod, callbackUrl, referenceId, reversal, new APIRequestCallback<RequestStateObject>() {
                 @Override
                 public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                     requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
@@ -266,14 +258,14 @@ public class SDKManager {
      * @param transactionRequest    the request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
-    public void requestQuotation(@NonNull Enum notificationMethod,@NonNull String callbackUrl,@NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void requestQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
         }
         if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().requestQuotation(uuid,notificationMethod,callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().requestQuotation(uuid, notificationMethod, callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
                 @Override
                 public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                     requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
@@ -295,14 +287,14 @@ public class SDKManager {
      * @param requestStateInterface callback for request state object
      */
 
-    public void initiateInternationalTransfer(@NonNull Enum notificationMethod,@NonNull String callbackUrl,@NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void initiateInternationalTransfer(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().initiatePayment(uuid, notificationMethod,callbackUrl,"inttransfer", transactionRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "inttransfer", transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
@@ -324,7 +316,7 @@ public class SDKManager {
      * @param accountId   Account identifier of a user
      * @param codeRequest An Object containing required details for getting the authorisation code
      */
-    public void obtainAuthorisationCode(@NonNull Enum notificationMethod,@NonNull String callbackUrl,@NonNull String accountId, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void obtainAuthorisationCode(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String accountId, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (accountId == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -335,7 +327,7 @@ public class SDKManager {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().obtainAuthorisationCode(uuid,notificationMethod,callbackUrl, accountId, codeRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().obtainAuthorisationCode(uuid, notificationMethod, callbackUrl, accountId, codeRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
@@ -351,32 +343,32 @@ public class SDKManager {
     }
 
     /*
-    * View Authorization Code
-    * @param accountIdentifier Identifier of account
-    * @param accountId Account id
-    * @param authorizationCode Authorization
-    */
+     * View Authorization Code
+     * @param accountIdentifier Identifier of account
+     * @param accountId Account id
+     * @param authorizationCode Authorization
+     */
 
-    public void viewAuthorisationCode(@NonNull String accountIdentifier, @NonNull String accountId, String authorisationCode, AuthorisationCodeItemInterface authorisationCodeInterface){
+    public void viewAuthorisationCode(@NonNull String accountIdentifier, @NonNull String accountId, String authorisationCode, AuthorisationCodeItemInterface authorisationCodeInterface) {
 
-        if(accountIdentifier==null||accountIdentifier.isEmpty()){
+        if (accountIdentifier == null || accountIdentifier.isEmpty()) {
             authorisationCodeInterface.onValidationError(Utils.setError(8));
             return;
         }
-        if(accountId==null||accountId.isEmpty()){
+        if (accountId == null || accountId.isEmpty()) {
             authorisationCodeInterface.onValidationError(Utils.setError(1));
-         return;
+            return;
         }
-        if(authorisationCode==null||authorisationCode.isEmpty()){
+        if (authorisationCode == null || authorisationCode.isEmpty()) {
             authorisationCodeInterface.onValidationError(Utils.setError(9));
-          return;
+            return;
         }
 
         String uuid = Utils.generateUUID();
-        GSMAApi.getInstance().viewAuthorizationCode(uuid, accountIdentifier,accountId,authorisationCode, new APIRequestCallback<AuthorisationCodeItem>() {
+        GSMAApi.getInstance().viewAuthorizationCode(uuid, accountIdentifier, accountId, authorisationCode, new APIRequestCallback<AuthorisationCodeItem>() {
                     @Override
                     public void onSuccess(int responseCode, AuthorisationCodeItem serializedResponse) {
-                       authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse, uuid);
+                        authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse, uuid);
                     }
 
                     @Override
@@ -388,6 +380,7 @@ public class SDKManager {
 
 
     }
+
     /**
      * Retrieve a transaction
      *
@@ -535,7 +528,7 @@ public class SDKManager {
      * @param transactionType    Type of the transaction that is being carried out
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
-    public void initiateMerchantPayment(@NonNull Enum notificationMethod,@NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void initiateMerchantPayment(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -546,7 +539,7 @@ public class SDKManager {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().initiatePayment(uuid,notificationMethod,callbackUrl, "merchantpay", transactionRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "merchantpay", transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
@@ -569,7 +562,7 @@ public class SDKManager {
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
 
-    public void initiateDisbursementPayment(@NonNull Enum notificationMethod,@NonNull String callbackUrl,@NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void initiateDisbursementPayment(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -580,7 +573,7 @@ public class SDKManager {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().initiatePayment(uuid, notificationMethod,callbackUrl,"disbursement", transactionRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "disbursement", transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
@@ -598,17 +591,17 @@ public class SDKManager {
 
 
     /*
-    * View a quotation details
-    * @param quotationReference - Quotation reference obtained from callback of request quotation API
-    *
-    */
+     * View a quotation details
+     * @param quotationReference - Quotation reference obtained from callback of request quotation API
+     *
+     */
 
-    public  void viewQuotation(@NonNull String quotationReference,@NonNull TransactionInterface transactionInterface){
-        if(quotationReference==null||quotationReference.isEmpty()){
-          transactionInterface.onValidationError(Utils.setError(10));
+    public void viewQuotation(@NonNull String quotationReference, @NonNull TransactionInterface transactionInterface) {
+        if (quotationReference == null || quotationReference.isEmpty()) {
+            transactionInterface.onValidationError(Utils.setError(10));
         }
         String uuid = Utils.generateUUID();
-        GSMAApi.getInstance().viewQuotation(uuid,quotationReference, new APIRequestCallback<TransactionRequest>() {
+        GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<TransactionRequest>() {
                     @Override
                     public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
                         transactionInterface.onTransactionSuccess(serializedResponse, uuid);
@@ -624,20 +617,19 @@ public class SDKManager {
     }
 
 
-
     /**
      * Bulk Disbursement - Organisations can make bulk disbursements to customers
      *
      * @param bulkTransactionObject Transaction Object containing details required for initiating the bulk transaction
      */
-    public void bulkTransaction(@NonNull Enum notificationMethod,@NonNull String callbackUrl,@NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
+    public void bulkTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
         if (bulkTransactionObject == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().bulkTransaction(uuid,notificationMethod,callbackUrl, bulkTransactionObject, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().bulkTransaction(uuid, notificationMethod, callbackUrl, bulkTransactionObject, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
@@ -688,7 +680,7 @@ public class SDKManager {
      * @param batchId        Unique identifier for identifying a batch transaction
      * @param batchArrayList list containing required details for updating a batch disbursement
      */
-    public void updateBatch(String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
+    public void updateBatch(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
         if (batchId == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -698,7 +690,7 @@ public class SDKManager {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().updateBatch(uuid, batchId, batchArrayList, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().updateBatch(uuid, notificationMethod, callbackUrl, batchId, batchArrayList, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);

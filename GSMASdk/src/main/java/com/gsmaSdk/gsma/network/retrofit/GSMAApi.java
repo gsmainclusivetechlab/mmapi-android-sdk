@@ -349,8 +349,14 @@ public final class GSMAApi {
      * @param batchId            batch Id of a batch transaction
      * @param apiRequestCallback Listener for api operation
      */
-    public void updateBatch(String uuid, String batchId, ArrayList<Batch> batchArrayList, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void updateBatch(String uuid, Enum notificationMethod, String callbackUrl, String batchId, ArrayList<Batch> batchArrayList, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL, xCallback);
+        }
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.updateBatchTransaction(PaymentConfiguration.getUrlVersion(), batchId, RequestBody.create(String.valueOf(new Gson().toJsonTree(batchArrayList).getAsJsonArray()), mediaType), headers), apiRequestCallback));
     }
 
