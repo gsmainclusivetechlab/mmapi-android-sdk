@@ -109,19 +109,19 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
 
-        //msisdn
-        Identifier identifierMsisdn=new Identifier();
-        identifierMsisdn.setKey("msisdn");
-        identifierMsisdn.setValue("+44012345678");
-        identifierArrayList.add(identifierMsisdn);
-
-        //wallet id
-
-        Identifier identifierWallet=new Identifier();
-        identifierWallet.setKey("walletid");
-        identifierWallet.setValue("1");
-        identifierArrayList.add(identifierWallet);
-
+//        //msisdn
+//        Identifier identifierMsisdn=new Identifier();
+//        identifierMsisdn.setKey("msisdn");
+//        identifierMsisdn.setValue("+44012345678");
+//        identifierArrayList.add(identifierMsisdn);
+//
+//        //wallet id
+//
+//        Identifier identifierWallet=new Identifier();
+//        identifierWallet.setKey("walletid");
+//        identifierWallet.setValue("1");
+//        identifierArrayList.add(identifierWallet);
+//
 
     }
 
@@ -236,7 +236,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //perform international transfer
     private void performInternationalTransfer() {
         showLoading();
-        SDKManager.getInstance().initiateInternationalTransfer(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().createInternationalTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -267,7 +267,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Request for quotation-Request the quotation to perform international transfer
     private void requestQuotation() {
 
-        SDKManager.getInstance().requestQuotation(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().createQuotation(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
          public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -307,7 +307,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
      */
     private void checkServiceAvailability() {
         showLoading();
-        SDKManager.getInstance().checkServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.getInstance().viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -449,7 +449,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Check Balance
     private void balanceCheck() {
         showLoading();
-        SDKManager.getInstance().getBalance(identifierArrayList, new BalanceInterface() {
+        SDKManager.getInstance().viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -477,7 +477,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Reversal
     private void reversal() {
         showLoading();
-        SDKManager.getInstance().reversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.getInstance().createReversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -506,8 +506,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     private void retrieveTransactionFSP() {
         showLoading();
 
-
-        SDKManager.getInstance().retrieveTransaction(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
+        SDKManager.getInstance().viewAccountTransactions(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -535,7 +534,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Retrieve a missing Transaction
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.getInstance().retrieveMissingTransaction(correlationId, new TransactionInterface() {
+        SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();

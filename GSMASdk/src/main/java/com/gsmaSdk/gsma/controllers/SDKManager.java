@@ -108,7 +108,7 @@ public class SDKManager {
      * @param accountId account identifier of the user
      */
 
-    public void getBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
+    public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
 
         if (identifierArrayList == null) {
             balanceInterface.onValidationError(Utils.setError(1));
@@ -228,7 +228,7 @@ public class SDKManager {
      *
      * @param transactionRequest Transaction Object containing details required for initiating the refund process
      */
-    public void refundMerchantPay(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
@@ -254,7 +254,7 @@ public class SDKManager {
      * @param referenceId Reference id of a previous transaction
      * @param reversal    Reversal Object containing the type of the transaction
      */
-    public void reversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
+    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
         if (referenceId == null) {
             requestStateInterface.onValidationError(Utils.setError(4));
             return;
@@ -290,7 +290,7 @@ public class SDKManager {
      * @param transactionRequest    the request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
-    public void requestQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
@@ -319,7 +319,7 @@ public class SDKManager {
      * @param requestStateInterface callback for request state object
      */
 
-    public void initiateInternationalTransfer(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createInternationalTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
         } else if (!Utils.isOnline()) {
@@ -348,7 +348,7 @@ public class SDKManager {
      * @param accountId   Account identifier of a user
      * @param codeRequest An Object containing required details for getting the authorisation code
      */
-    public void obtainAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String accountId, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String accountId, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (identifierArrayList == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -488,7 +488,7 @@ public class SDKManager {
      * @param limit     limit set for receiving records per request
      */
 
-    public void retrieveTransaction(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
         if (identifierArrayList == null) {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
             return;
@@ -541,7 +541,7 @@ public class SDKManager {
      * Check Service Availability - To check whether the service is available
      */
 
-    public void checkServiceAvailability(@NonNull ServiceAvailabilityInterface serviceAvailabilityInterface) {
+    public void viewServiceAvailability(@NonNull ServiceAvailabilityInterface serviceAvailabilityInterface) {
         if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().checkServiceAvailability(uuid, new APIRequestCallback<ServiceAvailability>() {
@@ -567,7 +567,7 @@ public class SDKManager {
      * @param correlationId UUID that enables the client to correlate the API request with the resource created/updated by the provider
      */
 
-    public void retrieveMissingTransaction(String correlationId, @NonNull TransactionInterface missingTransactionInterface) {
+    public void viewTransactionResponse(String correlationId, @NonNull TransactionInterface missingTransactionInterface) {
         if (correlationId.isEmpty()) {
             missingTransactionInterface.onValidationError(Utils.setError(6));
         } else if (!Utils.isOnline()) {
@@ -606,7 +606,7 @@ public class SDKManager {
      * @param correlationId UUID that enables the client to correlate the API request with the resource created/updated by the provider
      */
 
-    public void retrieveMissingCode(String correlationId, @NonNull AuthorisationCodeInterface authorisationCodeInterface) {
+    public void viewAuthorisationCodeResponse(String correlationId, @NonNull AuthorisationCodeInterface authorisationCodeInterface) {
         if (correlationId == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(6));
             return;
@@ -650,7 +650,7 @@ public class SDKManager {
      * @param transactionType    Type of the transaction that is being carried out
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
-    public void initiateMerchantPayment(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -684,7 +684,7 @@ public class SDKManager {
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
 
-    public void initiateDisbursementPayment(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createDisbursementTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -721,21 +721,22 @@ public class SDKManager {
     public void viewQuotation(@NonNull String quotationReference, @NonNull TransactionInterface transactionInterface) {
         if (quotationReference == null || quotationReference.isEmpty()) {
             transactionInterface.onValidationError(Utils.setError(10));
+            return;
+        }else {
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<TransactionRequest>() {
+                        @Override
+                        public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
+                            transactionInterface.onTransactionSuccess(serializedResponse, uuid);
+                        }
+
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            transactionInterface.onTransactionFailure((errorDetails));
+                        }
+                    }
+            );
         }
-        String uuid = Utils.generateUUID();
-        GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<TransactionRequest>() {
-                    @Override
-                    public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
-                        transactionInterface.onTransactionSuccess(serializedResponse, uuid);
-                    }
-
-                    @Override
-                    public void onFailure(GSMAError errorDetails) {
-                        transactionInterface.onTransactionFailure((errorDetails));
-                    }
-                }
-        );
-
     }
 
 
@@ -744,7 +745,7 @@ public class SDKManager {
      *
      * @param bulkTransactionObject Transaction Object containing details required for initiating the bulk transaction
      */
-    public void bulkTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
+    public void createBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
         if (bulkTransactionObject == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {
@@ -773,7 +774,7 @@ public class SDKManager {
      * @param batchId Unique identifier for identifying a batch transaction
      */
 
-    public void retrieveBatchRejections(String batchId, @NonNull BatchRejectionInterface batchRejectionInterface) {
+    public void viewBatchRejections(String batchId, @NonNull BatchRejectionInterface batchRejectionInterface) {
         if (batchId.isEmpty()) {
             batchRejectionInterface.onValidationError(Utils.setError(6));
         } else if (!Utils.isOnline()) {
@@ -803,7 +804,7 @@ public class SDKManager {
      * @param batchArrayList list containing required details for updating a batch disbursement
      */
 
-    public void updateBatch(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
+    public void updateBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
         if (batchId == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -866,7 +867,7 @@ public class SDKManager {
      * @param batchId Unique identifier for identifying a batch transaction
      */
 
-    public void retrieveBatchCompletions(String batchId, @NonNull BatchCompletionInterface batchCompletionInterface) {
+    public void viewBatchCompletions(String batchId, @NonNull BatchCompletionInterface batchCompletionInterface) {
         if (batchId.isEmpty()) {
             batchCompletionInterface.onValidationError(Utils.setError(6));
         } else if (!Utils.isOnline()) {
