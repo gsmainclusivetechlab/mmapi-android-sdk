@@ -294,8 +294,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         });
     }
 
-
-
     public void showLoading() {
         progressdialog.show();
     }

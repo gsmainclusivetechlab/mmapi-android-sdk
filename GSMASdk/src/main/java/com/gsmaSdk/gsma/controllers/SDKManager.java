@@ -802,7 +802,8 @@ public class SDKManager {
      * @param batchId        Unique identifier for identifying a batch transaction
      * @param batchArrayList list containing required details for updating a batch disbursement
      */
-    public void updateBatch(String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
+
+    public void updateBatch(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
         if (batchId == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -812,7 +813,7 @@ public class SDKManager {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().updateBatch(uuid, batchId, batchArrayList, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().updateBatch(uuid, notificationMethod, callbackUrl, batchId, batchArrayList, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
