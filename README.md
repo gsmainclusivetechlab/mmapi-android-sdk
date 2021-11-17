@@ -102,23 +102,28 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
    /**
      *Initialise the preference object
     */
+ PreferenceManager.getInstance().init(this);
+        /**
+         * Token creation
+         */
+ SDKManager.getInstance().init(this, new PaymentInitialiseInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+       
+            }
+
+            @Override
+            public void onSuccess(Token token) {
+          
+            }
+
+            @Override
+            public void onFailure(GSMAError gsmaError) {
+    
+            }
+        });
 
 
-
-GSMAApi.getInstance().init(this, new PaymentInitialiseInterface() {
-    @Override
-    public void onValidationError(ErrorObject errorObject) {
-
-    }
-    @Override
-    public void onSuccess(Token token) {
-
-    }
-    @Override
-    public void onFailure(GSMAError gsmaError) {
-
-      }
-    });
   ```
 
 <a name="usecases"></a>
@@ -170,20 +175,21 @@ private void createTransactionObject() {
 
 
 ```
-    SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
+  
+    SDKManager.getInstance().createMerchantTransaction(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-            
+      
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
- 
+            
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-    
+      
             }
 
         });
@@ -238,21 +244,20 @@ private void createTransactionObject() {
 
 
 ```
-  SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
+  SDKManager.getInstance().createMerchantTransaction(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-            
+      
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-
+            
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-    
+      
             }
 
         });
@@ -346,21 +351,20 @@ private void createTransactionObject() {
 
 
 ```
- SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
+ SDKManager.getInstance().createMerchantTransaction(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-            
+      
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-
+            
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-    
+      
             }
 
         });
@@ -394,27 +398,44 @@ Mobile money app submit the request to generate the authorisation code to MMP,Th
     }
 
 ```
-Obtain Authorization code to perform merchant payment,The authorization code is send to the user,These scenario can be achieved by passing account number and authorization code request to the function
+Obtain Authorization code to perform merchant payment,These scenario can be achieved by passing account identifiers to a function
+
+Create account identifier before creating the authorisation code
+
 
 ```
-     SDKManager.getInstance().obtainAuthorisationCode("2000", authorisationCodeRequest, new RequestStateInterface() {
+private void createAccountIdentifier(){
+
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+
+
+    }
+```
+
+```
+     SDKManager.getInstance().createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+               
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-
+            
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-
+             
             }
 
         });
-
 ```
 
 A transaction object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
@@ -503,20 +524,21 @@ private void createTransactionObject() {
 Create a refund request with transaction parameter
 
 ```
-SDKManager.getInstance().refundMerchantPay(transactionRequest, new RequestStateInterface() {
+
+ SDKManager.getInstance().createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-
+           
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-
+               
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+              
             }
         });
 
@@ -543,20 +565,20 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
 ```
 
- SDKManager.getInstance().reversal("Place your transaction reference id here", reversalObject, new RequestStateInterface() {
+  SDKManager.getInstance().createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-
+          
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-
+             
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+                
             }
         });
 
@@ -566,10 +588,24 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
 # Balance
 
-Obtain the balance of requested account,Pass the accountid to the function to retrieve the balance details
+Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
 
 ```
-  SDKManager.getInstance().getBalance("Place your account id here", new BalanceInterface() {
+    private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.getInstance().viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
@@ -577,14 +613,15 @@ Obtain the balance of requested account,Pass the accountid to the function to re
 
             @Override
             public void onBalanceSuccess(Balance balance, String correlationID) {
-              ;
+       
             }
 
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
-
+              
             }
         });
+
 ```
 <a name="merchant-pay-retrieve"></a>
 
@@ -593,29 +630,39 @@ Obtain the balance of requested account,Pass the accountid to the function to re
 Merchant can retrieve all transaction details
 
 ```
-        /**
-         * @param accountid account identifier
-         * @param offset Offset// for eg 0
-         * @param limit  Limit // for eg 5
-         * @param Retrieve transaction Listener
-         */
+   private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
 
- SDKManager.getInstance().retrieveTransaction("Place your account id", "Place your offset", "Place your limit", new RetrieveTransactionInterface() {
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.getInstance().viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+            
             }
 
             @Override
             public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
-
+           
             }
 
             @Override
             public void onRetrieveTransactionFailure(GSMAError gsmaError) {
-
+         
             }
         });
+ 
+ 
+ 
 
 ```
 <a name="check-for-service"></a>
@@ -625,22 +672,23 @@ Merchant can retrieve all transaction details
 The application should perform service availabilty check before calling the payment scenarios
 
     private void checkServiceAvailability() {
-           SDKManager.getInstance().checkServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.getInstance().viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+             
             }
 
             @Override
             public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
-
+          
             }
 
             @Override
             public void onServiceAvailabilityFailure(GSMAError gsmaError) {
-
+              
             }
         });
+     }
 
 <a name="missing-response"></a>
 # Retrieve a Missing API Response
@@ -650,7 +698,7 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.getInstance().retrieveMissingTransaction(correlationId, new TransactionInterface() {
+SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
               
@@ -674,7 +722,7 @@ SDKManager.getInstance().retrieveMissingTransaction(correlationId, new Transacti
 
 ```
 
- SDKManager.getInstance().retrieveMissingCode(correlationId, new AuthorisationCodeInterface() {
+ SDKManager.getInstance()..viewAuthorisationCodeResponse(correlationId, new AuthorisationCodeInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode, String correlationId) {
 
@@ -738,22 +786,24 @@ private void createTransactionObject() {
 Intiate the disbursement using the following code
 
 ```
- SDKManager.getInstance().initiateDisbursementPayment("disbursement", transactionRequest, new RequestStateInterface() {
+
+   SDKManager.getInstance().createDisbursementTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-               
+             
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
              
+            }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-          
+     
             }
 
-        });
+
 
 ```
 <a name="individual-polling"></a>
@@ -806,22 +856,23 @@ private void createTransactionObject() {
 
 
 ```
-    SDKManager.getInstance().initiateDisbursementPayment("disbursement", transactionRequest, new RequestStateInterface() {
+    
+      SDKManager.getInstance().createDisbursementTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
-             }
+             
+            }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                   serverCorrelationId = requestStateObject.getServerCorrelationId();
+             
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-
+     
             }
-        });
+    
 
 ```
    ### 2.Poll to Determine the Request State
@@ -924,20 +975,19 @@ private void createTransactionObject() {
 Perform the bulk transaction using the following code
 
 ```
- SDKManager.getInstance().bulkTransaction(bulkTransactionObject, new RequestStateInterface() {
+   SDKManager.getInstance().createBatchTransaction(NotificationMethod.POLLING,"",bulkTransactionObject, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
-            }
-
-            @Override
+           
+             }
+             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-
+         
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-  
+           
             }
 
         });
@@ -976,7 +1026,7 @@ Perform the bulk transaction using the following code
 This use case allows the disbursement organisation to retrieve all rejected transactions for a given batch
 
 ```
- SDKManager.getInstance().retrieveBatchRejections("Place your batch id here", new BatchRejectionInterface() {
+ SDKManager.getInstance().viewBatchRejections("Place your batch id here", new BatchRejectionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 
@@ -1033,7 +1083,7 @@ Call the update batch request function with batch id and batch array as input pa
 
 ```
 
-  SDKManager.getInstance().updateBatch("place your batch id here",batchArrayList, new RequestStateInterface() {
+SDKManager.getInstance().updateBatchTransaction(NotificationMethod.POLLING,"","Place your batch id here",batchArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
              
@@ -1041,11 +1091,12 @@ Call the update batch request function with batch id and batch array as input pa
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-              
+     
+            }
 
-            @Override
+           @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-         
+             
             }
 
         });
@@ -1058,7 +1109,7 @@ Retrieve the details of batch request
 
 ```
 
-SDKManager.getInstance().retrieveBatchTransaction("Place your batch id here", new BatchTransactionItemInterface() {
+SDKManager.getInstance().viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
                 @Override
                 public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationID) {
                    
@@ -1213,19 +1264,23 @@ Request a quotation to perform international transfer with transaction request o
 
 ```
 
-  SDKManager.getInstance().requestQuotation(transactionRequest, new RequestStateInterface() {@Override
+
+  SDKManager.getInstance().createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
             
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-      
+              
 
             }
+
             @Override
             public void onValidationError(ErrorObject errorObject) {
-              
+          
+            }
         });
 
 
@@ -1264,19 +1319,22 @@ To perform international request add the international transfer information,amou
 Perform international transfer request using transaction request
 
 ```
-  SDKManager.getInstance().initiateInternationalTransfer(transactionRequest, new RequestStateInterface() {
+
+ SDKManager.getInstance().createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-              
+            
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-             
-            }
-            @Override
+               
+
+          }
+
+           @Override
             public void onValidationError(ErrorObject errorObject) {
-    
+       
             }
         });
 
