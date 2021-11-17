@@ -665,7 +665,7 @@ public class SDKManager {
      */
     public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest == null) {
-            requestStateInterface.onValidationError(Utils.setError(1));
+            requestStateInterface.onValidationError(Utils.setError(5));
             return;
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
@@ -695,12 +695,9 @@ public class SDKManager {
      */
 
     public void createDisbursementTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null) {
-            requestStateInterface.onValidationError(Utils.setError(1));
+        if(transactionRequest==null){
+            requestStateInterface.onValidationError(Utils.setError(5));
             return;
-        }
-        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()) {
-            requestStateInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
@@ -752,12 +749,13 @@ public class SDKManager {
 
     /**
      * Bulk Disbursement - Organisations can make bulk disbursements to customers
-     *
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for recieving response of a transaction
      * @param bulkTransactionObject Transaction Object containing details required for initiating the bulk transaction
      */
     public void createBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
         if (bulkTransactionObject == null) {
-            requestStateInterface.onValidationError(Utils.setError(1));
+            requestStateInterface.onValidationError(Utils.setError(5));
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
@@ -847,10 +845,10 @@ public class SDKManager {
      */
     public void viewBatchTransaction(String batchId, @NonNull BatchTransactionItemInterface batchTransactionItemInterface) {
         if (batchId == null) {
-            batchTransactionItemInterface.onValidationError(Utils.setError(1));
+            batchTransactionItemInterface.onValidationError(Utils.setError(3));
             return;
         } else if (batchId.isEmpty()) {
-            batchTransactionItemInterface.onValidationError(Utils.setError(1));
+            batchTransactionItemInterface.onValidationError(Utils.setError(3));
         } else if (!Utils.isOnline()) {
             batchTransactionItemInterface.onValidationError(Utils.setError(0));
         } else {

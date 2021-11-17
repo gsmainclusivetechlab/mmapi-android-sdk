@@ -396,6 +396,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                     hideLoading();
+                    serverCorrelationId = requestStateObject.getServerCorrelationId();
                     txtResponse.setText(new Gson().toJson(requestStateObject));
                     correlationId = correlationID;
                     Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
@@ -460,6 +461,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
                 correlationId=correlationID;
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
             }
@@ -573,6 +575,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
                 correlationId=correlationID;
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
             }
@@ -590,7 +593,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Get Batch Transaction Details
     private void getBatchDetails(){
         showLoading();
-        SDKManager.getInstance().viewBatchTransaction("REF-1635765084301", new BatchTransactionItemInterface() {
+        SDKManager.getInstance().viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
                 @Override
                 public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationID) {
                     hideLoading();

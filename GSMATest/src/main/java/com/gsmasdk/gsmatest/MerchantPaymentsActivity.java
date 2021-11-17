@@ -568,7 +568,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.getInstance().viewTransactionResponse("", new TransactionInterface() {
+        SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();
