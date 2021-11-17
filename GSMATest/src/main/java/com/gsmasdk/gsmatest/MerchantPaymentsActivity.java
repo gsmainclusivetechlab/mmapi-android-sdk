@@ -52,7 +52,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
     private TransactionRequest transactionRequest;
     private AuthorisationCodeRequest authorisationCodeRequest;
     private String transactionRef = "";
-    private String serverCorrelationId = "";
+    private String serverCorrelationId="";
     private String correlationId = "";
     private ReversalObject reversalObject;
     private ProgressDialog progressdialog;
@@ -106,13 +106,13 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
 
-//        //msisdn
+        //msisdn
 //        Identifier identifierMsisdn=new Identifier();
 //        identifierMsisdn.setKey("msisdn");
 //        identifierMsisdn.setValue("+44012345678");
 //        identifierArrayList.add(identifierMsisdn);
-//
-//        //wallet id
+
+        //wallet id
 //
 //        Identifier identifierWallet=new Identifier();
 //        identifierWallet.setKey("walletid");
@@ -270,7 +270,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
 
     private void viewAuthorizationCode() {
         showLoading();
-        SDKManager.getInstance().viewAuthorisationCode(identifierArrayList, "d56df6f7-32f6-4235-b236-edf44377adcc", new AuthorisationCodeItemInterface() {
+        SDKManager.getInstance().viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCodeItem authorisationCodeItem, String correlationId) {
                 hideLoading();
@@ -329,7 +329,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
     }
 
     /**
-     * Payee initiated
+     * Payee/payer  initiated payment
      */
     private void payeeInitiated() {
         showLoading();
@@ -337,7 +337,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -371,7 +371,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -397,7 +397,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
     }
 
     /**
-     * View Transaction
+     * View Transaction-View the transaction Details
      */
     private void viewTransasction() {
         showLoading();
@@ -405,7 +405,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -438,6 +438,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
                 txtResponse.setText(new Gson().toJson(requestStateObject));
@@ -455,7 +456,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -471,6 +472,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
@@ -531,7 +533,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void obtainAuthorizationCode() {
         showLoading();
-        SDKManager.getInstance().createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"","2000", authorisationCodeRequest, new RequestStateInterface() {
+        SDKManager.getInstance().createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -566,7 +568,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionInterface() {
+        SDKManager.getInstance().viewTransactionResponse("", new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();
@@ -587,7 +589,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 

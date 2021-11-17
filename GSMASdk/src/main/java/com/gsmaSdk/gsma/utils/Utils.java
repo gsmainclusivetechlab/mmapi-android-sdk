@@ -104,7 +104,7 @@ public class Utils {
             case 1:
                 errorObject.setErrorCategory("validation");
                 errorObject.setErrorCode("GenericError");
-                errorObject.setErrorDescription("Invalid account identifier format");
+                errorObject.setErrorDescription("Invalid account identifier");
                 break;
             case 2:
                 errorObject.setErrorCategory("validation");

@@ -118,17 +118,17 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         identifierArrayList.add(identifierAccount);
 
         //msisdn
-//        Identifier identifierMsisdn=new Identifier();
-//        identifierMsisdn.setKey("msisdn");
-//        identifierMsisdn.setValue("+44012345678");
-//        identifierArrayList.add(identifierMsisdn);
-//
-//        //wallet id
-//
-//        Identifier identifierWallet=new Identifier();
-//        identifierWallet.setKey("walletid");
-//        identifierWallet.setValue("1");
-//        identifierArrayList.add(identifierWallet);
+        Identifier identifierMsisdn=new Identifier();
+        identifierMsisdn.setKey("msisdn");
+        identifierMsisdn.setValue("+44012345678");
+        identifierArrayList.add(identifierMsisdn);
+
+        //wallet id
+
+        Identifier identifierWallet=new Identifier();
+        identifierWallet.setKey("walletid");
+        identifierWallet.setValue("1");
+        identifierArrayList.add(identifierWallet);
 
 
     }
@@ -505,8 +505,6 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Check Balance
     private void balanceCheck(){
         showLoading();
-
-
         SDKManager.getInstance().viewAccountBalance(identifierArrayList, new BalanceInterface() {
                 @Override
                 public void onValidationError(ErrorObject errorObject) {

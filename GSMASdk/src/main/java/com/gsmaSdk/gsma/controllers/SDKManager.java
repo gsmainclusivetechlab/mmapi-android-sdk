@@ -102,14 +102,13 @@ public class SDKManager {
         }
     }
 
-    /**
-     * Get Balance
+    /*
+     * View Account Balance-Get the balance of a particular acccount
      *
      * @param accountId account identifier of the user
      */
 
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-
         if (identifierArrayList == null) {
             balanceInterface.onValidationError(Utils.setError(1));
             return;
@@ -164,8 +163,7 @@ public class SDKManager {
      */
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
-
-        if (transactionInterface == null) {
+        if (transactionReference == null) {
             transactionInterface.onValidationError(Utils.setError(3));
             return;
         }
@@ -197,7 +195,6 @@ public class SDKManager {
      */
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
-
         if (serverCorrelationId == null) {
             requestStateInterface.onValidationError(Utils.setError(2));
             return;
@@ -229,6 +226,10 @@ public class SDKManager {
      * @param transactionRequest Transaction Object containing details required for initiating the refund process
      */
     public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if (transactionRequest == null) {
+            requestStateInterface.onValidationError(Utils.setError(1));
+            return;
+        }
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
@@ -251,8 +252,10 @@ public class SDKManager {
     /**
      * Reversal - provides transaction reversal
      *
-     * @param referenceId Reference id of a previous transaction
-     * @param reversal    Reversal Object containing the type of the transaction
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for recieving response of transaction
+     * @param referenceId        Reference id of a previous transaction
+     * @param reversal           Reversal Object containing the type of the transaction
      */
     public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
         if (referenceId == null) {
@@ -348,7 +351,7 @@ public class SDKManager {
      * @param accountId   Account identifier of a user
      * @param codeRequest An Object containing required details for getting the authorisation code
      */
-    public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String accountId, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (identifierArrayList == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
@@ -403,11 +406,15 @@ public class SDKManager {
      */
 
     public void viewAuthorisationCode(@NonNull ArrayList<Identifier> identifierArrayList, String authorisationCode, AuthorisationCodeItemInterface authorisationCodeInterface) {
-
         if (identifierArrayList == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(1));
             return;
         }
+        if (authorisationCode == null) {
+            authorisationCodeInterface.onValidationError(Utils.setError(9));
+            return;
+        }
+
         if (!Utils.isOnline()) {
             authorisationCodeInterface.onValidationError(Utils.setError(0));
             return;
@@ -568,6 +575,10 @@ public class SDKManager {
      */
 
     public void viewTransactionResponse(String correlationId, @NonNull TransactionInterface missingTransactionInterface) {
+        if(correlationId==null){
+            missingTransactionInterface.onValidationError(Utils.setError(6));
+            return;
+        }
         if (correlationId.isEmpty()) {
             missingTransactionInterface.onValidationError(Utils.setError(6));
         } else if (!Utils.isOnline()) {
@@ -647,16 +658,15 @@ public class SDKManager {
     /**
      * Intiate Payment - Intiate merchant pay
      *
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for recieving response of transaction
      * @param transactionType    Type of the transaction that is being carried out
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
     public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (transactionRequest.getAmount() == null || transactionRequest.getCurrency() == null) {
+        if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
-        }
-        if (transactionRequest.getAmount().isEmpty() || transactionRequest.getCurrency().isEmpty()) {
-            requestStateInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
@@ -722,7 +732,7 @@ public class SDKManager {
         if (quotationReference == null || quotationReference.isEmpty()) {
             transactionInterface.onValidationError(Utils.setError(10));
             return;
-        }else {
+        } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<TransactionRequest>() {
                         @Override
