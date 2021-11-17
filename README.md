@@ -61,56 +61,41 @@ To use the SDK the following requirements must be met:
 
 # How to include GSMA SDK in your android application
 
-Copy the GSMASdk-debug-1.0.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
+Copy the GSMASdk-debug-1.0.1.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
 
 Add the below line in dependencies of your build.gradle file in your application.
 
 ```
-implementation files('libs/GSMASdk-debug-1.0.aar')
+implementation files('libs/GSMASdk-debug-1.0.1.aar')
 ```
 <a name="Configure"></a>
 
 # Configure the SDK
 
-After including the SDK into your project,Configure the SDK with either SANDBOX account or live account
+After including the SDK into your project,Configure the SDK with either SANDBOX account or LIVE account
 
 ```
-//Initialise the payment system before calling the functions in the SDK
+ /**
+         * Initialise payment configuration with the following
+         * consumerKey - provided by Client
+         * consumerSecret - provided by Client
+         * authenticationType - requried level of authentication, eg:AuthenticationType.STANDARD_LEVEL,AuthenticationType.NO_AUTH;
+         * callbackUrl - server url to which long running operation responses are delivered
+         * xAPIkey - provided by client 
+         * environment - sandbox or production
+         */
 
-//Declare the configuration parameter
+        PaymentConfiguration.
+                init("Place your consumerkey",
+                        "Place your consumerSecret",
+                        "Place your AuthenticaticationType",
+                        "Place your callback URL",
+                        "Place your X API ",
+                        Environment.SANDBOX);
 
-    private String consumerKey;//optional paramater if the security level is NO_AUTH
-    private String consumerSecret;//optional paramater if the security level is NO_AUTH
-    private Enum securityOption;// options  NO_AUTH , DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
-    private String callBackURL;//The backend server URL for your app for handling callbacks in application
-    private String xAPIKey;//The API key provided from MMAPI dashboard
 
 ```
 
- Inside oncreate method setup the payment configuration constructor with required parameters
-
- ```
-
- //sample consumer key for testing,you can generate a consumer key for your app from MMAPI dashboard under apps
-  consumerKey="9vthmq3f6i15v6jmcjskfkmh";
-
-  //sample consumer secret for testing,you can generate a consumer secret for your app from MMAPI dashboard under apps
-  consumerSecret="ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb";
-
-
-  //The security option availbale in SDK are,AuthenticationType.NO_AUTH,AuthenticationType.DEVELOPMENT_LEVEL,AuthenticationType.STANDARD_LEVEL,AuthenticationType.ENHANCED_LEVEL
-
-  securityOption=AuthenticationType.STANDARD_LEVEL;
-
-  //Example mock URL for handling callback,Change the url into your live callback URL
-   callBackURL="Put your callback URL here";
-
-   xAPIKey="Put your x api key here";
-
-   //Confgure the SDK
-   PaymentConfiguration.init(consumerKey,consumerSecret,securityOption,callBackURL,xAPIKey,Environment.SANDBOX);
-   PreferenceManager.getInstance().init(this);
-  ```
 
   Create a token  if the security option is DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
 ```
