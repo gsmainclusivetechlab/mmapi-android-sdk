@@ -118,17 +118,17 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         identifierArrayList.add(identifierAccount);
 
         //msisdn
-        Identifier identifierMsisdn=new Identifier();
-        identifierMsisdn.setKey("msisdn");
-        identifierMsisdn.setValue("+44012345678");
-        identifierArrayList.add(identifierMsisdn);
-
-        //wallet id
-
-        Identifier identifierWallet=new Identifier();
-        identifierWallet.setKey("walletid");
-        identifierWallet.setValue("1");
-        identifierArrayList.add(identifierWallet);
+//        Identifier identifierMsisdn=new Identifier();
+//        identifierMsisdn.setKey("msisdn");
+//        identifierMsisdn.setValue("+44012345678");
+//        identifierArrayList.add(identifierMsisdn);
+//
+//        //wallet id
+//
+//        Identifier identifierWallet=new Identifier();
+//        identifierWallet.setKey("walletid");
+//        identifierWallet.setValue("1");
+//        identifierArrayList.add(identifierWallet);
 
 
     }

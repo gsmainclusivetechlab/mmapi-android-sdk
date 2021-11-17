@@ -60,6 +60,9 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     private String correlationId = "";
     private ReversalObject reversalObject;
 
+    private String transactionRef = "";
+    private String serverCorrelationId;
+
     private TransactionRequest transactionRequest;
     ArrayList<Identifier> identifierArrayList;
 
@@ -70,7 +73,9 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             "Obtain an FSP Balance",
             "Retrieve Transaction for FSP",
             "Missing Transaction",
-            "View Quotation"
+            "View Quotation",
+            "View Request State",
+            "View Transaction"
     };
 
     @Override
@@ -95,16 +100,16 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     /*
-    * Account identitifers for transaction
-    *
-    */
-    private void createAccountIdentifier(){
+     * Account identitifers for transaction
+     *
+     */
+    private void createAccountIdentifier() {
 
-        identifierArrayList=new ArrayList<>();
+        identifierArrayList = new ArrayList<>();
         identifierArrayList.clear();
 //
         //account id
-        Identifier identifierAccount=new Identifier();
+        Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
         identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
@@ -158,7 +163,15 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 //View Quotation
                 viewQuotation();
                 break;
+            case 7:
+                //view request State
+                requestState();
+                break;
 
+            case 8:
+                //view Transaction
+                viewTransaction();
+                break;
             default:
                 break;
         }
@@ -167,9 +180,71 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
 
+    /**
+     * Method for fetching a particular transaction.
+     */
+    private void viewTransaction() {
+        showLoading();
+        SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
+                correlationId = correlationID;
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(transactionObject));
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        });
+    }
+
+    //get the request state of a transaction
+    private void requestState() {
+        showLoading();
+        SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                hideLoading();
+                correlationId = correlationID;
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                transactionRef = requestStateObject.getObjectReference();
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        });
+    }
+
+
     public void viewQuotation() {
         showLoading();
-        SDKManager.getInstance().viewQuotation("REF-1636973900963", new TransactionInterface() {
+        SDKManager.getInstance().viewQuotation(transactionRef, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
                 hideLoading();
@@ -236,10 +311,11 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //perform international transfer
     private void performInternationalTransfer() {
         showLoading();
-        SDKManager.getInstance().createInternationalTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
                 correlationId = correlationID;
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
@@ -267,10 +343,11 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Request for quotation-Request the quotation to perform international transfer
     private void requestQuotation() {
 
-        SDKManager.getInstance().createQuotation(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-         public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
                 correlationId = correlationID;
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
@@ -477,7 +554,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Reversal
     private void reversal() {
         showLoading();
-        SDKManager.getInstance().createReversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.getInstance().createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
