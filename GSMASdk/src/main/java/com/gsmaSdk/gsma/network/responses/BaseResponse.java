@@ -3,11 +3,10 @@ package com.gsmaSdk.gsma.network.responses;
 
 import androidx.annotation.RestrictTo;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Marker for response classes
  */
+@SuppressWarnings("unused")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public abstract class BaseResponse {
 

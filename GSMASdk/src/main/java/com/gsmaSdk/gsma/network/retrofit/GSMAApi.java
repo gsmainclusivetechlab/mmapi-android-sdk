@@ -9,11 +9,6 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
-import com.gsmaSdk.gsma.models.common.Balance;
-import com.gsmaSdk.gsma.models.transaction.Batch;
-import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
-import com.gsmaSdk.gsma.models.common.Token;
 
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
@@ -43,7 +38,7 @@ import okhttp3.RequestBody;
 /**
  * Class for processing api services.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public final class GSMAApi {
     private final APIService apiHelper;

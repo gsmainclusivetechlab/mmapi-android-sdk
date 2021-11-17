@@ -621,6 +621,108 @@
     <pattern value="com.gsmaSdk.gsma.interfaces.TokenInterface" method="onTokenFailure" />
     <pattern value="com.gsmaSdk.gsma.interfaces.TokenInterface" method="onTokenSuccess" />
     <pattern value="com.gsmaSdk.gsma.interfaces.TokenInterface" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$1" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$2" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$3" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$4" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$5" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$6" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$7" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$8" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$9" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$10" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$12" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$14" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$14$1" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$16" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$16$1" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$17" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$18" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$19" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$20" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$2" />
+    <pattern value="com.gsmasdk.gsmatest.DisbursementActivity$9" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$3" />
+    <pattern value="com.gsmasdk.gsmatest.LandingActivity$1" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$4" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$5" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$7" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$8" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$10" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$9" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$1" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$6" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$11" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="createAuthorisationCode" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="createBatchTransaction" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="createDisbursementTransaction" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="createInternationalTransaction" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="createMerchantTransaction" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="createQuotation" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="createRefundTransaction" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="createReversal" />
+    <pattern value="com.gsmaSdk.gsma.network.responses.MetaData" method="getAvailableCount" />
+    <pattern value="com.gsmaSdk.gsma.network.responses.MetaData" method="getTotalCount" />
+    <pattern value="com.gsmasdk.gsmatest.InternationalTransfersActivity" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="init" />
+    <pattern value="com.gsmaSdk.gsma.network.responses.MetaData" />
+    <pattern value="com.gsmasdk.gsmatest.DisbursementActivity$9" method="onBalanceFailure" />
+    <pattern value="com.gsmasdk.gsmatest.DisbursementActivity$9" method="onBalanceSuccess" />
+    <pattern value="com.gsmasdk.gsmatest.LandingActivity$1" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$1" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$2" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$3" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$4" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$5" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$6" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$7" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$8" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$9" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$10" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$12" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$14$1" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$14" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$16$1" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$16" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$17" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$18" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$19" method="onFailure" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$20" method="onFailure" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$4" method="onRequestStateFailure" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$7" method="onRequestStateFailure" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$4" method="onRequestStateSuccess" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$7" method="onRequestStateSuccess" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$1" method="onServiceAvailabilityFailure" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$1" method="onServiceAvailabilitySuccess" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$2" method="onSuccess" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$14" method="onSuccess" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$16" method="onSuccess" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$5" method="onSuccess" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$6" method="onSuccess" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$7" method="onSuccess" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$8" method="onSuccess" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$18" method="onSuccess" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager$1" method="onSuccess" />
+    <pattern value="com.gsmasdk.gsmatest.LandingActivity$1" method="onSuccess" />
+    <pattern value="com.gsmasdk.gsmatest.LandingActivity$1" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$1" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$2" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$3" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$4" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$5" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$6" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$7" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$8" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$9" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$10" method="onValidationError" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity$11" method="onValidationError" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewAccountBalance" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewAuthorisationCode" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewAuthorisationCodeResponse" />
+    <pattern value="com.gsmasdk.gsmatest.MerchantPaymentsActivity" method="viewAuthorizationCode" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewQuotation" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewServiceAvailability" />
+    <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewTransactionResponse" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />

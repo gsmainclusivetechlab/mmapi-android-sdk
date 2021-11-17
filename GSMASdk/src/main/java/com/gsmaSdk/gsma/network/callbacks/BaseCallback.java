@@ -1,23 +1,17 @@
 package com.gsmaSdk.gsma.network.callbacks;
 
 
-import android.util.Log;
-
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 import com.gsmaSdk.gsma.network.responses.MetaData;
 import com.gsmaSdk.gsma.utils.Utils;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 
-import okhttp3.Headers;
 import okhttp3.ResponseBody;
-import okhttp3.internal.http2.Header;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,7 +45,7 @@ public final class BaseCallback<K extends BaseResponse> implements Callback<K> {
                 if (response.headers().get("X-Records-Returned-Count") != null) {
                     metaData.setTotalCount(response.headers().get("X-Records-Returned-Count"));
                 }
-                response.body().setMetaData(metaData);
+                Objects.requireNonNull(response.body()).setMetaData(metaData);
             }
 
             requestCallback.onSuccess(response.code(), response.body());

@@ -18,12 +18,6 @@ import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 
 import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
-import com.gsmaSdk.gsma.models.common.Balance;
-import com.gsmaSdk.gsma.models.common.ErrorObject;
-import com.gsmaSdk.gsma.models.transaction.Batch;
-import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
-import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;

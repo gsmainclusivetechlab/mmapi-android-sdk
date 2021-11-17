@@ -11,6 +11,6 @@ public enum Environment{
     /**
      * LIVE_URL
      */
-    @SerializedName("LIVE_URL")   LIVE
+    @SerializedName("LIVE_URL")   PRODUCTION
 
 }

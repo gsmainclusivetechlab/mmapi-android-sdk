@@ -1,7 +1,5 @@
 package com.gsmaSdk.gsma.models;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Identifier {
 
 

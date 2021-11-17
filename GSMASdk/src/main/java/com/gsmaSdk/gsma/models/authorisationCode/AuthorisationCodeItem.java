@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.gsmaSdk.gsma.interfaces.BaseInterface;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 /**

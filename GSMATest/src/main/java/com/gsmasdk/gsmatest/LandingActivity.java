@@ -78,7 +78,7 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
          */
         PreferenceManager.getInstance().init(this);
         /**
-         * GSMAApi initialization
+         * Token creation
          */
         SDKManager.getInstance().init(this, new PaymentInitialiseInterface() {
             @Override

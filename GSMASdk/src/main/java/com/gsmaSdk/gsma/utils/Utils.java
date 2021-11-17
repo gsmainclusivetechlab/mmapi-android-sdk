@@ -21,7 +21,7 @@ import java.util.UUID;
 /**
  * The type Utils - for reusable utility functions.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public class Utils {
 
     /**
