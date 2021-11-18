@@ -252,7 +252,7 @@ private void createTransactionObject() {
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-            
+            serverCorrelationId = requestStateObject.getServerCorrelationId()            
             }
 
             @Override
