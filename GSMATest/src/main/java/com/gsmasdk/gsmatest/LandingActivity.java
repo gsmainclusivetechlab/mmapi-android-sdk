@@ -122,6 +122,8 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case 3:
                 //P2P Transfers
+                startActivity(new Intent(LandingActivity.this, P2PTransferActivity.class));
+
                 break;
             case 4:
                 //Recurring Payments

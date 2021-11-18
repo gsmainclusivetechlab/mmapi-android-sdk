@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_disbursement.xml" value="0.10733695652173914" />
+        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_merchant_payments.xml" value="0.10733695652173914" />
+        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_p2p.xml" value="0.22" />
         <entry key="GSMATest/src/main/res/layout/activity_landing.xml" value="0.28229166666666666" />
         <entry key="GSMATest/src/main/res/layout/activity_merchant_payments.xml" value="0.14895833333333333" />
         <entry key="GSMATest/src/main/res/layout/usecase_item.xml" value="0.28229166666666666" />
@@ -725,5 +728,9 @@
     <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewTransactionResponse" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop" />
+    <option name="OTHER_OPTIONS" value="-encoding UTF-8 -charset UTF-8" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

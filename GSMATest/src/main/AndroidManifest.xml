@@ -6,13 +6,16 @@
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GSMASdk"
+        android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity
+            android:name=".P2PTransferActivity"
+            android:exported="true" />
         <activity
             android:name=".InternationalTransfersActivity"
             android:exported="true" />

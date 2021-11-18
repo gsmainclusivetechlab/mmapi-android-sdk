@@ -111,21 +111,21 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("2000");
+        identifierAccount.setValue("15523");
         identifierArrayList.add(identifierAccount);
 
-//        //msisdn
-//        Identifier identifierMsisdn=new Identifier();
-//        identifierMsisdn.setKey("msisdn");
-//        identifierMsisdn.setValue("+44012345678");
-//        identifierArrayList.add(identifierMsisdn);
-//
-//        //wallet id
-//
-//        Identifier identifierWallet=new Identifier();
-//        identifierWallet.setKey("walletid");
-//        identifierWallet.setValue("1");
-//        identifierArrayList.add(identifierWallet);
+        //msisdn
+        Identifier identifierMsisdn=new Identifier();
+        identifierMsisdn.setKey("msisdn");
+        identifierMsisdn.setValue("2B12345678910");
+        identifierArrayList.add(identifierMsisdn);
+
+        //wallet id
+
+        Identifier identifierWallet=new Identifier();
+        identifierWallet.setKey("walletid");
+        identifierWallet.setValue("1");
+        identifierArrayList.add(identifierWallet);
 //
 
     }
