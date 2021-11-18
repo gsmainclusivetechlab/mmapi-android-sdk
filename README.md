@@ -252,7 +252,7 @@ private void createTransactionObject() {
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-            serverCorrelationId = requestStateObject.getServerCorrelationId()            
+            serverCorrelationId = requestStateObject.getServerCorrelationId();            
             }
 
             @Override
@@ -359,7 +359,7 @@ private void createTransactionObject() {
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-            
+                  serverCorrelationId = requestStateObject.getServerCorrelationId();            
             }
 
             @Override
@@ -495,6 +495,7 @@ Merchants can issue a refund to payers. Create transcation object for refund
 
 ```
 private TransactionRequest transactionRequest;
+private String serverCorrelationId="";
 
 ```
 
@@ -528,7 +529,7 @@ Create a refund request with transaction parameter
  SDKManager.getInstance().createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-           
+            serverCorrelationId = requestStateObject.getServerCorrelationId();
             }
 
             @Override
@@ -568,7 +569,8 @@ Call the reversal function with reversal and reference Id of transaction obtaine
   SDKManager.getInstance().createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-          
+                      serverCorrelationId = requestStateObject.getServerCorrelationId();
+
             }
 
             @Override
