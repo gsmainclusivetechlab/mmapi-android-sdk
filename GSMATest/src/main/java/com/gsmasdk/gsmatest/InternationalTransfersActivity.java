@@ -275,7 +275,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     private void createInternationalTransferObject() {
 //        transactionRequest=new TransactionRequest();
         if (transactionRequest == null) {
-            Utils.showToast(this, "Please request for Quotation before perfoming this request");
+            Utils.showToast(this, "Please request Quotation before performing this request");
             return;
         } else {
 
@@ -340,7 +340,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     }
 
-    //Request for quotation-Request the quotation to perform international transfer
+    //Request the quotation to perform international transfer
     private void requestQuotation() {
 
         SDKManager.getInstance().createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
