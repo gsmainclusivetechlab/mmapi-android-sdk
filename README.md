@@ -797,7 +797,7 @@ Intiate the disbursement using the following code
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-             
+             serverCorrelationId = requestStateObject.getServerCorrelationId();
             }
 
             @Override
@@ -867,7 +867,7 @@ private void createTransactionObject() {
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-             
+             serverCorrelationId = requestStateObject.getServerCorrelationId();
             }
 
             @Override
