@@ -342,7 +342,7 @@ public class SDKManager {
     /**
      * Obtain Authorisation code for a transaction
      *
-     * @param accountId   Account identifier of a user
+     * @param identifierArrayList List of account identifiers of a user
      * @param codeRequest An Object containing required details for getting the authorisation code
      */
     public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
@@ -484,7 +484,7 @@ public class SDKManager {
     /**
      * Retrieve a transaction
      *
-     * @param accountId Account identifier of a user
+     * @param identifierArrayList List of account identifiers of a user
      * @param offset    offset required for pagination
      * @param limit     limit set for receiving records per request
      */
@@ -654,7 +654,6 @@ public class SDKManager {
      *
      * @param notificationMethod The enumerated datatype to determine polling or callback
      * @param callbackUrl        The server URl for recieving response of transaction
-     * @param transactionType    Type of the transaction that is being carried out
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
     public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
@@ -684,7 +683,8 @@ public class SDKManager {
     /**
      * Intiate Payment Disbursment - Intiate disbursement transaction
      *
-     * @param transactionType    Type of the transaction that is being carried out
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for recieving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
 
