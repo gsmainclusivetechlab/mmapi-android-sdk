@@ -90,7 +90,7 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
                         "Place your consumerSecret",
                         "Place your AuthenticaticationType",
                         "Place your callback URL",
-                        "Place your X API ",
+                        "Place your X API Key",
                         Environment.SANDBOX);
 
 
