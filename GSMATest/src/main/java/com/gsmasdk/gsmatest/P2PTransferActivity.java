@@ -13,9 +13,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
+import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.AccountHolderObject;
 import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -90,13 +92,14 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         switch (i) {
             case 0:
                 //Retrieve the Name of the Recipient;
-
+                viewAccountName();
                 break;
+
             case 1:
                 //Request a P2P Quotation;
                 createP2PQuotationObject();
-
                 break;
+
             case 2:
                 //Perform a P2P Transfer
                 createP2PTransferObject();
@@ -139,7 +142,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     }
 
     /**
-    create a transaction object for P2P Quotation request
+     * create a transaction object for P2P Quotation request
      */
     private void createP2PQuotationObject() {
 
@@ -194,7 +197,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     }
 
     /**
-     create a transaction object for P2P transfer request
+     * create a transaction object for P2P transfer request
      */
     private void createP2PTransferObject() {
 //        transactionRequest=new TransactionRequest();
@@ -247,39 +250,72 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
+
+    /**
+     * View Account Name
+     */
+    private void viewAccountName() {
+        showLoading();
+        SDKManager.getInstance().viewAccountName(identifierArrayList, new AccountHolderInterface() {
+            @Override
+            public void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject, String correlationID) {
+                hideLoading();
+                correlationId = correlationID;
+                txtResponse.setText(new Gson().toJson(accountHolderObject));
+                Utils.showToast(P2PTransferActivity.this, "Success");
+                Log.d(SUCCESS, "onRetrieveAccountInfoSuccess: " + new Gson().toJson(accountHolderObject));
+            }
+
+            @Override
+            public void onRetrieveAccountInfoFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRetrieveAccountInfoFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+        });
+    }
+
     /**
      * Perform P2P Transfer
      */
     private void performTransfer() {
 
-            showLoading();
-            SDKManager.getInstance().createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
-                @Override
-                public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                    hideLoading();
-                    serverCorrelationId = requestStateObject.getServerCorrelationId();
-                    correlationId = correlationID;
-                    Utils.showToast(P2PTransferActivity.this, "Success");
-                    txtResponse.setText(new Gson().toJson(requestStateObject));
-                    Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
-                }
+        showLoading();
+        SDKManager.getInstance().createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                hideLoading();
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                correlationId = correlationID;
+                Utils.showToast(P2PTransferActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
+            }
 
-                @Override
-                public void onRequestStateFailure(GSMAError gsmaError) {
-                    hideLoading();
-                    Log.d(FAILURE, "onRequestFailure " + new Gson().toJson(gsmaError));
-                    txtResponse.setText(new Gson().toJson(gsmaError));
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRequestFailure " + new Gson().toJson(gsmaError));
+                txtResponse.setText(new Gson().toJson(gsmaError));
 
-                }
+            }
 
-                @Override
-                public void onValidationError(ErrorObject errorObject) {
-                    hideLoading();
-                    Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
-                    Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                }
-            });
-        }
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
+    }
 
 
     /**
@@ -388,16 +424,15 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         //msisdn
         Identifier identifierMsisdn = new Identifier();
         identifierMsisdn.setKey("msisdn");
-        identifierMsisdn.setValue("2B12345678910");
+        identifierMsisdn.setValue("%2B123456789102345");
         identifierArrayList.add(identifierMsisdn);
 
         //wallet id
-
         Identifier identifierWallet = new Identifier();
         identifierWallet.setKey("walletid");
-        identifierWallet.setValue("155423");
+        identifierWallet.setValue("3355544");
         identifierArrayList.add(identifierWallet);
-//
+
 
     }
 

@@ -139,8 +139,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 createInternationalQuotationObject();
                 break;
             case 1:
-                createInternationalTransferObject();
                 //Request a International Transfer Quotation;
+                createInternationalTransferObject();
                 break;
             case 2:
                 //Reversal

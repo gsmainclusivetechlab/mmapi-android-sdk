@@ -1,6 +1,7 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
 
+import com.gsmaSdk.gsma.models.AccountHolderObject;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -71,8 +72,6 @@ public interface APIService {
     @SuppressWarnings("SpellCheckingInspection")
     @GET("{version}accounts/{accountIdentifier}/balance")
     Call<Balance> retrieveBalance(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @HeaderMap Map<String, String> headers);
-
-
 
     /**
      * Start a Merchant Pay Transaction.
@@ -216,4 +215,14 @@ public interface APIService {
      */
     @GET("{version}/batchtransactions/{id}/completions")
     Call<BatchTransactionCompletion> retrieveBatchCompletions(@Path("id") String id,@Path(value = "version", encoded = true) String version,  @HeaderMap Map<String, String> headers);
+
+    /**
+     * View Account Name.
+     *
+     * @return the call
+     */
+    @SuppressWarnings("SpellCheckingInspection")
+    @GET("{version}accounts/{accountIdentifier}/accountname")
+    Call<AccountHolderObject> viewAccountName(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @HeaderMap Map<String, String> headers);
+
 }

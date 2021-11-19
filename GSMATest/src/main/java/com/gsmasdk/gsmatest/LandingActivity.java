@@ -52,7 +52,7 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
         listUseCases.setAdapter(customListAdapter);
         listUseCases.setOnItemClickListener(this);
         progressdialog = Utils.initProgress(LandingActivity.this);
-      //  showLoading();
+        showLoading();
         Utils.showToast(LandingActivity.this,"Configuring SDK...");
 
         /**

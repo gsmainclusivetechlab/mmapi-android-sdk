@@ -4,6 +4,7 @@ package com.gsmaSdk.gsma.controllers;
 import android.content.Context;
 
 import com.gsmaSdk.gsma.enums.AuthenticationType;
+import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
@@ -15,12 +16,11 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-
-import com.gsmaSdk.gsma.models.Identifier;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
-
+import com.gsmaSdk.gsma.models.AccountHolderObject;
+import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -96,7 +96,7 @@ public class SDKManager {
         }
     }
 
-    /*
+    /**
      * View Account Balance-Get the balance of a particular acccount
      *
      * @param accountId account identifier of the user
@@ -343,7 +343,7 @@ public class SDKManager {
      * Obtain Authorisation code for a transaction
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param codeRequest An Object containing required details for getting the authorisation code
+     * @param codeRequest         An Object containing required details for getting the authorisation code
      */
     public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (identifierArrayList == null) {
@@ -485,8 +485,8 @@ public class SDKManager {
      * Retrieve a transaction
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param offset    offset required for pagination
-     * @param limit     limit set for receiving records per request
+     * @param offset              offset required for pagination
+     * @param limit               limit set for receiving records per request
      */
 
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
@@ -569,7 +569,7 @@ public class SDKManager {
      */
 
     public void viewTransactionResponse(String correlationId, @NonNull TransactionInterface missingTransactionInterface) {
-        if(correlationId==null){
+        if (correlationId == null) {
             missingTransactionInterface.onValidationError(Utils.setError(6));
             return;
         }
@@ -689,7 +689,7 @@ public class SDKManager {
      */
 
     public void createDisbursementTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if(transactionRequest==null){
+        if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
         } else if (!Utils.isOnline()) {
@@ -743,8 +743,9 @@ public class SDKManager {
 
     /**
      * Bulk Disbursement - Organisations can make bulk disbursements to customers
-     * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl        The server URl for recieving response of a transaction
+     *
+     * @param notificationMethod    The enumerated datatype to determine polling or callback
+     * @param callbackUrl           The server URl for recieving response of a transaction
      * @param bulkTransactionObject Transaction Object containing details required for initiating the bulk transaction
      */
     public void createBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
@@ -917,6 +918,60 @@ public class SDKManager {
                     }
             );
         }
+    }
+
+    /**
+     * View Account Balance-Get the balance of a particular acccount
+     *
+     * @param accountId account identifier of the user
+     */
+
+    public void viewAccountName(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
+        if (identifierArrayList == null) {
+            accountHolderInterface.onValidationError(Utils.setError(1));
+            return;
+        }
+        if (!Utils.isOnline()) {
+            accountHolderInterface.onValidationError(Utils.setError(0));
+            return;
+        } else if (identifierArrayList.size() != 0) {
+            String identifierValue = "";
+            if (identifierArrayList.size() == 1) {
+                Identifier identifier = identifierArrayList.get(0);
+                identifierValue = identifierValue + identifier.getKey() + "/" + identifier.getValue();
+            } else if (identifierArrayList.size() <= 3) {
+                for (int i = 0; i < identifierArrayList.size(); i++) {
+                    Identifier identifier = identifierArrayList.get(i);
+                    if (identifierArrayList.size() - 1 == i) {
+                        identifierValue = identifierValue + identifier.getKey() + "@" + identifier.getValue();
+                    } else {
+                        identifierValue = identifierValue + identifier.getKey() + "@" + identifier.getValue() + "$";
+
+                    }
+
+                }
+            } else if (identifierArrayList.size() > 3) {
+                accountHolderInterface.onValidationError(Utils.setError(11));
+                return;
+            }
+            String uuid = Utils.generateUUID();
+            GSMAApi.getInstance().viewAccountName(uuid, identifierValue, new APIRequestCallback<AccountHolderObject>() {
+                @Override
+                public void onSuccess(int responseCode, AccountHolderObject serializedResponse) {
+                    accountHolderInterface.onRetrieveAccountInfoSuccess(serializedResponse, uuid);
+                }
+
+                @Override
+                public void onFailure(GSMAError errorDetails) {
+                    accountHolderInterface.onRetrieveAccountInfoFailure(errorDetails);
+                }
+            });
+
+        } else {
+            accountHolderInterface.onValidationError(Utils.setError(1));
+        }
+
+
     }
 
 }
