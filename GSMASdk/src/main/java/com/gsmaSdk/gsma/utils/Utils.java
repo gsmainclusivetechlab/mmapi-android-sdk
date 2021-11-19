@@ -8,6 +8,7 @@ import android.os.Build;
 import android.util.Base64;
 
 import com.gsmaSdk.gsma.enums.NotificationMethod;
+import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
@@ -16,6 +17,7 @@ import org.json.JSONObject;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -91,6 +93,26 @@ public class Utils {
         ConnectivityManager connectivityManager = (ConnectivityManager) MyApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return (activeNetworkInfo != null) && (activeNetworkInfo.isConnected());
+    }
+
+    public static String getIdentifiers(ArrayList<Identifier> identifierArrayList){
+        String identifierValue = "";
+        if (identifierArrayList.size() == 1) {
+            Identifier identifier = identifierArrayList.get(0);
+            identifierValue = identifierValue + identifier.getKey() + "/" + identifier.getValue();
+        } else if (identifierArrayList.size() <= 3) {
+            for (int i = 0; i < identifierArrayList.size(); i++) {
+                Identifier identifier = identifierArrayList.get(i);
+                if (identifierArrayList.size() - 1 == i) {
+                    identifierValue = identifierValue + identifier.getKey() + "@" + identifier.getValue();
+                } else {
+                    identifierValue = identifierValue + identifier.getKey() + "@" + identifier.getValue() + "$";
+
+                }
+
+            }
+        }
+        return identifierValue;
     }
 
     public static ErrorObject setError(int errorCode) {

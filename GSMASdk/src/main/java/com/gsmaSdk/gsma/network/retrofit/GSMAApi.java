@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 
+import com.gsmaSdk.gsma.models.AccountHolderObject;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
@@ -389,6 +390,18 @@ public final class GSMAApi {
     public void retrieveBatchCompletions(String uuid, String batchId, APIRequestCallback<BatchTransactionCompletion> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchCompletions(batchId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Account Name.
+     *
+     * @param uuid               UUID
+     * @param accountIdentifier          Account id
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void viewAccountName(String uuid, String accountIdentifier, APIRequestCallback<AccountHolderObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountName(PaymentConfiguration.getUrlVersion(),  accountIdentifier, headers), apiRequestCallback));
     }
 
 }

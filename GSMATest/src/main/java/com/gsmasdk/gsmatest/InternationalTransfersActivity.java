@@ -117,7 +117,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         //msisdn
         Identifier identifierMsisdn=new Identifier();
         identifierMsisdn.setKey("msisdn");
-        identifierMsisdn.setValue("2B12345678910");
+        identifierMsisdn.setValue("%2B12345678910");
         identifierArrayList.add(identifierMsisdn);
 
         //wallet id
@@ -126,11 +126,9 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         identifierWallet.setKey("walletid");
         identifierWallet.setValue("1");
         identifierArrayList.add(identifierWallet);
-//
+
 
     }
-
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
@@ -139,8 +137,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 createInternationalQuotationObject();
                 break;
             case 1:
-                createInternationalTransferObject();
                 //Request a International Transfer Quotation;
+                createInternationalTransferObject();
                 break;
             case 2:
                 //Reversal
@@ -275,7 +273,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     private void createInternationalTransferObject() {
 //        transactionRequest=new TransactionRequest();
         if (transactionRequest == null) {
-            Utils.showToast(this, "Please request for Quotation before perfoming this request");
+            Utils.showToast(this, "Please request Quotation before performing this request");
             return;
         } else {
 
@@ -340,7 +338,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     }
 
-    //Request for quotation-Request the quotation to perform international transfer
+    //Request the quotation to perform international transfer
     private void requestQuotation() {
 
         SDKManager.getInstance().createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
