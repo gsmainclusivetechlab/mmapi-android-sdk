@@ -45,7 +45,14 @@ A library that fully covers payment process inside your Android application
        5. [Retrieve Transactions for an FSP](#merchant-pay-retrieve)
        6. [Check for Service Availability](#check-for-service)
        7. [Retrieve a Missing API Response](#missing-response)
-
+   4. [PP2P Transfers](#p2p-switch)
+       1. [P2P Transfer via Switch](#p2p-switch)
+       2. [Bilateral P2P Transfer](#p2p-switch)
+       3. [On-us’ P2P Transfer Initiated by a Third Party Provider](#p2p-switch)  
+       4. [Obtain an FSP Balance](#merchant-pay-balance)
+       5. [Retrieve Transactions for an FSP](#merchant-pay-retrieve)
+       6. [Check for Service Availability](#check-for-service)
+       7. [Retrieve a Missing API Response](#missing-response)
        
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
@@ -1343,6 +1350,245 @@ Perform international transfer request using transaction request
 
 
 ```
+<a name="p2p-switch"></a>
+
+# P2p Transfer via switch/On-us’ P2P Transfer Initiated by a Third Party Provider
+
+A switch is used to send FSP to<br /> 
+
+1.confirm the recipient name<br />
+2.request a quotation<br /> 
+3.perform the transfer with the receiving FSP.
+
+
+
+## 1.Confirm the recipient name
+
+
+```
+    ArrayList<Identifier> identifierArrayList;
+
+
+```
+
+Create identifier to get the name of recipient
+```
+
+    private void createAccountIdentifier() {
+
+        identifierArrayList = new ArrayList<>();
+        identifierArrayList.clear();
+        //account id
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("1");
+        identifierArrayList.add(identifierAccount);
+   }
+
+```
+
+Perform a request to view the account name
+
+
+```
+
+ SDKManager.getInstance().viewAccountName(identifierArrayList, new AccountHolderInterface() {
+            @Override
+            public void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject, String correlationID) {
+             
+           
+
+            @Override
+            public void onRetrieveAccountInfoFailure(GSMAError gsmaError) {
+        
+            }
+
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+          
+            }
+
+        });
+
+```
+
+## 2.Request a quotation
+
+
+```
+private TransactionRequest transactionRequest;
+private String serverCorrelationId;
+
+```
+
+ private void createP2PQuotationObject() {
+
+        transactionRequest = new TransactionRequest();
+
+        //create debit party and credit party for P2P transfer quotation
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        //debit party
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("2999");
+        debitPartyList.add(debitPartyItem);
+
+        //credit party
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("2000");
+        creditPartyList.add(creditPartyItem);
+
+        //add debit and credit party to transaction object
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+
+
+        //set amount,currency and request date into transaction request
+        transactionRequest.setRequestAmount("75.30");
+        transactionRequest.setRequestCurrency("RWF");
+        transactionRequest.setRequestDate("2018-07-03T11:43:27.405Z");
+        transactionRequest.setType("transfer");
+        transactionRequest.setSubType("abc");
+        transactionRequest.setChosenDeliveryMethod("directtoaccount");
+
+        //create array for custom data items
+        ArrayList<CustomDataItem> customDataItemList = new ArrayList<>();
+
+        // create a custom data item
+        CustomDataItem customDataItem = new CustomDataItem();
+        customDataItem.setKey("keytest");
+        customDataItem.setValue("keyvalue");
+
+        //add custom object into custom array
+        customDataItemList.add(customDataItem);
+
+        //add custom data object to request object
+        transactionRequest.setCustomData(customDataItemList);
+
+        //request for quotation
+        requestQuotation();
+
+    }
+
+```
+ SDKManager.getInstance().createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                hideLoading();
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+  
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+        
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+     
+            }
+        });
+
+
+```
+## 3.perform the transfer with the receiving FSP.
+
+```
+
+    private TransactionRequest transactionRequest;
+
+
+```
+
+Create p2p Transfer object
+
+```
+  private void createP2PTransferObject() {
+     if (transactionRequest == null) {
+            Utils.showToast(this, "Please request Quotation before performing this request");
+            return;
+        } else {
+
+            //set amount and currency
+            transactionRequest.setAmount("100");
+            transactionRequest.setCurrency("GBP");
+
+            ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+            ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+            DebitPartyItem debitPartyItem = new DebitPartyItem();
+            CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+            //debit party
+            debitPartyItem.setKey("accountid");
+            debitPartyItem.setValue("2999");
+            debitPartyList.add(debitPartyItem);
+
+            //credit party
+            creditPartyItem.setKey("accountid");
+            creditPartyItem.setValue("2000");
+            creditPartyList.add(creditPartyItem);
+
+            //create international information object to perform international transfer
+
+            InternationalTransferInformation internationalTransferInformation = new InternationalTransferInformation();
+            internationalTransferInformation.setOriginCountry("AD");
+            internationalTransferInformation.setQuotationReference("REF-1636521507766");
+            internationalTransferInformation.setQuoteId("REF-1636521507766");
+            internationalTransferInformation.setRemittancePurpose("personal");
+            internationalTransferInformation.setDeliveryMethod("agent");
+            transactionRequest.setInternationalTransferInformation(internationalTransferInformation);
+
+            RequestingOrganisation requestingOrganisation = new RequestingOrganisation();
+            requestingOrganisation.setRequestingOrganisationIdentifierType("organisationid");
+            requestingOrganisation.setRequestingOrganisationIdentifier("testorganisation");
+
+            //add requesting organisation object into transaction request
+            transactionRequest.setRequestingOrganisation(requestingOrganisation);
+
+            //add debit and credit party to transaction object
+            transactionRequest.setDebitParty(debitPartyList);
+            transactionRequest.setCreditParty(creditPartyList);
+
+            performTransfer();
+        }
+    }
+
+```
+
+```
+ private void performTransfer() {
+    SDKManager.getInstance().createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                   serverCorrelationId = requestStateObject.getServerCorrelationId();
+              }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+            
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+        
+            }
+        });
+
+```
+
+## Bilateral P2P Transfer
+
+The bilateral P2P transfer can be perfomed using following use cases
+
+1.confirm the recipient name<br />
+2.perform the transfer with the receiving FSP
+
 
 
 
