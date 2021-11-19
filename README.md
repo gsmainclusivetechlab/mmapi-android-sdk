@@ -45,7 +45,14 @@ A library that fully covers payment process inside your Android application
        5. [Retrieve Transactions for an FSP](#merchant-pay-retrieve)
        6. [Check for Service Availability](#check-for-service)
        7. [Retrieve a Missing API Response](#missing-response)
-
+   4. [PP2P Transfers](#p2p-transfer)]
+       1. [P2P Transfer via Switch](#p2p-switch)
+       2. [Bilateral P2P Transfer](#p2p-switch)
+       3. [On-us’ P2P Transfer Initiated by a Third Party Provider](#p2p-switch)  
+       4. [Obtain an FSP Balance](#merchant-pay-balance)
+       5. [Retrieve Transactions for an FSP](#merchant-pay-retrieve)
+       6. [Check for Service Availability](#check-for-service)
+       7. [Retrieve a Missing API Response](#missing-response)
        
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  <a name="requirements"></a>
