@@ -15,10 +15,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.controllers.SDKManager;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
+import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Identifier;
+import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -31,6 +34,7 @@ import com.gsmaSdk.gsma.models.transaction.PostalAddress;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
 import com.gsmaSdk.gsma.models.transaction.SenderKyc;
 import com.gsmaSdk.gsma.models.transaction.SubjectName;
+import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
 import java.util.ArrayList;
@@ -106,19 +110,21 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
             case 3:
                 //P2P Transfer Reversal
-
+                 reversal();
                 break;
             case  4:
                 //Obtain an FSP Balance
+                balanceCheck();
                 break;
             case  5:
-                //
+                retrieveTransactionFSP();
                 //Retrieve Transactions for an FSP
                  break;
 
             case  6:
                 //Missing Transaction
 
+                getMissingTransaction();
                 break;
 
             case 7:
@@ -140,8 +146,125 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
+    //Retrieve a missing Transaction
+    private void getMissingTransaction() {
+        showLoading();
+        SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionInterface() {
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+                hideLoading();
+                Utils.showToast(P2PTransferActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(transactionObject));
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionRequest.class));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(P2PTransferActivity.this, "Failure");
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(P2PTransferActivity.this, "Validation Error");
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+        });
+    }
 
 
+    //Retrieve Transaction for an FSP
+    private void retrieveTransactionFSP() {
+        showLoading();
+
+        SDKManager.getInstance().viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(transaction));
+                correlationId = correlationID;
+                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+        });
+    }
+
+
+
+    //Check Balance
+    private void balanceCheck() {
+        showLoading();
+        SDKManager.getInstance().viewAccountBalance(identifierArrayList, new BalanceInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onBalanceSuccess(Balance balance, String correlationID) {
+                hideLoading();
+                correlationId = correlationID;
+                txtResponse.setText(new Gson().toJson(balance));
+                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+            }
+
+            @Override
+            public void onBalanceFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+            }
+        });
+    }
+
+
+    //Reversal
+    private void reversal() {
+        showLoading();
+        SDKManager.getInstance().createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                correlationId = correlationID;
+                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
+    }
 
 
     /**
@@ -244,22 +367,22 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("15523");
+        identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
 
         //msisdn
-        Identifier identifierMsisdn = new Identifier();
-        identifierMsisdn.setKey("msisdn");
-        identifierMsisdn.setValue("2B12345678910");
-        identifierArrayList.add(identifierMsisdn);
-
-        //wallet id
-
-        Identifier identifierWallet = new Identifier();
-        identifierWallet.setKey("walletid");
-        identifierWallet.setValue("155423");
-        identifierArrayList.add(identifierWallet);
+//        Identifier identifierMsisdn = new Identifier();
+//        identifierMsisdn.setKey("msisdn");
+//        identifierMsisdn.setValue("%2B123456789102345");
+//        identifierArrayList.add(identifierMsisdn);
 //
+//        //wallet id
+//
+//        Identifier identifierWallet = new Identifier();
+//        identifierWallet.setKey("walletid");
+//        identifierWallet.setValue("3355544");
+//        identifierArrayList.add(identifierWallet);
+////
 
     }
 

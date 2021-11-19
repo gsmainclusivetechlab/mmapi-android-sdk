@@ -1,13 +1,16 @@
 package com.gsmaSdk.gsma.models.transaction;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class CreditPartyItem{
 
 	@SerializedName("value")
+	@Expose
 	private String value;
 
 	@SerializedName("key")
+	@Expose
 	private String key;
 
 	public void setValue(String value){

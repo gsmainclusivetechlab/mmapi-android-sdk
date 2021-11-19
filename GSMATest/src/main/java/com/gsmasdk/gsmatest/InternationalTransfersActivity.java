@@ -582,7 +582,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Retrieve Transaction for an FSP
     private void retrieveTransactionFSP() {
         showLoading();
-
         SDKManager.getInstance().viewAccountTransactions(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {

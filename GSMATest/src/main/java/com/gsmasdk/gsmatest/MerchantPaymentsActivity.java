@@ -100,24 +100,26 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
 //
+
         //account id
-        Identifier identifierAccount=new Identifier();
+        Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("2000");
+        identifierAccount.setValue("15523");
         identifierArrayList.add(identifierAccount);
 
         //msisdn
-//        Identifier identifierMsisdn=new Identifier();
-//        identifierMsisdn.setKey("msisdn");
-//        identifierMsisdn.setValue("+44012345678");
-//        identifierArrayList.add(identifierMsisdn);
+        Identifier identifierMsisdn = new Identifier();
+        identifierMsisdn.setKey("msisdn");
+        identifierMsisdn.setValue("%2B123456789102345");
+        identifierArrayList.add(identifierMsisdn);
 
         //wallet id
+
+        Identifier identifierWallet = new Identifier();
+        identifierWallet.setKey("walletid");
+        identifierWallet.setValue("3355544");
+        identifierArrayList.add(identifierWallet);
 //
-//        Identifier identifierWallet=new Identifier();
-//        identifierWallet.setKey("walletid");
-//        identifierWallet.setValue("1");
-//        identifierArrayList.add(identifierWallet);
 
 
     }
@@ -173,12 +175,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         DebitPartyItem debitPartyItem = new DebitPartyItem();
         CreditPartyItem creditPartyItem = new CreditPartyItem();
 
-        debitPartyItem.setKey("accountid");
-        debitPartyItem.setValue("2999");
+        debitPartyItem.setKey("walletid");
+        debitPartyItem.setValue("1");
         debitPartyList.add(debitPartyItem);
 
-        creditPartyItem.setKey("accountid");
-        creditPartyItem.setValue("2999");
+        creditPartyItem.setKey("msisdn");
+        creditPartyItem.setValue("+44012345678");
         creditPartyList.add(creditPartyItem);
 
         transactionRequest.setDebitParty(debitPartyList);
@@ -333,7 +335,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void payeeInitiated() {
         showLoading();
-        SDKManager.getInstance().createMerchantTransaction(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.getInstance().createMerchantTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
