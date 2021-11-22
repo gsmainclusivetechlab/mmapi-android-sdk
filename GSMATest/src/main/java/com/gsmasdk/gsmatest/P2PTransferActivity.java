@@ -192,13 +192,11 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Retrieve Transaction for an FSP
     private void retrieveTransactionFSP() {
         showLoading();
-
         SDKManager.getInstance().viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
-
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
