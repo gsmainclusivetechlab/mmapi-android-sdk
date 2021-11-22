@@ -99,28 +99,24 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
 
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
-//
 
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("15523");
+        identifierAccount.setValue("2999");
         identifierArrayList.add(identifierAccount);
 
-        //msisdn
-        Identifier identifierMsisdn = new Identifier();
-        identifierMsisdn.setKey("msisdn");
-        identifierMsisdn.setValue("%2B123456789102345");
-        identifierArrayList.add(identifierMsisdn);
-
-        //wallet id
-
-        Identifier identifierWallet = new Identifier();
-        identifierWallet.setKey("walletid");
-        identifierWallet.setValue("3355544");
-        identifierArrayList.add(identifierWallet);
+//        //msisdn
+//        Identifier identifierMsisdn = new Identifier();
+//        identifierMsisdn.setKey("msisdn");
+//        identifierMsisdn.setValue("%2B123456789102345");
+//        identifierArrayList.add(identifierMsisdn);
 //
-
+//        //wallet id
+//        Identifier identifierWallet = new Identifier();
+//        identifierWallet.setKey("walletid");
+//        identifierWallet.setValue("3355544");
+//        identifierArrayList.add(identifierWallet);
 
     }
 
@@ -303,13 +299,13 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void balanceCheck() {
         showLoading();
-
         SDKManager.getInstance().viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+
             }
 
             @Override
@@ -507,7 +503,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Validation Error");
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 

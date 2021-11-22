@@ -3,6 +3,7 @@ package com.gsmaSdk.gsma.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("ALL")
 public class Name{
 
 	@SerializedName("firstName")

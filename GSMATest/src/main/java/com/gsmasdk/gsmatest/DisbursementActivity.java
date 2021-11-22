@@ -114,21 +114,21 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("15523");
+        identifierAccount.setValue("2999");
         identifierArrayList.add(identifierAccount);
 
-        //msisdn
-        Identifier identifierMsisdn = new Identifier();
-        identifierMsisdn.setKey("msisdn");
-        identifierMsisdn.setValue("%2B123456789102345");
-        identifierArrayList.add(identifierMsisdn);
-
-        //wallet id
-
-        Identifier identifierWallet = new Identifier();
-        identifierWallet.setKey("walletid");
-        identifierWallet.setValue("3355544");
-        identifierArrayList.add(identifierWallet);
+//        //msisdn
+//        Identifier identifierMsisdn = new Identifier();
+//        identifierMsisdn.setKey("msisdn");
+//        identifierMsisdn.setValue("%2B123456789102345");
+//        identifierArrayList.add(identifierMsisdn);
+//
+//        //wallet id
+//
+//        Identifier identifierWallet = new Identifier();
+//        identifierWallet.setKey("walletid");
+//        identifierWallet.setValue("3355544");
+//        identifierArrayList.add(identifierWallet);
 //
 
     }

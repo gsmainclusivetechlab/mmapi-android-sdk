@@ -48,6 +48,7 @@ import com.gsmaSdk.gsma.models.transaction.Transaction;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 @SuppressWarnings("ALL")
 public class InternationalTransfersActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -111,21 +112,21 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("15523");
+        identifierAccount.setValue("2999");
         identifierArrayList.add(identifierAccount);
 
-        //msisdn
-        Identifier identifierMsisdn=new Identifier();
-        identifierMsisdn.setKey("msisdn");
-        identifierMsisdn.setValue("%2B12345678910");
-        identifierArrayList.add(identifierMsisdn);
-
-        //wallet id
-
-        Identifier identifierWallet=new Identifier();
-        identifierWallet.setKey("walletid");
-        identifierWallet.setValue("1");
-        identifierArrayList.add(identifierWallet);
+//        //msisdn
+//        Identifier identifierMsisdn=new Identifier();
+//        identifierMsisdn.setKey("msisdn");
+//        identifierMsisdn.setValue("%2B12345678910");
+//        identifierArrayList.add(identifierMsisdn);
+//
+//        //wallet id
+//
+//        Identifier identifierWallet=new Identifier();
+//        identifierWallet.setKey("walletid");
+//        identifierWallet.setValue("1");
+//        identifierArrayList.add(identifierWallet);
 
 
     }

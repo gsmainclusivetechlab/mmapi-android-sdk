@@ -36,8 +36,6 @@ import com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation;
 import com.gsmaSdk.gsma.models.transaction.RequestingOrganisation;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
 
-import com.gsmaSdk.gsma.models.transaction.SenderKyc;
-import com.gsmaSdk.gsma.models.transaction.SubjectName;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 
 
@@ -78,6 +76,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             "View Transaction"
     };
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +84,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
 
         ListView listUseCases = findViewById(R.id.p2pTransferList);
+
         CustomUseCaseAdapter customListAdapter = new CustomUseCaseAdapter(P2PTransferActivity.this, new ArrayList(Arrays.asList(p2pTransfersArray)));
         listUseCases.setAdapter(customListAdapter);
         listUseCases.setOnItemClickListener(this);
@@ -279,7 +279,6 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 //        transactionRequest=new TransactionRequest();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
-            return;
         } else {
 
             //set amount and currency
@@ -406,6 +405,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
+            @SuppressWarnings("unused")
             @Override
             public void onBalanceSuccess(Balance balance, String correlationID) {
                 hideLoading();
@@ -414,6 +414,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
 
+            @SuppressWarnings("unused")
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
                 hideLoading();
@@ -545,10 +546,11 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
     }
 
+    @SuppressWarnings("CommentedOutCode")
     private void createAccountIdentifier() {
 
         identifierArrayList = new ArrayList<>();
-        identifierArrayList.clear();
+    
 //
 
         //account id
@@ -593,7 +595,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(P2PTransferActivity.this, "Validation Error");
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 

@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
+@SuppressWarnings("ALL")
 public class AccountHolderObject extends BaseResponse {
 
 	@SerializedName("lei")
