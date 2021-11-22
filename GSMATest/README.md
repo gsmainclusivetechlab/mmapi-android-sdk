@@ -21,9 +21,9 @@ As usual, you get started by
 
 1.Download the file GSMA-Test-debug-1.0.1 from the following link into the filemanager of your  device
  
-[Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/release/GSMA-Test-debug-1.0.1.apk)
+[Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/release/GSMA-Test-debug-1.0.3.apk)
 
-2.Click on the file GSMA-Test-debug-1.0.0 from your device and system will ask for the installation dialog and continue the installation process 
+2.Click on the file GSMA-Test-debug-1.0.3 from your device and system will ask for the installation dialog and continue the installation process 
 
 3.Once the Apk is installed in your device,Open the application from app drawer of your device 
 
