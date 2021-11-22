@@ -73,7 +73,7 @@ Copy the GSMASdk-debug-1.0.1.aar file, available in the latest version in aar fo
 Add the below line in dependencies of your build.gradle file in your application.
 
 ```
-implementation files('libs/GSMASdk-debug-1.0.1.aar')
+implementation files('libs/GSMASdk-debug-1.0.3.aar')
 ```
 <a name="Configure"></a>
 
