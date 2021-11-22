@@ -188,13 +188,14 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
                 correlationId = correlationID;
+                Utils.showToast(InternationalTransfersActivity.this, "Success");
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
@@ -217,13 +218,14 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                Utils.showToast(InternationalTransfersActivity.this, "Success");
                 correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
@@ -263,7 +265,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -332,7 +334,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -364,7 +366,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -387,7 +389,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, "Validation Error");
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -529,13 +531,14 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onBalanceSuccess(Balance balance, String correlationID) {
                 hideLoading();
+                Utils.showToast(InternationalTransfersActivity.this, "Success");
                 correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(balance));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
@@ -557,6 +560,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
@@ -572,7 +576,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -585,13 +589,14 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(InternationalTransfersActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
                 hideLoading();
+                Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
                 correlationId = correlationID;
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
@@ -630,7 +635,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, "Validation Error");
+                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 

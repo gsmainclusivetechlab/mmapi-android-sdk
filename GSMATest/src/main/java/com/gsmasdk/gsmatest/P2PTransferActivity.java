@@ -180,7 +180,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(P2PTransferActivity.this, "Validation Error");
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
+
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -196,13 +197,15 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
+
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
                 hideLoading();
+                Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
                 correlationId = correlationID;
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
@@ -352,7 +355,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
+
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -387,7 +391,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -401,7 +405,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -409,6 +413,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onBalanceSuccess(Balance balance, String correlationID) {
                 hideLoading();
+                Utils.showToast(P2PTransferActivity.this, "Success");
                 correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(balance));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
@@ -432,6 +437,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                Utils.showToast(P2PTransferActivity.this, "Success");
+
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
@@ -447,7 +454,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -463,7 +470,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -471,6 +478,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
                 correlationId = correlationID;
                 hideLoading();
+                Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
             }
@@ -493,13 +501,14 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                Utils.showToast(P2PTransferActivity.this, "Success");
                 correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
@@ -539,7 +548,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -643,7 +652,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(P2PTransferActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
+
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });

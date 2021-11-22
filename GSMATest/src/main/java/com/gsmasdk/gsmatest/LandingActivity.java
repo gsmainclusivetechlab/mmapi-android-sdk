@@ -84,7 +84,7 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(LandingActivity.this,"Validation Error");
+                Utils.showToast(LandingActivity.this,errorObject.getErrorDescription());
                 Log.d(LOG_TAG, "Validation Error: " + errorObject);
             }
 

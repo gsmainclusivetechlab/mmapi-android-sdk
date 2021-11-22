@@ -99,7 +99,6 @@ public class SDKManager {
     }
 
 
-
     /**
      * Check Service Availability - To check whether the service is available
      */
@@ -132,14 +131,17 @@ public class SDKManager {
      */
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
+
+        if (!Utils.isOnline()) {
+            transactionInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (transactionReference == null) {
             transactionInterface.onValidationError(Utils.setError(3));
             return;
         }
         if (transactionReference.isEmpty()) {
             transactionInterface.onValidationError(Utils.setError(3));
-        } else if (!Utils.isOnline()) {
-            transactionInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewTransaction(uuid, transactionReference, new APIRequestCallback<TransactionRequest>() {
@@ -160,17 +162,17 @@ public class SDKManager {
 
     /**
      * View Account Balance-Get the balance of a particular acccount
-     * @param identifierArrayList - List of identifierts to identify a particular account
      *
+     * @param identifierArrayList - List of identifierts to identify a particular account
      */
 
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        if (identifierArrayList == null) {
-            balanceInterface.onValidationError(Utils.setError(1));
-            return;
-        }
         if (!Utils.isOnline()) {
             balanceInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+        if (identifierArrayList == null) {
+            balanceInterface.onValidationError(Utils.setError(1));
             return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
@@ -198,14 +200,16 @@ public class SDKManager {
      */
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (serverCorrelationId == null) {
             requestStateInterface.onValidationError(Utils.setError(2));
             return;
         }
         if (serverCorrelationId.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(2));
-        } else if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewRequestState(uuid, serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
@@ -233,6 +237,10 @@ public class SDKManager {
      * @param reversal           Reversal Object containing the type of the transaction
      */
     public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (referenceId == null) {
             requestStateInterface.onValidationError(Utils.setError(4));
             return;
@@ -264,7 +272,6 @@ public class SDKManager {
     }
 
 
-
     /**
      * Retrieve a transaction
      *
@@ -274,12 +281,11 @@ public class SDKManager {
      */
 
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        if (identifierArrayList == null) {
-            retrieveTransactionInterface.onValidationError(Utils.setError(1));
-            return;
-        }
         if (!Utils.isOnline()) {
             retrieveTransactionInterface.onValidationError(Utils.setError(0));
+            return;
+        } else if (identifierArrayList == null) {
+            retrieveTransactionInterface.onValidationError(Utils.setError(1));
             return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
@@ -310,14 +316,16 @@ public class SDKManager {
      */
 
     public void viewTransactionResponse(String correlationId, @NonNull TransactionInterface missingTransactionInterface) {
+        if (!Utils.isOnline()) {
+            missingTransactionInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (correlationId == null) {
             missingTransactionInterface.onValidationError(Utils.setError(6));
             return;
         }
         if (correlationId.isEmpty()) {
             missingTransactionInterface.onValidationError(Utils.setError(6));
-        } else if (!Utils.isOnline()) {
-            missingTransactionInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveMissingResponse(uuid, correlationId, new APIRequestCallback<GetLink>() {
@@ -356,11 +364,13 @@ public class SDKManager {
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
     public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (transactionRequest == null) {
+
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        } else if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
-        } else if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "merchantpay", transactionRequest, new APIRequestCallback<RequestStateObject>() {
@@ -386,12 +396,13 @@ public class SDKManager {
      * @param transactionRequest Transaction Object containing details required for initiating the refund process
      */
     public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
-        }
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().refund(uuid, notificationMethod, callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
@@ -410,8 +421,6 @@ public class SDKManager {
     }
 
 
-
-
     /**
      * Obtain Authorisation code for a transaction
      *
@@ -419,12 +428,12 @@ public class SDKManager {
      * @param codeRequest         An Object containing required details for getting the authorisation code
      */
     public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (identifierArrayList == null) {
-            requestStateInterface.onValidationError(Utils.setError(1));
-            return;
-        }
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+        if (identifierArrayList == null) {
+            requestStateInterface.onValidationError(Utils.setError(1));
             return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
@@ -447,7 +456,6 @@ public class SDKManager {
     }
 
 
-
     /**
      * Retrieve Missing Code - To retrieve a missing Authorisation code
      *
@@ -455,14 +463,17 @@ public class SDKManager {
      */
 
     public void viewAuthorisationCodeResponse(String correlationId, @NonNull AuthorisationCodeInterface authorisationCodeInterface) {
+        if (!Utils.isOnline()) {
+            authorisationCodeInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+
         if (correlationId == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(6));
             return;
         }
         if (correlationId.isEmpty()) {
             authorisationCodeInterface.onValidationError(Utils.setError(6));
-        } else if (!Utils.isOnline()) {
-            authorisationCodeInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveMissingResponse(uuid, correlationId, new APIRequestCallback<GetLink>() {
@@ -494,23 +505,23 @@ public class SDKManager {
 
     /**
      * View Authorization Code
+     *
      * @param accountIdentifier Identifier of account
-     * @param accountId Account id
+     * @param accountId         Account id
      * @param authorizationCode Authorization
      */
 
     public void viewAuthorisationCode(@NonNull ArrayList<Identifier> identifierArrayList, String authorisationCode, AuthorisationCodeItemInterface authorisationCodeInterface) {
+        if (!Utils.isOnline()) {
+            authorisationCodeInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (identifierArrayList == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(1));
             return;
         }
         if (authorisationCode == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(9));
-            return;
-        }
-
-        if (!Utils.isOnline()) {
-            authorisationCodeInterface.onValidationError(Utils.setError(0));
             return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
@@ -545,6 +556,11 @@ public class SDKManager {
      */
 
     public void createDisbursementTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
@@ -577,10 +593,12 @@ public class SDKManager {
      * @param bulkTransactionObject Transaction Object containing details required for initiating the bulk transaction
      */
     public void createBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (bulkTransactionObject == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
-        } else if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().bulkTransaction(uuid, notificationMethod, callbackUrl, bulkTransactionObject, new APIRequestCallback<RequestStateObject>() {
@@ -607,10 +625,12 @@ public class SDKManager {
      */
 
     public void viewBatchRejections(String batchId, @NonNull BatchRejectionInterface batchRejectionInterface) {
+        if (!Utils.isOnline()) {
+            batchRejectionInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (batchId.isEmpty()) {
             batchRejectionInterface.onValidationError(Utils.setError(6));
-        } else if (!Utils.isOnline()) {
-            batchRejectionInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveBatchRejections(uuid, batchId, new APIRequestCallback<BatchTransactionRejection>() {
@@ -636,10 +656,12 @@ public class SDKManager {
      */
 
     public void viewBatchCompletions(String batchId, @NonNull BatchCompletionInterface batchCompletionInterface) {
+        if (!Utils.isOnline()) {
+            batchCompletionInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (batchId.isEmpty()) {
             batchCompletionInterface.onValidationError(Utils.setError(6));
-        } else if (!Utils.isOnline()) {
-            batchCompletionInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveBatchCompletions(uuid, batchId, new APIRequestCallback<BatchTransactionCompletion>() {
@@ -667,13 +689,15 @@ public class SDKManager {
      */
 
     public void updateBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (batchId == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
             return;
         } else if (batchId.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(1));
-        } else if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().updateBatch(uuid, notificationMethod, callbackUrl, batchId, batchArrayList, new APIRequestCallback<RequestStateObject>() {
@@ -698,13 +722,16 @@ public class SDKManager {
      * @param batchId Unique identifier for identifying a batch transaction
      */
     public void viewBatchTransaction(String batchId, @NonNull BatchTransactionItemInterface batchTransactionItemInterface) {
+
+        if (!Utils.isOnline()) {
+            batchTransactionItemInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (batchId == null) {
             batchTransactionItemInterface.onValidationError(Utils.setError(3));
             return;
         } else if (batchId.isEmpty()) {
             batchTransactionItemInterface.onValidationError(Utils.setError(3));
-        } else if (!Utils.isOnline()) {
-            batchTransactionItemInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveBatch(uuid, batchId, new APIRequestCallback<BatchTransactionItem>() {
@@ -721,6 +748,7 @@ public class SDKManager {
             );
 
         }
+
     }
 
     /*********************************International Transfers Functions************************************/
@@ -731,11 +759,15 @@ public class SDKManager {
      * @param requestStateInterface callback for request state object
      */
     public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
-        }
-        if (Utils.isOnline()) {
+        } else if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().requestQuotation(uuid, notificationMethod, callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
                 @Override
@@ -748,8 +780,6 @@ public class SDKManager {
                     requestStateInterface.onRequestStateFailure(errorDetails);
                 }
             });
-        } else {
-            requestStateInterface.onValidationError(Utils.setError(0));
         }
 
     }
@@ -761,10 +791,14 @@ public class SDKManager {
      */
 
     public void createInternationalTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
-        } else if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "inttransfer", transactionRequest, new APIRequestCallback<RequestStateObject>() {
@@ -789,6 +823,10 @@ public class SDKManager {
      */
 
     public void viewQuotation(@NonNull String quotationReference, @NonNull TransactionInterface transactionInterface) {
+        if (!Utils.isOnline()) {
+            transactionInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (quotationReference == null || quotationReference.isEmpty()) {
             transactionInterface.onValidationError(Utils.setError(10));
             return;
@@ -818,10 +856,12 @@ public class SDKManager {
      */
 
     public void createTransferTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
-        } else if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "transfer", transactionRequest, new APIRequestCallback<RequestStateObject>() {
@@ -846,12 +886,13 @@ public class SDKManager {
      */
 
     public void viewAccountName(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
-        if (identifierArrayList == null) {
-            accountHolderInterface.onValidationError(Utils.setError(1));
-            return;
-        }
         if (!Utils.isOnline()) {
             accountHolderInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+
+        if (identifierArrayList == null) {
+            accountHolderInterface.onValidationError(Utils.setError(1));
             return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
@@ -871,7 +912,6 @@ public class SDKManager {
             accountHolderInterface.onValidationError(Utils.setError(1));
         }
     }
-
 
 
 }

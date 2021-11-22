@@ -215,7 +215,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(DisbursementActivity.this,"Validation Error");
+                Utils.showToast(DisbursementActivity.this,errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -247,7 +247,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
@@ -255,6 +255,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
                 correlationId = correlationID;
                 hideLoading();
+                Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
             }
@@ -337,13 +338,15 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                Utils.showToast(DisbursementActivity.this, "Success");
+
                 correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
@@ -366,13 +369,14 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                Utils.showToast(DisbursementActivity.this, "Success");
                 correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
@@ -396,6 +400,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                     hideLoading();
+                    Utils.showToast(DisbursementActivity.this, "Success");
                     serverCorrelationId = requestStateObject.getServerCorrelationId();
                     txtResponse.setText(new Gson().toJson(requestStateObject));
                     correlationId = correlationID;
@@ -412,7 +417,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void onValidationError(ErrorObject errorObject) {
                     hideLoading();
-                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                     Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 }
             });
@@ -425,13 +430,14 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void onValidationError(ErrorObject errorObject) {
                     hideLoading();
-                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                     Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 }
 
                 @Override
                 public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
                     hideLoading();
+                    Utils.showToast(DisbursementActivity.this, "Success");
                     txtResponse.setText(new Gson().toJson(transaction));
                     correlationId = correlationID;
                     Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
@@ -453,13 +459,14 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                Utils.showToast(DisbursementActivity.this, "Success");
                 correlationId=correlationID;
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
@@ -483,13 +490,14 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void batchTransactionRejections(BatchTransactionRejection batchTransactionRejection, String correlationID) {
                 hideLoading();
+                Utils.showToast(DisbursementActivity.this, "Success");
                 correlationId=correlationID;
                 txtResponse.setText(new Gson().toJson(batchTransactionRejection));
                 Log.d(SUCCESS, "batchTransactionRejections: " + new Gson().toJson(batchTransactionRejection));
@@ -511,13 +519,14 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void onValidationError(ErrorObject errorObject) {
                     hideLoading();
-                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                     Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 }
 
                 @Override
                 public void onBalanceSuccess(Balance balance, String correlationID) {
                     hideLoading();
+                    Utils.showToast(DisbursementActivity.this, "Success");
                     correlationId=correlationID;
                     txtResponse.setText(new Gson().toJson(balance));
                     Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
@@ -539,13 +548,15 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
+
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion, String correlationID) {
                 hideLoading();
+                Utils.showToast(DisbursementActivity.this, "Success");
                 correlationId=correlationID;
                 txtResponse.setText(new Gson().toJson(batchTransactionCompletion));
                 Log.d(SUCCESS, "batchTransactionCompleted: " + new Gson().toJson(batchTransactionCompletion));
@@ -567,13 +578,14 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
+                Utils.showToast(DisbursementActivity.this, "Success");
                 correlationId=correlationID;
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
@@ -597,7 +609,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationID) {
                     hideLoading();
+                    Utils.showToast(DisbursementActivity.this, "Success");
                     correlationId=correlationID;
+
                     txtResponse.setText(new Gson().toJson(batchTransactionItem));
                     Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(batchTransactionItem));
                 }
@@ -612,7 +626,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 @Override
                 public void onValidationError(ErrorObject errorObject) {
                     hideLoading();
-                    Toast.makeText(DisbursementActivity.this, errorObject.getErrorDescription(), Toast.LENGTH_SHORT).show();
+                    Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                     Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 }
             });
@@ -643,7 +657,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Validation Error");
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
