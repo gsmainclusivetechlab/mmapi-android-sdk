@@ -3,9 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_disbursement.xml" value="0.10733695652173914" />
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_merchant_payments.xml" value="0.10733695652173914" />
-        <entry key="..\:/Users/anandhu.kalesh/AndroidStudioProjects/mmapi-android-sdk/GSMATest/src/main/res/layout/activity_p2p.xml" value="0.22" />
         <entry key="GSMATest/src/main/res/layout/activity_landing.xml" value="0.28229166666666666" />
         <entry key="GSMATest/src/main/res/layout/activity_merchant_payments.xml" value="0.14895833333333333" />
         <entry key="GSMATest/src/main/res/layout/usecase_item.xml" value="0.28229166666666666" />

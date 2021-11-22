@@ -60,7 +60,6 @@ public final class GSMAApi {
         if (PaymentConfiguration.getxAPIKey() != null) {
             headers.put(APIConstants.X_API_KEY, PaymentConfiguration.getxAPIKey());
         }
-//        setHeaders();
     }
 
     /**
@@ -90,6 +89,10 @@ public final class GSMAApi {
         return SingletonCreationAdmin.INSTANCE;
     }
 
+
+    /*************************************Common Functions********************************************/
+
+
     /**
      * Create Token.
      *
@@ -100,17 +103,20 @@ public final class GSMAApi {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createToken(key, APIConstants.CLIENT_CREDENTIALS), apiRequestCallback));
     }
 
+
+
     /**
-     * Check Balance.
+     * Check Service Availability.
      *
      * @param uuid               UUID
-     * @param accountIdentifier          Account id
      * @param apiRequestCallback Listener for api operation
      */
-    public void checkBalance(String uuid, String accountIdentifier, APIRequestCallback<Balance> apiRequestCallback) {
+    public void checkServiceAvailability(String uuid, APIRequestCallback<ServiceAvailability> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBalance(PaymentConfiguration.getUrlVersion(),  accountIdentifier, headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.checkServiceAvailability(PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
+
+
 
     /**
      * Merchant Pay.
@@ -129,6 +135,20 @@ public final class GSMAApi {
         }
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.initiatePayment(transactionType, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
     }
+
+
+    /**
+     * Check Balance.
+     *
+     * @param uuid               UUID
+     * @param accountIdentifier          Account id
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void checkBalance(String uuid, String accountIdentifier, APIRequestCallback<Balance> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBalance(PaymentConfiguration.getUrlVersion(),  accountIdentifier, headers), apiRequestCallback));
+    }
+
 
     /**
      * View Transaction.
@@ -154,38 +174,23 @@ public final class GSMAApi {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewRequestState(PaymentConfiguration.getUrlVersion(), serverCorrelationId, headers), apiRequestCallback));
     }
 
-    /*
-    * View Authorization Code
-    * @param uuid UUID
-    * @param accountIdentifier Identifier type of the account
-    * @param accountId Identifier No
-    * @Param authorisationCode Authorization Code
-    */
 
-    public void viewAuthorizationCode(String uuid,String accountIdentifier,String authorizationCode,APIRequestCallback<AuthorisationCodeItem> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAuthorizationCode(PaymentConfiguration.getUrlVersion(),accountIdentifier,authorizationCode,headers),apiRequestCallback));
-    }
 
 
     /**
-     * Refund
+     * Retrieve Transaction.
      *
      * @param uuid               UUID
-     * @param transactionRequest Model class for Transaction Request
+     * @param accountIdentifier          Account id
+     * @param offset             Offset
+     * @param limit              limit
      * @param apiRequestCallback Listener for api operation
      */
-
-    public void refund(String uuid, Enum notificationMethod, String callbackUrl, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void retrieveTransaction(String uuid, String accountIdentifier, int offset, int limit, APIRequestCallback<Transaction> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
-        if (xCallback.isEmpty()) {
-            headers.remove(APIConstants.CALL_BACK_URL);
-        } else {
-            headers.put(APIConstants.CALL_BACK_URL, xCallback);
-        }
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(), accountIdentifier, headers, offset, limit), apiRequestCallback));
     }
+
 
 
 
@@ -208,6 +213,181 @@ public final class GSMAApi {
         }
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.reversal(PaymentConfiguration.getUrlVersion(), referenceId, RequestBody.create(new Gson().toJson(reversalObject), mediaType), headers), apiRequestCallback));
     }
+
+    /**
+     * Retrieve Missing Response.
+     *
+     * @param uuid               UUID
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void retrieveMissingResponse(String uuid, String correlationId, APIRequestCallback<GetLink> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveMissingResponse(correlationId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Missing Transaction.
+     *
+     * @param link               url received from the response
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void getMissingTransactions(String link, APIRequestCallback<TransactionRequest> apiRequestCallback) {
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingTransactions(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+
+
+    /*************************************Merchant Payment Functions************************************************/
+
+
+
+
+    /**
+     * obtain Authorisation code.
+     *
+     * @param uuid                     UUID
+     * @param authorisationCodeRequest Model class for Authorisation Code Request
+     * @param accountIdentifier        identifier for account
+     * @param apiRequestCallback       Listener for api operation
+     */
+    public void obtainAuthorisationCode(String uuid, Enum notificationMethod, String callbackUrl, String accountIdentifier, AuthorisationCodeRequest authorisationCodeRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL, xCallback);
+        }
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.obtainAuthorisationCode(accountIdentifier, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(authorisationCodeRequest), mediaType), headers), apiRequestCallback));
+    }
+
+
+    /*
+    * View Authorization Code
+    * @param uuid UUID
+    * @param accountIdentifier Identifier type of the account
+    * @param accountId Identifier No
+    * @Param authorisationCode Authorization Code
+    */
+
+    public void viewAuthorizationCode(String uuid,String accountIdentifier,String authorizationCode,APIRequestCallback<AuthorisationCodeItem> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAuthorizationCode(PaymentConfiguration.getUrlVersion(),accountIdentifier,authorizationCode,headers),apiRequestCallback));
+    }
+
+
+    /**
+     * Retrieve Missing Code.
+     *
+     * @param link               url received from the response
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void getMissingCodes(String link, APIRequestCallback<AuthorisationCode> apiRequestCallback) {
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingCodes(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+
+
+
+    /**
+     * Refund
+     *
+     * @param uuid               UUID
+     * @param transactionRequest Model class for Transaction Request
+     * @param apiRequestCallback Listener for api operation
+     */
+
+    public void refund(String uuid, Enum notificationMethod, String callbackUrl, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL, xCallback);
+        }
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.refund(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
+    }
+
+    /******************************************Disbursement Functions******************************************/
+
+    /**
+     * Bulk Transaction
+     *
+     * @param uuid                  UUID
+     * @param bulkTransactionObject Model class for Bulk Transaction
+     * @param apiRequestCallback    Listener for api operation
+     */
+    public void bulkTransaction(String uuid, Enum notificationMethod, String callbackUrl, BulkTransactionObject bulkTransactionObject, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL, xCallback);
+        }
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.bulkTransaction(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(bulkTransactionObject), mediaType), headers), apiRequestCallback));
+    }
+
+    /**
+     * Retrieve Batch Transaction Rejections.
+     *
+     * @param uuid               UUID
+     * @param batchId            batch Id of a batch transaction
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void retrieveBatchRejections(String uuid, String batchId, APIRequestCallback<BatchTransactionRejection> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchRejections(batchId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+
+    /**
+     * Retrieve Batch Transaction Completions.
+     *
+     * @param uuid               UUID
+     * @param batchId            batch Id of a batch transaction
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void retrieveBatchCompletions(String uuid, String batchId, APIRequestCallback<BatchTransactionCompletion> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchCompletions(batchId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+    }
+
+    /**
+     * Update Batch Transaction.
+     *
+     * @param uuid               UUID
+     * @param batchId            batch Id of a batch transaction
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void updateBatch(String uuid, Enum notificationMethod, String callbackUrl, String batchId, ArrayList<Batch> batchArrayList, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL, xCallback);
+        }
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.updateBatchTransaction(PaymentConfiguration.getUrlVersion(), batchId, RequestBody.create(String.valueOf(new Gson().toJsonTree(batchArrayList).getAsJsonArray()), mediaType), headers), apiRequestCallback));
+    }
+
+
+
+    /**
+     * Retrieve a Batch Transaction.
+     *
+     * @param uuid               UUID
+     * @param batchId            batch Id of a batch transaction
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void retrieveBatch(String uuid, String batchId, APIRequestCallback<BatchTransactionItem> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchTransaction(PaymentConfiguration.getUrlVersion(), batchId, headers), apiRequestCallback));
+    }
+
+
+
+    /***************************************International Transfers Functions**************************************/
 
     /**
      * Request Quotation
@@ -242,155 +422,7 @@ public final class GSMAApi {
     }
 
 
-
-
-
-    /**
-     * Retrieve Transaction.
-     *
-     * @param uuid               UUID
-     * @param accountIdentifier          Account id
-     * @param offset             Offset
-     * @param limit              limit
-     * @param apiRequestCallback Listener for api operation
-     */
-    public void retrieveTransaction(String uuid, String accountIdentifier, int offset, int limit, APIRequestCallback<Transaction> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(), accountIdentifier, headers, offset, limit), apiRequestCallback));
-    }
-
-    /**
-     * Check Service Availability.
-     *
-     * @param uuid               UUID
-     * @param apiRequestCallback Listener for api operation
-     */
-    public void checkServiceAvailability(String uuid, APIRequestCallback<ServiceAvailability> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.checkServiceAvailability(PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
-    }
-
-    /**
-     * obtain Authorisation code.
-     *
-     * @param uuid                     UUID
-     * @param authorisationCodeRequest Model class for Authorisation Code Request
-     * @param accountIdentifier        identifier for account
-     * @param apiRequestCallback       Listener for api operation
-     */
-    public void obtainAuthorisationCode(String uuid, Enum notificationMethod, String callbackUrl, String accountIdentifier, AuthorisationCodeRequest authorisationCodeRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
-        if (xCallback.isEmpty()) {
-            headers.remove(APIConstants.CALL_BACK_URL);
-        } else {
-            headers.put(APIConstants.CALL_BACK_URL, xCallback);
-        }
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.obtainAuthorisationCode(accountIdentifier, PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(authorisationCodeRequest), mediaType), headers), apiRequestCallback));
-    }
-
-    /**
-     * Retrieve Missing Response.
-     *
-     * @param uuid               UUID
-     * @param apiRequestCallback Listener for api operation
-     */
-    public void retrieveMissingResponse(String uuid, String correlationId, APIRequestCallback<GetLink> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveMissingResponse(correlationId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
-    }
-
-    /**
-     * Retrieve Missing Transaction.
-     *
-     * @param link               url received from the response
-     * @param apiRequestCallback Listener for api operation
-     */
-    public void getMissingTransactions(String link, APIRequestCallback<TransactionRequest> apiRequestCallback) {
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingTransactions(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
-    }
-
-    /**
-     * Retrieve Missing Code.
-     *
-     * @param link               url received from the response
-     * @param apiRequestCallback Listener for api operation
-     */
-    public void getMissingCodes(String link, APIRequestCallback<AuthorisationCode> apiRequestCallback) {
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingCodes(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
-    }
-
-    /**
-     * Bulk Transaction
-     *
-     * @param uuid                  UUID
-     * @param bulkTransactionObject Model class for Bulk Transaction
-     * @param apiRequestCallback    Listener for api operation
-     */
-    public void bulkTransaction(String uuid, Enum notificationMethod, String callbackUrl, BulkTransactionObject bulkTransactionObject, APIRequestCallback<RequestStateObject> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
-        if (xCallback.isEmpty()) {
-            headers.remove(APIConstants.CALL_BACK_URL);
-        } else {
-            headers.put(APIConstants.CALL_BACK_URL, xCallback);
-        }
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.bulkTransaction(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(bulkTransactionObject), mediaType), headers), apiRequestCallback));
-    }
-
-    /**
-     * Update Batch Transaction.
-     *
-     * @param uuid               UUID
-     * @param batchId            batch Id of a batch transaction
-     * @param apiRequestCallback Listener for api operation
-     */
-    public void updateBatch(String uuid, Enum notificationMethod, String callbackUrl, String batchId, ArrayList<Batch> batchArrayList, APIRequestCallback<RequestStateObject> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
-        if (xCallback.isEmpty()) {
-            headers.remove(APIConstants.CALL_BACK_URL);
-        } else {
-            headers.put(APIConstants.CALL_BACK_URL, xCallback);
-        }
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.updateBatchTransaction(PaymentConfiguration.getUrlVersion(), batchId, RequestBody.create(String.valueOf(new Gson().toJsonTree(batchArrayList).getAsJsonArray()), mediaType), headers), apiRequestCallback));
-    }
-
-    /**
-     * Retrieve a Batch Transaction.
-     *
-     * @param uuid               UUID
-     * @param batchId            batch Id of a batch transaction
-     * @param apiRequestCallback Listener for api operation
-     */
-    public void retrieveBatch(String uuid, String batchId, APIRequestCallback<BatchTransactionItem> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchTransaction(PaymentConfiguration.getUrlVersion(), batchId, headers), apiRequestCallback));
-    }
-
-    /**
-     * Retrieve Batch Transaction Rejections.
-     *
-     * @param uuid               UUID
-     * @param batchId            batch Id of a batch transaction
-     * @param apiRequestCallback Listener for api operation
-     */
-    public void retrieveBatchRejections(String uuid, String batchId, APIRequestCallback<BatchTransactionRejection> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchRejections(batchId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
-    }
-
-    /**
-     * Retrieve Batch Transaction Completions.
-     *
-     * @param uuid               UUID
-     * @param batchId            batch Id of a batch transaction
-     * @param apiRequestCallback Listener for api operation
-     */
-    public void retrieveBatchCompletions(String uuid, String batchId, APIRequestCallback<BatchTransactionCompletion> apiRequestCallback) {
-        headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchCompletions(batchId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
-    }
+   /****************************************P2p Transfers Functions****************************************/
 
     /**
      * Retrieve Account Name.
@@ -403,5 +435,7 @@ public final class GSMAApi {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountName(PaymentConfiguration.getUrlVersion(),  accountIdentifier, headers), apiRequestCallback));
     }
+
+
 
 }

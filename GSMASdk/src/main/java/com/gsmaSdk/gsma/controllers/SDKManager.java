@@ -346,7 +346,7 @@ public class SDKManager {
         }
     }
 
-    /**********************************Merchant Payments****************************************/
+    /**********************************Merchant Payments Functions****************************************/
 
     /**
      * Intiate Payment - Intiate merchant pay
@@ -533,7 +533,7 @@ public class SDKManager {
 
     }
 
-    /********************************Disbursement*************************************************/
+    /********************************Disbursement Functions*************************************************/
 
 
     /**
@@ -723,7 +723,7 @@ public class SDKManager {
         }
     }
 
-    /*********************************International Transfers***************************************/
+    /*********************************International Transfers Functions************************************/
 
 
     /**
@@ -810,7 +810,7 @@ public class SDKManager {
     }
 
 
-    /***********************************P2P Transfers************************************************/
+    /***********************************P2P Transfers Functions********************************************/
 
     /**
      * @param transactionRequest    the request object-P2P Transfers

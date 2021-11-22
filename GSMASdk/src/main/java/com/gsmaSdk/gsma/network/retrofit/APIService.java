@@ -38,13 +38,38 @@ import retrofit2.http.Query;
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public interface APIService {
 
+
+    /************************************Common  API interfaces*********************************************/
+
     /**
-     * Refund.
+     * Generate Access Token call.
      *
      * @return the call
      */
-    @POST("{version}/transactions/type/adjustment")
-    Call<RequestStateObject> refund(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+    @FormUrlEncoded
+    @POST(APIConstants.URL_VER_TOKEN + APIConstants.ACCESS_TOKEN)
+    Call<Token> createToken(@Header(APIConstants.AUTHORIZATION) String key, @Field("grant_type") String clientCredentials);
+
+
+
+    /**
+     * Check for service availability
+     *
+     * @return the call
+     */
+    @GET("{version}heartbeat")
+    Call<ServiceAvailability> checkServiceAvailability(@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
+
+    /**
+     * perform a transaction.
+     *
+     * @return the call
+     */
+    @POST("{version}/transactions/type/{transactionType}")
+    Call<RequestStateObject> initiatePayment(@Path("transactionType") String type, @Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+
+
 
     /**
      * Reversal.
@@ -54,45 +79,18 @@ public interface APIService {
     @POST("{version}/transactions/{referenceId}/reversals")
     Call<RequestStateObject> reversal(@Path(value = "version", encoded = true) String version, @Path("referenceId") String referenceId, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
-    /**
-     * Generate Access Token call.
-     *
-     * @param key encoded key
-     * @return the call
-     */
-    @FormUrlEncoded
-    @POST(APIConstants.URL_VER_TOKEN + APIConstants.ACCESS_TOKEN)
-    Call<Token> createToken(@Header(APIConstants.AUTHORIZATION) String key, @Field("grant_type") String clientCredentials);
 
     /**
      * Retrieve Balance.
      *
      * @return the call
      */
-    @SuppressWarnings("SpellCheckingInspection")
+
     @GET("{version}accounts/{accountIdentifier}/balance")
     Call<Balance> retrieveBalance(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @HeaderMap Map<String, String> headers);
 
-    /**
-     * Start a Merchant Pay Transaction.
-     *
-     * @return the call
-     */
-    @POST("{version}/transactions/type/{transactionType}")
-    Call<RequestStateObject> initiatePayment(@Path("transactionType") String type, @Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
 
 
-
-    @GET("{version}/quotations/{quotationReference}")
-    Call<TransactionRequest> viewQuotation(@Path(value = "version", encoded = true) String version, @Path("quotationReference") String quotationReference , @HeaderMap Map<String, String> headers);
-
-
-
-
-    @POST("{version}/quotations")
-    Call<RequestStateObject> requestQuotation(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
-
-    /**
     /**
      * View Transaction
      *
@@ -109,34 +107,20 @@ public interface APIService {
     @GET("{version}/requeststates/{id}")
     Call<RequestStateObject> viewRequestState(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
 
+
+
     /**
-     * View Request state.
+     * View transactions list
      *
      * @return the call
      */
     @GET("{version}accounts/{accountIdentfiers}/transactions")
     Call<Transaction> retrieveTransaction(@Path(value = "version", encoded = true) String version,@Path(value = "accountIdentfiers", encoded = true)  String accountIdentfiers, @HeaderMap Map<String, String> headers, @Query(value = "offset") int offset, @Query(value = "limit") int limit);
 
-    /**
-     * Check for service availability
-     *
-     * @return the call
-     */
-    @GET("{version}heartbeat")
-    Call<ServiceAvailability> checkServiceAvailability(@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
 
     /**
-     * Obtain Authorisation code.
-     *
-     * @return the call
-     */
-    @POST("{version}accounts/{accountIdentifier}/authorisationcodes")
-    Call<RequestStateObject> obtainAuthorisationCode(@Path(value = "accountIdentifier",encoded = true) String accountId, @
-            Path(value = "version", encoded = true) String version,
-                                                     @Body RequestBody codeRequest, @HeaderMap Map<String, String> headers);
-
-    /**
-     * Check for Retrieve Missing Response
+     * Get Link of  Missing Response
      *
      * @return the call
      */
@@ -151,20 +135,27 @@ public interface APIService {
     @GET("{version}/{url}")
     Call<TransactionRequest> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
+
+
+    /*************************************Merchant Payments API Interfaces********************************/
+
+
+
     /**
-     * Check for Retrieve Missing Code
+     * Obtain Authorisation code.
      *
      * @return the call
      */
-    @GET("{version}/{url}")
-    Call<AuthorisationCode> getMissingCodes(@Path(value = "url", encoded = true)
-                                                    String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    @POST("{version}accounts/{accountIdentifier}/authorisationcodes")
+    Call<RequestStateObject> obtainAuthorisationCode(@Path(value = "accountIdentifier",encoded = true) String accountId, @
+            Path(value = "version", encoded = true) String version,
+                                                     @Body RequestBody codeRequest, @HeaderMap Map<String, String> headers);
 
 
-    /*
-    * View Authorization Code
-    *
-    */
+    /**
+     * View Authorization Code
+     * @return call
+     */
 
     @GET("{version}accounts/{accountIdentifier}/authorisationcodes/{authorizationCode}")
     Call<AuthorisationCodeItem> viewAuthorizationCode(@Path(value = "version", encoded = true) String version,
@@ -175,13 +166,65 @@ public interface APIService {
 
 
 
+
+
     /**
-     * Obtain Authorisation code.
+     * Check for Retrieve Missing Code
+     *
+     * @return the call
+     */
+    @GET("{version}/{url}")
+    Call<AuthorisationCode> getMissingCodes(@Path(value = "url", encoded = true)
+                                                    String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
+
+
+    /**
+     * Refund.
+     *
+     * @return the call
+     */
+    @POST("{version}/transactions/type/adjustment")
+    Call<RequestStateObject> refund(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+
+
+
+
+
+
+    /********************************Disbursment API interfaces***************************************/
+
+
+
+
+    /**
+     * Obtain a bulk Disbursement
      *
      * @return the call
      */
     @POST("{version}/batchtransactions")
     Call<RequestStateObject> bulkTransaction(@Path(value = "version", encoded = true) String version, @Body RequestBody bulkTransactionObject, @HeaderMap Map<String, String> headers);
+
+
+
+
+    /**
+     * Batch Transaction Rejection
+     *
+     * @return the call
+     */
+    @GET("{version}/batchtransactions/{id}/rejections")
+    Call<BatchTransactionRejection> retrieveBatchRejections(@Path("id") String id,@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+
+
+
+    /**
+     * Batch Transaction Completion
+     *
+     * @return the call
+     */
+    @GET("{version}/batchtransactions/{id}/completions")
+    Call<BatchTransactionCompletion> retrieveBatchCompletions(@Path("id") String id,@Path(value = "version", encoded = true) String version,  @HeaderMap Map<String, String> headers);
 
 
 
@@ -193,6 +236,8 @@ public interface APIService {
     Call<RequestStateObject> updateBatchTransaction(@Path(value = "version", encoded = true) String version,@Path("batchId") String batchId,@Body RequestBody batchTransactionObject, @HeaderMap Map<String, String> headers);
 
 
+
+
     /**
      * Retrieve a batch transaction
      *
@@ -200,21 +245,27 @@ public interface APIService {
     @GET("{version}/batchtransactions/{batchId}")
     Call<BatchTransactionItem> retrieveBatchTransaction(@Path(value = "version", encoded = true) String version, @Path("batchId") String batchId,@HeaderMap Map<String, String> headers);
 
-    /**
-     * Batch Transaction Rejection
-     *
-     * @return the call
-     */
-    @GET("{version}/batchtransactions/{id}/rejections")
-    Call<BatchTransactionRejection> retrieveBatchRejections(@Path("id") String id,@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
-    /**
-     * Batch Transaction Completion
-     *
-     * @return the call
-     */
-    @GET("{version}/batchtransactions/{id}/completions")
-    Call<BatchTransactionCompletion> retrieveBatchCompletions(@Path("id") String id,@Path(value = "version", encoded = true) String version,  @HeaderMap Map<String, String> headers);
+
+
+    /*********************************International Transfers API interfaces************************/
+
+
+
+
+
+
+    @POST("{version}/quotations")
+    Call<RequestStateObject> requestQuotation(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+
+
+
+
+    @GET("{version}/quotations/{quotationReference}")
+    Call<TransactionRequest> viewQuotation(@Path(value = "version", encoded = true) String version, @Path("quotationReference") String quotationReference , @HeaderMap Map<String, String> headers);
+
+
+    /***************************************P2P Transefer API Interfaces********************************/
 
     /**
      * View Account Name.
@@ -224,5 +275,7 @@ public interface APIService {
     @SuppressWarnings("SpellCheckingInspection")
     @GET("{version}accounts/{accountIdentifier}/accountname")
     Call<AccountHolderObject> viewAccountName(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @HeaderMap Map<String, String> headers);
+
+
 
 }
