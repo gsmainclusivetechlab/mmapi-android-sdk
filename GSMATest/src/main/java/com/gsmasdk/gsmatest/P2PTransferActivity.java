@@ -81,6 +81,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p2p);
+        setTitle("P2P Transfers");
 
 
         ListView listUseCases = findViewById(R.id.p2pTransferList);

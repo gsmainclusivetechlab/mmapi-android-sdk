@@ -127,7 +127,10 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case 4:
                 //Recurring Payments
+                startActivity(new Intent(LandingActivity.this,RecurringPaymentsActivity.class));
+
                 break;
+
             case 5:
                 //Account Linking
                 break;

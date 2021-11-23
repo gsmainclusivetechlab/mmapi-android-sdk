@@ -14,6 +14,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".RecurringPaymentsActivity"
+            android:exported="true" />
+        <activity
             android:name=".P2PTransferActivity"
             android:exported="true" />
         <activity

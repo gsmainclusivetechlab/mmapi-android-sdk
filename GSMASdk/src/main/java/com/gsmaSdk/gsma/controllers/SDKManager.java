@@ -560,7 +560,6 @@ public class SDKManager {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;
         }
-
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
