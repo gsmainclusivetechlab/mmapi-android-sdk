@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class AccountTransactions {
 
     /**
-     * Retrieve a transaction
+     *View Account Transaction - Retrieve a set of transactions
      *
      * @param identifierArrayList List of account identifiers of a user
      * @param offset              offset required for pagination

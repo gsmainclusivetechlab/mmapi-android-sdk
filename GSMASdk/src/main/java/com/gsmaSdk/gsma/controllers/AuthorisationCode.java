@@ -103,12 +103,13 @@ public class AuthorisationCode {
         }
     }
 
+
     /**
      * View Authorization Code
      *
-     * @param  Identifier of account
-     * @param accountId         Account id
-     * @param authorizationCode Authorization
+     * @param identifierArrayList List of account identifiers of a user
+     * @param authorisationCode Created Authorisation Code
+     *
      */
 
     public void viewAuthorisationCode(@NonNull ArrayList<Identifier> identifierArrayList, String authorisationCode, AuthorisationCodeItemInterface authorisationCodeInterface) {

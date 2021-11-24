@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.gsmaSdk.gsma.controllers.SDKManager;
+import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.enums.Environment;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;

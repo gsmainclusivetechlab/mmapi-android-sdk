@@ -1,24 +1,20 @@
 
-package com.gsmaSdk.gsma.controllers;
+package com.gsmaSdk.gsma.manager;
 
 import android.content.Context;
 
+import com.gsmaSdk.gsma.controllers.Disbursement;
+import com.gsmaSdk.gsma.controllers.InternationalTransfer;
+import com.gsmaSdk.gsma.controllers.MerchantPayment;
+import com.gsmaSdk.gsma.controllers.P2PTransfer;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
-import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
-import com.gsmaSdk.gsma.manager.PreferenceManager;
-import com.gsmaSdk.gsma.models.AccountHolderObject;
-import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 import com.gsmaSdk.gsma.utils.Utils;
-
-import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
 
 /**
  * Class for managing sdk function calls

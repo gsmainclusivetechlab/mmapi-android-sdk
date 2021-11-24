@@ -14,6 +14,8 @@ public class TransferTransaction {
 
 
     /**
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for receiving response of transaction
      * @param transactionRequest    the request object-P2P Transfers
      * @param requestStateInterface callback for request state object
      */

@@ -15,6 +15,8 @@ public class RefundTransaction {
     /**
      * Refund - provides refund to a given account
      *
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for receiving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the refund process
      */
     public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {

@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.gsmaSdk.gsma.controllers.SDKManager;
+import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
@@ -261,7 +261,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
     }
 
 
-    /*
+    /**
      * View Authorization Code
      *
      */

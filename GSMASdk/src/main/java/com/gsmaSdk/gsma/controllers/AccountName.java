@@ -13,13 +13,15 @@ import com.gsmaSdk.gsma.utils.Utils;
 import java.util.ArrayList;
 
 public class AccountName {
+
+
     /**
-     * View Account Balance-Get the balance of a particular acccount
+     * View Account Name-Get name of  particular account holder
      *
      * @param identifierArrayList account identifiers of the user
      */
 
-    public void viewAccountName(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
+   public void viewAccountName(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
         if (!Utils.isOnline()) {
             accountHolderInterface.onValidationError(Utils.setError(0));
             return;

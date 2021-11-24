@@ -15,9 +15,9 @@ import java.util.ArrayList;
 public class AccountBalance {
 
     /**
-     * View Account Balance-Get the balance of a particular acccount
+     * View Account Balance-Get the balance of a particular account
      *
-     * @param identifierArrayList - List of identifierts to identify a particular account
+     * @param identifierArrayList - List of identifiers to identify a particular account
      */
 
     public  void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {

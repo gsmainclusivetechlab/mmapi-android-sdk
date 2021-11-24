@@ -26,17 +26,13 @@ import java.util.ArrayList;
 
 public class Disbursement extends Common{
 
-
-
-
     /**
-     * Intiate Payment Disbursment - Intiate disbursement transaction
+     * Initiate Payment Disbursement - Initiate disbursement transaction
      *
      * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl        The server URl for recieving response of transaction
+     * @param callbackUrl        The server URl for receiving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
-
     public void createDisbursementTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
@@ -65,12 +61,11 @@ public class Disbursement extends Common{
         }
     }
 
-
     /**
      * Bulk Disbursement - Organisations can make bulk disbursements to customers
      *
      * @param notificationMethod    The enumerated datatype to determine polling or callback
-     * @param callbackUrl           The server URl for recieving response of a transaction
+     * @param callbackUrl           The server URl for receiving response of a transaction
      * @param bulkTransactionObject Transaction Object containing details required for initiating the bulk transaction
      */
     public void createBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
@@ -104,7 +99,6 @@ public class Disbursement extends Common{
      *
      * @param batchId Unique identifier for identifying a batch transaction
      */
-
     public void viewBatchRejections(String batchId, @NonNull BatchRejectionInterface batchRejectionInterface) {
         if (!Utils.isOnline()) {
             batchRejectionInterface.onValidationError(Utils.setError(0));
@@ -166,7 +160,7 @@ public class Disbursement extends Common{
      * Update a batch transaction
      *
      * @param batchId        Unique identifier for identifying a batch transaction
-     * @param batchArrayList list containing required details for updating a batch disbursement
+     * @param batchArrayList List contains required details for updating a batch disbursement
      */
 
     public void updateBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
@@ -198,7 +192,7 @@ public class Disbursement extends Common{
     }
 
     /**
-     * Retrieve a batch transaction
+     * View Batch Transaction- Retrieve a batch transaction
      *
      * @param batchId Unique identifier for identifying a batch transaction
      */
@@ -232,14 +226,36 @@ public class Disbursement extends Common{
     }
 
 
+    /**
+     * Reversal - provides transaction reversal
+     *
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for recieving response of transaction
+     * @param referenceId        Reference id of a previous transaction
+     * @param reversal           Reversal Object containing the type of the transaction
+     */
     public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
         ReversalTransaction.getInstance().createReversal(notificationMethod,callbackUrl,referenceId,reversal,requestStateInterface);
 
     }
+
+    /**
+     * * View Account Transaction - Retrieve a set of transactions
+     *
+     * @param identifierArrayList List of account identifiers of a user
+     * @param offset              offset required for pagination
+     * @param limit               limit set for receiving records per request
+     */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
         AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
 
     }
+
+    /**
+     * View Account Balance-Get the balance of a particular account
+     *
+     * @param identifierArrayList - List of identifiers to identify a particular account
+     */
 
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
         AccountBalance.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);

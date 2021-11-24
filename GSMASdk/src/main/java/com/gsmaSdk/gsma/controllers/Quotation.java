@@ -16,6 +16,10 @@ public class Quotation {
 
 
     /**
+     * Quotation - Quotation request for transaction
+     *
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for receiving response of transaction
      * @param transactionRequest    the request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
@@ -47,8 +51,9 @@ public class Quotation {
 
 
 
-    /*
+    /**
      * View a quotation details
+     *
      * @param quotationReference - Quotation reference obtained from callback of request quotation API
      *
      */
