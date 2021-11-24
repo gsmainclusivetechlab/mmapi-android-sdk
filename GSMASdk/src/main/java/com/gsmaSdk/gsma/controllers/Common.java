@@ -32,7 +32,6 @@ import java.util.ArrayList;
 public class Common {
 
 
-
     /**
      * Check Service Availability - To check whether the service is available
      */

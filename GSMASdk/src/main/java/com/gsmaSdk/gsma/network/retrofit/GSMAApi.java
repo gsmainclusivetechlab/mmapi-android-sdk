@@ -9,6 +9,7 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 
 import com.gsmaSdk.gsma.models.AccountHolderObject;
+import com.gsmaSdk.gsma.models.DebitMandate;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
@@ -199,6 +200,7 @@ public final class GSMAApi {
      * Reversal
      *
      * @param uuid               UUID
+     * @param notificationMethod
      * @param referenceId        Reference id for reversal of a transaction
      * @param reversalObject     Model class for Reversal Object
      * @param apiRequestCallback Listener for api operation
@@ -262,7 +264,7 @@ public final class GSMAApi {
     }
 
 
-    /*
+    /**
     * View Authorization Code
     * @param uuid UUID
     * @param accountIdentifier Identifier type of the account
@@ -435,6 +437,46 @@ public final class GSMAApi {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountName(PaymentConfiguration.getUrlVersion(),  accountIdentifier, headers), apiRequestCallback));
     }
+
+
+    /****************************************Recurring Payments********************************************/
+
+    /**
+     * Create Debit Mandates
+     *
+     *
+     * @param uuid               UUID
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for receiving response of transaction
+     * @param accountIdentifier          Account id
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void createAccountDebitMandate(String uuid, Enum notificationMethod,String callbackUrl,String accountIdentifier, DebitMandate debitMandateRequest , APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL,xCallback);
+        }
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createAccountDebitMandate(PaymentConfiguration.getUrlVersion(),accountIdentifier,RequestBody.create(new Gson().toJson(debitMandateRequest), mediaType), headers), apiRequestCallback));
+    }
+
+
+
+    /**
+     * View Debit Mandate
+     *
+     * @param uuid UUID
+     * @param accountIdentifier  - Account Id
+     * @param transactionReference - Quotation refernce of requested quotation
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void viewAccountDebitMandate(String uuid, String accountIdentifier, String transactionReference,APIRequestCallback<DebitMandate> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountDebitMandate(PaymentConfiguration.getUrlVersion(),accountIdentifier,transactionReference, headers), apiRequestCallback));
+    }
+
 
 
 

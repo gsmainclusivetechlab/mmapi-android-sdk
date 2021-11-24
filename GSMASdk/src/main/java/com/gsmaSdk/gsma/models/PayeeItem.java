@@ -1,9 +1,9 @@
-package com.gsmaSdk.gsma.models.transaction;
+package com.gsmaSdk.gsma.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CustomDataItem{
+public class PayeeItem{
 
 	@SerializedName("value")
 	@Expose
@@ -13,19 +13,19 @@ public class CustomDataItem{
 	@Expose
 	private String key;
 
-	public void setValue(String value){
-		this.value = value;
-	}
-
 	public String getValue(){
 		return value;
 	}
 
-	public void setKey(String key){
-		this.key = key;
-	}
-
 	public String getKey(){
 		return key;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 }

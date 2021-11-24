@@ -60,7 +60,7 @@ public class MerchantPayment extends Common{
      * Reversal - provides transaction reversal
      *
      * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl        The server URl for recieving response of transaction
+     * @param callbackUrl       The server URl for receiving response of transaction
      * @param referenceId        Reference id of a previous transaction
      * @param reversal           Reversal Object containing the type of the transaction
      */
