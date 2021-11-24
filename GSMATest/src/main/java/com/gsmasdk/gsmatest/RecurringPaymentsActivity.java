@@ -69,44 +69,13 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
 
         progressdialog = Utils.initProgress(RecurringPaymentsActivity.this);
-        checkServiceAvailability();
+
 
     }
 
 
 
 
-    /**
-     * Method for checking Service Availability.
-     */
-    private void checkServiceAvailability() {
-        showLoading();
-        SDKManager.getInstance().viewServiceAvailability(new ServiceAvailabilityInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-            }
-
-            @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
-                hideLoading();
-                txtResponse.setText(new Gson().toJson(serviceAvailability));
-                correlationId = correlationID;
-                Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
-            }
-
-            @Override
-            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
-                hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Utils.showToast(RecurringPaymentsActivity.this, "Failure");
-                Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
-            }
-        });
-    }
 
 
     public void showLoading() {

@@ -160,7 +160,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Retrieve a missing Transaction
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionInterface() {
+        SDKManager.p2PTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();
@@ -189,11 +189,10 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         });
     }
 
-
     //Retrieve Transaction for an FSP
     private void retrieveTransactionFSP() {
         showLoading();
-        SDKManager.getInstance().viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+        SDKManager.p2PTransfer.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -333,7 +332,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
      */
     private void viewAccountName() {
         showLoading();
-        SDKManager.getInstance().viewAccountName(identifierArrayList, new AccountHolderInterface() {
+        SDKManager.p2PTransfer.viewAccountName(identifierArrayList, new AccountHolderInterface() {
             @Override
             public void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject, String correlationID) {
                 hideLoading();
@@ -368,7 +367,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     private void performTransfer() {
 
         showLoading();
-        SDKManager.getInstance().createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.internationTransfer.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -400,7 +399,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Check Balance
     private void balanceCheck() {
         showLoading();
-        SDKManager.getInstance().viewAccountBalance(identifierArrayList, new BalanceInterface() {
+        SDKManager.p2PTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -432,7 +431,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Reversal
     private void reversal() {
         showLoading();
-        SDKManager.getInstance().createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.internationTransfer.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -465,7 +464,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
      */
     private void viewTransaction() {
         showLoading();
-        SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
+        SDKManager.p2PTransfer.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -496,7 +495,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //get the request state of a transaction
     private void requestState() {
         showLoading();
-        SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+        SDKManager.p2PTransfer.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -527,7 +526,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
     public void viewQuotation() {
         showLoading();
-        SDKManager.getInstance().viewQuotation(transactionRef, new TransactionInterface() {
+        SDKManager.p2PTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
                 hideLoading();
@@ -599,7 +598,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
      */
     private void checkServiceAvailability() {
         showLoading();
-        SDKManager.getInstance().viewServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.p2PTransfer.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -629,7 +628,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Request the quotation to perform P2P transfer
     private void requestQuotation() {
 
-        SDKManager.getInstance().createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.p2PTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();

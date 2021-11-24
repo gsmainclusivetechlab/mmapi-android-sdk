@@ -126,7 +126,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void checkServiceAvailability() {
         showLoading();
-        SDKManager.getInstance().viewServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.merchantPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -268,7 +268,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
 
     private void viewAuthorizationCode() {
         showLoading();
-        SDKManager.getInstance().viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
+        SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCodeItem authorisationCodeItem, String correlationId) {
                 hideLoading();
@@ -299,7 +299,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void balanceCheck() {
         showLoading();
-        SDKManager.getInstance().viewAccountBalance(identifierArrayList, new BalanceInterface() {
+        SDKManager.merchantPayment.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -331,7 +331,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void payeeInitiated() {
         showLoading();
-        SDKManager.getInstance().createMerchantTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -365,7 +365,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void requestState() {
         showLoading();
-        SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+        SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -399,7 +399,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void viewTransasction() {
         showLoading();
-        SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
+        SDKManager.merchantPayment.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -432,7 +432,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void paymentRefund() {
         showLoading();
-        SDKManager.getInstance().createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -465,7 +465,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void paymentReversal() {
         showLoading();
-        SDKManager.getInstance().createReversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.merchantPayment.createReversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -499,7 +499,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void retrieveTransaction() {
         showLoading();
-        SDKManager.getInstance().viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+        SDKManager.merchantPayment.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -531,7 +531,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void obtainAuthorizationCode() {
         showLoading();
-        SDKManager.getInstance().createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
+        SDKManager.merchantPayment.createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -566,7 +566,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionInterface() {
+        SDKManager.merchantPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();
@@ -599,7 +599,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void retriveMissingCodeResponse() {
         showLoading();
-        SDKManager.getInstance().viewAuthorisationCodeResponse(correlationId, new AuthorisationCodeInterface() {
+        SDKManager.merchantPayment.viewAuthorisationCodeResponse(correlationId, new AuthorisationCodeInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode, String correlationId) {
                 hideLoading();

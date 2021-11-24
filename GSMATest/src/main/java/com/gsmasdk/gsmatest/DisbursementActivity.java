@@ -211,7 +211,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
      */
     private void checkServiceAvailability() {
         showLoading();
-        SDKManager.getInstance().viewServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.merchantPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -243,7 +243,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
      */
     private void viewTransaction(){
         showLoading();
-        SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
+        SDKManager.disbursement.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -334,7 +334,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //get the request state of a transaction
     private void requestState(){
         showLoading();
-        SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+        SDKManager.disbursement.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -365,7 +365,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
    //individual disbursement
     private void individualDisbursement(){
         showLoading();
-        SDKManager.getInstance().createDisbursementTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -396,7 +396,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Reversal
     private void reversal(){
         showLoading();
-        SDKManager.getInstance().createReversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.disbursement.createReversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
                 @Override
                 public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                     hideLoading();
@@ -426,7 +426,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Retrieve Disbursement
     private void retrieveTransactionDisbursement(){
         showLoading();
-        SDKManager.getInstance().viewAccountTransactions(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
+        SDKManager.disbursement.viewAccountTransactions(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
                 @Override
                 public void onValidationError(ErrorObject errorObject) {
                     hideLoading();
@@ -455,7 +455,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Bulk Disbursement
     public void bulkDisbursement(){
         showLoading();
-        SDKManager.getInstance().createBatchTransaction(NotificationMethod.POLLING,"",bulkTransactionObject, new RequestStateInterface() {
+        SDKManager.disbursement.createBatchTransaction(NotificationMethod.POLLING,"",bulkTransactionObject, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -486,7 +486,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Rejected Disbursements
     private void batchRejections(){
         showLoading();
-        SDKManager.getInstance().viewBatchRejections("REF-1635765084301", new BatchRejectionInterface() {
+        SDKManager.disbursement.viewBatchRejections("REF-1635765084301", new BatchRejectionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -515,7 +515,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Check Balance
     private void balanceCheck(){
         showLoading();
-        SDKManager.getInstance().viewAccountBalance(identifierArrayList, new BalanceInterface() {
+        SDKManager.disbursement.viewAccountBalance(identifierArrayList, new BalanceInterface() {
                 @Override
                 public void onValidationError(ErrorObject errorObject) {
                     hideLoading();
@@ -544,7 +544,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Completed Batch Transactions
     private void batchCompletion(){
         showLoading();
-        SDKManager.getInstance().viewBatchCompletions("REF-1635765084301", new BatchCompletionInterface() {
+        SDKManager.disbursement.viewBatchCompletions("REF-1635765084301", new BatchCompletionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -574,7 +574,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Update Batch Transaction
     private void updateBatch(){
         showLoading();
-        SDKManager.getInstance().updateBatchTransaction(NotificationMethod.POLLING,"","REF-1635765084301",batchArrayList, new RequestStateInterface() {
+        SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING,"","REF-1635765084301",batchArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -605,7 +605,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Get Batch Transaction Details
     private void getBatchDetails(){
         showLoading();
-        SDKManager.getInstance().viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
+        SDKManager.disbursement.viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
                 @Override
                 public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationID) {
                     hideLoading();
@@ -636,7 +636,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Retrieve a missing Transaction
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionInterface() {
+        SDKManager.disbursement.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();
