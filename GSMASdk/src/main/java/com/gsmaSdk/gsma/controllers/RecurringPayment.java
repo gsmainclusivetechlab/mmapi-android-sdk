@@ -12,6 +12,7 @@ import com.gsmaSdk.gsma.models.DebitMandate;
 import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -99,6 +100,18 @@ public class RecurringPayment extends Common {
             debitMandateInterface.onValidationError(Utils.setError(1));
         }
     }
+
+    /**
+     * Initiate Payment - Initiate merchant pay
+     *
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for receiving response of transaction
+     * @param transactionRequest Transaction Object containing details required for initiating the transaction
+     */
+    public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
+    }
+
 
 
 }

@@ -63,7 +63,13 @@ public class DebitMandate extends BaseResponse {
     private String mandateStatus;
 
 
+    public String getMandateStatus() {
+        return mandateStatus;
+    }
 
+    public void setMandateStatus(String mandateStatus) {
+        this.mandateStatus = mandateStatus;
+    }
 
     public String getMandateReference() {
         return mandateReference;

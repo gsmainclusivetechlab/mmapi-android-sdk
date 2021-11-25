@@ -16,6 +16,7 @@ import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
+import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.DebitMandate;
 import com.gsmaSdk.gsma.models.Identifier;
@@ -24,7 +25,9 @@ import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
+import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.CustomDataItem;
+import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
@@ -42,11 +45,15 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
     private String correlationId = "";
     private ReversalObject reversalObject;
 
+
     private String transactionRef = "";
     private String serverCorrelationId;
 
     private TransactionRequest transactionRequest;
     ArrayList<Identifier> identifierArrayList;
+
+    private String debitMandateReference;
+
 
     private DebitMandate debitMandateRequest;
 
@@ -216,11 +223,13 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
 
             case 3:
                 //Merchant Payment using Debit Mandate
+               createTransactionObject();
 
                 break;
+
             case 4:
                 //View Transaction
-
+                viewTransaction();
                 break;
 
             case 5:
@@ -277,6 +286,65 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
 
     }
 
+    private void createTransactionObject(){
+        transactionRequest=new TransactionRequest();
+        transactionRequest.setAmount("200");
+        transactionRequest = new TransactionRequest();
+
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("mandatereference");
+        debitPartyItem.setValue(debitMandateReference);
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("2999");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("200.00");
+        transactionRequest.setCurrency("RWF");
+
+        initiateMerchantPayment();
+
+    }
+
+    private void initiateMerchantPayment(){
+        showLoading();
+        SDKManager.recurringPayment.createMerchantTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(requestStateObject).toString());
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                correlationId = correlationID;
+                Utils.showToast(RecurringPaymentsActivity.this, "Success");
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(RecurringPaymentsActivity.this, "Failure");
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        });
+    }
+
+
     //get the request state of a transaction
     private void requestState() {
         showLoading();
@@ -315,6 +383,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             public void onDebitMandateSuccess(DebitMandate debitMandate) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
+                debitMandateReference=debitMandate.getMandateReference();
                 txtResponse.setText(new Gson().toJson(debitMandate));
                 Log.d(SUCCESS, "onDebitMandateSuccess: " + new Gson().toJson(debitMandate));
             }
@@ -332,6 +401,38 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+        });
+    }
+
+    /**
+     * Method for fetching a particular transaction.
+     */
+    private void viewTransaction() {
+        showLoading();
+        SDKManager.recurringPayment.viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
+                correlationId = correlationID;
+                hideLoading();
+                Utils.showToast(RecurringPaymentsActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(transactionObject));
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+
         });
     }
 
