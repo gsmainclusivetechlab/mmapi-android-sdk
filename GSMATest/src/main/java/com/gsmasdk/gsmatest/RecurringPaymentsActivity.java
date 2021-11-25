@@ -11,33 +11,23 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
+import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.DebitMandate;
-import com.google.gson.Gson;
-import com.gsmaSdk.gsma.enums.NotificationMethod;
-import com.gsmaSdk.gsma.interfaces.BalanceInterface;
-import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
-import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
-import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.Identifier;
 import com.gsmaSdk.gsma.models.PayeeItem;
+import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.CustomDataItem;
-import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
-import com.gsmaSdk.gsma.models.common.Balance;
-import com.gsmaSdk.gsma.models.common.ErrorObject;
-import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
 import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
@@ -103,6 +93,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         checkServiceAvailability();
         createAccountIdentifier();
         createDebitMandateObject();
+        createPaymentReversalObject();
 
     }
 
@@ -154,10 +145,6 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         customDataItemArrayList.add(customDataItem);
 
         debitMandateRequest.setCustomData(customDataItemArrayList);
-
-        createAccountIdentifier();
-        createPaymentReversalObject();
-        createTransactionObject();
 
     }
 

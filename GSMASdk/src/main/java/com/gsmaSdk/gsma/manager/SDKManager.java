@@ -46,7 +46,6 @@ public class SDKManager {
         private static final SDKManager INSTANCE = new SDKManager();
     }
 
-
     /**
      * Level of authentication check,if the level is NO_AUTH then access token is not generated
      */
@@ -74,9 +73,5 @@ public class SDKManager {
             }
         }
     }
-
-
-
-
 
 }

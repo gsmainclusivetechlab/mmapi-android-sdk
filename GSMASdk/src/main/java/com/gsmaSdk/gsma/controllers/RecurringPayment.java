@@ -1,14 +1,8 @@
 package com.gsmaSdk.gsma.controllers;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-
 import com.gsmaSdk.gsma.enums.NotificationMethod;
-import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
-import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
-import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
-import com.gsmaSdk.gsma.models.AccountHolderObject;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
+import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.models.DebitMandate;
@@ -22,6 +16,8 @@ import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
 
 public class RecurringPayment extends Common {
 
@@ -63,7 +59,6 @@ public class RecurringPayment extends Common {
             requestStateInterface.onValidationError(Utils.setError(1));
         }
     }
-
 
     /**
      * Create Debit Mandate-Create Debit Mandate for recurring Payment
@@ -116,8 +111,6 @@ public class RecurringPayment extends Common {
         MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
     }
 
-
-
     /**
      * Refund - provides refund to a given account
      *
@@ -144,7 +137,7 @@ public class RecurringPayment extends Common {
     }
 
     /**
-     * View Account Balance-Get the balance of a particular acccount
+     * View Account Balance-Get the balance of a particular account
      *
      * @param identifierArrayList - List of identifiers to identify a particular account
      */
