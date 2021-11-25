@@ -366,7 +366,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     private void performTransfer() {
 
         showLoading();
-        SDKManager.internationTransfer.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.p2PTransfer.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -430,7 +430,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Reversal
     private void reversal() {
         showLoading();
-        SDKManager.internationTransfer.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.p2PTransfer.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();

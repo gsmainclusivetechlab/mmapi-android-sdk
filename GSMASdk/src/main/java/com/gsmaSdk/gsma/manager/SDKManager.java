@@ -7,6 +7,7 @@ import com.gsmaSdk.gsma.controllers.Disbursement;
 import com.gsmaSdk.gsma.controllers.InternationalTransfer;
 import com.gsmaSdk.gsma.controllers.MerchantPayment;
 import com.gsmaSdk.gsma.controllers.P2PTransfer;
+import com.gsmaSdk.gsma.controllers.RecurringPayment;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -32,6 +33,7 @@ public class SDKManager {
     public static Disbursement disbursement=new Disbursement();
     public static InternationalTransfer internationTransfer=new InternationalTransfer();
     public static P2PTransfer p2PTransfer=new P2PTransfer();
+    public static RecurringPayment recurringPayment =new RecurringPayment();
 
     private SDKManager() {
     }
