@@ -9,37 +9,50 @@ A library that fully covers payment process inside your Android application
 
 # Table of Contents
 ---
-1. [Requirements](#requirements)
+1. [Requirements](#require)
 2. [How to include GSMA-SDK in your android application](#Setup)
 3. [Configure the SDK](#Configure)
 4. [Use cases](#usecases)
    1. [Merchant Payment](#merchant-pay)
-      1. [Payee-Initiated Merchant Payment](#payee-merchant-pay)
-      2. [Payee-Initiated Merchant Payment using the Polling Method](#merchant-pay-polling)
-      3. [Payer-Initiated Merchant Payment](#payee-merchant-pay)
-      4. [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#payee-merchant-pay-authcode)
-      5. [Merchant Payment Refund](#merchant-pay-refund)
-      6. [Merchant Payment Reversal](#merchant-pay-reversal)
-      7. [Obtain a Merchant Balance](#merchant-pay-balance)
-      8. [Retrieve Payments for a Merchant](#merchant-pay-retrieve)
-      9. [Check for Service Availability](#check-for-service)
-      10. [Retrieve a Missing API Response](#missing-response)
+      1. Payee-Initiated Merchant Payment
+           * [Payee Initiated Merchant Payment](#payee-merchant-pay)
+      2. Payee-Initiated Merchant Payment using the Polling Method
+           * [Payee Initiated Merchant Payment](#payee-merchant-pay)
+           * [Poll to Determine the Request State](#request-state)
+           * [Retrieve a Transaction](#view-transaction)
+      3. Payer-Initiated Merchant Payment
+           * [Payer Initiated Merchant Payment](#payee-merchant-pay)
+      4. Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
+           * [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#payee-merchant-pay-authcode)
+      5.  Merchant Payment Refund(#merchant-pay-refund)
+           * [Merchant Payment Refund](#merchant-pay-refund)
+      6. Merchant Payment Reversal
+           * [Merchant Payment Reversal](#merchant-pay-reversal) 
+      7.  Obtain a Merchant Balance
+           * [Obtain a Merchant Balance](#merchant-pay-balance)
+      8. Retrieve Payments for a Merchant
+           * [Retrieve Payments for a Merchant](#merchant-pay-retrieve)
+      9. Check for Service Availability
+           * [Check for Service Availability](#check-for-service)
+      15. Retrieve a Missing API Response
+           * [Retrieve a Missing API Response](#missing-response)
    
    2. [Disbursement](#disbursement)
    
-      1. [Individual Disbursement](#individual)
-      2. [Individual Disbursement using polling method](#individual-polling)
-      3. [Bulk Disbursement](#bulk-disbursement)
-      4. [Bulk Disbursement with maker/checker](#bulk-maker-checker)
-      5. [Disbursement Reversal](#merchant-pay-reversal)
-      6. [Organizational balance](#merchant-pay-balance)
-      7. [Retrieve Transactions for a Disbursement Organisation](#merchant-pay-retrieve)
-      8. [Check for Service Availability](#check-for-service)
-      9. [Retrieve a Missing API Response](#missing-response)
+      1. Individual Disbursement
+            * Individual Disbursement (#individual)
+      3. [Individual Disbursement using polling method](#individual-polling)
+      4. [Bulk Disbursement](#bulk-disbursement)
+      5. [Bulk Disbursement with maker/checker](#bulk-maker-checker)
+      6. [Disbursement Reversal](#merchant-pay-reversal)
+      7. [Organizational balance](#merchant-pay-balance)
+      8. [Retrieve Transactions for a Disbursement Organisation](#merchant-pay-retrieve)
+      9. [Check for Service Availability](#check-for-service)
+      10. [Retrieve a Missing API Response](#missing-response)
       
    3. [International Transfers](#international-transfer)
        1. [International Transfer via Hub](#international-transfer-feature)
-       2. [Bilateral International Transfer](#international-transfer-feature)
+       2. [Bilateral International  Transfer](#international-transfer-feature)
        3. [International Transfer Reversal](#merchant-pay-reversal)
        4. [Obtain an FSP Balance](#merchant-pay-balance)
        5. [Retrieve Transactions for an FSP](#merchant-pay-retrieve)
@@ -55,7 +68,11 @@ A library that fully covers payment process inside your Android application
        7. [Retrieve a Missing API Response](#missing-response)
        
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
- <a name="requirements"></a>
+ 
+
+ 
+<a name="require"></a>
+
 # Requirements
 ---
 To use the SDK the following requirements must be met:
@@ -143,7 +160,7 @@ The Merchant Payment Mobile Money APIs allow merchants to accept payments from m
 
 <a name="payee-merchant-pay"></a>
 
-# Payee-initiated merchant payment.
+# Payee/Payer-initiated merchant payment.
 
 The merchant initiates the request and will be credited when the payer approves the request.
 
@@ -183,7 +200,7 @@ private void createTransactionObject() {
 
 ```
   
-    SDKManager.getInstance().createMerchantTransaction(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
+   SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
       
@@ -212,6 +229,7 @@ An asynchronous payment flow is used with the polling method. The client polls a
  3.Retrieve a Transaction<br />
 
 
+<a name="#payee-merchant-pay"></a>
 ## 1.Payee Initiated Merchant Payment
 
 The merchant initiates the request and will be credited when the payer approves the request.
@@ -251,7 +269,7 @@ private void createTransactionObject() {
 
 
 ```
-  SDKManager.getInstance().createMerchantTransaction(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
+  SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
       
@@ -270,10 +288,11 @@ private void createTransactionObject() {
         });
 
 ```
+   <a name="request-state"></a>
    ### 2.Poll to Determine the Request State
    ````
  
-    SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+    SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
@@ -292,12 +311,13 @@ private void createTransactionObject() {
         });
   
   ````
+  <a name="view-transaction"></a>
   ### 3.Retrieve a Transaction
 
   ```
    
 
-      SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
+      SDKManager.merchantPayment.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
     
@@ -317,68 +337,6 @@ private void createTransactionObject() {
    
    
   ```
-  <a name="payer-merchant-pay"></a>
-
-# Payer Initiated Merchant Payment
-
-The merchant initiates the request and will be credited when the payer approves the request.
-
-A transaction object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
-
-
-```
-private TransactionRequest transactionRequest;
-private String serverCorrelationId = "";
-private String transactionRef = "";
-```
-
-```
-private void createTransactionObject() {
-        transactionRequest = new TransactionRequest();
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
-
-        debitPartyItem.setKey("accountid");
-        debitPartyItem.setValue("Place your account id of debit party here");
-        debitPartyList.add(debitPartyItem);
-
-        creditPartyItem.setKey("accountid");
-        creditPartyItem.setValue("Place your account id of credt party here");
-        creditPartyList.add(creditPartyItem);
-
-        transactionRequest.setDebitParty(debitPartyList);
-        transactionRequest.setCreditParty(creditPartyList);
-        transactionRequest.setAmount("Place your amount"); //eg:200.00
-        transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
-  }
-```
- Initiate the merchant pay request using the following code
-
-
-```
- SDKManager.getInstance().createMerchantTransaction(NotificationMethod.CALLBACK,"",transactionRequest, new RequestStateInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-      
-            }
-
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                  serverCorrelationId = requestStateObject.getServerCorrelationId();            
-            }
-
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-      
-            }
-
-        });
-
-
-```
-
 <a name="payee-merchant-pay-authcode"></a>
 
 # Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
@@ -426,7 +384,7 @@ private void createAccountIdentifier(){
 ```
 
 ```
-     SDKManager.getInstance().createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
+     SDKManager.merchantPayment.createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                
@@ -474,24 +432,22 @@ private void createTransactionObject() {
 Initiate the mechant pay request using the following code
 
 ```
-   SDKManager.getInstance().initiateMerchantPayment(transactionRequest, new RequestStateInterface() {
+   SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-            
+          
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
-                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-
+            
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-    
+            
             }
-
-        });
+      });
 
 ```
 <a name="merchant-pay-refund"></a>
@@ -533,7 +489,7 @@ Create a refund request with transaction parameter
 
 ```
 
- SDKManager.getInstance().createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+ SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
             serverCorrelationId = requestStateObject.getServerCorrelationId();
@@ -573,7 +529,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
 ```
 
-  SDKManager.getInstance().createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
+  SDKManager.merchantPayment.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                       serverCorrelationId = requestStateObject.getServerCorrelationId();
@@ -614,7 +570,7 @@ Obtain the balance of requested account,Pass the account identier list  to the f
 
 ```
 
- SDKManager.getInstance().viewAccountBalance(identifierArrayList, new BalanceInterface() {
+ SDKManager.merchantPayment.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
@@ -653,7 +609,7 @@ Merchant can retrieve all transaction details
 
 ```
 
- SDKManager.getInstance().viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+ SDKManager.merchantPayment.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
             
@@ -681,7 +637,7 @@ Merchant can retrieve all transaction details
 The application should perform service availabilty check before calling the payment scenarios
 
     private void checkServiceAvailability() {
-        SDKManager.getInstance().viewServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.merchantPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
              
@@ -707,7 +663,7 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionInterface() {
+SDKManager.merchantPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
               
@@ -731,7 +687,7 @@ SDKManager.getInstance().viewTransactionResponse(correlationId, new TransactionI
 
 ```
 
- SDKManager.getInstance()..viewAuthorisationCodeResponse(correlationId, new AuthorisationCodeInterface() {
+ SDKManager.merchantPayment.viewAuthorisationCodeResponse(correlationId, new AuthorisationCodeInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode, String correlationId) {
 
