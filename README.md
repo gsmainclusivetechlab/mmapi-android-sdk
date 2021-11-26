@@ -38,17 +38,17 @@ A library that fully covers payment process inside your Android application
             * [Perform a Bulk Disbursement](#bulk-disbursement-pay)
             * [Retrieve Batch Transactions that have Completed](#bulk-disbursement-completed)
             * [Retrieve Batch Transactions that have been Rejected](#bulk-disbursement-rejected)
-      5. [Bulk Disbursement with maker/checker](#bulk-maker-checker)
+      4. [Bulk Disbursement with maker/checker](#bulk-maker-checker)
             * [Perform a Bulk Disbursement](#bulk-disbursement-pay)
             * [Retrieve Batch Transactions that have Completed](#bulk-disbursement-completed)
             * [Retrieve Batch Transactions that have been Rejected](#bulk-disbursement-rejected)
             * [Approve Batch request](#bulk-disbursement-approve) 
             * [Retrieve the batch request](#bulk-disbursement-retrieve)
-      7. [Disbursement Reversal](#disbursement-pay-reversal)
-      8. [Organizational balance](#disbursement-pay-balance)
-      9. [Retrieve Transactions for a Disbursement Organisation](#disbursement-pay-retrieve)
-      10. [Check for Service Availability](#check-for-service-disbursement)
-       10. [Retrieve a Missing API Response](#missing-response-dusbursement)
+      5. [Disbursement Reversal](#disbursement-pay-reversal)
+      6. [Organizational balance](#disbursement-pay-balance)
+      7. [Retrieve Transactions for a Disbursement Organisation](#disbursement-pay-retrieve)
+      8. [Check for Service Availability](#check-for-service-disbursement)
+      9. [Retrieve a Missing API Response](#missing-response-disbursement)
       
    3. [International Transfers](#international-transfer)
        1. [International Transfer via Hub](#international-transfer-feature)
@@ -1235,7 +1235,7 @@ Merchant can retrieve all transaction details
 ```
 <a name="check-for-service-disbursement"></a>
 
-# Check for Service Availability-Merchant Payment
+# Check for Service Availability-Disbursement
 
 The application should perform service availabilty check before calling the payment scenarios
 
