@@ -28,18 +28,27 @@ A library that fully covers payment process inside your Android application
       9. [Check for Service Availability](#check-for-service)
       10. [Retrieve a Missing API Response](#missing-response)
        
-    2. [Disbursement](#disbursement)
-   
-      1. Individual Disbursement
-            * Individual Disbursement (#individual)
-      3. [Individual Disbursement using polling method](#individual-polling)
-      4. [Bulk Disbursement](#bulk-disbursement)
+   2. [Disbursement](#disbursement)
+      1. [Individual Disbursement](#individual)
+      2. [Individual Disbursement using polling method](#individual-polling)
+           * [Disbursement](#disbursement-request)
+           * [Poll to Determine the Request State](#disbursement-request-state)
+           * [Retrieve a Disbursement Transaction](#disbursement-view-transaction)
+      3. [Bulk Disbursement](#bulk-disbursement)
+            * [Perform a Bulk Disbursement](#bulk-disbursement-pay)
+            * [Retrieve Batch Transactions that have Completed](#bulk-disbursement-completed)
+            * [Retrieve Batch Transactions that have been Rejected](#bulk-disbursement-rejected)
       5. [Bulk Disbursement with maker/checker](#bulk-maker-checker)
-      6. [Disbursement Reversal](#merchant-pay-reversal)
-      7. [Organizational balance](#merchant-pay-balance)
-      8. [Retrieve Transactions for a Disbursement Organisation](#merchant-pay-retrieve)
-      9. [Check for Service Availability](#check-for-service)
-      10. [Retrieve a Missing API Response](#missing-response)
+            * [Perform a Bulk Disbursement](#bulk-disbursement-pay)
+            * [Retrieve Batch Transactions that have Completed](#bulk-disbursement-completed)
+            * [Retrieve Batch Transactions that have been Rejected](#bulk-disbursement-rejected)
+            * [Approve Batch request](#bulk-disbursement-approve) 
+            * [Retrieve the batch request](#bulk-disbursement-retrieve)
+      7. [Disbursement Reversal](#disbursement-pay-reversal)
+      8. [Organizational balance](#disbursement-pay-balance)
+      9. [Retrieve Transactions for a Disbursement Organisation](#disbursement-pay-retrieve)
+      10. [Check for Service Availability](#check-for-service-disbursement)
+       10. [Retrieve a Missing API Response](#missing-response-dusbursement)
       
    3. [International Transfers](#international-transfer)
        1. [International Transfer via Hub](#international-transfer-feature)
@@ -221,7 +230,7 @@ An asynchronous payment flow is used with the polling method. The client polls a
 
 
 <a name="#payee-merchant-pay"></a>
-###.Payee Initiated Merchant Payment
+### Payee Initiated Merchant Payment
 
 The merchant initiates the request and will be credited when the payer approves the request.
 
@@ -280,7 +289,7 @@ private void createTransactionObject() {
 
 ```
    <a name="request-state"></a>
-   ### 2.Poll to Determine the Request State
+   ### Poll to Determine the Request State
    ````
  
     SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
@@ -303,7 +312,7 @@ private void createTransactionObject() {
   
   ````
   <a name="view-transaction"></a>
-  ### 3.Retrieve a Transaction
+  ### Retrieve a Transaction
 
   ```
    
@@ -701,12 +710,11 @@ SDKManager.merchantPayment.viewTransactionResponse(correlationId, new Transactio
 <a name="disbursement"></a>
 
 The Disbursement Mobile Money APIs allow organisations to disburse funds to mobile money recipients.
-# Individual Disbursement
-
 <a name="individual"></a>
 
-Individual disbursement using an asynchronous flow with the notification provided via a callback.
+# Individual Disbursement
 
+Individual disbursement using an asynchronous flow with the notification provided via a callback.
 
 A transaction object is to be created before calling the individual disbursement,The example for transaction object as follows
 
@@ -743,7 +751,7 @@ Intiate the disbursement using the following code
 
 ```
 
-   SDKManager.getInstance().createDisbursementTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+   SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
              
@@ -770,12 +778,14 @@ The individual disbursement using polling method can be completed using the foll
 
 An asynchronous payment flow is used with the polling method. The client polls against the request state object to determine the outcome of the payment request.These payment flow can achieved using the following API
 
-1.Disbursement Request<br />
-2.Poll to Determine the Request State<br />
-3.Retrieve a Transaction<br />
+* Disbursement Request<br />
+* Poll to Determine the Request State<br />
+* Retrieve a Transaction<br />
 
 
-## 1.Disbursement Request
+<a name="disbursement-request"></a>
+                               
+### Disbursement Request
 
 A transaction object is to be created before calling the payee-initiated merchant payment,The example for transaction object as follows
 
@@ -813,7 +823,7 @@ private void createTransactionObject() {
 
 ```
     
-      SDKManager.getInstance().createDisbursementTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+      SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
              
@@ -831,9 +841,10 @@ private void createTransactionObject() {
     
 
 ```
-   ### 2.Poll to Determine the Request State
+   <a name="disbursement-request-state"></a>                                                                                      
+   ### Poll to Determine the Request State
    ````
-   SDKManager.getInstance().viewRequestState(serverCorrelationId, new RequestStateInterface() {
+   SDKManager.disbursement.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
@@ -851,11 +862,14 @@ private void createTransactionObject() {
 
         });
   ````
-  ### 3.Retrieve a Transaction
-
+  
+ <a name="disbursement-view-transaction"></a>      
+ 
+  ### Retrieve a Disbursment Transaction
+                                                                                
+                                     
   ```
-   
-      SDKManager.getInstance().viewTransaction(transactionRef, new TransactionInterface() {
+      SDKManager.disbursement.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
     
@@ -876,16 +890,18 @@ private void createTransactionObject() {
    
   ```
   <a name="bulk-disbursement"></a>
+                             
   # Bulk Disbursment
   
   The bulk disbursment use case consist of  follwing  request
       
- 1.Perform a Bulk Disbursement<br />
- 2.Retrieve Batch Transactions that have Completed<br />
- 3.Retrieve Batch Transactions that have been Rejected<br />
+ * Perform a Bulk Disbursement<br />
+ * Retrieve Batch Transactions that have Completed<br />
+ * Retrieve Batch Transactions that have been Rejected<br />
   
   
-  ## 1.Perform a  bulk Disbursment
+  <a name="bulk-disbursement-pay"></a>
+  ### Perform a  bulk Disbursment
   
   Create a bulk Transaction Object before performing the bulk disbursement
   
@@ -931,7 +947,7 @@ private void createTransactionObject() {
 Perform the bulk transaction using the following code
 
 ```
-   SDKManager.getInstance().createBatchTransaction(NotificationMethod.POLLING,"",bulkTransactionObject, new RequestStateInterface() {
+   SDKManager.disbursement.createBatchTransaction(NotificationMethod.POLLING,"",bulkTransactionObject, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
            
@@ -950,7 +966,9 @@ Perform the bulk transaction using the following code
   
  ``` 
  
-  ## 2.Retrieve Batch Transactions that have Completed
+   <a name="bulk-disbursement-completed"></a>
+
+  ### Retrieve Batch Transactions that have Completed
   
   This use case allows the disbursement organisation to retrieve all completed transactions for a given batch.
   
@@ -958,7 +976,7 @@ Perform the bulk transaction using the following code
   
   ```
   
-   SDKManager.getInstance().retrieveBatchCompletions("Place your batch id here", new BatchCompletionInterface() {
+   SDKManager.disbursement.retrieveBatchCompletions("Place your batch id here", new BatchCompletionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
               
@@ -977,12 +995,15 @@ Perform the bulk transaction using the following code
   
   ```
   
- ## 3.Retrieve Batch Transactions that have been Rejected
+
+<a name="bulk-disbursement-rejected"></a>
+
+## Retrieve Batch Transactions that have been Rejected
 
 This use case allows the disbursement organisation to retrieve all rejected transactions for a given batch
 
 ```
- SDKManager.getInstance().viewBatchRejections("Place your batch id here", new BatchRejectionInterface() {
+ SDKManager.disbursement.viewBatchRejections("Place your batch id here", new BatchRejectionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 
@@ -1004,18 +1025,20 @@ This use case allows the disbursement organisation to retrieve all rejected tran
 
 # Bulk Disbursement with maker/checker
 
-    The bulk disbursment with maker/checkeer use case consist of  following  request
+  The bulk disbursment with maker/checkeer use case consist of  following  request<br />
       
-  1.Perform a Bulk Disbursement <br />
-  2.Retrieve Batch Transactions that have Completed <br />
-  3.Retrieve Batch Transactions that have been Rejected <br />
-  4.Approve Batch request <br />
-  5.Retrieve the batch request <br />
+  * Perform a Bulk Disbursement <br />
+  * Retrieve Batch Transactions that have Completed <br />
+  * Retrieve Batch Transactions that have been Rejected <br />
+  * Approve Batch request <br />
+  * Retrieve the batch request <br />
     
     
 perfom the step 1 to step 3 which is already mentioned in bulk disbursment use cases     
-    
-## 4.Approve the batch request
+   
+<a name="bulk-disbursement-approve"></a>
+   
+## Approve the batch request
 
 ```
 private ArrayList<Batch> batchArrayList;
@@ -1039,7 +1062,7 @@ Call the update batch request function with batch id and batch array as input pa
 
 ```
 
-SDKManager.getInstance().updateBatchTransaction(NotificationMethod.POLLING,"","Place your batch id here",batchArrayList, new RequestStateInterface() {
+SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING,"","Place your batch id here",batchArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
              
@@ -1061,11 +1084,13 @@ SDKManager.getInstance().updateBatchTransaction(NotificationMethod.POLLING,"","P
 ```
 Retrieve the details of batch request
 
-## 5.Retrieve the batch request
+<a name="bulk-disbursement-retrieve"></a>
+
+## Retrieve the batch request
 
 ```
 
-SDKManager.getInstance().viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
+SDKManager.disbursement.viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
                 @Override
                 public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationID) {
                    
@@ -1084,6 +1109,185 @@ SDKManager.getInstance().viewBatchTransaction(transactionRef, new BatchTransacti
 
 
 ```
+
+<a name="disbursement-pay-reversal"></a>
+
+#  Payment Reversal-Disbursement
+
+In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
+
+Declare the revesal object
+
+```
+private ReversalObject reversalObject;
+```
+
+```
+private void createPaymentReversalObject() {
+        reversalObject = new ReversalObject();
+        reversalObject.setReversal("reversal");
+ }
+```
+Call the reversal function with reversal and reference Id of transaction obtained using the polling method
+
+```
+
+  SDKManager.disbursement.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                      serverCorrelationId = requestStateObject.getServerCorrelationId();
+
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+        });
+
+```
+
+<a name="disbursement-pay-balance"></a>
+
+# Payment Balance-Disbursement
+
+Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
+
+```
+    private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.disbursement.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onBalanceSuccess(Balance balance, String correlationID) {
+       
+            }
+
+            @Override
+            public void onBalanceFailure(GSMAError gsmaError) {
+              
+            }
+        });
+
+```
+<a name="disbursement-pay-retrieve"></a>
+
+# Retrieve Payments-Disbursement
+
+Merchant can retrieve all transaction details
+
+```
+   private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.disbursement.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+            
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+           
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+         
+            }
+        });
+ 
+ 
+ 
+
+```
+<a name="check-for-service-disbursement"></a>
+
+# Check for Service Availability-Merchant Payment
+
+The application should perform service availabilty check before calling the payment scenarios
+
+    private void checkServiceAvailability() {
+        SDKManager.disbursement.viewServiceAvailability(new ServiceAvailabilityInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+
+            @Override
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+          
+            }
+
+            @Override
+            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
+              
+            }
+        });
+     }
+
+<a name="missing-response-disbursement"></a>
+# Retrieve a Missing API Response-Disbursement
+
+Merchant to retrieve a link to the final representation of the resource for which it attempted to create. Use this API when a callback is not received from the mobile money provider.
+
+## 1.Missing Transaction Response
+
+```
+SDKManager.disbursement.viewTransactionResponse(correlationId, new TransactionInterface() {
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+              
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+   
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+
+        });
+
+```
+
+
 <a name="international-transfer"></a>
 
 # International Transfers
