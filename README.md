@@ -1300,10 +1300,13 @@ The International Transfer Mobile Money APIs allow financial service providers t
 
 The internation transfer via hub/bilateral international transfer uses case consist of following functionalities
 
-1.Request a International Transfer Quotation<br />
-2.Perform an International Transfer<br />
+* Request a International Transfer Quotation<br />
+* Perform an International Transfer<br />
 
-## 1.Request a International Transfer Quotation
+
+<a name="international-transfer-quotation"></a>
+
+# Request a International Transfer Quotation
 
 ```
 private TransactionRequest transactionRequest
@@ -1425,7 +1428,7 @@ Request a quotation to perform international transfer with transaction request o
 ```
 
 
-  SDKManager.getInstance().createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+  SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
             
@@ -1445,7 +1448,8 @@ Request a quotation to perform international transfer with transaction request o
 
 
 ```
-## 2.Perform an International Transfer<br />
+<a name="international-transfer-inititate"></a>
+## Perform an International Transfer<br />
 
 To perform international request add the international transfer information,amount and currency to existing request object
 
@@ -1479,8 +1483,8 @@ To perform international request add the international transfer information,amou
 Perform international transfer request using transaction request
 
 ```
-
- SDKManager.getInstance().createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+   
+ SDKManager.internationalTransfer.createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
             
