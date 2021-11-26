@@ -64,12 +64,20 @@ A library that fully covers payment process inside your Android application
        8. [Retrieve a Missing API Response](#missing-response-international)
    4. [PP2P Transfers](#p2p-switch)
        1. [P2P Transfer via Switch](#p2p-switch)
-       2. [Bilateral P2P Transfer](#p2p-switch)
-       3. [On-us’ P2P Transfer Initiated by a Third Party Provider](#p2p-switch)  
-       4. [Obtain an FSP Balance](#merchant-pay-balance)
-       5. [Retrieve Transactions for an FSP](#merchant-pay-retrieve)
-       6. [Check for Service Availability](#check-for-service)
-       7. [Retrieve a Missing API Response](#missing-response)
+           * [Confirm the recipient name](#p2p-name)
+           * [Request a quotation](#p2p-quotation) 
+           * [Perform the transfer with the receiving FSP](#p2p-transfer-fsp)
+       2. [Bilateral P2P Transfer](#p2p-bilateral)
+           * [Confirm the recipient name](#p2p-name)
+           * [Perform the transfer with the receiving FSP](#p2p-transfer-fsp) 
+       3. [On-us’ P2P Transfer Initiated by a Third Party Provider](#p2p-switch)
+           * [Confirm the recipient name](#p2p-name)
+           * [Request a quotation](#p2p-quotation) 
+           * [Perform the transfer with the receiving FSP](#p2p-transfer-fsp)  
+       4. [Obtain an FSP Balance](#p2p-pay-balance)
+       5. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
+       6. [Check for Service Availability](#check-for-service-p2p)
+       7. [Retrieve a Missing API Response](#missing-response-p2p)
        
  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  
@@ -1692,17 +1700,20 @@ SDKManager.internationalTransfer.viewTransactionResponse(correlationId, new Tran
 
 <a name="p2p-switch"></a>
 
+
 # P2p Transfer via switch/On-us’ P2P Transfer Initiated by a Third Party Provider
 
 A switch is used to send FSP to<br /> 
 
-1.confirm the recipient name<br />
-2.request a quotation<br /> 
-3.perform the transfer with the receiving FSP.
+
+* confirm the recipient name<br />
+* request a quotation<br /> 
+* perform the transfer with the receiving FSP.
 
 
+<a name="p2p-name"></a>
 
-## 1.Confirm the recipient name
+## Confirm the recipient name
 
 
 ```
@@ -1732,7 +1743,7 @@ Perform a request to view the account name
 
 ```
 
- SDKManager.getInstance().viewAccountName(identifierArrayList, new AccountHolderInterface() {
+ SDKManager.p2pTransfer.viewAccountName(identifierArrayList, new AccountHolderInterface() {
             @Override
             public void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject, String correlationID) {
              
@@ -1753,7 +1764,9 @@ Perform a request to view the account name
 
 ```
 
-## 2.Request a quotation
+<a name="p2p-quotation"></a>
+
+## Request a quotation
 
 
 ```
@@ -1815,7 +1828,7 @@ private String serverCorrelationId;
     }
 
 ```
- SDKManager.getInstance().createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+ SDKManager.p2pTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -1837,7 +1850,11 @@ private String serverCorrelationId;
 
 
 ```
-## 3.perform the transfer with the receiving FSP.
+
+
+<a name="p2p-transfer-fsp"></a>
+
+## perform the transfer with the receiving FSP.
 
 ```
 
@@ -1922,12 +1939,146 @@ Create p2p Transfer object
 
 ```
 
+<a name="bilateral-p2p"></a>
 ## Bilateral P2P Transfer
 
 The bilateral P2P transfer can be perfomed using following use cases
 
-1.confirm the recipient name<br />
-2.perform the transfer with the receiving FSP
+* confirm the recipient name<br />
+* perform the transfer with the receiving FSP
+
+<a name="p2p-pay-balance"></a>
+# Payment Balance-P2P Transfer
+Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
+
+```
+    private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.p2pTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onBalanceSuccess(Balance balance, String correlationID) {
+       
+            }
+
+            @Override
+            public void onBalanceFailure(GSMAError gsmaError) {
+              
+            }
+        });
+
+```
+<a name="p2p-pay-retrieve"></a>
+
+# Retrieve Payments - P2P Transfer
+
+Merchant can retrieve all transaction details
+
+```
+   private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.p2pTransfer.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+            
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+           
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+         
+            }
+        });
+ 
+ 
+ 
+
+```
+<a name="check-for-service-p2p"></a>
+
+# Check for Service Availability - P2P Transfer
+
+The application should perform service availabilty check before calling the payment scenarios
+
+    private void checkServiceAvailability() {
+        SDKManager.p2pTransfer.viewServiceAvailability(new ServiceAvailabilityInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+
+            @Override
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+          
+            }
+
+            @Override
+            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
+              
+            }
+        });
+     }
+
+<a name="missing-response-p2p"></a>
+# Retrieve a Missing API Response - P2p Transfer
+
+Merchant to retrieve a link to the final representation of the resource for which it attempted to create. Use this API when a callback is not received from the mobile money provider.
+
+## 1.Missing Transaction Response
+
+```
+SDKManager.p2pTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+              
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+   
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+
+        });
+
+```
 
 
 
