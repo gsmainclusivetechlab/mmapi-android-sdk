@@ -31,7 +31,7 @@ public class SDKManager {
 
     public static MerchantPayment merchantPayment=new MerchantPayment();
     public static Disbursement disbursement=new Disbursement();
-    public static InternationalTransfer internationTransfer=new InternationalTransfer();
+    public static InternationalTransfer internationalTransfer=new InternationalTransfer();
     public static P2PTransfer p2PTransfer=new P2PTransfer();
     public static RecurringPayment recurringPayment=new RecurringPayment();
 

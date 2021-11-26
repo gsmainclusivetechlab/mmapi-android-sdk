@@ -183,7 +183,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
      */
     private void viewTransaction() {
         showLoading();
-        SDKManager.internationTransfer.viewTransaction(transactionRef, new TransactionInterface() {
+        SDKManager.internationalTransfer.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -213,7 +213,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //get the request state of a transaction
     private void requestState() {
         showLoading();
-        SDKManager.internationTransfer.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+        SDKManager.internationalTransfer.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -244,7 +244,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     public void viewQuotation() {
         showLoading();
-        SDKManager.internationTransfer.viewQuotation(transactionRef, new TransactionInterface() {
+        SDKManager.internationalTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
                 hideLoading();
@@ -311,7 +311,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //perform international transfer
     private void performInternationalTransfer() {
         showLoading();
-        SDKManager.internationTransfer.createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.internationalTransfer.createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -343,7 +343,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Request the quotation to perform international transfer
     private void requestQuotation() {
 
-        SDKManager.internationTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -384,7 +384,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
      */
     private void checkServiceAvailability() {
         showLoading();
-        SDKManager.internationTransfer.viewServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.internationalTransfer.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -526,7 +526,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Check Balance
     private void balanceCheck() {
         showLoading();
-        SDKManager.internationTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+        SDKManager.internationalTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -555,7 +555,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Reversal
     private void reversal() {
         showLoading();
-        SDKManager.internationTransfer.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.internationalTransfer.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
                 hideLoading();
@@ -584,7 +584,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Retrieve Transaction for an FSP
     private void retrieveTransactionFSP() {
         showLoading();
-        SDKManager.internationTransfer.viewAccountTransactions(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
+        SDKManager.internationalTransfer.viewAccountTransactions(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -613,7 +613,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Retrieve a missing Transaction
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.internationTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
+        SDKManager.internationalTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
                 hideLoading();
