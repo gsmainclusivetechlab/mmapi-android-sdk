@@ -52,12 +52,16 @@ A library that fully covers payment process inside your Android application
       
    3. [International Transfers](#international-transfer)
        1. [International Transfer via Hub](#international-transfer-feature)
+            * [Request a International Transfer Quotation](#international-transfer-quotation)
+            * [Perform an International Transfer](international-transfer)
        2. [Bilateral International  Transfer](#international-transfer-feature)
-       3. [International Transfer Reversal](#merchant-pay-reversal)
-       4. [Obtain an FSP Balance](#merchant-pay-balance)
-       5. [Retrieve Transactions for an FSP](#merchant-pay-retrieve)
-       6. [Check for Service Availability](#check-for-service)
-       7. [Retrieve a Missing API Response](#missing-response)
+            * [Request a International Transfer Quotation](#international-transfer-quotation)
+            * [Perform an International Transfer](international-transfer) 
+       4. [International Transfer Reversal](#international-pay-reversal)
+       5. [Obtain an FSP Balance](#international-pay-balance)
+       6. [Retrieve Transactions for an FSP](#international-pay-retrieve)
+       7. [Check for Service Availability](#check-for-service-international)
+       8. [Retrieve a Missing API Response](#missing-response-international)
    4. [PP2P Transfers](#p2p-switch)
        1. [P2P Transfer via Switch](#p2p-switch)
        2. [Bilateral P2P Transfer](#p2p-switch)
@@ -1502,9 +1506,190 @@ Perform international transfer request using transaction request
             }
         });
 
+```
 
+
+
+<a name="international-pay-reversal"></a>
+
+#  Payment Reversal-International Transfer
+
+In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
+
+Declare the revesal object
 
 ```
+private ReversalObject reversalObject;
+```
+
+```
+private void createPaymentReversalObject() {
+        reversalObject = new ReversalObject();
+        reversalObject.setReversal("reversal");
+ }
+```
+Call the reversal function with reversal and reference Id of transaction obtained using the polling method
+
+```
+
+  SDKManager.internationalTransfer.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                      serverCorrelationId = requestStateObject.getServerCorrelationId();
+
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+        });
+
+```
+
+<a name="international-pay-balance"></a>
+
+# Payment Balance-International Transfer
+Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
+
+```
+    private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.internationalTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onBalanceSuccess(Balance balance, String correlationID) {
+       
+            }
+
+            @Override
+            public void onBalanceFailure(GSMAError gsmaError) {
+              
+            }
+        });
+
+```
+<a name="international-pay-retrieve"></a>
+
+# Retrieve Payments-International Transfer
+
+Merchant can retrieve all transaction details
+
+```
+   private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.internationalTransfer.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+            
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+           
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+         
+            }
+        });
+ 
+ 
+ 
+
+```
+<a name="check-for-service-international"></a>
+
+# Check for Service Availability-International Transfer
+
+The application should perform service availabilty check before calling the payment scenarios
+
+    private void checkServiceAvailability() {
+        SDKManager.internationalTransfer.viewServiceAvailability(new ServiceAvailabilityInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+
+            @Override
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+          
+            }
+
+            @Override
+            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
+              
+            }
+        });
+     }
+
+<a name="missing-response-international"></a>
+# Retrieve a Missing API Response-International Transfer
+
+Merchant to retrieve a link to the final representation of the resource for which it attempted to create. Use this API when a callback is not received from the mobile money provider.
+
+## 1.Missing Transaction Response
+
+```
+SDKManager.internationalTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+              
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+   
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+
+        });
+
+```
+
+
+
+
+
 <a name="p2p-switch"></a>
 
 # P2p Transfer via switch/On-us’ P2P Transfer Initiated by a Third Party Provider
