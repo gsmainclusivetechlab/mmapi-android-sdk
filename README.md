@@ -63,7 +63,7 @@ A library that fully covers payment process inside your Android application
        7. [Check for Service Availability](#check-for-service-international)
        8. [Retrieve a Missing API Response](#missing-response-international)
    4. [PP2P Transfers](#p2p-switch)
-       1. [P2P Transfer via Switch](#p2p-switch)
+      1. [P2P Transfer via Switch](#p2p-switch)
            * [Confirm the recipient name](#p2p-name)
            * [Request a quotation](#p2p-quotation) 
            * [Perform the transfer with the receiving FSP](#p2p-transfer-fsp)
@@ -74,15 +74,25 @@ A library that fully covers payment process inside your Android application
            * [Confirm the recipient name](#p2p-name)
            * [Request a quotation](#p2p-quotation) 
            * [Perform the transfer with the receiving FSP](#p2p-transfer-fsp)  
-       4. [Obtain an FSP Balance](#p2p-pay-balance)
+       4. [Obtain an  FSP Balance](#p2p-pay-balance)
        5. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
        6. [Check for Service Availability](#check-for-service-p2p)
        7. [Retrieve a Missing API Response](#missing-response-p2p)
-       
- 5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
+     5. [Recurring Payments](#recurring-payments) 
+        1. [Setup a Recurring Payment](#recurring-setup)
+        2. [Take a Recurring Payment](#p2p-switch)
+        3. [Take a Recurring Payment using the Polling Method]
+        4. [Recurring Payment Refund]
+        5. [Recurring Payment Reversal]
+        6. [Payer sets up a Recurring Payment using MMP Channel]
+        7. [Obtain a Service Provider Balance](#p2p-pay-balance)
+        8. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
+        9. [Check for Service Availability](#check-for-service-p2p)
+        10. [Retrieve a Missing API Response](#missing-response)
+           
+  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  
 
- 
 <a name="require"></a>
 
 # Requirements
@@ -1939,7 +1949,7 @@ Create p2p Transfer object
 
 ```
 
-<a name="bilateral-p2p"></a>
+<a name="p2p-bilateral"></a>
 ## Bilateral P2P Transfer
 
 The bilateral P2P transfer can be perfomed using following use cases
@@ -2079,8 +2089,59 @@ SDKManager.p2pTransfer.viewTransactionResponse(correlationId, new TransactionInt
         });
 
 ```
+<a name="recurring-payments"></a>
 
+# Recurring Payments
+ 
+ The Recurring Payments Mobile Money APIs allow service providers to setup electronic payment mandates for mobile money customers and initiate payments against payment   mandates.
 
+<a name="recurring-setup"></a>
 
+# Set up a Recurring Payment
 
+In this use case the setup for the recurring payment is done using debit mandate,The service provider initiates the request which is authorised by the account holding customer. 
 
+ * Create Debit Mandate 
+
+<a name="recurring-mandate">
+   
+# Create Debit Mandate 
+   
+```
+    private String serverCorrelationId;
+```   
+```
+   private void createAccountIdentifier() {
+        identifierArrayList = new ArrayList<>();
+        identifierArrayList.clear();
+
+        //account id
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+
+        identifierArrayList.add(identifierAccount);
+    }
+```   
+   
+```
+ SDKManager.recurringPayment.createAccountDebitMandate(NotificationMethod.POLLING, "", identifierArrayList, debitMandateRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+             
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+          
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+            
+            }
+        });
+   
+```   
