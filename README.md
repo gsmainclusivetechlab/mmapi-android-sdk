@@ -14,30 +14,21 @@ A library that fully covers payment process inside your Android application
 3. [Configure the SDK](#Configure)
 4. [Use cases](#usecases)
    1. [Merchant Payment](#merchant-pay)
-      1. Payee-Initiated Merchant Payment
-           * [Payee Initiated Merchant Payment](#payee-merchant-pay)
-      2. Payee-Initiated Merchant Payment using the Polling Method
+      1. [Payee-Initiated Merchant Payment](#payee-merchant-pay)
+      2. [Payee-Initiated Merchant Payment using the Polling Method](#merchant-pay-polling)
            * [Payee Initiated Merchant Payment](#payee-merchant-pay)
            * [Poll to Determine the Request State](#request-state)
            * [Retrieve a Transaction](#view-transaction)
-      3. Payer-Initiated Merchant Payment
-           * [Payer Initiated Merchant Payment](#payee-merchant-pay)
-      4. Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
-           * [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#payee-merchant-pay-authcode)
-      5.  Merchant Payment Refund(#merchant-pay-refund)
-           * [Merchant Payment Refund](#merchant-pay-refund)
-      6. Merchant Payment Reversal
-           * [Merchant Payment Reversal](#merchant-pay-reversal) 
-      7.  Obtain a Merchant Balance
-           * [Obtain a Merchant Balance](#merchant-pay-balance)
-      8. Retrieve Payments for a Merchant
-           * [Retrieve Payments for a Merchant](#merchant-pay-retrieve)
-      9. Check for Service Availability
-           * [Check for Service Availability](#check-for-service)
-      15. Retrieve a Missing API Response
-           * [Retrieve a Missing API Response](#missing-response)
-   
-   2. [Disbursement](#disbursement)
+      3. [Payer-Initiated Merchant Payment](#payee-merchant-pay)
+      4. [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#payee-merchant-pay-authcode)
+      5. [Merchant Payment Refund](#merchant-pay-refund)
+      6. [Merchant Payment Reversal](#merchant-pay-reversal) 
+      7. [Obtain a Merchant Balance](#merchant-pay-balance)
+      8. [Retrieve Payments for a Merchant](#merchant-pay-retrieve)
+      9. [Check for Service Availability](#check-for-service)
+      10. [Retrieve a Missing API Response](#missing-response)
+       
+    2. [Disbursement](#disbursement)
    
       1. Individual Disbursement
             * Individual Disbursement (#individual)
@@ -224,13 +215,13 @@ private void createTransactionObject() {
 
 An asynchronous payment flow is used with the polling method. The client polls against the request state object to determine the outcome of the payment request.These payment flow can achieved using the following API
 
- 1.Payee Initiated Merchant Payment<br />
- 2.Poll to Determine the Request State<br />
- 3.Retrieve a Transaction<br />
+ * Payee Initiated Merchant Payment<br />
+ * Poll to Determine the Request State<br />
+ * Retrieve a Transaction<br />
 
 
 <a name="#payee-merchant-pay"></a>
-## 1.Payee Initiated Merchant Payment
+###.Payee Initiated Merchant Payment
 
 The merchant initiates the request and will be credited when the payer approves the request.
 
@@ -509,7 +500,7 @@ Create a refund request with transaction parameter
 ```
 <a name="merchant-pay-reversal"></a>
 
-# Payment Reversal
+# Merchant Payment Reversal
 
 In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
 
@@ -551,7 +542,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
 <a name="merchant-pay-balance"></a>
 
-# Balance
+# Merchant Payment Balance
 
 Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
 
@@ -590,7 +581,7 @@ Obtain the balance of requested account,Pass the account identier list  to the f
 ```
 <a name="merchant-pay-retrieve"></a>
 
-# Retrieve Payments
+# Retrieve Payments Merchant
 
 Merchant can retrieve all transaction details
 
@@ -632,7 +623,7 @@ Merchant can retrieve all transaction details
 ```
 <a name="check-for-service"></a>
 
-# Check for Service Availability
+# Check for Service Availability-Merchant Payment
 
 The application should perform service availabilty check before calling the payment scenarios
 
@@ -683,7 +674,7 @@ SDKManager.merchantPayment.viewTransactionResponse(correlationId, new Transactio
         });
 
 ```
-### 2.Missing Authorization code response
+### 2.Missing Authorization code response-Merchant Payment
 
 ```
 
