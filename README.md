@@ -80,15 +80,18 @@ A library that fully covers payment process inside your Android application
        7. [Retrieve a Missing API Response](#missing-response-p2p)
      5. [Recurring Payments](#recurring-payments) 
         1. [Setup a Recurring Payment](#recurring-setup)
-        2. [Take a Recurring Payment](#p2p-switch)
-        3. [Take a Recurring Payment using the Polling Method]
-        4. [Recurring Payment Refund]
-        5. [Recurring Payment Reversal]
-        6. [Payer sets up a Recurring Payment using MMP Channel]
-        7. [Obtain a Service Provider Balance](#p2p-pay-balance)
-        8. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
-        9. [Check for Service Availability](#check-for-service-p2p)
-        10. [Retrieve a Missing API Response](#missing-response)
+        2. [Take a Recurring Payment](#recurring-take)
+              * [Create Account Debit Mandate](#recurring-mandate)
+              * [View Account Debit Mandate](#recurring-view-debit)
+              * [Perform Merchant Transaction using Debit Mandate](#recurring-merchant)
+        4. [Take a Recurring Payment using the Polling Method]
+        5. [Recurring Payment Refund]
+        6. [Recurring Payment Reversal]
+        7. [Payer sets up a Recurring Payment using MMP Channel]
+        8. [Obtain a Service Provider Balance](#p2p-pay-balance)
+        9. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
+        10. [Check for Service Availability](#check-for-service-p2p)
+        11. [Retrieve a Missing API Response](#missing-response)
            
   5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  
@@ -2101,11 +2104,11 @@ SDKManager.p2pTransfer.viewTransactionResponse(correlationId, new TransactionInt
 
 In this use case the setup for the recurring payment is done using debit mandate,The service provider initiates the request which is authorised by the account holding customer. 
 
- * Create Debit Mandate 
+ * Create Account Debit Mandate 
 
 <a name="recurring-mandate">
    
-# Create Debit Mandate 
+# Create Account Debit Mandate 
    
 ```
     private String serverCorrelationId;
@@ -2144,4 +2147,46 @@ In this use case the setup for the recurring payment is done using debit mandate
             }
         });
    
+```
+<a name="recurring-take"></a>
+   
+ # Take a Recurring Payment
+   
+   Perform a recurring payment consist of following scenarios 
+   
+ * Create Account Debit Mandate
+ * View Account Debit Mandate
+ * Perform Merchant Transaction using Debit Mandate
+
+ <a name="recurring-view-debit"></a>
+   
+## View Account Debit Mandate
+   
+```
+private String debitMandateReference; 
 ```   
+   
+ ```
+     SDKManager.recurringPayment.viewAccountDebitMandate(identifierArrayList, transactionRef, new DebitMandateInterface() {
+            @Override
+            public void onDebitMandateSuccess(DebitMandate debitMandate) {
+                debitMandateReference=debitMandate.getMandateReference();
+            }
+
+            @Override
+            public void onDebitMandateFailure(GSMAError gsmaError) {
+       
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+        });
+
+   
+   
+ ```   
+
+   
+   
