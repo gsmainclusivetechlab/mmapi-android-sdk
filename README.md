@@ -85,13 +85,16 @@ A library that fully covers payment process inside your Android application
               * [View Account Debit Mandate](#recurring-view-debit)
               * [Perform Merchant Transaction using Debit Mandate](#recurring-merchant)
         4. [Take a Recurring Payment using the Polling Method]
-        5. [Recurring Payment Refund]
-        6. [Recurring Payment Reversal]
-        7. [Payer sets up a Recurring Payment using MMP Channel]
-        8. [Obtain a Service Provider Balance](#p2p-pay-balance)
-        9. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
-        10. [Check for Service Availability](#check-for-service-p2p)
-        11. [Retrieve a Missing API Response](#missing-response)
+              * [Perform Merchant Transaction using Debit Mandate](#payee-merchant-pay-recurring)
+              * [Poll to Determine the Request State](#request-state-recurring)
+              * [Retrieve a Transaction](#view-transaction-recurring)
+        6. [Recurring Payment Refund]
+        7. [Recurring Payment Reversal]
+        8. [Payer sets up a Recurring Payment using MMP Channel]
+        9. [Obtain a Service Provider Balance](#p2p-pay-balance)
+        10. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
+        11. [Check for Service Availability](#check-for-service-p2p)
+        12. [Retrieve a Missing API Response](#missing-response)
            
   5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  
@@ -2187,6 +2190,66 @@ private String debitMandateReference;
    
    
  ```   
+## Perform Merchant Transaction using Debit Mandate
 
+```
+   private TransactionRequest transactionRequest;
+   
+```   
+   
+   
+```
+    private void createTransactionObject(){
+        transactionRequest=new TransactionRequest();
+        transactionRequest.setAmount("200");
+        transactionRequest = new TransactionRequest();
+
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("mandatereference");
+        debitPartyItem.setValue(debitMandateReference);
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("2999");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("200.00");
+        transactionRequest.setCurrency("RWF");
+
+        initiateMerchantPayment();
+   }
+   
+ ```
+   
+ ```  
+   private void initiateMerchantPayment(){
+        SDKManager.recurringPayment.createMerchantTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+         
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+
+        });
+    }
+   
+ ```  
+   
+      
    
    
