@@ -84,12 +84,12 @@ A library that fully covers payment process inside your Android application
               * [Create Account Debit Mandate](#recurring-mandate)
               * [View Account Debit Mandate](#recurring-view-debit)
               * [Perform Merchant Transaction using Debit Mandate](#recurring-merchant)
-        4. [Take a Recurring Payment using the Polling Method](#recurring-take)
+        4. [Take a Recurring Payment using the Polling Method](#take-recurring)
               * [Perform Merchant Transaction using Debit Mandate](#recurring-merchant)
               * [Poll to Determine the Request State](#request-state-recurring)
               * [Retrieve a Transaction](#view-transaction-recurring)
-        6. [Recurring Payment Refund]
-        7. [Recurring Payment Reversal]
+        6. [Recurring Payment Refund](#recurring-pay-refund)
+        7. [Recurring Payment Reversal](#recurring-pay-reversal)
         8. [Payer sets up a Recurring Payment using MMP Channel]
         9. [Obtain a Service Provider Balance](#p2p-pay-balance)
         10. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
@@ -2190,7 +2190,7 @@ private String debitMandateReference;
    
    
  ```
-< a name="recurring-merchant"></a>
+<a name="recurring-merchant"></a>
    
 ## Perform Merchant Transaction using Debit Mandate
 
@@ -2251,23 +2251,21 @@ private String debitMandateReference;
     }
    
  ```  
-   
-   # Take a Recurring Payment using the Polling Method
+   <a name="take-recurring"></a>
+# Take a Recurring Payment using the Polling Method
    
  The following are usecase scenario for polling method
    
  * Perform Merchant Transaction using Debit Mandate
  * Poll to Determine the Request State 
  * Retrieve a Transaction 
+  
+  <a name="request-state-recurring"></a>
+
+  ### Poll to Determine the Request State
    
-   
-   <a name="request-state-recurring"></a>
-   
-   ### Poll to Determine the Request State
-   
-   ````
- 
-    SDKManager.recurringPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+ ````
+   SDKManager.recurringPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
@@ -2284,10 +2282,11 @@ private String debitMandateReference;
             }
 
         });
-  
-  ````
-  <a name="view-transaction-recurring"></a>
+  ````   
+ 
    
+  <a name="view-transaction-recurring"></a>
+
   ### Retrieve a Transaction
 
   ```
@@ -2309,8 +2308,102 @@ private String debitMandateReference;
 
         });
    
+   ```   
+   <a name="recurring-pay-refund"></a>
    
-  ```   
-      
-   
-   
+# Recurring Payment Refund
+
+Merchants can issue a refund to payers. Create transcation object for refund
+
+```
+private TransactionRequest transactionRequest;
+private String serverCorrelationId="";
+
+```
+
+```
+private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("Place your account id of debit party here");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("Place your account id of credt party here");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("Place your amount"); //eg:200.00
+        transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
+
+}
+```
+Create a refund request with transaction parameter
+
+```
+
+ SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            serverCorrelationId = requestStateObject.getServerCorrelationId();
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+               
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+              
+            }
+        });
+
+```
+<a name="recurring-pay-reversal"></a>
+
+# Recurring Payment Reversal
+
+In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
+
+Declare the revesal object
+
+```
+private ReversalObject reversalObject;
+```
+
+```
+private void createPaymentReversalObject() {
+        reversalObject = new ReversalObject();
+        reversalObject.setReversal("reversal");
+ }
+```
+Call the reversal function with reversal and reference Id of transaction obtained using the polling method
+
+```
+
+  SDKManager.recurringPayment.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                      serverCorrelationId = requestStateObject.getServerCorrelationId();
+
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+        });
+
+```
