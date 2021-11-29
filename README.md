@@ -84,8 +84,8 @@ A library that fully covers payment process inside your Android application
               * [Create Account Debit Mandate](#recurring-mandate)
               * [View Account Debit Mandate](#recurring-view-debit)
               * [Perform Merchant Transaction using Debit Mandate](#recurring-merchant)
-        4. [Take a Recurring Payment using the Polling Method]
-              * [Perform Merchant Transaction using Debit Mandate](#payee-merchant-pay-recurring)
+        4. [Take a Recurring Payment using the Polling Method](#recurring-take)
+              * [Perform Merchant Transaction using Debit Mandate](#recurring-merchant)
               * [Poll to Determine the Request State](#request-state-recurring)
               * [Retrieve a Transaction](#view-transaction-recurring)
         6. [Recurring Payment Refund]
@@ -2189,7 +2189,9 @@ private String debitMandateReference;
 
    
    
- ```   
+ ```
+< a name="recurring-merchant"></a>
+   
 ## Perform Merchant Transaction using Debit Mandate
 
 ```
@@ -2250,6 +2252,65 @@ private String debitMandateReference;
    
  ```  
    
+   # Take a Recurring Payment using the Polling Method
+   
+ The following are usecase scenario for polling method
+   
+ * Perform Merchant Transaction using Debit Mandate
+ * Poll to Determine the Request State 
+ * Retrieve a Transaction 
+   
+   
+   <a name="request-state-recurring"></a>
+   
+   ### Poll to Determine the Request State
+   
+   ````
+ 
+    SDKManager.recurringPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+                 transactionRef = requestStateObject.getObjectReference();
+      
+            }
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+
+            }
+
+        });
+  
+  ````
+  <a name="view-transaction-recurring"></a>
+   
+  ### Retrieve a Transaction
+
+  ```
+     SDKManager.recurringPayment.viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+    
+            }
+
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
+         
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+   
+            }
+
+        });
+   
+   
+  ```   
       
    
    
