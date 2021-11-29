@@ -90,11 +90,11 @@ A library that fully covers payment process inside your Android application
               * [Retrieve a Transaction](#view-transaction-recurring)
         6. [Recurring Payment Refund](#recurring-pay-refund)
         7. [Recurring Payment Reversal](#recurring-pay-reversal)
-        8. [Payer sets up a Recurring Payment using MMP Channel](recurring-setup)
-        9.  [Obtain a Service Provider Balance](#p2p-pay-balance)
-        10. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
-        11. [Check for Service Availability](#check-for-service-p2p)
-        12. [Retrieve a Missing API Response](#missing-response)
+        8. [Payer sets up a Recurring Payment using MMP Channel](#recurring-setup)
+        9.  [Obtain a Service Provider Balance](#recurring-pay-balance)
+        10. [Retrieve Transactions for an FSP](#recurring-pay-retrieve)
+        11. [Check for Service Availability](#check-for-service-recurring)
+        12. [Retrieve a Missing API Response](#missing-response-recurring)
            
   5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
  
@@ -2407,3 +2407,140 @@ Call the reversal function with reversal and reference Id of transaction obtaine
         });
 
 ```
+<a name="recurring-pay-balance"></a>
+
+# Payment Balance-Recurring Payment
+
+Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
+
+```
+    private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.disbursement.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onBalanceSuccess(Balance balance, String correlationID) {
+       
+            }
+
+            @Override
+            public void onBalanceFailure(GSMAError gsmaError) {
+              
+            }
+        });
+
+```
+<a name="recurring-pay-retrieve"></a>
+
+# Retrieve Payments-Recurring Payment
+
+Merchant can retrieve all transaction details
+
+```
+   private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.recurringPayment.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+            
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+           
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+         
+            }
+        });
+ 
+ 
+ 
+
+```
+<a name="check-for-service-recurring"></a>
+
+# Check for Service Availability-Recurring Payments
+
+The application should perform service availabilty check before calling the payment scenarios
+
+    private void checkServiceAvailability() {
+        SDKManager.recurringPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+
+            @Override
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+          
+            }
+
+            @Override
+            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
+              
+            }
+        });
+     }
+
+<a name="missing-response-recurring"></a>
+   
+# Retrieve a Missing API Response-Recurring Payments
+
+Merchant to retrieve a link to the final representation of the resource for which it attempted to create. Use this API when a callback is not received from the mobile money provider.
+
+## 1.Missing Transaction Response
+
+```
+SDKManager.recurringPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+              
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+   
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+
+        });
+
+```
+   
+   
