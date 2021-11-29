@@ -58,7 +58,7 @@ public interface APIService {
      *
      * @return the call
      */
-    @GET("{version}heartbeat")
+    @GET("{version}/heartbeat")
     Call<ServiceAvailability> checkServiceAvailability(@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
 

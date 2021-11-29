@@ -39,7 +39,7 @@ final class APIConstants {
     /**
      * The Base url version with O Auth.
      */
-    static final String URL_VER_OAUTH = "2/oauth/simulator/v1.2/mm/";
+    static final String URL_VER_OAUTH = "2/oauth/simulator/v1.2/mm";
     /**
      * The Base url version for token.
      */
