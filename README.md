@@ -90,8 +90,8 @@ A library that fully covers payment process inside your Android application
               * [Retrieve a Transaction](#view-transaction-recurring)
         6. [Recurring Payment Refund](#recurring-pay-refund)
         7. [Recurring Payment Reversal](#recurring-pay-reversal)
-        8. [Payer sets up a Recurring Payment using MMP Channel]
-        9. [Obtain a Service Provider Balance](#p2p-pay-balance)
+        8. [Payer sets up a Recurring Payment using MMP Channel](recurring-setup)
+        9.  [Obtain a Service Provider Balance](#p2p-pay-balance)
         10. [Retrieve Transactions for an FSP](#p2p-pay-retrieve)
         11. [Check for Service Availability](#check-for-service-p2p)
         12. [Retrieve a Missing API Response](#missing-response)
