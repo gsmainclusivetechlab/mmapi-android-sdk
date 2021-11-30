@@ -95,7 +95,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Merchant Payment Refund](#refund)
 * [Merchant Payment Reversal](#reversal)
 * [Obtain a Merchant Balance](#balance)
-* Retrieve Payments for a Merchant
+* [Retrieve Payments for a Merchant](#retrieve-payments)
 * Check for Service Availability
 * Retrieve a Missing API Response
 
@@ -348,5 +348,81 @@ The balance scenario can be completed by using following methods
  }
 
 ```
+<a name="retrieve-payment"></a>
+
+
+# Retrieve a set of transaction
+
+The retrieve Transaction can be completed by clicking following button
+
+ * Retrieve transaction
+
+ {
+ 	"Transaction": [{
+ 		"amount": "200.00",
+ 		"creationDate": "2021-04-10T09:58:12",
+ 		"creditParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"currency": "RWF",
+ 		"debitParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"modificationDate": "2021-04-10T09:58:12",
+ 		"requestDate": "2021-04-10T09:58:12",
+ 		"transactionReference": "REF-1618045092324",
+ 		"transactionStatus": "pending",
+ 		"type": "merchantpay"
+ 	}, {
+ 		"amount": "200.00",
+ 		"creationDate": "2021-04-10T09:58:35",
+ 		"creditParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"currency": "RWF",
+ 		"debitParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"modificationDate": "2021-04-10T09:58:35",
+ 		"requestDate": "2021-04-10T09:58:35",
+ 		"transactionReference": "REF-1618045115056",
+ 		"transactionStatus": "pending",
+ 		"type": "merchantpay"
+ 	}]
+ }
+
+
+
+
+
+
 
 
