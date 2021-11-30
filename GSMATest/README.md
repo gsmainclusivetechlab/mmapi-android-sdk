@@ -90,6 +90,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 * [Payee-Initiated Merchant Payment](#payee-intiated)
 * Payee-Initiated Merchant Payment using the Polling Method
+* [Payer-Initiated Merchant Payment](#payee-intiated)
 * Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
 * Merchant Payment Refund
 * Merchant Payment Reversal
@@ -104,12 +105,13 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
  
  In this scenario the payer/payee can intiate a payment request,Click on the following buttons in test app to perform merchant payment
  
- *Payee Intiated
+ * Payee Intiated
  
- The expected output of this operation is given below
+ The expected output of this request is given below
  
- ### Expected output
- 
+ ### Example Output - Polling
+
+```
  {
 	"notificationMethod": "polling",
 	"objectReference": "15596",
@@ -117,11 +119,15 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
 	"status": "pending"
 }
+```
+
+### Example Output - Callback
  
 In the test app default notification method is polling and you can change notification methods from the sample code to callback if needed
 
 The sample output if the notification method is callback 
 
+```
  {
 	"notificationMethod": "callback",
 	"objectReference": "15596",
@@ -129,14 +135,76 @@ The sample output if the notification method is callback
 	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
 	"status": "pending"
 }
-
+```
 # Payee-Initiated Merchant Payment using the Polling Method
 
-The polling scenario can be completed using buttons of sample app
+The polling scenario can be completed by clicking following buttons of sample app in sequentical order
 
-* *Payee Intiated
+* Payee Intiated
+* Request State
+* View Transaction
+
 
  
+ ### Example Output - Payee Intiated
+
+```
+ {
+	"notificationMethod": "polling",
+	"objectReference": "15596",
+	"pollLimit": 100,
+	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
+	"status": "pending"
+}
+```
+ The serverCorrelationId is obtained from the result of payee intiated request,This serverCorrelationId is passed to request state function to view the request state of a transaction  
+
+ 
+ ### Example Output - Request State
+
+```
+{
+	"notificationMethod": "polling",
+	"objectReference": "REF-1638274655726",
+	"pollLimit": 100,
+	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
+	"status": "completed"
+}
+
+```
+The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
+
+ ### Example Output - View Transaction
+ 
+ ```
+ 
+ {
+	"transactionReference": "REF-1638275835490",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+ 
+ ```
+
+
+
+
  
  
  
