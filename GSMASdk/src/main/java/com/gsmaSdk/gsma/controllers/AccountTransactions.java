@@ -33,7 +33,7 @@ public class AccountTransactions {
             GSMAApi.getInstance().retrieveTransaction(uuid, Utils.getIdentifiers(identifierArrayList), offset, limit, new APIRequestCallback<Transaction>() {
                         @Override
                         public void onSuccess(int responseCode, Transaction serializedResponse) {
-                            retrieveTransactionInterface.onRetrieveTransactionSuccess(serializedResponse, uuid);
+                            retrieveTransactionInterface.onRetrieveTransactionSuccess(serializedResponse);
                         }
 
                         @Override

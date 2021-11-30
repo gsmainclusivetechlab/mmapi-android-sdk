@@ -30,10 +30,11 @@ public class TransferTransaction {
             requestStateInterface.onValidationError(Utils.setError(5));
         } else {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "transfer", transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
                         }
 
                         @Override

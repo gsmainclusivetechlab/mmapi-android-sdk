@@ -166,10 +166,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(serviceAvailability));
-                correlationId = correlationID;
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
@@ -259,10 +258,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         showLoading();
         SDKManager.recurringPayment.createAccountDebitMandate(NotificationMethod.POLLING, "", identifierArrayList, debitMandateRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRecurringPaymentSuccess: " + new Gson().toJson(requestStateObject));
@@ -282,6 +280,13 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
 
     }
@@ -324,11 +329,10 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(requestStateObject).toString());
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                correlationId = correlationID;
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
@@ -339,6 +343,12 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
             }
 
         });
@@ -357,10 +367,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
@@ -371,6 +380,12 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
             }
 
         });
@@ -418,8 +433,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
-                correlationId = correlationID;
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -451,13 +465,12 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         showLoading();
         SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
             }
 
             @Override
@@ -474,6 +487,13 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -484,12 +504,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         showLoading();
         SDKManager.recurringPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
             }
 
@@ -508,6 +527,13 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -526,7 +552,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onBalanceSuccess(Balance balance, String correlationID) {
+            public void onBalanceSuccess(Balance balance) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(balance).toString());
@@ -557,11 +583,10 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
@@ -582,7 +607,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         showLoading();
         SDKManager.recurringPayment.viewTransactionResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onMissingResponseSuccess(MissingResponse missingResponse, String correlationId) {
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(missingResponse));
@@ -604,7 +629,5 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
-
-
     }
 }

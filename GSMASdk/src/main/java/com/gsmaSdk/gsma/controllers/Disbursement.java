@@ -1,7 +1,5 @@
 package com.gsmaSdk.gsma.controllers;
 
-import androidx.annotation.NonNull;
-
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.BatchCompletionInterface;
 import com.gsmaSdk.gsma.interfaces.BatchRejectionInterface;
@@ -24,8 +22,10 @@ import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+
 @SuppressWarnings("ALL")
-public class Disbursement extends Common{
+public class Disbursement extends Common {
 
     /**
      * Initiate Payment Disbursement - Initiate disbursement transaction
@@ -46,10 +46,11 @@ public class Disbursement extends Common{
             requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "disbursement", transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
                         }
 
                         @Override
@@ -78,10 +79,11 @@ public class Disbursement extends Common{
             requestStateInterface.onValidationError(Utils.setError(5));
         } else {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().bulkTransaction(uuid, notificationMethod, callbackUrl, bulkTransactionObject, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
                         }
 
                         @Override
@@ -113,7 +115,7 @@ public class Disbursement extends Common{
                 @Override
                 public void onSuccess(int responseCode, BatchTransactionRejection serializedResponse) {
 
-                    batchRejectionInterface.batchTransactionRejections(serializedResponse, uuid);
+                    batchRejectionInterface.batchTransactionRejections(serializedResponse);
                 }
 
                 @Override
@@ -144,7 +146,7 @@ public class Disbursement extends Common{
 
                 @Override
                 public void onSuccess(int responseCode, BatchTransactionCompletion serializedResponse) {
-                    batchCompletionInterface.batchTransactionCompleted(serializedResponse, uuid);
+                    batchCompletionInterface.batchTransactionCompleted(serializedResponse);
                 }
 
                 @Override
@@ -176,10 +178,11 @@ public class Disbursement extends Common{
             requestStateInterface.onValidationError(Utils.setError(1));
         } else {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().updateBatch(uuid, notificationMethod, callbackUrl, batchId, batchArrayList, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
                         }
 
                         @Override
@@ -213,7 +216,7 @@ public class Disbursement extends Common{
             GSMAApi.getInstance().retrieveBatch(uuid, batchId, new APIRequestCallback<BatchTransactionItem>() {
                         @Override
                         public void onSuccess(int responseCode, BatchTransactionItem serializedResponse) {
-                            batchTransactionItemInterface.batchTransactionSuccess(serializedResponse, uuid);
+                            batchTransactionItemInterface.batchTransactionSuccess(serializedResponse);
                         }
 
                         @Override
@@ -236,7 +239,7 @@ public class Disbursement extends Common{
      * @param reversal           Reversal Object containing the type of the transaction
      */
     public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
-        ReversalTransaction.getInstance().createReversal(notificationMethod,callbackUrl,referenceId,reversal,requestStateInterface);
+        ReversalTransaction.getInstance().createReversal(notificationMethod, callbackUrl, referenceId, reversal, requestStateInterface);
 
     }
 
@@ -248,7 +251,7 @@ public class Disbursement extends Common{
      * @param limit               limit set for receiving records per request
      */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
+        AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList, offset, limit, retrieveTransactionInterface);
 
     }
 
@@ -259,11 +262,9 @@ public class Disbursement extends Common{
      */
 
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        AccountBalance.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
+        AccountBalance.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
 
     }
-
-
 
 
 }

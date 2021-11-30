@@ -221,10 +221,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(serviceAvailability));
-                correlationId = correlationID;
                 Utils.showToast(DisbursementActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
@@ -253,8 +252,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
-                correlationId = correlationID;
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -344,11 +342,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
@@ -359,6 +355,12 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
             }
 
         });
@@ -376,10 +378,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
@@ -392,6 +393,12 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
             }
 
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -400,12 +407,11 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         showLoading();
         SDKManager.disbursement.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
             }
 
@@ -422,6 +428,13 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -437,11 +450,10 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
@@ -466,10 +478,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                correlationId = correlationID;
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
@@ -480,6 +491,12 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
             }
 
         });
@@ -497,10 +514,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void batchTransactionRejections(BatchTransactionRejection batchTransactionRejection, String correlationID) {
+            public void batchTransactionRejections(BatchTransactionRejection batchTransactionRejection) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(batchTransactionRejection));
                 Log.d(SUCCESS, "batchTransactionRejections: " + new Gson().toJson(batchTransactionRejection));
             }
@@ -526,10 +542,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onBalanceSuccess(Balance balance, String correlationID) {
+            public void onBalanceSuccess(Balance balance) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(balance));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
@@ -556,10 +571,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion, String correlationID) {
+            public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(batchTransactionCompletion));
                 Log.d(SUCCESS, "batchTransactionCompleted: " + new Gson().toJson(batchTransactionCompletion));
             }
@@ -585,10 +599,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                correlationId = correlationID;
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
@@ -601,6 +614,12 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
             }
 
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -609,11 +628,9 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         showLoading();
         SDKManager.disbursement.viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
             @Override
-            public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem, String correlationID) {
+            public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                correlationId = correlationID;
-
                 txtResponse.setText(new Gson().toJson(batchTransactionItem));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(batchTransactionItem));
             }
@@ -644,7 +661,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
         SDKManager.disbursement.viewTransactionResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onMissingResponseSuccess(MissingResponse missingResponse, String correlationId) {
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(missingResponse));
@@ -666,7 +683,6 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
-
 
     }
 }

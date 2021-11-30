@@ -164,7 +164,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
         SDKManager.p2PTransfer.viewTransactionResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onMissingResponseSuccess(MissingResponse missingResponse, String correlationId) {
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(missingResponse));
@@ -202,11 +202,10 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
@@ -335,9 +334,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         showLoading();
         SDKManager.p2PTransfer.viewAccountName(identifierArrayList, new AccountHolderInterface() {
             @Override
-            public void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject, String correlationID) {
+            public void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject) {
                 hideLoading();
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(accountHolderObject));
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 Log.d(SUCCESS, "onRetrieveAccountInfoSuccess: " + new Gson().toJson(accountHolderObject));
@@ -370,10 +368,9 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         showLoading();
         SDKManager.p2PTransfer.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                correlationId = correlationID;
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
@@ -393,6 +390,13 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -410,10 +414,9 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
             @SuppressWarnings("unused")
             @Override
-            public void onBalanceSuccess(Balance balance, String correlationID) {
+            public void onBalanceSuccess(Balance balance) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(balance));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
@@ -434,12 +437,11 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         showLoading();
         SDKManager.p2PTransfer.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
 
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
             }
 
@@ -456,6 +458,13 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -474,8 +483,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
-                correlationId = correlationID;
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -505,10 +513,9 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
@@ -521,6 +528,12 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
             }
 
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -529,9 +542,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         showLoading();
         SDKManager.p2PTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
                 hideLoading();
-                correlationId = correlationID;
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess " + new Gson().toJson(transactionObject));
@@ -558,8 +570,6 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     private void createAccountIdentifier() {
 
         identifierArrayList = new ArrayList<>();
-    
-//
 
         //account id
         Identifier identifierAccount = new Identifier();
@@ -579,11 +589,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 //        identifierWallet.setKey("walletid");
 //        identifierWallet.setValue("3355544");
 //        identifierArrayList.add(identifierWallet);
-////
-
 
     }
-
 
     /**
      * Create Payment Reversal Object.
@@ -592,7 +599,6 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         reversalObject = new ReversalObject();
         reversalObject.setReversal("reversal");
     }
-
 
     /**
      * Method for checking Service Availability.
@@ -608,10 +614,9 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(serviceAvailability));
-                correlationId = correlationID;
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
@@ -631,10 +636,9 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
         SDKManager.p2PTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                correlationId = correlationID;
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
@@ -655,6 +659,13 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 

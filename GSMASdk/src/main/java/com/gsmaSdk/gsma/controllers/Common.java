@@ -30,7 +30,7 @@ public class Common {
             GSMAApi.getInstance().checkServiceAvailability(uuid, new APIRequestCallback<ServiceAvailability>() {
                         @Override
                         public void onSuccess(int responseCode, ServiceAvailability serializedResponse) {
-                            serviceAvailabilityInterface.onServiceAvailabilitySuccess(serializedResponse, uuid);
+                            serviceAvailabilityInterface.onServiceAvailabilitySuccess(serializedResponse);
                         }
 
                         @Override
@@ -67,7 +67,7 @@ public class Common {
             GSMAApi.getInstance().viewTransaction(uuid, transactionReference, new APIRequestCallback<TransactionRequest>() {
                         @Override
                         public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
-                            transactionInterface.onTransactionSuccess(serializedResponse, uuid);
+                            transactionInterface.onTransactionSuccess(serializedResponse);
                         }
 
                         @Override
@@ -99,10 +99,11 @@ public class Common {
             requestStateInterface.onValidationError(Utils.setError(2));
         } else {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().viewRequestState(uuid, serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
                         }
 
                         @Override
@@ -141,7 +142,7 @@ public class Common {
                             GSMAApi.getInstance().getMissingTransactions(serializedResponse.getLink(), new APIRequestCallback<MissingResponse>() {
                                 @Override
                                 public void onSuccess(int responseCode, MissingResponse serializedResponse) {
-                                    missingTransactionInterface.onMissingResponseSuccess(serializedResponse,uuid);
+                                    missingTransactionInterface.onMissingResponseSuccess(serializedResponse);
                                 }
 
                                 @Override

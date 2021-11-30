@@ -37,10 +37,11 @@ public class AuthorisationCode {
             requestStateInterface.onValidationError(Utils.setError(1));
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().obtainAuthorisationCode(uuid, notificationMethod, callbackUrl, Utils.getIdentifiers(identifierArrayList), codeRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
                         }
 
                         @Override
@@ -84,7 +85,7 @@ public class AuthorisationCode {
                             GSMAApi.getInstance().getMissingCodes(serializedResponse.getLink(), new APIRequestCallback<com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode>() {
                                 @Override
                                 public void onSuccess(int responseCode, com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode serializedResponse) {
-                                    authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse, uuid);
+                                    authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse);
                                 }
 
                                 @Override
@@ -129,7 +130,7 @@ public class AuthorisationCode {
             GSMAApi.getInstance().viewAuthorizationCode(uuid, Utils.getIdentifiers(identifierArrayList), authorisationCode, new APIRequestCallback<AuthorisationCodeItem>() {
                         @Override
                         public void onSuccess(int responseCode, AuthorisationCodeItem serializedResponse) {
-                            authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse, uuid);
+                            authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse);
                         }
 
                         @Override

@@ -5,7 +5,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 
 public interface MissingResponseInterface  extends BaseInterface{
 
-    void onMissingResponseSuccess(MissingResponse missingResponse, String correlationId);
+    void onMissingResponseSuccess(MissingResponse missingResponse);
 
     void onMissingResponseFailure(GSMAError gsmaError);
 

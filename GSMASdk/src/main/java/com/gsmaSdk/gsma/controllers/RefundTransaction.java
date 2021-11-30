@@ -30,10 +30,11 @@ public class RefundTransaction {
             return;
         } else {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().refund(uuid, notificationMethod, callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
                 @Override
                 public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                    requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                    requestStateInterface.onRequestStateSuccess(serializedResponse);
                 }
 
                 @Override
