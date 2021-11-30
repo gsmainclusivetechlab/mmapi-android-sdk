@@ -92,8 +92,8 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Payee-Initiated Merchant Payment using the Polling Method](#payee-intiated-polling)
 * [Payer-Initiated Merchant Payment](#payee-intiated)
 * [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#auth-code)
-* Merchant Payment Refund
-* Merchant Payment Reversal
+* [Merchant Payment Refund](#refund)
+* [Merchant Payment Reversal](#reversal)
 * Obtain a Merchant Balance
 * Retrieve Payments for a Merchant
 * Check for Service Availability
@@ -283,9 +283,50 @@ The objecReference is passed as a paramter to view auth code function to retriev
 
 ```
 
+<a name-"refund"></a>
 
+# Payment Refund
+
+ The refund scenario  can be completed by using following buttons
  
+ * Refund
+
+### Example Output - Refund
+
+
+```json
+{
+	"notificationMethod": "polling",
+	"objectReference": "15621",
+	"pollLimit": 100,
+	"serverCorrelationId": "4c9313cf-185a-4335-87ae-feced48f1ee2",
+	"status": "pending"
+}
+
+```
+
+<a name="reversal"></a>
+
+# Payment Reversal
+
+ The reversal scenario  can be completed by using following buttons
  
+  * Refund
+
+### Example Output - Reversal
+
+
+```json
+
+{
+	"notificationMethod": "polling",
+	"objectReference": "4572",
+	"pollLimit": 100,
+	"serverCorrelationId": "ca3eb926-5b8c-4d11-b184-06782408208e",
+	"status": "pending"
+}
+
+```
  
 
 
