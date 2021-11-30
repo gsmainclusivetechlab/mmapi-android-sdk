@@ -10,6 +10,7 @@ import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
 
+@SuppressWarnings("ConstantConditions")
 public class TransferTransaction {
 
 
@@ -20,7 +21,7 @@ public class TransferTransaction {
      * @param requestStateInterface callback for request state object
      */
 
-    public void createTransferTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createTransferTransaction(@SuppressWarnings("rawtypes") @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;

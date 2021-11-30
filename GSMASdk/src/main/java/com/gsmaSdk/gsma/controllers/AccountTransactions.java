@@ -12,6 +12,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
+
 public class AccountTransactions {
 
     /**
@@ -22,13 +23,11 @@ public class AccountTransactions {
      * @param limit               limit set for receiving records per request
      */
 
-    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+    public void viewAccountTransactions(ArrayList<Identifier> identifierArrayList, int offset, int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
         if (!Utils.isOnline()) {
             retrieveTransactionInterface.onValidationError(Utils.setError(0));
-            return;
         } else if (identifierArrayList == null) {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
-            return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveTransaction(uuid, Utils.getIdentifiers(identifierArrayList), offset, limit, new APIRequestCallback<Transaction>() {

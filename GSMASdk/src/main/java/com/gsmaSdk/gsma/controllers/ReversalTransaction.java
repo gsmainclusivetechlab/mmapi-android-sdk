@@ -10,6 +10,7 @@ import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
 
+@SuppressWarnings("ALL")
 public class ReversalTransaction {
 
 
@@ -17,10 +18,11 @@ public class ReversalTransaction {
      * Reversal - provides transaction reversal
      *
      * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl        The server URl for recieving response of transaction
+     * @param callbackUrl        The server URl for receiving response of transaction
      * @param referenceId        Reference id of a previous transaction
      * @param reversal           Reversal Object containing the type of the transaction
      */
+
     public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));

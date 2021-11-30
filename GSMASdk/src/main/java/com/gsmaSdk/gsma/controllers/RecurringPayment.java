@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 
+@SuppressWarnings("ALL")
 public class RecurringPayment extends Common {
 
     /**

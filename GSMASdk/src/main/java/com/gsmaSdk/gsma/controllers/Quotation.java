@@ -11,6 +11,7 @@ import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
 
+@SuppressWarnings("ConstantConditions")
 public class Quotation {
 
 
@@ -23,6 +24,7 @@ public class Quotation {
      * @param transactionRequest    the request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
+    @SuppressWarnings("rawtypes")
     public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
@@ -31,7 +33,6 @@ public class Quotation {
 
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
-            return;
         } else if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().requestQuotation(uuid, notificationMethod, callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
@@ -65,7 +66,6 @@ public class Quotation {
         }
         if (quotationReference == null || quotationReference.isEmpty()) {
             transactionInterface.onValidationError(Utils.setError(10));
-            return;
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<TransactionRequest>() {

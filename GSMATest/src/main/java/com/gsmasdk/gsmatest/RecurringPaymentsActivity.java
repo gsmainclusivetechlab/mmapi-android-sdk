@@ -38,6 +38,7 @@ import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+@SuppressWarnings("ALL")
 public class RecurringPaymentsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 

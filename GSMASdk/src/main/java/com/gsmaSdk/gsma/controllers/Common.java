@@ -1,34 +1,20 @@
 package com.gsmaSdk.gsma.controllers;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 
-import com.gsmaSdk.gsma.enums.AuthenticationType;
-import com.gsmaSdk.gsma.interfaces.BalanceInterface;
-import com.gsmaSdk.gsma.interfaces.PaymentInitialiseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
-import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-import com.gsmaSdk.gsma.manager.PreferenceManager;
-import com.gsmaSdk.gsma.models.Identifier;
-import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.common.Token;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
-import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 import com.gsmaSdk.gsma.utils.Utils;
 
-import java.util.ArrayList;
-
+@SuppressWarnings("ConstantConditions")
 public class Common {
 
 

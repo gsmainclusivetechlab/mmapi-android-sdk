@@ -17,6 +17,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class InternationalTransfer extends Common {
 
 

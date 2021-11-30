@@ -17,6 +17,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ConstantConditions")
 public class AuthorisationCode {
 
 
@@ -26,6 +27,7 @@ public class AuthorisationCode {
      * @param identifierArrayList List of account identifiers of a user
      * @param codeRequest         An Object containing required details for getting the authorisation code
      */
+    @SuppressWarnings("rawtypes")
     public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
@@ -33,7 +35,6 @@ public class AuthorisationCode {
         }
         if (identifierArrayList == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
-            return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().obtainAuthorisationCode(uuid, notificationMethod, callbackUrl, Utils.getIdentifiers(identifierArrayList), codeRequest, new APIRequestCallback<RequestStateObject>() {
@@ -123,7 +124,6 @@ public class AuthorisationCode {
         }
         if (authorisationCode == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(9));
-            return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewAuthorizationCode(uuid, Utils.getIdentifiers(identifierArrayList), authorisationCode, new APIRequestCallback<AuthorisationCodeItem>() {

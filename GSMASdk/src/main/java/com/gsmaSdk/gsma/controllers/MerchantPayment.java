@@ -8,24 +8,18 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.models.Identifier;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
-import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.common.GetLink;
-import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
-import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
-import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
-import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class MerchantPayment extends Common{
 
 
     /**
-     * View Account Balance-Get the balance of a particular acccount
+     * View Account Balance-Get the balance of a particular account
      *
      * @param identifierArrayList - List of identifiers to identify a particular account
      */
@@ -77,7 +71,7 @@ public class MerchantPayment extends Common{
      * @param offset              offset required for pagination
      * @param limit               limit set for receiving records per request
      */
-    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, int offset, int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
        AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
 
     }

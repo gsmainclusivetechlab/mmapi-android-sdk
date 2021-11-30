@@ -10,6 +10,7 @@ import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
 
+@SuppressWarnings("ALL")
 public class RefundTransaction {
 
     /**
@@ -38,7 +39,6 @@ public class RefundTransaction {
                 @Override
                 public void onFailure(GSMAError errorDetails) {
                     requestStateInterface.onRequestStateFailure(errorDetails);
-                    ;
                 }
             });
         }

@@ -12,6 +12,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
+
 public class AccountName {
 
 
@@ -21,7 +22,7 @@ public class AccountName {
      * @param identifierArrayList account identifiers of the user
      */
 
-   public void viewAccountName(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
+   public void viewAccountName(ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
         if (!Utils.isOnline()) {
             accountHolderInterface.onValidationError(Utils.setError(0));
             return;
@@ -29,7 +30,6 @@ public class AccountName {
 
         if (identifierArrayList == null) {
             accountHolderInterface.onValidationError(Utils.setError(1));
-            return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewAccountName(uuid, Utils.getIdentifiers(identifierArrayList), new APIRequestCallback<AccountHolderObject>() {

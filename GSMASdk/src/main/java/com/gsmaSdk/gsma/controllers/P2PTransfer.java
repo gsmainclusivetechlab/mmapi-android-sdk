@@ -7,17 +7,13 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-import com.gsmaSdk.gsma.models.AccountHolderObject;
 import com.gsmaSdk.gsma.models.Identifier;
-import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
-import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
-import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
-import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class P2PTransfer extends Common{
 
     /**
@@ -69,7 +65,7 @@ public class P2PTransfer extends Common{
      * Reversal - provides transaction reversal
      *
      * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl        The server URl for recieving response of transaction
+     * @param callbackUrl        The server URl for receiving response of transaction
      * @param referenceId        Reference id of a previous transaction
      * @param reversal           Reversal Object containing the type of the transaction
      */
@@ -98,7 +94,7 @@ public class P2PTransfer extends Common{
      * @param offset              offset required for pagination
      * @param limit               limit set for receiving records per request
      */
-    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, int offset, int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
         AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
 
     }

@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.models.transaction.CustomDataItem;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
+@SuppressWarnings("ALL")
 public class DebitMandate extends BaseResponse {
 
     @SerializedName("payee")
