@@ -68,9 +68,9 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 2.The landing page will have list of all uses cases
 
-3.Click on merchant payment link and the app will redirect to merchant payment activity
+3.Click on use case link and the app will redirect to merchant payment activity
 
-4.The merchant payment activity contains all use cases of merchant payment
+4.The activity contains all scenarios for a particular use case
 
 5.Each uses cases can be tested using the link  provided in the test application
 
@@ -87,4 +87,59 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 
 # Merchant Payment
+
+* [Payee-Initiated Merchant Payment](#payee-intiated)
+* Payee-Initiated Merchant Payment using the Polling Method
+* Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
+* Merchant Payment Refund
+* Merchant Payment Reversal
+* Obtain a Merchant Balance
+* Retrieve Payments for a Merchant
+* Check for Service Availability
+* Retrieve a Missing API Response
+
+<a name="payee-intiated"></a>
+
+# Payee/Payer intiated Merchant Payment
+ 
+ In this scenario the payer/payee can intiate a payment request,Click on the following buttons in test app to perform merchant payment
+ 
+ *Payee Intiated
+ 
+ The expected output of this operation is given below
+ 
+ ### Expected output
+ 
+ {
+	"notificationMethod": "polling",
+	"objectReference": "15596",
+	"pollLimit": 100,
+	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
+	"status": "pending"
+}
+ 
+In the test app default notification method is polling and you can change notification methods from the sample code to callback if needed
+
+The sample output if the notification method is callback 
+
+ {
+	"notificationMethod": "callback",
+	"objectReference": "15596",
+	"pollLimit": 100,
+	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
+	"status": "pending"
+}
+
+# Payee-Initiated Merchant Payment using the Polling Method
+
+The polling scenario can be completed using buttons of sample app
+
+* *Payee Intiated
+
+ 
+ 
+ 
+ 
+
+
 
