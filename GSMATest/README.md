@@ -348,15 +348,18 @@ The balance scenario can be completed by using following methods
  }
 
 ```
-<a name="retrieve-payment"></a>
+<a name="retrieve-payments"></a>
 
 
 # Retrieve a set of transaction
-
-The retrieve Transaction can be completed by clicking following button
-
+ 
+  The retrieve Transaction can be completed by clicking following button
+ 
  * Retrieve transaction
 
+### Example Output - Retrieve Transaction
+
+```
  {
  	"Transaction": [{
  		"amount": "200.00",
@@ -419,7 +422,7 @@ The retrieve Transaction can be completed by clicking following button
  	}]
  }
 
-
+```
 
 
 
