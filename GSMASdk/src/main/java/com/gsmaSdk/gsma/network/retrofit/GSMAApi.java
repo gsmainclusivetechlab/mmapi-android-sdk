@@ -10,6 +10,7 @@ import com.gsmaSdk.gsma.manager.PreferenceManager;
 
 import com.gsmaSdk.gsma.models.AccountHolderObject;
 import com.gsmaSdk.gsma.models.DebitMandate;
+import com.gsmaSdk.gsma.models.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
@@ -233,7 +234,7 @@ public final class GSMAApi {
      * @param link               url received from the response
      * @param apiRequestCallback Listener for api operation
      */
-    public void getMissingTransactions(String link, APIRequestCallback<TransactionRequest> apiRequestCallback) {
+    public void getMissingTransactions(String link, APIRequestCallback<MissingResponse> apiRequestCallback) {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingTransactions(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
 

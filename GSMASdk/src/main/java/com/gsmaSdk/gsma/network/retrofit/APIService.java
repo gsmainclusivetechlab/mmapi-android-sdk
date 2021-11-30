@@ -3,6 +3,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 
 import com.gsmaSdk.gsma.models.AccountHolderObject;
 import com.gsmaSdk.gsma.models.DebitMandate;
+import com.gsmaSdk.gsma.models.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -134,7 +135,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/{url}")
-    Call<TransactionRequest> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<MissingResponse> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
 
 

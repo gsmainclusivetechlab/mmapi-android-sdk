@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
@@ -20,6 +21,7 @@ import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.DebitMandate;
 import com.gsmaSdk.gsma.models.Identifier;
+import com.gsmaSdk.gsma.models.MissingResponse;
 import com.gsmaSdk.gsma.models.PayeeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
@@ -219,11 +221,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 break;
             case 2:
                 //Read a Debit Mandate
-                 viewDebitMandate();
+                viewDebitMandate();
                 break;
             case 3:
                 //Merchant Payment using Debit Mandate
-               createTransactionObject();
+                createTransactionObject();
                 break;
             case 4:
                 //View Transaction
@@ -284,8 +286,8 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
 
     }
 
-    private void createTransactionObject(){
-        transactionRequest=new TransactionRequest();
+    private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
         transactionRequest.setAmount("200");
         transactionRequest = new TransactionRequest();
 
@@ -311,9 +313,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
 
     }
 
-    private void initiateMerchantPayment(){
+    private void initiateMerchantPayment() {
         showLoading();
-        SDKManager.recurringPayment.createMerchantTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.recurringPayment.createMerchantTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -381,7 +383,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             public void onDebitMandateSuccess(DebitMandate debitMandate) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                debitMandateReference=debitMandate.getMandateReference();
+                debitMandateReference = debitMandate.getMandateReference();
                 txtResponse.setText(new Gson().toJson(debitMandate));
                 Log.d(SUCCESS, "onDebitMandateSuccess: " + new Gson().toJson(debitMandate));
             }
@@ -578,22 +580,21 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
      */
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.recurringPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
+        SDKManager.recurringPayment.viewTransactionResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+            public void onMissingResponseSuccess(MissingResponse missingResponse, String correlationId) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(transactionObject));
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionRequest.class));
+                txtResponse.setText(new Gson().toJson(missingResponse));
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
+            public void onMissingResponseFailure(GSMAError gsmaError) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
-
             }
 
             @Override
@@ -602,7 +603,8 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
-
         });
+
+
     }
 }

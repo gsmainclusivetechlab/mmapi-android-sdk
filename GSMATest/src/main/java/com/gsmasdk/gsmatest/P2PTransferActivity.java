@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 
@@ -23,6 +24,7 @@ import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.AccountHolderObject;
 import com.gsmaSdk.gsma.models.Identifier;
+import com.gsmaSdk.gsma.models.MissingResponse;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -159,33 +161,33 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Retrieve a missing Transaction
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.p2PTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
+
+        SDKManager.p2PTransfer.viewTransactionResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+            public void onMissingResponseSuccess(MissingResponse missingResponse, String correlationId) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(transactionObject));
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionRequest.class));
+                txtResponse.setText(new Gson().toJson(missingResponse));
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
+            public void onMissingResponseFailure(GSMAError gsmaError) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(P2PTransferActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
-
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
-
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
-
         });
+
+
     }
 
     //Retrieve Transaction for an FSP
