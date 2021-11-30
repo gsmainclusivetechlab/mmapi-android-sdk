@@ -205,9 +205,82 @@ The object reference obtained from the request state is passed to view transacti
  
  ```
 
-# [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code]
+<a name="auth-code"></a>
+
+# Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
+
+The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be completed by clicking the following buttons in sequential ordeer
+
+* Auth Code
+* Request State
+* View Auth Code
+* Payee Initiated
 
 
+
+ ### Example Output - Auth Code
+ ```
+ {
+	"notificationMethod": "callback",
+	"objectReference": "1839",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "pending"
+}
+
+ The serverCorrelationId is obtained from the result of payee intiated request,This serverCorrelationId is passed to request state function to view the request state of a transaction  
+```
+
+### Example Output - Request State
+
+```
+{
+	"notificationMethod": "polling",
+	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "completed"
+}
+
+```
+The objecReference is passed as a paramter to view auth code function to retrieve the authorisation code
+
+### Example Output - View Auth Code
+
+```
+ {
+ 	"amount": "200.00",
+ 	"authorisationCode": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+ 	"codeState": "active",
+ 	"creationDate": "2021-11-30T13:42:09",
+ 	"currency": "RWF",
+ 	"modificationDate": "2021-11-30T13:42:09",
+ 	"redemptionAccountIdentifiers": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	},{
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907483978"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637909732171"
+ 	}],
+ 	"requestDate": "2021-10-18T10:43:27"
+ }
+```
+
+### Example Output - Payee Initiated 
+
+```
+ {
+	"notificationMethod": "polling",
+	"objectReference": "15596",
+	"pollLimit": 100,
+	"serverCorrelationId":"3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "pending"
+}
+
+```
 
 
  
