@@ -111,7 +111,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
  
  ### Example Output - Polling
 
-```
+```json
  {
 	"notificationMethod": "polling",
 	"objectReference": "15596",
@@ -127,7 +127,7 @@ In the test app default notification method is polling and you can change notifi
 
 The sample output if the notification method is callback 
 
-```
+```json
  {
 	"notificationMethod": "callback",
 	"objectReference": "15596",
@@ -151,7 +151,7 @@ The polling scenario can be completed by clicking following buttons of sample ap
  
  ### Example Output - Payee Intiated
 
-```
+```json
  {
 	"notificationMethod": "polling",
 	"objectReference": "15596",
@@ -165,7 +165,7 @@ The polling scenario can be completed by clicking following buttons of sample ap
  
  ### Example Output - Request State
 
-```
+```json
 {
 	"notificationMethod": "polling",
 	"objectReference": "REF-1638274655726",
@@ -179,7 +179,7 @@ The object reference obtained from the request state is passed to view transacti
 
  ### Example Output - View Transaction
  
- ```
+ ```json
  
  {
 	"transactionReference": "REF-1638274655726",
@@ -219,7 +219,7 @@ The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be 
 
 
  ### Example Output - Auth Code
- ```
+ ```json
  {
 	"notificationMethod": "callback",
 	"objectReference": "1839",
@@ -228,12 +228,13 @@ The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be 
 	"status": "pending"
 }
 
- The serverCorrelationId is obtained from the result of payee intiated request,This serverCorrelationId is passed to request state function to view the request state of a transaction  
+ 
 ```
-
+ The serverCorrelationId is obtained from the result of payee intiated request,This serverCorrelationId is passed to request state function to view the request state of a   transaction 
+ 
 ### Example Output - Request State
 
-```
+```json
 {
 	"notificationMethod": "polling",
 	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
@@ -247,7 +248,7 @@ The objecReference is passed as a paramter to view auth code function to retriev
 
 ### Example Output - View Auth Code
 
-```
+```json
  {
  	"amount": "200.00",
  	"authorisationCode": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
@@ -271,7 +272,7 @@ The objecReference is passed as a paramter to view auth code function to retriev
 
 ### Example Output - Payee Initiated 
 
-```
+```json
  {
 	"notificationMethod": "polling",
 	"objectReference": "15596",
