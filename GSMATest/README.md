@@ -311,7 +311,7 @@ The objecReference is passed as a paramter to view auth code function to retriev
 
  The reversal scenario  can be completed by using following buttons
  
-  * Refund
+  * Reversal
 
 ### Example Output - Reversal
 
