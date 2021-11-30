@@ -162,7 +162,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     private void getMissingTransaction() {
         showLoading();
 
-        SDKManager.p2PTransfer.viewTransactionResponse(correlationId, new MissingResponseInterface() {
+        SDKManager.p2PTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();

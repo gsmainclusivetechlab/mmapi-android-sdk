@@ -594,7 +594,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
 
         showLoading();
 
-        SDKManager.merchantPayment.viewTransactionResponse(correlationId, new MissingResponseInterface() {
+        SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();

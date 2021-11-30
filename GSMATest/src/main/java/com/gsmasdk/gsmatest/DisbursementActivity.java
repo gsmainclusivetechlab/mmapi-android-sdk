@@ -659,7 +659,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
         showLoading();
 
-        SDKManager.disbursement.viewTransactionResponse(correlationId, new MissingResponseInterface() {
+        SDKManager.disbursement.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();

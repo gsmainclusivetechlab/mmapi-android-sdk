@@ -631,7 +631,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Retrieve a missing Transaction
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.internationalTransfer.viewTransactionResponse(correlationId, new MissingResponseInterface() {
+        SDKManager.internationalTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();

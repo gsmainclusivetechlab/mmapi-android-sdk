@@ -23,7 +23,6 @@ public class Common {
     /**
      * Check Service Availability - To check whether the service is available
      */
-
     public void viewServiceAvailability(@NonNull ServiceAvailabilityInterface serviceAvailabilityInterface) {
         if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
@@ -123,7 +122,7 @@ public class Common {
      * @param correlationId UUID that enables the client to correlate the API request with the resource created/updated by the provider
      */
 
-    public void viewTransactionResponse(String correlationId, @NonNull MissingResponseInterface missingTransactionInterface) {
+    public void viewResponse(String correlationId, @NonNull MissingResponseInterface missingTransactionInterface) {
         if (!Utils.isOnline()) {
             missingTransactionInterface.onValidationError(Utils.setError(0));
             return;

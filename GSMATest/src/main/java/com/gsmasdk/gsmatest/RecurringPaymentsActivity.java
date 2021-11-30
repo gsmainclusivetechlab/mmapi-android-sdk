@@ -605,7 +605,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
      */
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.recurringPayment.viewTransactionResponse(correlationId, new MissingResponseInterface() {
+        SDKManager.recurringPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
