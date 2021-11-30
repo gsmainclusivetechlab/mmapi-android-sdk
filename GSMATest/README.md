@@ -89,9 +89,9 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 # Merchant Payment
 
 * [Payee-Initiated Merchant Payment](#payee-intiated)
-* Payee-Initiated Merchant Payment using the Polling Method
+* [Payee-Initiated Merchant Payment using the Polling Method](#payee-intiated-polling)
 * [Payer-Initiated Merchant Payment](#payee-intiated)
-* Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
+* [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#auth-code)
 * Merchant Payment Refund
 * Merchant Payment Reversal
 * Obtain a Merchant Balance
@@ -136,6 +136,9 @@ The sample output if the notification method is callback
 	"status": "pending"
 }
 ```
+
+<a name="payee-intiated-polling"></a>
+
 # Payee-Initiated Merchant Payment using the Polling Method
 
 The polling scenario can be completed by clicking following buttons of sample app in sequentical order
@@ -179,7 +182,7 @@ The object reference obtained from the request state is passed to view transacti
  ```
  
  {
-	"transactionReference": "REF-1638275835490",
+	"transactionReference": "REF-1638274655726",
 	"creditParty": [{
 		"key": "msisdn",
 		"value": "+44012345678"
@@ -201,6 +204,8 @@ The object reference obtained from the request state is passed to view transacti
 }
  
  ```
+
+# [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code]
 
 
 
