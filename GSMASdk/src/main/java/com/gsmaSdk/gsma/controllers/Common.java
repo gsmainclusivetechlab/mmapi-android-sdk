@@ -64,7 +64,6 @@ public class Common {
      */
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
-
         if (!Utils.isOnline()) {
             transactionInterface.onValidationError(Utils.setError(0));
             return;
@@ -91,8 +90,6 @@ public class Common {
             );
         }
     }
-
-
 
 
     /**

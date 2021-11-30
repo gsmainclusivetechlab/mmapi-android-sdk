@@ -87,7 +87,7 @@ public interface APIService {
      * @return the call
      */
 
-    @GET("{version}accounts/{accountIdentifier}/balance")
+    @GET("{version}/accounts/{accountIdentifier}/balance")
     Call<Balance> retrieveBalance(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @HeaderMap Map<String, String> headers);
 
 
@@ -115,7 +115,7 @@ public interface APIService {
      *
      * @return the call
      */
-    @GET("{version}accounts/{accountIdentfiers}/transactions")
+    @GET("{version}/accounts/{accountIdentfiers}/transactions")
     Call<Transaction> retrieveTransaction(@Path(value = "version", encoded = true) String version,@Path(value = "accountIdentfiers", encoded = true)  String accountIdentfiers, @HeaderMap Map<String, String> headers, @Query(value = "offset") int offset, @Query(value = "limit") int limit);
 
 
@@ -147,7 +147,7 @@ public interface APIService {
      *
      * @return the call
      */
-    @POST("{version}accounts/{accountIdentifier}/authorisationcodes")
+    @POST("{version}/accounts/{accountIdentifier}/authorisationcodes")
     Call<RequestStateObject> obtainAuthorisationCode(@Path(value = "accountIdentifier",encoded = true) String accountId, @
             Path(value = "version", encoded = true) String version,
                                                      @Body RequestBody codeRequest, @HeaderMap Map<String, String> headers);
@@ -158,7 +158,7 @@ public interface APIService {
      * @return call
      */
 
-    @GET("{version}accounts/{accountIdentifier}/authorisationcodes/{authorizationCode}")
+    @GET("{version}/accounts/{accountIdentifier}/authorisationcodes/{authorizationCode}")
     Call<AuthorisationCodeItem> viewAuthorizationCode(@Path(value = "version", encoded = true) String version,
                                                       @Path(value = "accountIdentifier",encoded = true) String accountIdentifier,
                                                       @Path("authorizationCode") String authorizationCode,
@@ -274,7 +274,7 @@ public interface APIService {
      * @return the call
      */
     @SuppressWarnings("SpellCheckingInspection")
-    @GET("{version}accounts/{accountIdentifier}/accountname")
+    @GET("{version}/accounts/{accountIdentifier}/accountname")
     Call<AccountHolderObject> viewAccountName(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @HeaderMap Map<String, String> headers);
 
 
@@ -286,7 +286,7 @@ public interface APIService {
      * @return the call
      */
     @SuppressWarnings("SpellCheckingInspection")
-    @POST("{version}accounts/{accountIdentifier}/debitmandates")
+    @POST("{version}/accounts/{accountIdentifier}/debitmandates")
     Call<RequestStateObject> createAccountDebitMandate(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier,@Body RequestBody debitMandate, @HeaderMap Map<String, String> headers);
 
     /**
@@ -295,7 +295,7 @@ public interface APIService {
      * @return the call
      */
     @SuppressWarnings("SpellCheckingInspection")
-    @GET("{version}accounts/{accountIdentifier}/debitmandates/{transactionReference}")
+    @GET("{version}/accounts/{accountIdentifier}/debitmandates/{transactionReference}")
     Call<DebitMandate> viewAccountDebitMandate(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier,@Path("transactionReference") String transactionReference,@HeaderMap Map<String, String> headers);
 
 
