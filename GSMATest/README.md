@@ -94,7 +94,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#auth-code)
 * [Merchant Payment Refund](#refund)
 * [Merchant Payment Reversal](#reversal)
-* Obtain a Merchant Balance
+* [Obtain a Merchant Balance](#balance)
 * Retrieve Payments for a Merchant
 * Check for Service Availability
 * Retrieve a Missing API Response
@@ -283,7 +283,7 @@ The objecReference is passed as a paramter to view auth code function to retriev
 
 ```
 
-<a name-"refund"></a>
+<a name="refund"></a>
 
 # Payment Refund
 
@@ -327,7 +327,26 @@ The objecReference is passed as a paramter to view auth code function to retriev
 }
 
 ```
- 
+<a name="balance"> </a>
 
+# Balance
+
+The balance scenario can be completed by using following methods
+
+* Balance
+
+### Example Output - Balance
+
+
+```json
+ {
+ 	"accountStatus": "available",
+ 	"availableBalance": "0.00",
+ 	"currentBalance": "0.00",
+ 	"reservedBalance": "0.00",
+ 	"unclearedBalance": "0.00"
+ }
+
+```
 
 
