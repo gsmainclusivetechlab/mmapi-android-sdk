@@ -96,7 +96,7 @@ A library that fully covers payment process inside your Android application
         11. [Check for Service Availability](#check-for-service-recurring)
         12. [Retrieve a Missing API Response](#missing-response-recurring)
            
-  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
+  5. [How to Test sample application](GSMATest/README.md)
  
 
 <a name="require"></a>
