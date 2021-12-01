@@ -19,11 +19,11 @@ As usual, you get started by
 
 ## How  to install the apk in real Device
 
-1.Download the file GSMA-Test-debug-1.0.1 from the following link into the filemanager of your  device
+1.Download the file GSMA-Test-debug-1.0.4 from the following link into the filemanager of your  device
  
-[Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/release/GSMA-Test-debug-1.0.3.apk)
+[Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/release/GSMA-Test-debug-1.0.4.apk)
 
-2.Click on the file GSMA-Test-debug-1.0.3 from your device and system will ask for the installation dialog and continue the installation process 
+2.Click on the file GSMA-Test-debug-1.0.4 from your device and system will ask for the installation dialog and continue the installation process 
 
 3.Once the Apk is installed in your device,Open the application from app drawer of your device 
 
@@ -88,9 +88,9 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 # Merchant Payment
 
-* [Payee-Initiated Merchant Payment](#payee-intiated)
-* [Payee-Initiated Merchant Payment using the Polling Method](#payee-intiated-polling)
-* [Payer-Initiated Merchant Payment](#payee-intiated)
+* [Payee-Initiated Merchant Payment](#payee-initiated)
+* [Payee-Initiated Merchant Payment using the Polling Method](#payee-initiated-polling)
+* [Payer-Initiated Merchant Payment](#payee-initiated)
 * [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#auth-code)
 * [Merchant Payment Refund](#refund)
 * [Merchant Payment Reversal](#reversal)
@@ -99,13 +99,13 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * Check for Service Availability
 * Retrieve a Missing API Response
 
-<a name="payee-intiated"></a>
+<a name="payee-initiated"></a>
 
-# Payee/Payer intiated Merchant Payment
+# Payee/Payer initiated Merchant Payment
  
- In this scenario the payer/payee can intiate a payment request,Click on the following buttons in test app to perform merchant payment
+ In this scenario the payer/payee can initiate a payment request,Click on the following buttons in test app to perform merchant payment
  
- * Payee Intiated
+ * Payee Initiated
  
  The expected output of this request is given below
  
@@ -137,19 +137,19 @@ The sample output if the notification method is callback
 }
 ```
 
-<a name="payee-intiated-polling"></a>
+<a name="payee-initiated-polling"></a>
 
 # Payee-Initiated Merchant Payment using the Polling Method
 
-The polling scenario can be completed by clicking following buttons of sample app in sequentical order
+The polling scenario can be completed by clicking following buttons of sample app in sequential order
 
-* Payee Intiated
+* Payee Initiated
 * Request State
 * View Transaction
 
 
  
- ### Example Output - Payee Intiated
+ ### Example Output - Payee Initiated
 
 ```json
  {
@@ -160,7 +160,7 @@ The polling scenario can be completed by clicking following buttons of sample ap
 	"status": "pending"
 }
 ```
- The serverCorrelationId is obtained from the result of payee intiated request,This serverCorrelationId is passed to request state function to view the request state of a transaction  
+ The serverCorrelationId is obtained from the result of payee initiated request,This serverCorrelationId is passed to request state function to view the request state of a transaction
 
  
  ### Example Output - Request State
@@ -209,7 +209,7 @@ The object reference obtained from the request state is passed to view transacti
 
 # Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
 
-The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be completed by clicking the following buttons in sequential ordeer
+The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be completed by clicking the following buttons in sequential order
 
 * Auth Code
 * Request State
@@ -244,7 +244,7 @@ The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be 
 }
 
 ```
-The objecReference is passed as a paramter to view auth code function to retrieve the authorisation code
+The objectReference is passed as a parameter to view auth code function to retrieve the authorisation code
 
 ### Example Output - View Auth Code
 

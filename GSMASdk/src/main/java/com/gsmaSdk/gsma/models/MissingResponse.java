@@ -4,8 +4,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
-import org.json.JSONObject;
-
 public class MissingResponse extends BaseResponse {
 
     @SerializedName("data")

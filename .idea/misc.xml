@@ -723,6 +723,11 @@
     <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewQuotation" />
     <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewServiceAvailability" />
     <pattern value="com.gsmaSdk.gsma.controllers.SDKManager" method="viewTransactionResponse" />
+    <pattern value="com.gsmaSdk.gsma.models.MissingResponse" method="getJsonObject" />
+    <pattern value="com.gsmaSdk.gsma.network.deserializers.MissingResponseDeserializer" />
+    <pattern value="com.gsmasdk.gsmatest.P2PTransferActivity" />
+    <pattern value="com.gsmasdk.gsmatest.RecurringPaymentsActivity" />
+    <pattern value="com.gsmaSdk.gsma.models.MissingResponse" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="JavadocGenerationManager">
