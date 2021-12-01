@@ -99,7 +99,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
-<a name="payee-initiated"></a>
+
 
 # Disbursment
 
@@ -131,9 +131,24 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [P2P Transfer Reversal](#reversal)
 * [Obtain an FSP Balance](#balance)
 * [Retrieve Transactions for an FSP](#retrieve-payments)
-* [Check for Service Availability](check-for-service)
+* [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
+# Recurring Payments
+
+* [Setup a Recurring Payment](#setup-recurring)
+* [Take a Recurring Payment](#take-recurring)
+* [Take a Recurring Payment using the Polling Method](#take-polling)
+* [Recurring Payment Refund](#refund)
+* [Recurring Payment Reversal](#reversal)
+* [Payer sets up a Recurring Payment using MMP Channel](#setup-recurring)
+* [Obtain a Service Provider Balance](#balance)
+* [Retrieve Payments for a Service Provider](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
+
+
+<a name="payee-initiated"></a>
 
 # Payee/Payer initiated Merchant Payment
  
@@ -896,5 +911,180 @@ The p2 transfer via switch can be completed by clicking the following buttons
  }
 
 ```
+<a name="setup-recurring"></a>
+
+# Set up a recurring payment
+
+Set up a recurring payment can be completed by clicking the following buttons
+
+* Create a debit Mandate 
+
+ ### Example Output - Create a debit Mandate
 
 
+ ```json
+
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "428",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "70089e23-35ca-4e29-a166-4668024cb236",
+ 	"status": "pending"
+ }
+
+```
+<a name="take-recurring"></a>
+
+# Take a Recurring Payment
+
+ Take a recurring payment can be completed by passing debit mandate reference to merchant payment functions
+
+
+* Create a Debit Mandate
+* Request State
+* Read a Debit Mandate
+* Merchant Payment using Debit Mandate
+
+ ### Example Output - Create a Debit Mandate
+ 
+
+ ```json
+
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "432",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
+ 	"status": "pending"
+ }
+
+ 
+ ```
+
+ ### Example Output - Request State
+ 
+ ```json
+{
+	"notificationMethod": "polling",
+	"objectReference": "REF-1638343640945",
+	"pollLimit": 100,
+	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
+	"status": "completed"
+}
+```
+
+
+ ### Example Output - Read a Debit Mandate
+ 
+ ```json
+ {
+ 	"amountLimit": "1000.00",
+ 	"creationDate": "2021-12-01T07:27:21",
+ 	"currency": "GBP",
+ 	"customData": [{
+ 		"key": "keytest",
+ 		"value": "keyvalue"
+ 	}],
+ 	"endDate": "2028-07-03",
+ 	"frequencyType": "sixmonths",
+ 	"mandateReference": "REF-1638343640945",
+ 	"mandateStatus": "active",
+ 	"modificationDate": "2021-12-01T07:27:21",
+ 	"numberOfPayments": "2",
+ 	"payee": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907197912"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907232832"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907265888"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907412029"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907483978"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637909732171"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1638330257762"
+ 	}],
+ 	"requestDate": "2018-07-03T10:43:27",
+ 	"startDate": "2018-07-03"
+ }
+
+```
+
+
+ ### Example Output -  Merchant Payment using Debit Mandate
+ 
+ ```json
+
+{
+	"notificationMethod": "polling",
+	"objectReference": "15684",
+	"pollLimit": 100,
+	"serverCorrelationId": "164b0df3-ddf0-4459-96e2-82b4514a8c17",
+	"status": "pending"
+}
+
+
+```
+
+<a name="take-polling"></a>
+
+# Take a recurring payment using polling method
+
+
+Click the following buttons to perform take a recurring payment using following,Before that make sure that you have completed take a recurring payment scenario
+
+* Request State
+* View Transaction
+
+ ### Example Output - Request State
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+```
+The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
+
+ ### Example Output - View Transaction
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
