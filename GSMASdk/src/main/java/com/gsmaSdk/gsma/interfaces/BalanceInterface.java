@@ -1,7 +1,7 @@
 package com.gsmaSdk.gsma.interfaces;
 
 
-import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 
 /**

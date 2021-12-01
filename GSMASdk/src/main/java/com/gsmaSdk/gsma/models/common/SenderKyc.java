@@ -1,4 +1,4 @@
-package com.gsmaSdk.gsma.models.transaction;
+package com.gsmaSdk.gsma.models.common;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;

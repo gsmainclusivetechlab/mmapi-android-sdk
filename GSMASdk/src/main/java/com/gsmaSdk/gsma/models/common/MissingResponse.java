@@ -1,4 +1,4 @@
-package com.gsmaSdk.gsma.models;
+package com.gsmaSdk.gsma.models.common;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;

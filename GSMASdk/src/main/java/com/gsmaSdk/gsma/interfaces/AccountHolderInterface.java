@@ -1,7 +1,7 @@
 package com.gsmaSdk.gsma.interfaces;
 
 
-import com.gsmaSdk.gsma.models.AccountHolderObject;
+import com.gsmaSdk.gsma.models.account.AccountHolderObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 
 /**

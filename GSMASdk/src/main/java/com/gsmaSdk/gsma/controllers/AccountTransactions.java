@@ -3,7 +3,7 @@ package com.gsmaSdk.gsma.controllers;
 import androidx.annotation.NonNull;
 
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
-import com.gsmaSdk.gsma.models.Identifier;
+import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;

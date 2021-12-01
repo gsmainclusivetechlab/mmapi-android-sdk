@@ -6,7 +6,7 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-import com.gsmaSdk.gsma.models.Identifier;
+import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
@@ -66,20 +66,6 @@ public class InternationalTransfer extends Common {
      */
     public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
       Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
-    }
-
-
-
-    /**
-     * Transfer Transaction - Create a Transfer Transaction
-     *
-     * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl        The server URl for receiving response of transaction
-     * @param transactionRequest    the request object-P2P Transfers
-     * @param requestStateInterface callback for request state object
-     */
-    public void createTransferTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-     TransferTransaction.getInstance().createTransferTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
     }
 
     /**

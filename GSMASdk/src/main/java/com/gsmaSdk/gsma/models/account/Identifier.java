@@ -1,4 +1,4 @@
-package com.gsmaSdk.gsma.models;
+package com.gsmaSdk.gsma.models.account;
 
 public class Identifier {
 

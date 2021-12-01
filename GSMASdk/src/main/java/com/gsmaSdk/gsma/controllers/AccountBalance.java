@@ -3,8 +3,8 @@ package com.gsmaSdk.gsma.controllers;
 import androidx.annotation.NonNull;
 
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
-import com.gsmaSdk.gsma.models.Identifier;
-import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
