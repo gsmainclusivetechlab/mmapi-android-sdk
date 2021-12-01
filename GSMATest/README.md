@@ -126,8 +126,8 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 # P2P Tranfers
 
 * [P2P Transfer via Switch](#p2p-transfer-switch)
-* [Bilateral P2P Transfer]
-* ‘On-us’ P2P Transfer Initiated by a Third Party Provider
+* [Bilateral P2P Transfer](#p2p-transfer-bilateral)
+* [‘On-us’ P2P Transfer Initiated by a Third Party Provider](#p2p-transfer-switch)
 * [P2P Transfer Reversal](#reversal)
 * [Obtain an FSP Balance](#balance)
 * [Retrieve Transactions for an FSP](#retrieve-payments)
@@ -807,7 +807,10 @@ This use case can be completed by clicking following button in sequential order
 ```
 Use polling or callback scenario to get the complete status for a transaction  
 
-# P2P Transfer via Switch
+
+<a name="p2p-transfer-switch"></a>
+
+# P2P Transfer via Switch/On-us’ P2P Transfer Initiated by a Third Party Provider
 
 The p2 transfer via switch can be completed by clicking the following buttons
 
@@ -856,5 +859,42 @@ The p2 transfer via switch can be completed by clicking the following buttons
 
 ```
 
+<a name="p2p-transfer-bilateral"></a>
+
+# Bilateral P2P Transfer
+
+The p2 transfer via switch can be completed by clicking the following buttons
+
+* Retrieve the Name of the Recipient
+* Perform a  p2p Transfer
+
+
+ ### Example Output - Retrieve the Name of the Recipient
+ 
+ ```json
+{
+ 	"lei": "AAAA0012345678901299",
+ 	"name": {
+ 		"firstName": "Jeff",
+ 		"fullName": "Jeff Jimmer",
+ 		"lastName": "Jimmer",
+ 		"middleName": "James",
+ 		"title": "Mr"
+ 	}
+ }
+```
+ ### Example Output - Perform a  p2p Transfer
+
+
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "15681",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
+ 	"status": "pending"
+ }
+
+```
 
 
