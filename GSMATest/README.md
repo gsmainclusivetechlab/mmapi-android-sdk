@@ -101,6 +101,18 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 <a name="payee-initiated"></a>
 
+# Disbursment
+
+* [Individual Disbursement](#individual-disbursement)
+* [Bulk Disbursement](#bulk-disbursement)
+* Bulk Disbursement with Maker / Checker
+* Individual Disbursement Using the Polling Method
+* [Disbursement Reversal](#reversal)
+* [Obtain a Disbursement Organisation Balance](#balance)
+* [Retrieve Transactions for a Disbursement Organisation](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response]((#missing-response))
+
 # Payee/Payer initiated Merchant Payment
  
  In this scenario the payer/payee can initiate a payment request,Click on the following buttons in test app to perform merchant payment
@@ -477,6 +489,30 @@ For eg:if the transaction response is missing,To retrieve the missing response o
 
 ```
 
+<a name="individual-disbursement"></a>
+
+
+# Individual Disbursement
+
+The individual disbursement can be completed by clicking following buttons
+
+* Individual Disbursement
+
+
+### Example Output - Individual Disbursement
+
+```json
+{
+	"notificationMethod": "polling",
+	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "completed"
+}
+
+```
+
+<a name="individual disbursement"></a>
 
 
 
