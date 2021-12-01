@@ -41,9 +41,6 @@ public class Disbursement extends Common {
         }
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
-            return;
-        } else if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);

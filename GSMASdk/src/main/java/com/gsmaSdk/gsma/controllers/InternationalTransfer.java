@@ -68,20 +68,6 @@ public class InternationalTransfer extends Common {
       Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
     }
 
-
-
-    /**
-     * Transfer Transaction - Create a Transfer Transaction
-     *
-     * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl        The server URl for receiving response of transaction
-     * @param transactionRequest    the request object-P2P Transfers
-     * @param requestStateInterface callback for request state object
-     */
-    public void createTransferTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-     TransferTransaction.getInstance().createTransferTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
-    }
-
     /**
      * View Quotations - View a quotation details
      *

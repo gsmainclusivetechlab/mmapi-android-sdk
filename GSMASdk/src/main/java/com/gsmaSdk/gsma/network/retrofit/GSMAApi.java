@@ -9,6 +9,8 @@ import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 
 import com.gsmaSdk.gsma.models.AccountHolderObject;
+import com.gsmaSdk.gsma.models.AccountLinkingObject;
+import com.gsmaSdk.gsma.models.AccountLinks;
 import com.gsmaSdk.gsma.models.DebitMandate;
 import com.gsmaSdk.gsma.models.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
@@ -478,7 +480,40 @@ public final class GSMAApi {
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountDebitMandate(PaymentConfiguration.getUrlVersion(),accountIdentifier,transactionReference, headers), apiRequestCallback));
     }
 
+/****************************************Account Linking********************************************/
 
+    /**
+     * Create Account Linking
+     *
+     *
+     * @param uuid               UUID
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for receiving response of transaction
+     * @param accountIdentifier          Account id
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void createAccountLinking(String uuid, Enum notificationMethod, String callbackUrl, String accountIdentifier, AccountLinkingObject accountLinkingObject , APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL,xCallback);
+        }
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createAccountLinking(PaymentConfiguration.getUrlVersion(),accountIdentifier,RequestBody.create(new Gson().toJson(accountLinkingObject), mediaType), headers), apiRequestCallback));
+    }
 
+    /**
+     * View Link
+     *
+     * @param uuid UUID
+     * @param accountIdentifier  - Account Id
+     * @param linkReference - Link Reference
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void viewAccountLink(String uuid, String accountIdentifier, String linkReference,APIRequestCallback<AccountLinks> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountLink(PaymentConfiguration.getUrlVersion(),accountIdentifier,linkReference, headers), apiRequestCallback));
+    }
 
 }
