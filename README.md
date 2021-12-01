@@ -235,7 +235,7 @@ private void createTransactionObject() {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             
             }
 
@@ -245,8 +245,7 @@ private void createTransactionObject() {
             }
             @Override
             public void getCorrelationId(String correlationID) {
-                correlationId = correlationID;
-                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            
             }
 
        });
@@ -309,7 +308,7 @@ private void createTransactionObject() {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             serverCorrelationId = requestStateObject.getServerCorrelationId();            
             }
 
@@ -338,7 +337,7 @@ private void createTransactionObject() {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                  transactionRef = requestStateObject.getObjectReference();
       
             }
@@ -368,7 +367,7 @@ private void createTransactionObject() {
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
+            public void onTransactionSuccess(TransactionRequest transactionRequest) {
          
             }
 
@@ -435,7 +434,7 @@ private void createAccountIdentifier(){
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             
             }
 
@@ -487,7 +486,7 @@ Initiate the mechant pay request using the following code
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             
             }
 
@@ -543,7 +542,7 @@ Create a refund request with transaction parameter
 
  SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             serverCorrelationId = requestStateObject.getServerCorrelationId();
             }
 
@@ -587,7 +586,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
   SDKManager.merchantPayment.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                       serverCorrelationId = requestStateObject.getServerCorrelationId();
 
             }
@@ -676,7 +675,7 @@ Merchant can retrieve all transaction details
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
            
             }
 
@@ -704,7 +703,7 @@ The application should perform service availabilty check before calling the paym
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
           
             }
 
@@ -725,7 +724,7 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ```
 SDKManager.merchantPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
               
             }
 
@@ -749,7 +748,7 @@ SDKManager.merchantPayment.viewTransactionResponse(correlationId, new Transactio
 
  SDKManager.merchantPayment.viewAuthorisationCodeResponse(correlationId, new AuthorisationCodeInterface() {
             @Override
-            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode, String correlationId) {
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode) {
 
             }
 
@@ -818,7 +817,7 @@ Intiate the disbursement using the following code
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
              serverCorrelationId = requestStateObject.getServerCorrelationId();
             }
 
@@ -890,7 +889,7 @@ private void createTransactionObject() {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
              serverCorrelationId = requestStateObject.getServerCorrelationId();
             }
 
@@ -916,7 +915,7 @@ private void createTransactionObject() {
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 transactionRef = requestStateObject.getObjectReference();
          }
 
@@ -941,7 +940,7 @@ private void createTransactionObject() {
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
+            public void onTransactionSuccess(TransactionRequest transactionRequest) {
          
             }
 
@@ -1018,7 +1017,7 @@ Perform the bulk transaction using the following code
            
              }
              @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
          
             }
 
@@ -1138,7 +1137,7 @@ SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING,"","Pl
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
      
             }
 
@@ -1207,7 +1206,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
   SDKManager.disbursement.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                       serverCorrelationId = requestStateObject.getServerCorrelationId();
 
             }
@@ -1258,7 +1257,7 @@ Obtain the balance of requested account,Pass the account identier list  to the f
             }
 
             @Override
-            public void onBalanceSuccess(Balance balance, String correlationID) {
+            public void onBalanceSuccess(Balance balance) {
        
             }
 
@@ -1297,7 +1296,7 @@ Merchant can retrieve all transaction details
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
            
             }
 
@@ -1325,7 +1324,7 @@ The application should perform service availabilty check before calling the paym
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
           
             }
 
@@ -1346,7 +1345,7 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ```
 SDKManager.disbursement.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
               
             }
 
@@ -1508,7 +1507,7 @@ Request a quotation to perform international transfer with transaction request o
 
   SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             
             }
 
@@ -1568,7 +1567,7 @@ Perform international transfer request using transaction request
    
  SDKManager.internationalTransfer.createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             
             }
 
@@ -1617,7 +1616,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
   SDKManager.internationalTransfer.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                       serverCorrelationId = requestStateObject.getServerCorrelationId();
 
             }
@@ -1666,7 +1665,7 @@ Obtain the balance of requested account,Pass the account identier list  to the f
             }
 
             @Override
-            public void onBalanceSuccess(Balance balance, String correlationID) {
+            public void onBalanceSuccess(Balance balance) {
        
             }
 
@@ -1705,7 +1704,7 @@ Merchant can retrieve all transaction details
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
            
             }
 
@@ -1733,7 +1732,7 @@ The application should perform service availabilty check before calling the paym
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
           
             }
 
@@ -1754,7 +1753,7 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ```
 SDKManager.internationalTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
               
             }
 
@@ -1909,7 +1908,7 @@ private String serverCorrelationId;
 ```
  SDKManager.p2pTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
   
@@ -2005,7 +2004,7 @@ Create p2p Transfer object
  private void performTransfer() {
     SDKManager.getInstance().createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                    serverCorrelationId = requestStateObject.getServerCorrelationId();
               }
 
@@ -2099,7 +2098,7 @@ Merchant can retrieve all transaction details
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
            
             }
 
@@ -2127,7 +2126,7 @@ The application should perform service availabilty check before calling the paym
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
           
             }
 
@@ -2148,7 +2147,7 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ```
 SDKManager.p2pTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
               
             }
 
@@ -2352,7 +2351,7 @@ private String debitMandateReference;
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                  transactionRef = requestStateObject.getObjectReference();
       
             }
@@ -2377,7 +2376,7 @@ private String debitMandateReference;
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
+            public void onTransactionSuccess(TransactionRequest transactionRequest) {
          
             }
 
@@ -2523,7 +2522,7 @@ Obtain the balance of requested account,Pass the account identier list  to the f
             }
 
             @Override
-            public void onBalanceSuccess(Balance balance, String correlationID) {
+            public void onBalanceSuccess(Balance balance) {
        
             }
 
@@ -2562,7 +2561,7 @@ Merchant can retrieve all transaction details
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
            
             }
 
@@ -2590,7 +2589,7 @@ The application should perform service availabilty check before calling the paym
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
           
             }
 
@@ -2612,7 +2611,7 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ```
 SDKManager.recurringPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
               
             }
 
