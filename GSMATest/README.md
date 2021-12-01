@@ -113,7 +113,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response]((#missing-response))
 
-# International Transfer
+# International Transfers
 
 * [International Transfer via Hub](#international-transfer-hub)
 * [Bilateral International Transfer](#international-transfer-hub)
@@ -123,8 +123,16 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
+# P2P Tranfers
 
-
+* [P2P Transfer via Switch](#p2p-transfer-switch)
+* [Bilateral P2P Transfer]
+* ‘On-us’ P2P Transfer Initiated by a Third Party Provider
+* [P2P Transfer Reversal](#reversal)
+* [Obtain an FSP Balance](#balance)
+* [Retrieve Transactions for an FSP](#retrieve-payments)
+* [Check for Service Availability](check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
 
 
 # Payee/Payer initiated Merchant Payment
@@ -765,7 +773,7 @@ The object reference obtained from the request state is passed to view transacti
 	"modificationDate": "2021-11-30T12:37:15",
 	"requestDate": "2021-11-30T12:37:15"
 }
-````
+```
 <a name="international-transfer-hub"></a>
 # International Transfer via Hub/Bilateral International Transfer
 
@@ -784,7 +792,7 @@ This use case can be completed by clicking following button in sequential order
  	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
  	"status": "pending"
  }
-````
+```
 
 ### Example Output - Perform a international Transfer
  
@@ -796,14 +804,57 @@ This use case can be completed by clicking following button in sequential order
  	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
  	"status": "pending"
  }
-````
+```
 Use polling or callback scenario to get the complete status for a transaction  
 
+# P2P Transfer via Switch
+
+The p2 transfer via switch can be completed by clicking the following buttons
+
+* Retrieve the Name of the Recipient
+* Request a P2P Quotation
+* Perform a  p2p Transfer
 
 
+ ### Example Output - Retrieve the Name of the Recipient
+ 
+ ```json
+{
+ 	"lei": "AAAA0012345678901299",
+ 	"name": {
+ 		"firstName": "Jeff",
+ 		"fullName": "Jeff Jimmer",
+ 		"lastName": "Jimmer",
+ 		"middleName": "James",
+ 		"title": "Mr"
+ 	}
+ }
+```
+ ### Example Output - Request a P2P Quotation
+ 
+ ```json
+ {
+	"notificationMethod": "polling",
+	"objectReference": "1306",
+	"pollLimit": 100,
+	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
+	"status": "pending"
+}
+
+```
+ ### Example Output - Perform a  p2p Transfer
 
 
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "15681",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
+ 	"status": "pending"
+ }
 
+```
 
 
 
