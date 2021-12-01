@@ -34,7 +34,7 @@ public class AccountBalance {
             GSMAApi.getInstance().checkBalance(uuid, Utils.getIdentifiers(identifierArrayList), new APIRequestCallback<Balance>() {
                 @Override
                 public void onSuccess(int responseCode, Balance serializedResponse) {
-                    balanceInterface.onBalanceSuccess(serializedResponse, uuid);
+                    balanceInterface.onBalanceSuccess(serializedResponse);
                 }
 
                 @Override

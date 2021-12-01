@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.transaction.Transaction;
 @SuppressWarnings("ALL")
 public interface RetrieveTransactionInterface extends BaseInterface{
 
-    void onRetrieveTransactionSuccess(Transaction transaction, String correlationId);
+    void onRetrieveTransactionSuccess(Transaction transaction);
 
     void onRetrieveTransactionFailure(GSMAError gsmaError);
 }

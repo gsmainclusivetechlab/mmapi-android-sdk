@@ -29,10 +29,11 @@ public class MerchantTransaction {
             return;
         } else {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "merchantpay", transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
                         }
 
                         @Override

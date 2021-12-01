@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
 @SuppressWarnings("ALL")
 public interface BatchCompletionInterface extends BaseInterface {
 
-    void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion, String correlationId);
+    void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion);
 
     void onTransactionFailure(GSMAError gsmaError);
 }

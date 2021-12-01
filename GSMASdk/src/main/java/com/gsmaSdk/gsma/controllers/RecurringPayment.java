@@ -44,10 +44,11 @@ public class RecurringPayment extends Common {
             return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().createAccountDebitMandate(uuid, notificationMethod, callbackUrl, Utils.getIdentifiers(identifierArrayList), debitMandateRequest, new APIRequestCallback<RequestStateObject>() {
                 @Override
                 public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                    requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                    requestStateInterface.onRequestStateSuccess(serializedResponse);
                 }
 
                 @Override

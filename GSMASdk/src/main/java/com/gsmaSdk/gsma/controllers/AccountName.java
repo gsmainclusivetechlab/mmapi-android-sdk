@@ -35,7 +35,7 @@ public class AccountName {
             GSMAApi.getInstance().viewAccountName(uuid, Utils.getIdentifiers(identifierArrayList), new APIRequestCallback<AccountHolderObject>() {
                 @Override
                 public void onSuccess(int responseCode, AccountHolderObject serializedResponse) {
-                    accountHolderInterface.onRetrieveAccountInfoSuccess(serializedResponse, uuid);
+                    accountHolderInterface.onRetrieveAccountInfoSuccess(serializedResponse);
                 }
 
                 @Override

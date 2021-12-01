@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
@@ -20,6 +21,7 @@ import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.Identifier;
+import com.gsmaSdk.gsma.models.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -135,10 +137,9 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(serviceAvailability));
-                correlationId = correlationID;
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
@@ -270,7 +271,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         showLoading();
         SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
             @Override
-            public void onAuthorisationCodeSuccess(AuthorisationCodeItem authorisationCodeItem, String correlationId) {
+            public void onAuthorisationCodeSuccess(AuthorisationCodeItem authorisationCodeItem) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(authorisationCodeItem));
@@ -309,7 +310,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onBalanceSuccess(Balance balance, String correlationID) {
+            public void onBalanceSuccess(Balance balance) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(balance).toString());
@@ -340,11 +341,10 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(requestStateObject).toString());
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                correlationId = correlationID;
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
@@ -355,6 +355,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
             }
 
         });
@@ -374,11 +380,10 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
-                correlationId = correlationID;
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
             }
@@ -389,6 +394,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
             }
 
         });
@@ -408,10 +419,9 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionRequest, String correlationID) {
+            public void onTransactionSuccess(TransactionRequest transactionRequest) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(transactionRequest));
-                correlationId = correlationID;
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
             }
@@ -434,13 +444,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         showLoading();
         SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
             }
 
             @Override
@@ -457,6 +466,13 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -467,12 +483,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         showLoading();
         SDKManager.merchantPayment.createReversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
             }
 
@@ -491,6 +506,13 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -508,11 +530,10 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
@@ -540,12 +561,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
             }
 
@@ -557,6 +577,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
             }
 
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
 
     }
@@ -565,23 +591,24 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      * Missing Transaction
      */
     private void getMissingTransaction() {
+
         showLoading();
-        SDKManager.merchantPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
+
+        SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(transactionObject));
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionRequest.class));
+                txtResponse.setText(new Gson().toJson(missingResponse));
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
+            public void onMissingResponseFailure(GSMAError gsmaError) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
-
             }
 
             @Override
@@ -590,8 +617,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
-
         });
+
+
+
+
     }
 
     /**
@@ -601,7 +631,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         showLoading();
         SDKManager.merchantPayment.viewAuthorisationCodeResponse(correlationId, new AuthorisationCodeInterface() {
             @Override
-            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode, String correlationId) {
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(authorisationCode));

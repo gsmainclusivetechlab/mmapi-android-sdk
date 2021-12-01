@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 @SuppressWarnings("ALL")
 public interface AuthorisationCodeInterface extends BaseInterface{
 
-    void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode, String correlationId);
+    void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode);
 
     void onAuthorisationCodeFailure(GSMAError gsmaError);
 }

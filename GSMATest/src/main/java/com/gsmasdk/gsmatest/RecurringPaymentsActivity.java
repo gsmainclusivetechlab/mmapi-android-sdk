@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
@@ -20,6 +21,7 @@ import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.DebitMandate;
 import com.gsmaSdk.gsma.models.Identifier;
+import com.gsmaSdk.gsma.models.MissingResponse;
 import com.gsmaSdk.gsma.models.PayeeItem;
 import com.gsmaSdk.gsma.models.common.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
@@ -164,10 +166,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability, String correlationID) {
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(serviceAvailability));
-                correlationId = correlationID;
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
@@ -219,11 +220,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 break;
             case 2:
                 //Read a Debit Mandate
-                 viewDebitMandate();
+                viewDebitMandate();
                 break;
             case 3:
                 //Merchant Payment using Debit Mandate
-               createTransactionObject();
+                createTransactionObject();
                 break;
             case 4:
                 //View Transaction
@@ -257,10 +258,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         showLoading();
         SDKManager.recurringPayment.createAccountDebitMandate(NotificationMethod.POLLING, "", identifierArrayList, debitMandateRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRecurringPaymentSuccess: " + new Gson().toJson(requestStateObject));
@@ -280,12 +280,19 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
 
     }
 
-    private void createTransactionObject(){
-        transactionRequest=new TransactionRequest();
+    private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
         transactionRequest.setAmount("200");
         transactionRequest = new TransactionRequest();
 
@@ -311,9 +318,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
 
     }
 
-    private void initiateMerchantPayment(){
+    private void initiateMerchantPayment() {
         showLoading();
-        SDKManager.recurringPayment.createMerchantTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.recurringPayment.createMerchantTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -322,11 +329,10 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(requestStateObject).toString());
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                correlationId = correlationID;
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
@@ -337,6 +343,12 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
             }
 
         });
@@ -355,10 +367,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                correlationId = correlationID;
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
@@ -371,6 +382,12 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
             }
 
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -381,7 +398,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             public void onDebitMandateSuccess(DebitMandate debitMandate) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                debitMandateReference=debitMandate.getMandateReference();
+                debitMandateReference = debitMandate.getMandateReference();
                 txtResponse.setText(new Gson().toJson(debitMandate));
                 Log.d(SUCCESS, "onDebitMandateSuccess: " + new Gson().toJson(debitMandate));
             }
@@ -416,8 +433,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationID) {
-                correlationId = correlationID;
+            public void onTransactionSuccess(TransactionRequest transactionObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -449,13 +465,12 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         showLoading();
         SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
             }
 
             @Override
@@ -472,6 +487,13 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -482,12 +504,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         showLoading();
         SDKManager.recurringPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
             }
 
@@ -506,6 +527,13 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -524,7 +552,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onBalanceSuccess(Balance balance, String correlationID) {
+            public void onBalanceSuccess(Balance balance) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(balance).toString());
@@ -555,11 +583,10 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction, String correlationID) {
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
-                correlationId = correlationID;
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
@@ -578,22 +605,21 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
      */
     private void getMissingTransaction() {
         showLoading();
-        SDKManager.recurringPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
+        SDKManager.recurringPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject, String correlationId) {
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(transactionObject));
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject, TransactionRequest.class));
+                txtResponse.setText(new Gson().toJson(missingResponse));
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
+            public void onMissingResponseFailure(GSMAError gsmaError) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
-
             }
 
             @Override
@@ -602,7 +628,6 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
-
         });
     }
 }

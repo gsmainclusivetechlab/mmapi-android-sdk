@@ -35,10 +35,11 @@ public class Quotation {
             requestStateInterface.onValidationError(Utils.setError(5));
         } else if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().requestQuotation(uuid, notificationMethod, callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
                 @Override
                 public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                    requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                    requestStateInterface.onRequestStateSuccess(serializedResponse);
                 }
 
                 @Override
@@ -71,7 +72,7 @@ public class Quotation {
             GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<TransactionRequest>() {
                         @Override
                         public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
-                            transactionInterface.onTransactionSuccess(serializedResponse, uuid);
+                            transactionInterface.onTransactionSuccess(serializedResponse);
                         }
 
                         @Override

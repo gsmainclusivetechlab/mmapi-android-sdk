@@ -10,7 +10,9 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 @SuppressWarnings("ALL")
 public interface RequestStateInterface extends BaseInterface{
 
-    void onRequestStateSuccess(RequestStateObject requestStateObject,String correlationId);
+    void onRequestStateSuccess(RequestStateObject requestStateObject);
 
     void onRequestStateFailure(GSMAError gsmaError);
+
+    void getCorrelationId(String correlationID);
 }

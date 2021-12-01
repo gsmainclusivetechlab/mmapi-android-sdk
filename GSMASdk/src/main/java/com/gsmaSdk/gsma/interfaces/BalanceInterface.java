@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 @SuppressWarnings("ALL")
 public interface BalanceInterface extends BaseInterface{
 
-    void onBalanceSuccess(Balance balance, String correlationId);
+    void onBalanceSuccess(Balance balance);
 
     void onBalanceFailure(GSMAError gsmaError);
 }

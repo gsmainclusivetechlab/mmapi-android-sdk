@@ -2,9 +2,11 @@ package com.gsmaSdk.gsma.controllers;
 
 import androidx.annotation.NonNull;
 
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.MissingResponse;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -21,14 +23,13 @@ public class Common {
     /**
      * Check Service Availability - To check whether the service is available
      */
-
     public void viewServiceAvailability(@NonNull ServiceAvailabilityInterface serviceAvailabilityInterface) {
         if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().checkServiceAvailability(uuid, new APIRequestCallback<ServiceAvailability>() {
                         @Override
                         public void onSuccess(int responseCode, ServiceAvailability serializedResponse) {
-                            serviceAvailabilityInterface.onServiceAvailabilitySuccess(serializedResponse, uuid);
+                            serviceAvailabilityInterface.onServiceAvailabilitySuccess(serializedResponse);
                         }
 
                         @Override
@@ -65,7 +66,7 @@ public class Common {
             GSMAApi.getInstance().viewTransaction(uuid, transactionReference, new APIRequestCallback<TransactionRequest>() {
                         @Override
                         public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
-                            transactionInterface.onTransactionSuccess(serializedResponse, uuid);
+                            transactionInterface.onTransactionSuccess(serializedResponse);
                         }
 
                         @Override
@@ -97,10 +98,11 @@ public class Common {
             requestStateInterface.onValidationError(Utils.setError(2));
         } else {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().viewRequestState(uuid, serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                            requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
                         }
 
                         @Override
@@ -120,7 +122,7 @@ public class Common {
      * @param correlationId UUID that enables the client to correlate the API request with the resource created/updated by the provider
      */
 
-    public void viewTransactionResponse(String correlationId, @NonNull TransactionInterface missingTransactionInterface) {
+    public void viewResponse(String correlationId, @NonNull MissingResponseInterface missingTransactionInterface) {
         if (!Utils.isOnline()) {
             missingTransactionInterface.onValidationError(Utils.setError(0));
             return;
@@ -136,24 +138,24 @@ public class Common {
             GSMAApi.getInstance().retrieveMissingResponse(uuid, correlationId, new APIRequestCallback<GetLink>() {
                         @Override
                         public void onSuccess(int responseCode, GetLink serializedResponse) {
-
-                            GSMAApi.getInstance().getMissingTransactions(serializedResponse.getLink(), new APIRequestCallback<TransactionRequest>() {
+                            GSMAApi.getInstance().getMissingTransactions(serializedResponse.getLink(), new APIRequestCallback<MissingResponse>() {
                                 @Override
-                                public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
-                                    missingTransactionInterface.onTransactionSuccess(serializedResponse, uuid);
+                                public void onSuccess(int responseCode, MissingResponse serializedResponse) {
+                                    missingTransactionInterface.onMissingResponseSuccess(serializedResponse);
                                 }
 
                                 @Override
                                 public void onFailure(GSMAError errorDetails) {
-                                    missingTransactionInterface.onTransactionFailure(errorDetails);
+                                    missingTransactionInterface.onMissingResponseFailure(errorDetails);
+
                                 }
                             });
+
                         }
 
                         @Override
                         public void onFailure(GSMAError errorDetails) {
-                            missingTransactionInterface.onTransactionFailure(errorDetails);
-                        }
+                            missingTransactionInterface.onMissingResponseFailure(errorDetails);                        }
                     }
             );
         }

@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 @SuppressWarnings("ALL")
 public interface AccountHolderInterface extends BaseInterface{
 
-    void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject, String correlationID);
+    void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject);
 
     void onRetrieveAccountInfoFailure(GSMAError gsmaError);
 }

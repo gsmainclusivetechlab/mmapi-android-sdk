@@ -42,10 +42,11 @@ public class ReversalTransaction {
         }
         if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().reversal(uuid, notificationMethod, callbackUrl, referenceId, reversal, new APIRequestCallback<RequestStateObject>() {
                 @Override
                 public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
-                    requestStateInterface.onRequestStateSuccess(serializedResponse, uuid);
+                    requestStateInterface.onRequestStateSuccess(serializedResponse);
                 }
 
                 @Override
