@@ -512,8 +512,88 @@ The individual disbursement can be completed by clicking following buttons
 
 ```
 
-<a name="individual disbursement"></a>
+<a name="bulk-disbursement"></a>
 
+# Bulk Disbursement
+
+The bulk Disbursement can be completed by clicking following button in sequential order
+
+* Bulk Transaction
+* Request State
+* Get Batch Details
+* Batch Completion
+* Batch Rejection
+
+
+### Example Output - Bulk Transaction
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "1153",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "pending"
+ }
+ 
+```
+
+### Example Output - Request State
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638337785175",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "completed"
+ }
+
+```
+
+ ### Example Output - Get Batch Details
+
+```json
+ 
+  {
+ 	"batchDescription": "Testing a Batch transaction",
+ 	"batchId": "REF-1638337785175",
+ 	"batchStatus": "created",
+ 	"batchTitle": "Batch Test",
+ 	"completedCount": 0,
+ 	"creationDate": "2021-12-01T05:49:45",
+ 	"modificationDate": "2021-12-01T05:49:45",
+ 	"parsingSuccessCount": 0,
+ 	"processingFlag": false,
+ 	"rejectionCount": 0,
+ 	"requestDate": "2021-12-01T05:49:45",
+ 	"scheduledStartDate": "2019-12-11T15:08:03"
+ }
+ 
+
+```
+
+ ### Example Output - Batch Completion
+
+```json
+{
+	"BatchTransactionCompletion": []
+}
+
+```
+
+
+ ### Example Output - Batch Rejection
+
+```json
+{
+	"BatchTransactionRejection": []
+}
+
+```
+
+ 
+ 
 
 
 
