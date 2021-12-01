@@ -98,13 +98,17 @@ A library that fully covers payment process inside your Android application
         12. [Retrieve a Missing API Response](#missing-response-recurring)
    5. [Account Linking](#account-linking)
         1. [Setup an Account Link](#account-setup-link)
-        2. [Perform a Transfer for a Linked Account]
-        3. [Perform a Transfer using an Account Link via the Polling Method]
-        4. [Perform a Transfer Reversal]
-        5. [Obtain a Financial Service Provider Balance]
-        6. [Retrieve Transfers for a Financial Service Provider]
-        7. [Check for Service Availability]
-        8. [Retrieve a Missing API Response]
+        2. [Perform a Transfer for a Linked Account](#perform-account-link)
+           * [SetUp an account link](#account-setup-link)
+           * [Request State](#request-state-account-link)
+           * [View a Account Link](#view-account-link)
+           * [Perform a Transfer for a Linked Account](#account-link-transfer)
+        4. [Perform a Transfer using an Account Link via the Polling Method]
+        5. [Perform a Transfer Reversal]
+        6. [Obtain a Financial Service Provider Balance]
+        7. [Retrieve Transfers for a Financial Service Provider]
+        8. [Check for Service Availability]
+        9. [Retrieve a Missing API Response]
      
         
   5. [How to Test sample application](GSMATest/README.md)
@@ -2657,6 +2661,7 @@ The requesting FSP initiates the request which is authorised by the account hold
   private AccountLinkingObject accountLinkingObject;
   ArrayList<Identifier> identifierArrayList;
   private String correlationId = ""; 
+  private String serverCorrelationId; 
  ```   
   
  Create an account identifier object
@@ -2720,7 +2725,7 @@ The requesting FSP initiates the request which is authorised by the account hold
         SDKManager.accountLinking.createAccountLinking(NotificationMethod.POLLING, "", identifierArrayList, accountLinkingObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-             
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
             }
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
@@ -2739,6 +2744,153 @@ The requesting FSP initiates the request which is authorised by the account hold
         });
    
   ``` 
+<a name="perform-account-link"></a>
+
+ # Perform a Transfer for a Linked Account
+   
+   This scenario consist of following methods
+                                                                   
+   * SetUp an account link
+   * Request State
+   * View a Account Link
+   * Perform a Transfer for a Linked Account
+      
+   <a name="request-state-account-link"></a>
+   
+   ```
+    private String transactionRef = "";
+    private String linkReference = "";
+    private String serverCorrelationId;
+   
+   ```
+  
+   ### Request State
+   
+   ````
+ 
+    SDKManager.accountLinking.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                 transactionRef = requestStateObject.getObjectReference();
+      
+            }
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+
+            }
+              @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
+
+
+        });
+  
+  ````
+   
+  <a name="view-account-link"></a>  
+
+   ### View an account Link
+   
+   ```
+   
+    SDKManager.accountLinking.viewAccountLink(identifierArrayList, transactionRef, new AccountLinkInterface() {
+            @Override
+            public void onAccountLinkSuccess(AccountLinks accountLinks) {
+               linkReference = accountLinks.getLinkReference();
+               
+             }
+
+            @Override
+            public void onAccountLinkFailure(GSMAError gsmaError) {
+              
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+          
+            }
+   
+   ```
+   
+   <a name="account-link-transfer"></a>
+   
+   ### Perform a Transfer for a Linked Account
+   
+   
+   ```
+    private String correlationId = "";
+    private String serverCorrelationId;
+    private TransactionRequest transactionRequest;
+   
+   ```
+   
+   ```
+   private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
+        //set amount and currency
+        transactionRequest.setAmount("200");
+        transactionRequest.setCurrency("RWF");
+
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        //debit party
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("2999");
+        debitPartyList.add(debitPartyItem);
+
+        //credit party
+        creditPartyItem.setKey("linkref");
+        creditPartyItem.setValue(linkReference);
+        creditPartyList.add(creditPartyItem);
+
+        //add debit and credit party to transaction object
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        performTransfer();
+    }
+   
+   ```
+   ```
+    private void performTransfer() {
+
+        showLoading();
+        SDKManager.accountLinking.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+               }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+           
+
+           }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+               
+            }
+
+        });
+    }
+   
+   ```
+   
    
    
    
