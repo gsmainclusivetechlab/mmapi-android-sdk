@@ -105,13 +105,27 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 * [Individual Disbursement](#individual-disbursement)
 * [Bulk Disbursement](#bulk-disbursement)
-* Bulk Disbursement with Maker / Checker
-* Individual Disbursement Using the Polling Method
+* [Bulk Disbursement with Maker / Checker](#bulk-disbursement-maker)
+* [Individual Disbursement Using the Polling Method](#disbursment-polling)
 * [Disbursement Reversal](#reversal)
 * [Obtain a Disbursement Organisation Balance](#balance)
 * [Retrieve Transactions for a Disbursement Organisation](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response]((#missing-response))
+
+# International Transfer
+
+* [International Transfer via Hub]
+* [Bilateral International Transfer]
+* [International Transfer Reversal](#reversal)
+* [Obtain an FSP Balance](#balance)
+* [Retrieve Transactions for an FSP](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
+
+
+
+
 
 # Payee/Payer initiated Merchant Payment
  
@@ -592,7 +606,166 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```
 
+
+<a name="bulk-disbursement-maker"></a>
+# Bulk Disbursement using Maker/Checker
+
+The bulk Disbursement can be completed by clicking following button in sequential order
+
+* Bulk Transaction
+* Request State
+* Update Batch 
+* Get Batch Details
+* Batch Completion
+* Batch Rejection
+
+
+### Example Output - Bulk Transaction
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "1153",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "pending"
+ }
  
+```
+
+### Example Output - Request State
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638337785175",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "completed"
+ }
+
+```
+
+### Example Output - Update Batch
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638337785175",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "completed"
+ }
+
+```
+
+
+ ### Example Output - Get Batch Details
+
+```json
+ 
+  {
+ 	"batchDescription": "Testing a Batch transaction",
+ 	"batchId": "REF-1638337785175",
+ 	"batchStatus": "created",
+ 	"batchTitle": "Batch Test",
+ 	"completedCount": 0,
+ 	"creationDate": "2021-12-01T05:49:45",
+ 	"modificationDate": "2021-12-01T05:49:45",
+ 	"parsingSuccessCount": 0,
+ 	"processingFlag": false,
+ 	"rejectionCount": 0,
+ 	"requestDate": "2021-12-01T05:49:45",
+ 	"scheduledStartDate": "2019-12-11T15:08:03"
+ }
+ 
+
+```
+
+ ### Example Output - Batch Completion
+
+```json
+{
+	"BatchTransactionCompletion": []
+}
+
+```
+
+
+ ### Example Output - Batch Rejection
+
+```json
+{
+	"BatchTransactionRejection": []
+}
+
+```
+
+<a name="disbursment-polling"></a>
+
+# Individual Disbursement Using the Polling Method
+
+Disbursement using polling method can be completed using clicking following buttons in sequential order
+
+* Individual Disbursement
+* Request State
+* View Transaction
+
+### Example Output - Individual Disbursement
+
+```json
+{
+	 {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "15673",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+ }
+}
+
+```
+
+ ### Example Output - Request State
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+```
+The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
+
+ ### Example Output - View Transaction
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+
  
 
 
