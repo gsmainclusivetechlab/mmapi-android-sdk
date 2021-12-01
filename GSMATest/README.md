@@ -115,8 +115,8 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 # International Transfer
 
-* [International Transfer via Hub]
-* [Bilateral International Transfer]
+* [International Transfer via Hub](#international-transfer-hub)
+* [Bilateral International Transfer](#international-transfer-hub)
 * [International Transfer Reversal](#reversal)
 * [Obtain an FSP Balance](#balance)
 * [Retrieve Transactions for an FSP](#retrieve-payments)
@@ -765,8 +765,41 @@ The object reference obtained from the request state is passed to view transacti
 	"modificationDate": "2021-11-30T12:37:15",
 	"requestDate": "2021-11-30T12:37:15"
 }
+````
+<a name="international-transfer-hub"></a>
+# International Transfer via Hub/Bilateral International Transfer
 
+This use case can be completed by clicking following button in sequential order
+
+* Request a interantional Transfer Quotation
+* Perform a international Transfer
+
+ ### Example Output - Request a interantional Transfer Quotation
  
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "1295",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
+ 	"status": "pending"
+ }
+````
+
+### Example Output - Perform a international Transfer
+ 
+ ```json
+{
+ 	"notificationMethod": "polling",
+ 	"objectReference": "1295",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
+ 	"status": "pending"
+ }
+````
+Use polling or callback scenario to get the complete status for a transaction  
+
+
 
 
 
