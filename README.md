@@ -63,6 +63,7 @@ A library that fully covers payment process inside your Android application
        7. [Check for Service Availability](#check-for-service-international)
        8. [Retrieve a Missing API Response](#missing-response-international)
    4. [PP2P Transfers](#p2p-switch)
+   
       1. [P2P Transfer via Switch](#p2p-switch)
            * [Confirm the recipient name](#p2p-name)
            * [Request a quotation](#p2p-quotation) 
@@ -95,7 +96,17 @@ A library that fully covers payment process inside your Android application
         10. [Retrieve Transactions for an FSP](#recurring-pay-retrieve)
         11. [Check for Service Availability](#check-for-service-recurring)
         12. [Retrieve a Missing API Response](#missing-response-recurring)
-           
+   5. [Account Linking](#account-linking)
+        1. [Setup an Account Link](#account-setup-link)
+        2. [Perform a Transfer for a Linked Account]
+        3. [Perform a Transfer using an Account Link via the Polling Method]
+        4. [Perform a Transfer Reversal]
+        5. [Obtain a Financial Service Provider Balance]
+        6. [Retrieve Transfers for a Financial Service Provider]
+        7. [Check for Service Availability]
+        8. [Retrieve a Missing API Response]
+     
+        
   5. [How to Test sample application](GSMATest/README.md)
  
 
@@ -2629,5 +2640,106 @@ SDKManager.recurringPayment.viewTransactionResponse(correlationId, new Transacti
         });
 
 ```
+
+<a name="account-setup-link"></a>    
+   
+# Setup an Account Link
+   
+The requesting FSP initiates the request which is authorised by the account holding customer.This scenario consist of following request
+   
+   * Create an account link
+   
+   
+ ### Create an account link
+   
+   
+ ```
+  private AccountLinkingObject accountLinkingObject;
+  ArrayList<Identifier> identifierArrayList;
+  private String correlationId = ""; 
+ ```   
+  
+ Create an account identifier object
+
+   ```   
+ private void createAccountIdentifier() {
+        identifierArrayList = new ArrayList<>();
+        identifierArrayList.clear();
+
+        //account id
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey("place your account identifier");//eg: accountid
+        identifierAccount.setValue("place your value of account identifier"); // eg: 2000
+
+        identifierArrayList.add(identifierAccount);
+    }   
+   
+  ``` 
+  Create an object and perform create account linking request
+   
+  ```
+    private void createAccountLinkingObject() {
+        accountLinkingObject = new AccountLinkingObject();
+        //set amount and currency
+        accountLinkingObject.setMode("active");
+        accountLinkingObject.setStatus("both");
+
+        ArrayList<SourceAccountIdentifiersItem> sourceAccountIdentifiersList = new ArrayList<>();
+        ArrayList<CustomDataItem> customDataList = new ArrayList<>();
+        SourceAccountIdentifiersItem sourceAccountIdentifiersItem = new SourceAccountIdentifiersItem();
+        CustomDataItem customDataItem = new CustomDataItem();
+        RequestingOrganisation requestingOrganisationItem = new RequestingOrganisation();
+
+        //Source Account Identifiers
+        sourceAccountIdentifiersItem.setKey("accountid");
+        sourceAccountIdentifiersItem.setValue("2999");
+        sourceAccountIdentifiersList.add(sourceAccountIdentifiersItem);
+
+        //Custom Data
+        customDataItem.setKey("keytest");
+        customDataItem.setValue("keyvalue");
+        customDataList.add(customDataItem);
+
+        //Requesting Organisation data
+        requestingOrganisationItem.setRequestingOrganisationIdentifierType("organisationid");
+        requestingOrganisationItem.setRequestingOrganisationIdentifier("12345");
+
+
+        //add details to account linking object
+        accountLinkingObject.setSourceAccountIdentifiers(sourceAccountIdentifiersList);
+        accountLinkingObject.setCustomData(customDataList);
+        accountLinkingObject.setRequestingOrganisation(requestingOrganisationItem);
+
+        createAccountLinking();
+
+    }
+  ``` 
+
+  ```
+  private void createAccountLinking() {
+        SDKManager.accountLinking.createAccountLinking(NotificationMethod.POLLING, "", identifierArrayList, accountLinkingObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+             
+            }
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+            }
+
+        });
+   
+  ``` 
+   
+   
    
    
