@@ -11,9 +11,9 @@ This is a sample app provided to demonstrate the working of MMAPI SDK in android
 
 As usual, you get started by 
 
-1.Installing  the apk in real device
+* Installing  the apk in real device
 
-2.Cloning the project into local machine
+* Cloning the project into local machine
 
 
 
@@ -96,8 +96,8 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Merchant Payment Reversal](#reversal)
 * [Obtain a Merchant Balance](#balance)
 * [Retrieve Payments for a Merchant](#retrieve-payments)
-* Check for Service Availability
-* Retrieve a Missing API Response
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
 
 <a name="payee-initiated"></a>
 
@@ -423,6 +423,62 @@ The balance scenario can be completed by using following methods
  }
 
 ```
+
+<a name="check-for-service"></a>
+
+# Check for Service Availability
+
+The service functionality will be trigerred automatically when we select merchant payment use cases
+
+### Example Output - Check for Service
+
+```json
+{
+	"serviceStatus": "available"
+}
+
+```
+
+<a name="missing-response"></a>
+
+# Retrieve a Missing API Response
+
+ The missing response of an request can be performed using the correlation id used for the request,Pass the correlationid obtained for a transaction request to get the missing  response of a particular API
+ 
+For eg:if the transaction response is missing,To retrieve the missing response of transaction click the following button in sequential order
+
+* Payee Initiated
+* Missing Transaction
+
+### Example Output - Payee Initiated
+
+```json
+{
+	"notificationMethod": "polling",
+	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "completed"
+}
+
+```
+
+
+### Example Output - Missing Transaction
+
+```json
+{
+	"notificationMethod": "polling",
+	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "completed"
+}
+
+```
+
+
+
 
 
 
