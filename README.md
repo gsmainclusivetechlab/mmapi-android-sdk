@@ -243,8 +243,13 @@ private void createTransactionObject() {
             public void onRequestStateFailure(GSMAError gsmaError) {
       
             }
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
 
-        });
+       });
 
 ```
 <a name="merchant-pay-polling"></a>
@@ -312,6 +317,12 @@ private void createTransactionObject() {
             public void onRequestStateFailure(GSMAError gsmaError) {
       
             }
+            
+            @Override
+            public void getCorrelationId(String correlationID) {
+                
+            }
+
 
         });
 
@@ -335,6 +346,11 @@ private void createTransactionObject() {
             public void onRequestStateFailure(GSMAError gsmaError) {
 
             }
+              @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
+
 
         });
   
@@ -427,6 +443,10 @@ private void createAccountIdentifier(){
             public void onRequestStateFailure(GSMAError gsmaError) {
              
             }
+             @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
 
         });
 ```
@@ -474,6 +494,10 @@ Initiate the mechant pay request using the following code
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
             
+            }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
             }
       });
 
@@ -532,6 +556,10 @@ Create a refund request with transaction parameter
             public void onValidationError(ErrorObject errorObject) {
               
             }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
         });
 
 ```
@@ -572,6 +600,10 @@ Call the reversal function with reversal and reference Id of transaction obtaine
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 
+            }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
             }
         });
 
@@ -866,6 +898,11 @@ private void createTransactionObject() {
             public void onRequestStateFailure(GSMAError gsmaError) {
      
             }
+              @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
+          }
     
 
 ```
@@ -989,6 +1026,10 @@ Perform the bulk transaction using the following code
             public void onRequestStateFailure(GSMAError gsmaError) {
            
             }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
 
         });
   
@@ -1105,6 +1146,10 @@ SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING,"","Pl
             public void onRequestStateFailure(GSMAError gsmaError) {
              
             }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
 
         });
 
@@ -1176,6 +1221,11 @@ Call the reversal function with reversal and reference Id of transaction obtaine
             public void onValidationError(ErrorObject errorObject) {
                 
             }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
+            
         });
 
 ```
@@ -1472,6 +1522,10 @@ Request a quotation to perform international transfer with transaction request o
             public void onValidationError(ErrorObject errorObject) {
           
             }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
         });
 
 
@@ -1528,6 +1582,11 @@ Perform international transfer request using transaction request
             public void onValidationError(ErrorObject errorObject) {
        
             }
+              @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
+            
         });
 
 ```
@@ -1571,6 +1630,10 @@ Call the reversal function with reversal and reference Id of transaction obtaine
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 
+            }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
             }
         });
 
@@ -1862,6 +1925,10 @@ private String serverCorrelationId;
             public void onValidationError(ErrorObject errorObject) {
      
             }
+              @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
         });
 
 
@@ -1950,6 +2017,10 @@ Create p2p Transfer object
             @Override
             public void onValidationError(ErrorObject errorObject) {
         
+            }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
             }
         });
 
@@ -2133,7 +2204,7 @@ In this use case the setup for the recurring payment is done using debit mandate
 ```
  SDKManager.recurringPayment.createAccountDebitMandate(NotificationMethod.POLLING, "", identifierArrayList, debitMandateRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
              
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
           
@@ -2147,6 +2218,10 @@ In this use case the setup for the recurring payment is done using debit mandate
             @Override
             public void onValidationError(ErrorObject errorObject) {
             
+            }
+             @Override
+            public void getCorrelationId(String correlationID) {
+               
             }
         });
    
@@ -2185,6 +2260,7 @@ private String debitMandateReference;
             public void onValidationError(ErrorObject errorObject) {
              
             }
+             
         });
 
    
@@ -2238,13 +2314,17 @@ private String debitMandateReference;
             }
 
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
          
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
              
+            }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
             }
 
         });
@@ -2350,7 +2430,7 @@ Create a refund request with transaction parameter
 
  SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             serverCorrelationId = requestStateObject.getServerCorrelationId();
             }
 
@@ -2362,6 +2442,10 @@ Create a refund request with transaction parameter
             @Override
             public void onValidationError(ErrorObject errorObject) {
               
+            }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
             }
         });
 
@@ -2390,7 +2474,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
   SDKManager.recurringPayment.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject, String correlationID) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                       serverCorrelationId = requestStateObject.getServerCorrelationId();
 
             }
@@ -2403,6 +2487,10 @@ Call the reversal function with reversal and reference Id of transaction obtaine
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 
+            }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
             }
         });
 
