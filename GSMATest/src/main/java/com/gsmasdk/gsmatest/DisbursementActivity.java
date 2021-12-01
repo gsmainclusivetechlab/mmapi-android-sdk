@@ -621,6 +621,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
         });
+
     }
 
     //Get Batch Transaction Details

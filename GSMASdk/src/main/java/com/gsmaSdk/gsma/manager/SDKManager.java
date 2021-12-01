@@ -3,6 +3,7 @@ package com.gsmaSdk.gsma.manager;
 
 import android.content.Context;
 
+import com.gsmaSdk.gsma.controllers.AccountLinking;
 import com.gsmaSdk.gsma.controllers.Disbursement;
 import com.gsmaSdk.gsma.controllers.InternationalTransfer;
 import com.gsmaSdk.gsma.controllers.MerchantPayment;
@@ -34,6 +35,7 @@ public class SDKManager {
     public static InternationalTransfer internationalTransfer=new InternationalTransfer();
     public static P2PTransfer p2PTransfer=new P2PTransfer();
     public static RecurringPayment recurringPayment=new RecurringPayment();
+    public static AccountLinking accountLinking=new AccountLinking();
 
     private SDKManager() {
     }

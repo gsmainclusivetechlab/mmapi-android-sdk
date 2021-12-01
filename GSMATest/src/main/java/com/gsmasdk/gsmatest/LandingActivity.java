@@ -133,6 +133,9 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
 
             case 5:
                 //Account Linking
+                startActivity(new Intent(LandingActivity.this,AccountLinkingActivity .class));
+
+
                 break;
             case 6:
                 //Bill Payments

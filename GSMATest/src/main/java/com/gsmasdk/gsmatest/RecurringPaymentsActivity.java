@@ -463,6 +463,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
      */
     private void paymentRefund() {
         showLoading();
+        
         SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {

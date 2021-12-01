@@ -293,6 +293,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
+
     }
 
     /**
