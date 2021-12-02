@@ -149,8 +149,8 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 # Account Linking
 
-* [Setup an Account Link]
-* [Perform a Transfer for a Linked Account]
+* [Setup an Account Link](#setup-accountlink)
+* [Perform a Transfer for a Linked Account](#transfer-account-link)
 * [Perform a Transfer using an Account Link via the Polling Method]
 * [Perform a Transfer Reversal]
 * [Obtain a Financial Service Provider Balance](#balance)
@@ -1103,16 +1103,75 @@ The object reference obtained from the request state is passed to view transacti
 	"requestDate": "2021-11-30T12:37:15"
 }
 ```
+
+<a name="setup-accountlink"></a>
+
 # [Setup an Account Link]
 
 The setup an account link scenario can be completed by clicking the following buttons
 
-1.Create a Debit Mandate
-2.Request State
-3.Read a Debit Mandate
+* Create a Account Link
+* Request State
+* View an account Link
+
+ ### Example Output - Create a Debit Mandate
+ ```json
+   {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "440",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "pending"
+ }
+ ```
+ 
+ ### Example Output - Request State
+ 
+ ```json
+  {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638425137077",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "completed"
+ }
+ ```
+  ### Example Output - View an account Link
+ 
+ ```json
 
 
+ {
+ 	"creationDate": "2021-12-02T06:36:52",
+ 	"customData": [{
+ 		"key": "keytest",
+ 		"value": "keyvalue"
+ 	}],
+ 	"linkReference": "REF-1638427012132",
+ 	"mode": "active",
+ 	"modificationDate": "2021-12-02T06:36:52",
+ 	"requestingOrganisation": {},
+ 	"sourceAccountIdentifiers": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907197912"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907232832"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907265888"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907412029"
+ 	}],
+ 	"status": "active"
+ }
 
+ ```
+ 
 
 
 
