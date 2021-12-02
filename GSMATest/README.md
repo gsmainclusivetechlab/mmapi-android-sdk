@@ -147,6 +147,21 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
+# Account Linking
+
+* [Setup an Account Link]
+* [Perform a Transfer for a Linked Account]
+* [Perform a Transfer using an Account Link via the Polling Method]
+* [Perform a Transfer Reversal]
+* [Obtain a Financial Service Provider Balance](#balance)
+* [Retrieve Transfers for a Financial Service Provider](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
+
+
+
+
+
 
 <a name="payee-initiated"></a>
 
@@ -1088,3 +1103,20 @@ The object reference obtained from the request state is passed to view transacti
 	"requestDate": "2021-11-30T12:37:15"
 }
 ```
+# [Setup an Account Link]
+
+The setup an account link scenario can be completed by clicking the following buttons
+
+1.Create a Debit Mandate
+2.Request State
+3.Read a Debit Mandate
+
+
+
+
+
+
+
+
+
+
