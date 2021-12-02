@@ -107,11 +107,11 @@ A library that fully covers payment process inside your Android application
            * [Perform a Transfer for a Linked Account](#account-link-transfer)
            * [Request State](#request-state-account-link)
            * [Retrieve a Transaction](#view-transaction-account-link)
-        6. [Perform a Transfer Reversal]
-        7. [Obtain a Financial Service Provider Balance]
-        8. [Retrieve Transfers for a Financial Service Provider]
-        9. [Check for Service Availability]
-        10. [Retrieve a Missing API Response]
+        6. [Perform a Transfer Reversal](#accountlink-pay-reversal)
+        7. [Obtain a Financial Service Provider Balance](#accountlink-pay-balance)
+        8. [Retrieve Transfers for a Financial Service Provider](#accountlink-pay-retrieve)
+        9. [Check for Service Availability](#check-for-service-accountlink)
+        10. [Retrieve a Missing API Response](#missing-response-accountlink) 
      
         
   5. [How to Test sample application](GSMATest/README.md)
@@ -2899,7 +2899,7 @@ The requesting FSP initiates the request which is authorised by the account hold
   ### Retrieve a Transaction
 
   ```
-     SDKManager.accountLinking..viewTransaction(transactionRef, new TransactionInterface() {
+     SDKManager.accountLinking.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
     
@@ -2920,4 +2920,181 @@ The requesting FSP initiates the request which is authorised by the account hold
    ```   
    
    
+   <a name="accountlink-pay-reversal"></a>
+
+# Reversal-Account Linking
+
+In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
+
+Declare the revesal object
+
+```
+private ReversalObject reversalObject;
+```
+
+```
+private void createPaymentReversalObject() {
+        reversalObject = new ReversalObject();
+        reversalObject.setReversal("reversal");
+ }
+```
+Call the reversal function with reversal and reference Id of transaction obtained using the polling method
+
+```
+
+  SDKManager.accountLinking.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                      serverCorrelationId = requestStateObject.getServerCorrelationId();
+
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
+        });
+
+```
+<a name="accountlink-pay-balance"></a>
+
+# Payment Balance-Account Linking
+
+Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
+
+```
+    private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.accountLinking.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onBalanceSuccess(Balance balance) {
+       
+            }
+
+            @Override
+            public void onBalanceFailure(GSMAError gsmaError) {
+              
+            }
+        });
+
+```
+<a name="accountlink-pay-retrieve"></a>
+
+# Retrieve Payments-Account Linking
+
+Merchant can retrieve all transaction details
+
+```
+   private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.accountLinking.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+            
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
+           
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+         
+            }
+        });
+ 
+ 
+ 
+
+```
+<a name="check-for-service-accountlink"></a>
+
+# Check for Service Availability-Account Linking
+
+The application should perform service availabilty check before calling the payment scenarios
+
+    private void checkServiceAvailability() {
+        SDKManager.accountLinking.viewServiceAvailability(new ServiceAvailabilityInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+
+            @Override
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
+          
+            }
+
+            @Override
+            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
+              
+            }
+        });
+     }
+
+<a name="missing-response-accountlink"></a>
    
+# Retrieve a Missing API Response-Account Linking
+
+Merchant to retrieve a link to the final representation of the resource for which it attempted to create. Use this API when a callback is not received from the mobile money provider.
+
+## 1.Missing Transaction Response
+
+```
+ SDKManager.accountLinking.viewResponse(correlationId, new MissingResponseInterface() {
+            @Override
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
+            }
+
+            @Override
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+      
+            }
+        });
+
+```
