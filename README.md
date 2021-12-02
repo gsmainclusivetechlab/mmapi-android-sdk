@@ -103,12 +103,15 @@ A library that fully covers payment process inside your Android application
            * [Request State](#request-state-account-link)
            * [View a Account Link](#view-account-link)
            * [Perform a Transfer for a Linked Account](#account-link-transfer)
-        4. [Perform a Transfer using an Account Link via the Polling Method]
-        5. [Perform a Transfer Reversal]
-        6. [Obtain a Financial Service Provider Balance]
-        7. [Retrieve Transfers for a Financial Service Provider]
-        8. [Check for Service Availability]
-        9. [Retrieve a Missing API Response]
+        4. [Perform a Transfer using an Account Link via the Polling Method](#account-link-transfer))
+           * [Perform a Transfer for a Linked Account](#account-link-transfer)
+           * [Request State](#request-state-account-link)
+           * [Retrieve a Transaction](#view-transaction-account-link)
+        6. [Perform a Transfer Reversal]
+        7. [Obtain a Financial Service Provider Balance]
+        8. [Retrieve Transfers for a Financial Service Provider]
+        9. [Check for Service Availability]
+        10. [Retrieve a Missing API Response]
      
         
   5. [How to Test sample application](GSMATest/README.md)
@@ -2891,7 +2894,30 @@ The requesting FSP initiates the request which is authorised by the account hold
    
    ```
    
+ <a name="view-transaction-account-link"></a>
+
+  ### Retrieve a Transaction
+
+  ```
+     SDKManager.accountLinking..viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+    
+            }
+
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionRequest) {
+         
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
    
+            }
+
+        });
+   
+   ```   
    
    
    
