@@ -740,24 +740,25 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.merchantPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
+
+SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
+
+
 
 ```
 ### 2.Missing Authorization code response-Merchant Payment
@@ -1361,24 +1362,25 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.disbursement.viewTransactionResponse(correlationId, new TransactionInterface() {
+
+SDKManager.disbursement.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
+
+
 
 ```
 
@@ -1769,24 +1771,23 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.internationalTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
+SDKManager.internationaTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
+
 
 ```
 
@@ -2163,24 +2164,23 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.p2pTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
+SDKManager.p2pTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
+
 
 ```
 <a name="recurring-payments"></a>
@@ -2627,23 +2627,22 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.recurringPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
+
+   SDKManager.recurringPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
 
 ```
