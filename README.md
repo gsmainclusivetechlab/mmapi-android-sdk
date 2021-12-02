@@ -91,7 +91,7 @@ A library that fully covers payment process inside your Android application
         6. [Recurring Payment Refund](#recurring-pay-refund)
         7. [Recurring Payment Reversal](#recurring-pay-reversal)
         8. [Payer sets up a Recurring Payment using MMP Channel](#recurring-setup)
-        9.  [Obtain a Service Provider Balance](#recurring-pay-balance)
+        9. [Obtain a Service Provider Balance](#recurring-pay-balance)
         10. [Retrieve Transactions for an FSP](#recurring-pay-retrieve)
         11. [Check for Service Availability](#check-for-service-recurring)
         12. [Retrieve a Missing API Response](#missing-response-recurring)
@@ -722,23 +722,21 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.merchantPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
+SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
 
 ```
@@ -1343,24 +1341,24 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.disbursement.viewTransactionResponse(correlationId, new TransactionInterface() {
+
+SDKManager.disbursement.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
+
 
 ```
 
@@ -1751,23 +1749,21 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.internationalTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
+SDKManager.internationalTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
 
 ```
@@ -2145,23 +2141,21 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.p2pTransfer.viewTransactionResponse(correlationId, new TransactionInterface() {
+SDKManager.p2pTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
 
 ```
@@ -2609,23 +2603,21 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.recurringPayment.viewTransactionResponse(correlationId, new TransactionInterface() {
+SDKManager.p2pTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
-              
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
             }
 
             @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-   
-
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                
+      
             }
-
         });
 
 ```
