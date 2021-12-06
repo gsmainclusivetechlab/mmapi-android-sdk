@@ -1,11 +1,12 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
 
-import com.gsmaSdk.gsma.models.AccountHolderObject;
-import com.gsmaSdk.gsma.models.DebitMandate;
-import com.gsmaSdk.gsma.models.MissingResponse;
+import com.gsmaSdk.gsma.models.account.AccountHolderObject;
+import com.gsmaSdk.gsma.models.account.AccountLinks;
+import com.gsmaSdk.gsma.models.account.DebitMandate;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
-import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
@@ -300,6 +301,26 @@ public interface APIService {
     Call<DebitMandate> viewAccountDebitMandate(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier,@Path("transactionReference") String transactionReference,@HeaderMap Map<String, String> headers);
 
 
+
+    /*****************************************Account Linking Interfaces******************************/
+
+    /**
+     * Create Debit Mandate.
+     *
+     * @return the call
+     */
+    @SuppressWarnings("SpellCheckingInspection")
+    @POST("{version}/accounts/{accountIdentifier}/links")
+    Call<RequestStateObject> createAccountLinking(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier,@Body RequestBody debitMandate, @HeaderMap Map<String, String> headers);
+
+    /**
+     * View Debit Mandate.
+     *
+     * @return the call
+     */
+    @SuppressWarnings("SpellCheckingInspection")
+    @GET("{version}/accounts/{accountIdentifier}/links/{linkReference}")
+    Call<AccountLinks> viewAccountLink(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @Path("linkReference") String transactionReference, @HeaderMap Map<String, String> headers);
 
 
 

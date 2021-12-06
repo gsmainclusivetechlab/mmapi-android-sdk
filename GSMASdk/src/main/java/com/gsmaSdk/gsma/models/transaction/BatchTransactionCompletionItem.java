@@ -2,6 +2,9 @@ package com.gsmaSdk.gsma.models.transaction;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
+import com.gsmaSdk.gsma.models.common.CreditPartyItem;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
+import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 
 public class BatchTransactionCompletionItem{
 

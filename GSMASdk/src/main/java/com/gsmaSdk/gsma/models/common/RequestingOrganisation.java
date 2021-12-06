@@ -1,4 +1,4 @@
-package com.gsmaSdk.gsma.models.transaction;
+package com.gsmaSdk.gsma.models.common;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -10,7 +10,8 @@ public class RequestingOrganisation{
 	@SerializedName("requestingOrganisationIdentifier")
 	private String requestingOrganisationIdentifier;
 
-	public String getRequestingOrganisationIdentifierType(){
+	@SuppressWarnings("unused")
+    public String getRequestingOrganisationIdentifierType(){
 		return requestingOrganisationIdentifierType;
 	}
 
@@ -22,7 +23,8 @@ public class RequestingOrganisation{
 		this.requestingOrganisationIdentifier = requestingOrganisationIdentifier;
 	}
 
-	public String getRequestingOrganisationIdentifier(){
+	@SuppressWarnings("unused")
+    public String getRequestingOrganisationIdentifier(){
 		return requestingOrganisationIdentifier;
 	}
 }

@@ -101,7 +101,11 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 
 
+<<<<<<< HEAD
 # Disbursment
+=======
+# Disbursement
+>>>>>>> origin/feature-account-linking
 
 * [Individual Disbursement](#individual-disbursement)
 * [Bulk Disbursement](#bulk-disbursement)
@@ -123,7 +127,11 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
-# P2P Tranfers
+<<<<<<< HEAD
+# P2P Transfers
+=======
+# P2P Transfers
+>>>>>>> origin/feature-account-linking
 
 * [P2P Transfer via Switch](#p2p-transfer-switch)
 * [Bilateral P2P Transfer](#p2p-transfer-bilateral)
@@ -147,6 +155,24 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
+<<<<<<< HEAD
+=======
+# Account Linking
+
+* [Setup an Account Link](#setup-accountlink)
+* [Perform a Transfer for a Linked Account](#transfer-account-link)
+* [Perform a Transfer using an Account Link via the Polling Method]
+* [Perform a Transfer Reversal]
+* [Obtain a Financial Service Provider Balance](#balance)
+* [Retrieve Transfers for a Financial Service Provider](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
+
+
+
+
+
+>>>>>>> origin/feature-account-linking
 
 <a name="payee-initiated"></a>
 
@@ -477,7 +503,7 @@ The balance scenario can be completed by using following methods
 
 # Check for Service Availability
 
-The service functionality will be trigerred automatically when we select merchant payment use cases
+The service functionality will trigger automatically when we select merchant payment use cases
 
 ### Example Output - Check for Service
 
@@ -492,7 +518,7 @@ The service functionality will be trigerred automatically when we select merchan
 
 # Retrieve a Missing API Response
 
- The missing response of an request can be performed using the correlation id used for the request,Pass the correlationid obtained for a transaction request to get the missing  response of a particular API
+ The missing response of an request can be performed using the correlation id used for the request,Pass the correlationId obtained for a transaction request to get the missing  response of a particular API
  
 For eg:if the transaction response is missing,To retrieve the missing response of transaction click the following button in sequential order
 
@@ -794,10 +820,17 @@ The object reference obtained from the request state is passed to view transacti
 
 This use case can be completed by clicking following button in sequential order
 
-* Request a interantional Transfer Quotation
+<<<<<<< HEAD
+* Request a international Transfer Quotation
 * Perform a international Transfer
 
- ### Example Output - Request a interantional Transfer Quotation
+ ### Example Output - Request a international Transfer Quotation
+=======
+* Request a international Transfer Quotation
+* Perform a international Transfer
+
+ ### Example Output - Request a international Transfer Quotation
+>>>>>>> origin/feature-account-linking
  
  ```json
  {
@@ -821,7 +854,229 @@ This use case can be completed by clicking following button in sequential order
  }
 ```
 Use polling or callback scenario to get the complete status for a transaction  
+<<<<<<< HEAD
 
+
+<a name="p2p-transfer-switch"></a>
+
+# P2P Transfer via Switch/On-us’ P2P Transfer Initiated by a Third Party Provider
+
+The p2 transfer via switch can be completed by clicking the following buttons
+
+* Retrieve the Name of the Recipient
+* Request a P2P Quotation
+* Perform a  p2p Transfer
+
+
+ ### Example Output - Retrieve the Name of the Recipient
+ 
+ ```json
+{
+ 	"lei": "AAAA0012345678901299",
+ 	"name": {
+ 		"firstName": "Jeff",
+ 		"fullName": "Jeff Jimmer",
+ 		"lastName": "Jimmer",
+ 		"middleName": "James",
+ 		"title": "Mr"
+ 	}
+ }
+```
+ ### Example Output - Request a P2P Quotation
+ 
+ ```json
+ {
+	"notificationMethod": "polling",
+	"objectReference": "1306",
+	"pollLimit": 100,
+	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
+	"status": "pending"
+}
+
+```
+ ### Example Output - Perform a  p2p Transfer
+
+
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "15681",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
+ 	"status": "pending"
+ }
+
+```
+
+<a name="p2p-transfer-bilateral"></a>
+
+# Bilateral P2P Transfer
+
+The p2 transfer via switch can be completed by clicking the following buttons
+
+* Retrieve the Name of the Recipient
+* Perform a  p2p Transfer
+
+
+ ### Example Output - Retrieve the Name of the Recipient
+ 
+ ```json
+{
+ 	"lei": "AAAA0012345678901299",
+ 	"name": {
+ 		"firstName": "Jeff",
+ 		"fullName": "Jeff Jimmer",
+ 		"lastName": "Jimmer",
+ 		"middleName": "James",
+ 		"title": "Mr"
+ 	}
+ }
+```
+ ### Example Output - Perform a  p2p Transfer
+
+
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "15681",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
+ 	"status": "pending"
+ }
+
+```
+<a name="setup-recurring"></a>
+
+# Set up a recurring payment
+
+Set up a recurring payment can be completed by clicking the following buttons
+
+* Create a debit Mandate 
+
+ ### Example Output - Create a debit Mandate
+
+
+ ```json
+
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "428",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "70089e23-35ca-4e29-a166-4668024cb236",
+ 	"status": "pending"
+ }
+
+```
+<a name="take-recurring"></a>
+
+# Take a Recurring Payment
+
+ Take a recurring payment can be completed by passing debit mandate reference to merchant payment functions
+
+
+* Create a Debit Mandate
+* Request State
+* Read a Debit Mandate
+* Merchant Payment using Debit Mandate
+
+ ### Example Output - Create a Debit Mandate
+ 
+
+ ```json
+
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "432",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
+ 	"status": "pending"
+ }
+
+ 
+ ```
+
+ ### Example Output - Request State
+ 
+ ```json
+{
+	"notificationMethod": "polling",
+	"objectReference": "REF-1638343640945",
+	"pollLimit": 100,
+	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
+	"status": "completed"
+}
+```
+
+
+ ### Example Output - Read a Debit Mandate
+ 
+ ```json
+ {
+ 	"amountLimit": "1000.00",
+ 	"creationDate": "2021-12-01T07:27:21",
+ 	"currency": "GBP",
+ 	"customData": [{
+ 		"key": "keytest",
+ 		"value": "keyvalue"
+ 	}],
+ 	"endDate": "2028-07-03",
+ 	"frequencyType": "sixmonths",
+ 	"mandateReference": "REF-1638343640945",
+ 	"mandateStatus": "active",
+ 	"modificationDate": "2021-12-01T07:27:21",
+ 	"numberOfPayments": "2",
+ 	"payee": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907197912"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907232832"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907265888"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907412029"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907483978"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637909732171"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1638330257762"
+ 	}],
+ 	"requestDate": "2018-07-03T10:43:27",
+ 	"startDate": "2018-07-03"
+ }
+
+```
+
+
+ ### Example Output -  Merchant Payment using Debit Mandate
+ 
+ ```json
+
+{
+	"notificationMethod": "polling",
+	"objectReference": "15684",
+	"pollLimit": 100,
+	"serverCorrelationId": "164b0df3-ddf0-4459-96e2-82b4514a8c17",
+	"status": "pending"
+}
+
+
+```
+
+<a name="take-polling"></a>
+=======
+>>>>>>> origin/feature-account-linking
+
+# Take a recurring payment using polling method
 
 <a name="p2p-transfer-switch"></a>
 
@@ -1041,6 +1296,122 @@ Set up a recurring payment can be completed by clicking the following buttons
 <a name="take-polling"></a>
 
 # Take a recurring payment using polling method
+
+
+Click the following buttons to perform take a recurring payment using following,Before that make sure that you have completed take a recurring payment scenario
+
+* Request State
+* View Transaction
+
+ ### Example Output - Request State
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+```
+The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
+
+ ### Example Output - View Transaction
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
+
+<a name="setup-accountlink"></a>
+
+# [Setup an Account Link]
+
+The setup an account link scenario can be completed by clicking the following buttons
+
+* Create a Account Link
+* Request State
+* View an account Link
+
+ ### Example Output - Create a Debit Mandate
+ ```json
+   {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "440",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "pending"
+ }
+ ```
+ 
+ ### Example Output - Request State
+ 
+ ```json
+  {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638425137077",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "completed"
+ }
+ ```
+  ### Example Output - View an account Link
+ 
+ ```json
+
+
+ {
+ 	"creationDate": "2021-12-02T06:36:52",
+ 	"customData": [{
+ 		"key": "keytest",
+ 		"value": "keyvalue"
+ 	}],
+ 	"linkReference": "REF-1638427012132",
+ 	"mode": "active",
+ 	"modificationDate": "2021-12-02T06:36:52",
+ 	"requestingOrganisation": {},
+ 	"sourceAccountIdentifiers": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907197912"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907232832"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907265888"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907412029"
+ 	}],
+ 	"status": "active"
+ }
+
+ ```
+ 
 
 
 Click the following buttons to perform take a recurring payment using following,Before that make sure that you have completed take a recurring payment scenario

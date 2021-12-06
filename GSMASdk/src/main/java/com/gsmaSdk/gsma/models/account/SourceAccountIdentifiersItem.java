@@ -1,16 +1,16 @@
-package com.gsmaSdk.gsma.models.transaction;
+package com.gsmaSdk.gsma.models.account;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DebitPartyItem{
-
-	@SerializedName("value")
+@SuppressWarnings("ALL")
+public class SourceAccountIdentifiersItem{
 	@Expose
+	@SerializedName("value")
 	private String value;
 
-	@SerializedName("key")
 	@Expose
+	@SerializedName("key")
 	private String key;
 
 	public void setValue(String value){

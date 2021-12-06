@@ -1,9 +1,10 @@
-package com.gsmaSdk.gsma.models.transaction;
+package com.gsmaSdk.gsma.models.common;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CustomDataItem{
+@SuppressWarnings("unused")
+public class DebitPartyItem{
 
 	@SerializedName("value")
 	@Expose

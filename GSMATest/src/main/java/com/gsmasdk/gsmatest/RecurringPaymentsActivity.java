@@ -19,18 +19,18 @@ import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
-import com.gsmaSdk.gsma.models.DebitMandate;
-import com.gsmaSdk.gsma.models.Identifier;
-import com.gsmaSdk.gsma.models.MissingResponse;
-import com.gsmaSdk.gsma.models.PayeeItem;
-import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.account.DebitMandate;
+import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
+import com.gsmaSdk.gsma.models.account.PayeeItem;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
-import com.gsmaSdk.gsma.models.transaction.CustomDataItem;
-import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
+import com.gsmaSdk.gsma.models.common.CreditPartyItem;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
+import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
@@ -463,6 +463,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
      */
     private void paymentRefund() {
         showLoading();
+        
         SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {

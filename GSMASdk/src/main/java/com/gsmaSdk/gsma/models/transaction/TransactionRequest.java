@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.gsmaSdk.gsma.models.common.CreditPartyItem;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
+import com.gsmaSdk.gsma.models.common.DebitPartyItem;
+import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
+import com.gsmaSdk.gsma.models.common.SenderKyc;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 

@@ -21,9 +21,9 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-import com.gsmaSdk.gsma.models.Identifier;
-import com.gsmaSdk.gsma.models.MissingResponse;
-import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.Batch;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -34,8 +34,8 @@ import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
 import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
-import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
-import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
+import com.gsmaSdk.gsma.models.common.CreditPartyItem;
+import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 
 import com.gsmaSdk.gsma.models.transaction.Transaction;
 
@@ -621,6 +621,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
         });
+
     }
 
     //Get Batch Transaction Details
@@ -654,9 +655,6 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
     //Retrieve a missing Transaction
     private void getMissingTransaction() {
-        showLoading();
-
-
         showLoading();
 
         SDKManager.disbursement.viewResponse(correlationId, new MissingResponseInterface() {

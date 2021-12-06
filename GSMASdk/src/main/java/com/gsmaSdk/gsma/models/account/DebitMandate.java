@@ -1,11 +1,11 @@
-package com.gsmaSdk.gsma.models;
+package com.gsmaSdk.gsma.models.account;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.gsmaSdk.gsma.models.transaction.CustomDataItem;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 @SuppressWarnings("ALL")

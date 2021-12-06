@@ -8,7 +8,7 @@ import android.os.Build;
 import android.util.Base64;
 
 import com.gsmaSdk.gsma.enums.NotificationMethod;
-import com.gsmaSdk.gsma.models.Identifier;
+import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 

@@ -23,23 +23,23 @@ import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-import com.gsmaSdk.gsma.models.Identifier;
-import com.gsmaSdk.gsma.models.MissingResponse;
-import com.gsmaSdk.gsma.models.common.Balance;
+import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 
-import com.gsmaSdk.gsma.models.transaction.CreditPartyItem;
-import com.gsmaSdk.gsma.models.transaction.CustomDataItem;
-import com.gsmaSdk.gsma.models.transaction.DebitPartyItem;
-import com.gsmaSdk.gsma.models.transaction.IdDocumentItem;
+import com.gsmaSdk.gsma.models.common.CreditPartyItem;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
+import com.gsmaSdk.gsma.models.common.DebitPartyItem;
+import com.gsmaSdk.gsma.models.common.IdDocumentItem;
 import com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation;
-import com.gsmaSdk.gsma.models.transaction.PostalAddress;
-import com.gsmaSdk.gsma.models.transaction.RequestingOrganisation;
-import com.gsmaSdk.gsma.models.transaction.SenderKyc;
-import com.gsmaSdk.gsma.models.transaction.SubjectName;
+import com.gsmaSdk.gsma.models.common.PostalAddress;
+import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
+import com.gsmaSdk.gsma.models.common.SenderKyc;
+import com.gsmaSdk.gsma.models.common.SubjectName;
 import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
 
 import com.gsmaSdk.gsma.models.transaction.ReversalObject;

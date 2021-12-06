@@ -63,6 +63,7 @@ A library that fully covers payment process inside your Android application
        7. [Check for Service Availability](#check-for-service-international)
        8. [Retrieve a Missing API Response](#missing-response-international)
    4. [PP2P Transfers](#p2p-switch)
+   
       1. [P2P Transfer via Switch](#p2p-switch)
            * [Confirm the recipient name](#p2p-name)
            * [Request a quotation](#p2p-quotation) 
@@ -91,12 +92,29 @@ A library that fully covers payment process inside your Android application
         6. [Recurring Payment Refund](#recurring-pay-refund)
         7. [Recurring Payment Reversal](#recurring-pay-reversal)
         8. [Payer sets up a Recurring Payment using MMP Channel](#recurring-setup)
-        9. [Obtain a Service Provider Balance](#recurring-pay-balance)
+        9.  [Obtain a Service Provider Balance](#recurring-pay-balance)
         10. [Retrieve Transactions for an FSP](#recurring-pay-retrieve)
         11. [Check for Service Availability](#check-for-service-recurring)
         12. [Retrieve a Missing API Response](#missing-response-recurring)
-           
-  5. [How to Test sample application](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/blob/develop/GSMATest/README.md)
+   5. [Account Linking](#account-linking)
+        1. [Setup an Account Link](#account-setup-link)
+        2. [Perform a Transfer for a Linked Account](#perform-account-link)
+           * [SetUp an account link](#account-setup-link)
+           * [Request State](#request-state-account-link)
+           * [View a Account Link](#view-account-link)
+           * [Perform a Transfer for a Linked Account](#account-link-transfer)
+        4. [Perform a Transfer using an Account Link via the Polling Method](#account-link-transfer))
+           * [Perform a Transfer for a Linked Account](#account-link-transfer)
+           * [Request State](#request-state-account-link)
+           * [Retrieve a Transaction](#view-transaction-account-link)
+        6. [Perform a Transfer Reversal](#accountlink-pay-reversal)
+        7. [Obtain a Financial Service Provider Balance](#accountlink-pay-balance)
+        8. [Retrieve Transfers for a Financial Service Provider](#accountlink-pay-retrieve)
+        9. [Check for Service Availability](#check-for-service-accountlink)
+        10. [Retrieve a Missing API Response](#missing-response-accountlink) 
+     
+        
+  5. [How to Test sample application](GSMATest/README.md)
  
 
 <a name="require"></a>
@@ -722,6 +740,7 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
+
 SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
@@ -738,6 +757,8 @@ SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterf
       
             }
         });
+
+
 
 ```
 ### 2.Missing Authorization code response-Merchant Payment
@@ -1360,6 +1381,7 @@ SDKManager.disbursement.viewResponse(correlationId, new MissingResponseInterface
         });
 
 
+
 ```
 
 
@@ -1749,7 +1771,7 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.internationalTransfer.viewResponse(correlationId, new MissingResponseInterface() {
+SDKManager.internationaTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
 
@@ -1765,6 +1787,7 @@ SDKManager.internationalTransfer.viewResponse(correlationId, new MissingResponse
       
             }
         });
+
 
 ```
 
@@ -2157,6 +2180,7 @@ SDKManager.p2pTransfer.viewResponse(correlationId, new MissingResponseInterface(
       
             }
         });
+
 
 ```
 <a name="recurring-payments"></a>
@@ -2603,7 +2627,8 @@ Merchant to retrieve a link to the final representation of the resource for whic
 ## 1.Missing Transaction Response
 
 ```
-SDKManager.p2pTransfer.viewResponse(correlationId, new MissingResponseInterface() {
+
+   SDKManager.recurringPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
 
@@ -2621,5 +2646,454 @@ SDKManager.p2pTransfer.viewResponse(correlationId, new MissingResponseInterface(
         });
 
 ```
+
+<a name="account-setup-link"></a>    
+   
+# Setup an Account Link
+   
+The requesting FSP initiates the request which is authorised by the account holding customer.This scenario consist of following request
+   
+   * Create an account link
    
    
+ ### Create an account link
+   
+   
+ ```
+  private AccountLinkingObject accountLinkingObject;
+  ArrayList<Identifier> identifierArrayList;
+  private String correlationId = ""; 
+  private String serverCorrelationId; 
+ ```   
+  
+ Create an account identifier object
+
+   ```   
+ private void createAccountIdentifier() {
+        identifierArrayList = new ArrayList<>();
+        identifierArrayList.clear();
+
+        //account id
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey("place your account identifier");//eg: accountid
+        identifierAccount.setValue("place your value of account identifier"); // eg: 2000
+
+        identifierArrayList.add(identifierAccount);
+    }   
+   
+  ``` 
+  Create an object and perform create account linking request
+   
+  ```
+    private void createAccountLinkingObject() {
+        accountLinkingObject = new AccountLinkingObject();
+        //set amount and currency
+        accountLinkingObject.setMode("active");
+        accountLinkingObject.setStatus("both");
+
+        ArrayList<SourceAccountIdentifiersItem> sourceAccountIdentifiersList = new ArrayList<>();
+        ArrayList<CustomDataItem> customDataList = new ArrayList<>();
+        SourceAccountIdentifiersItem sourceAccountIdentifiersItem = new SourceAccountIdentifiersItem();
+        CustomDataItem customDataItem = new CustomDataItem();
+        RequestingOrganisation requestingOrganisationItem = new RequestingOrganisation();
+
+        //Source Account Identifiers
+        sourceAccountIdentifiersItem.setKey("accountid");
+        sourceAccountIdentifiersItem.setValue("2999");
+        sourceAccountIdentifiersList.add(sourceAccountIdentifiersItem);
+
+        //Custom Data
+        customDataItem.setKey("keytest");
+        customDataItem.setValue("keyvalue");
+        customDataList.add(customDataItem);
+
+        //Requesting Organisation data
+        requestingOrganisationItem.setRequestingOrganisationIdentifierType("organisationid");
+        requestingOrganisationItem.setRequestingOrganisationIdentifier("12345");
+
+
+        //add details to account linking object
+        accountLinkingObject.setSourceAccountIdentifiers(sourceAccountIdentifiersList);
+        accountLinkingObject.setCustomData(customDataList);
+        accountLinkingObject.setRequestingOrganisation(requestingOrganisationItem);
+
+        createAccountLinking();
+
+    }
+  ``` 
+
+  ```
+  private void createAccountLinking() {
+        SDKManager.accountLinking.createAccountLinking(NotificationMethod.POLLING, "", identifierArrayList, accountLinkingObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+            }
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+            }
+
+        });
+   
+  ``` 
+<a name="perform-account-link"></a>
+
+ # Perform a Transfer for a Linked Account
+   
+   This scenario consist of following methods
+                                                                   
+   * SetUp an account link
+   * Request State
+   * View a Account Link
+   * Perform a Transfer for a Linked Account
+      
+   <a name="request-state-account-link"></a>
+   
+   ```
+    private String transactionRef = "";
+    private String linkReference = "";
+    private String serverCorrelationId;
+   
+   ```
+  
+   ### Request State
+   
+   ````
+ 
+    SDKManager.accountLinking.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                 transactionRef = requestStateObject.getObjectReference();
+      
+            }
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+
+            }
+              @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
+
+
+        });
+  
+  ````
+   
+  <a name="view-account-link"></a>  
+
+   ### View an account Link
+   
+   ```
+   
+    SDKManager.accountLinking.viewAccountLink(identifierArrayList, transactionRef, new AccountLinkInterface() {
+            @Override
+            public void onAccountLinkSuccess(AccountLinks accountLinks) {
+               linkReference = accountLinks.getLinkReference();
+               
+             }
+
+            @Override
+            public void onAccountLinkFailure(GSMAError gsmaError) {
+              
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+          
+            }
+   
+   ```
+   
+   <a name="account-link-transfer"></a>
+   
+   ### Perform a Transfer for a Linked Account
+   
+   
+   ```
+    private String correlationId = "";
+    private String serverCorrelationId;
+    private TransactionRequest transactionRequest;
+   
+   ```
+   
+   ```
+   private void createTransactionObject() {
+        transactionRequest = new TransactionRequest();
+        //set amount and currency
+        transactionRequest.setAmount("200");
+        transactionRequest.setCurrency("RWF");
+
+        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+        DebitPartyItem debitPartyItem = new DebitPartyItem();
+        CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+        //debit party
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("2999");
+        debitPartyList.add(debitPartyItem);
+
+        //credit party
+        creditPartyItem.setKey("linkref");
+        creditPartyItem.setValue(linkReference);
+        creditPartyList.add(creditPartyItem);
+
+        //add debit and credit party to transaction object
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        performTransfer();
+    }
+   
+   ```
+   ```
+    private void performTransfer() {
+
+        showLoading();
+        SDKManager.accountLinking.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+               }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+           
+
+           }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+               
+            }
+
+        });
+    }
+   
+   ```
+   
+ <a name="view-transaction-account-link"></a>
+
+  ### Retrieve a Transaction
+
+  ```
+     SDKManager.accountLinking.viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+    
+            }
+
+            @Override
+            public void onTransactionSuccess(TransactionRequest transactionRequest) {
+         
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+   
+            }
+
+        });
+   
+   ```   
+   
+   
+   <a name="accountlink-pay-reversal"></a>
+
+# Reversal-Account Linking
+
+In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
+
+Declare the revesal object
+
+```
+private ReversalObject reversalObject;
+```
+
+```
+private void createPaymentReversalObject() {
+        reversalObject = new ReversalObject();
+        reversalObject.setReversal("reversal");
+ }
+```
+Call the reversal function with reversal and reference Id of transaction obtained using the polling method
+
+```
+
+  SDKManager.accountLinking.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                      serverCorrelationId = requestStateObject.getServerCorrelationId();
+
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+             
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                
+            }
+            @Override
+            public void getCorrelationId(String correlationID) {
+               
+            }
+        });
+
+```
+<a name="accountlink-pay-balance"></a>
+
+# Payment Balance-Account Linking
+
+Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
+
+```
+    private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.accountLinking.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+
+            @Override
+            public void onBalanceSuccess(Balance balance) {
+       
+            }
+
+            @Override
+            public void onBalanceFailure(GSMAError gsmaError) {
+              
+            }
+        });
+
+```
+<a name="accountlink-pay-retrieve"></a>
+
+# Retrieve Payments-Account Linking
+
+Merchant can retrieve all transaction details
+
+```
+   private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.accountLinking.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+            
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
+           
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+         
+            }
+        });
+ 
+ 
+ 
+
+```
+<a name="check-for-service-accountlink"></a>
+
+# Check for Service Availability-Account Linking
+
+The application should perform service availabilty check before calling the payment scenarios
+
+    private void checkServiceAvailability() {
+        SDKManager.accountLinking.viewServiceAvailability(new ServiceAvailabilityInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+             
+            }
+
+            @Override
+            public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
+          
+            }
+
+            @Override
+            public void onServiceAvailabilityFailure(GSMAError gsmaError) {
+              
+            }
+        });
+     }
+
+<a name="missing-response-accountlink"></a>
+   
+# Retrieve a Missing API Response-Account Linking
+
+Merchant to retrieve a link to the final representation of the resource for which it attempted to create. Use this API when a callback is not received from the mobile money provider.
+
+## 1.Missing Transaction Response
+
+```
+ SDKManager.accountLinking.viewResponse(correlationId, new MissingResponseInterface() {
+            @Override
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+
+            }
+
+            @Override
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+        
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+      
+            }
+        });
+
+```

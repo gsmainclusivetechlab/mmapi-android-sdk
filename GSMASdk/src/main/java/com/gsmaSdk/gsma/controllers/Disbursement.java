@@ -6,7 +6,7 @@ import com.gsmaSdk.gsma.interfaces.BatchRejectionInterface;
 import com.gsmaSdk.gsma.interfaces.BatchTransactionItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
-import com.gsmaSdk.gsma.models.Identifier;
+import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.Batch;
@@ -41,9 +41,6 @@ public class Disbursement extends Common {
         }
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
-            return;
-        } else if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
