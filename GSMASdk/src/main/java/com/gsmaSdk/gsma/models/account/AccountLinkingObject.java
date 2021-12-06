@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
 
+@SuppressWarnings("ALL")
 public class AccountLinkingObject{
 
 	@SerializedName("mode")
@@ -26,6 +27,7 @@ public class AccountLinkingObject{
 		this.mode = mode;
 	}
 
+	@SuppressWarnings("unused")
 	public String getMode(){
 		return mode;
 	}
@@ -34,6 +36,7 @@ public class AccountLinkingObject{
 		this.requestingOrganisation = requestingOrganisation;
 	}
 
+	@SuppressWarnings("unused")
 	public RequestingOrganisation getRequestingOrganisation(){
 		return requestingOrganisation;
 	}
@@ -42,6 +45,7 @@ public class AccountLinkingObject{
 		this.customData = customData;
 	}
 
+	@SuppressWarnings("unused")
 	public List<CustomDataItem> getCustomData(){
 		return customData;
 	}
@@ -50,6 +54,7 @@ public class AccountLinkingObject{
 		this.sourceAccountIdentifiers = sourceAccountIdentifiers;
 	}
 
+	@SuppressWarnings("unused")
 	public List<SourceAccountIdentifiersItem> getSourceAccountIdentifiers(){
 		return sourceAccountIdentifiers;
 	}
@@ -58,6 +63,7 @@ public class AccountLinkingObject{
 		this.status = status;
 	}
 
+	@SuppressWarnings("unused")
 	public String getStatus(){
 		return status;
 	}

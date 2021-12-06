@@ -101,7 +101,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 
 
-# Disbursment
+# Disbursement
 
 * [Individual Disbursement](#individual-disbursement)
 * [Bulk Disbursement](#bulk-disbursement)
@@ -123,7 +123,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
-# P2P Tranfers
+# P2P Transfers
 
 * [P2P Transfer via Switch](#p2p-transfer-switch)
 * [Bilateral P2P Transfer](#p2p-transfer-bilateral)
@@ -492,7 +492,7 @@ The balance scenario can be completed by using following methods
 
 # Check for Service Availability
 
-The service functionality will be trigerred automatically when we select merchant payment use cases
+The service functionality will trigger automatically when we select merchant payment use cases
 
 ### Example Output - Check for Service
 
@@ -507,7 +507,7 @@ The service functionality will be trigerred automatically when we select merchan
 
 # Retrieve a Missing API Response
 
- The missing response of an request can be performed using the correlation id used for the request,Pass the correlationid obtained for a transaction request to get the missing  response of a particular API
+ The missing response of an request can be performed using the correlation id used for the request,Pass the correlationId obtained for a transaction request to get the missing  response of a particular API
  
 For eg:if the transaction response is missing,To retrieve the missing response of transaction click the following button in sequential order
 
@@ -809,10 +809,10 @@ The object reference obtained from the request state is passed to view transacti
 
 This use case can be completed by clicking following button in sequential order
 
-* Request a interantional Transfer Quotation
+* Request a interanational Transfer Quotation
 * Perform a international Transfer
 
- ### Example Output - Request a interantional Transfer Quotation
+ ### Example Output - Request a interanational Transfer Quotation
  
  ```json
  {

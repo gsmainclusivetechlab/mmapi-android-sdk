@@ -18,4 +18,5 @@
 		android:theme="@style/Theme.GSMASdk"
         tools:targetApi="m" />
 
+
 </manifest>

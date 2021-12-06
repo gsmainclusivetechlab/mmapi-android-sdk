@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.gsmaSdk.gsma.BuildConfig;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.enums.Environment;
@@ -53,7 +54,7 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
         listUseCases.setOnItemClickListener(this);
         progressdialog = Utils.initProgress(LandingActivity.this);
         showLoading();
-        Utils.showToast(LandingActivity.this,"Configuring SDK...");
+        Utils.showToast(LandingActivity.this, "Configuring SDK...");
 
         /**
          * Initialise payment configuration with the following
@@ -64,15 +65,16 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
          * environment - sandbox or production
          */
 
+        System.out.println(""+BuildConfig.CONSUMER_KEY);
         PaymentConfiguration.
-                init("59vthmq3f6i15v6jmcjskfkmh",
-                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb",
+                init(BuildConfig.CONSUMER_KEY,
+                        BuildConfig.CONSUMER_SECRET,
                         AuthenticationType.STANDARD_LEVEL,
-                        "https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",
-                        "",
+                        BuildConfig.CALLBACK_URL,
+                        BuildConfig.CONSUMER_KEY,
                         Environment.SANDBOX);
 
-      //  PaymentConfiguration.init("https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",Environment.LIVE);
+        //  PaymentConfiguration.init("https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",Environment.LIVE);
         /**
          * Initialise the preference objects.
          */
@@ -84,21 +86,21 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(LandingActivity.this,errorObject.getErrorDescription());
+                Utils.showToast(LandingActivity.this, errorObject.getErrorDescription());
                 Log.d(LOG_TAG, "Validation Error: " + errorObject);
             }
 
             @Override
             public void onSuccess(Token token) {
                 hideLoading();
-                Utils.showToast(LandingActivity.this,"Success");
+                Utils.showToast(LandingActivity.this, "Success");
                 Log.d(LOG_TAG, "onSuccess : " + new Gson().toJson(token));
             }
 
             @Override
             public void onFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(LandingActivity.this,"Failure");
+                Utils.showToast(LandingActivity.this, "Failure");
                 Log.d(LOG_TAG, "onFailure : " + new Gson().toJson(gsmaError));
             }
         });
@@ -127,13 +129,13 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case 4:
                 //Recurring Payments
-                startActivity(new Intent(LandingActivity.this,RecurringPaymentsActivity .class));
+                startActivity(new Intent(LandingActivity.this, RecurringPaymentsActivity.class));
 
                 break;
 
             case 5:
                 //Account Linking
-                startActivity(new Intent(LandingActivity.this,AccountLinkingActivity .class));
+                startActivity(new Intent(LandingActivity.this, AccountLinkingActivity.class));
 
 
                 break;

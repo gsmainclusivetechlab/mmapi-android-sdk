@@ -8,6 +8,7 @@ import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
+@SuppressWarnings("ALL")
 public class AccountLinks extends BaseResponse {
 
 	@Expose

@@ -657,9 +657,6 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     private void getMissingTransaction() {
         showLoading();
 
-
-        showLoading();
-
         SDKManager.disbursement.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {

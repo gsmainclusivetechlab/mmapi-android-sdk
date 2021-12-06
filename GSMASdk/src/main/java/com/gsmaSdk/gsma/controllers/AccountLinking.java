@@ -19,6 +19,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class AccountLinking extends  Common {
 
     /**
@@ -97,6 +98,7 @@ public class AccountLinking extends  Common {
      * @param identifierArrayList  account identifiers of the user
      * @param linkReference Link Reference
      */
+    @SuppressWarnings({"ConstantConditions", "UnnecessaryReturnStatement"})
     public void viewAccountLink(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull String linkReference, @NonNull AccountLinkInterface accountLinkInterface) {
         if (!Utils.isOnline()) {
             accountLinkInterface.onValidationError(Utils.setError(0));
@@ -106,6 +108,7 @@ public class AccountLinking extends  Common {
             accountLinkInterface.onValidationError(Utils.setError(3));
             return;
         }
+        //noinspection ConstantConditions
         if (identifierArrayList == null) {
             accountLinkInterface.onValidationError(Utils.setError(1));
             return;

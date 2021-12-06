@@ -65,7 +65,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
     private TransactionRequest transactionRequest;
     private AccountLinkingObject accountLinkingObject;
     ArrayList<Identifier> identifierArrayList;
-    ;
+
 
     private final String[] accountLinkingArray = {
             "Set Up a Account Link ",
@@ -79,6 +79,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
             "Retrieve a Missing API Response",
     };
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,7 +226,6 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
 
     private void createAccountIdentifier() {
         identifierArrayList = new ArrayList<>();
-        identifierArrayList.clear();
 
         //account id
         Identifier identifierAccount = new Identifier();
@@ -233,6 +233,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
         identifierAccount.setValue("2000");
 
         identifierArrayList.add(identifierAccount);
+
     }
 
 
@@ -272,7 +273,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
      */
     private void requestState() {
         showLoading();
-        SDKManager.recurringPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+        SDKManager.accountLinking.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
