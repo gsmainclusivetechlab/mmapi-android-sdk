@@ -31,9 +31,9 @@ import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.CreditPartyItem;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.DebitPartyItem;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -454,8 +454,10 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
      * Create Payment Reversal Object.
      */
     private void createPaymentReversalObject() {
+
         reversalObject = new ReversalObject();
-        reversalObject.setReversal("reversal");
+        reversalObject.setType("reversal");
+
     }
 
     /**

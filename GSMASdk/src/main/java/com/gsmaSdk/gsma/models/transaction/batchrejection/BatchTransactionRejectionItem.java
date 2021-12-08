@@ -1,6 +1,8 @@
-package com.gsmaSdk.gsma.models.transaction;
+package com.gsmaSdk.gsma.models.transaction.batchrejection;
 
 import java.util.List;
+
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.models.common.CreditPartyItem;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
@@ -8,29 +10,41 @@ import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 
 public class BatchTransactionRejectionItem{
 
-	@SerializedName("debitParty")
-	private List<DebitPartyItem> debitParty;
-
-	@SerializedName("dateRejected")
-	private String dateRejected;
-
 	@SerializedName("transactionReference")
+	@Expose
 	private String transactionReference;
 
-	@SerializedName("rejectionDate")
-	private String rejectionDate;
-
 	@SerializedName("requestingOrganisationTransactionReference")
+	@Expose
 	private String requestingOrganisationTransactionReference;
 
-	@SerializedName("customData")
-	private List<CustomDataItem> customData;
-
-	@SerializedName("rejectionReason")
-	private String rejectionReason;
 
 	@SerializedName("creditParty")
+	@Expose
 	private List<CreditPartyItem> creditParty;
+
+	@SerializedName("debitParty")
+	@Expose
+	private List<DebitPartyItem> debitParty;
+
+
+	@SerializedName("rejectionReason")
+	@Expose
+	private String rejectionReason;
+
+
+	@SerializedName("rejectionDate")
+	@Expose
+	private String rejectionDate;
+
+	@SerializedName("dateRejected")
+	@Expose
+	private String dateRejected;
+
+	@SerializedName("customData")
+	@Expose
+	private List<CustomDataItem> customData;
+
 
 	public void setDebitParty(List<DebitPartyItem> debitParty){
 		this.debitParty = debitParty;

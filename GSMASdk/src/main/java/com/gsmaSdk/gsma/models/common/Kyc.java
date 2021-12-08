@@ -4,19 +4,23 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("ALL")
-public class SenderKyc{
+public class Kyc {
+
+
+	@SerializedName("birthCountry")
+	private String birthCountry;
+
+	@SerializedName("dateOfBirth")
+	private String dateOfBirth;
+
+	@SerializedName("contactPhone")
+	private String contactPhone;
 
 	@SerializedName("emailAddress")
 	private String emailAddress;
 
-	@SerializedName("occupation")
-	private String occupation;
-
-	@SerializedName("postalAddress")
-	private PostalAddress postalAddress;
-
-	@SerializedName("nationality")
-	private String nationality;
+	@SerializedName("employerName")
+	private String employerName;
 
 	@SerializedName("gender")
 	private String gender;
@@ -24,17 +28,14 @@ public class SenderKyc{
 	@SerializedName("idDocument")
 	private List<IdDocumentItem> idDocument;
 
-	@SerializedName("birthCountry")
-	private String birthCountry;
+	@SerializedName("nationality")
+	private String nationality;
 
-	@SerializedName("employerName")
-	private String employerName;
+	@SerializedName("postalAddress")
+	private PostalAddress postalAddress;
 
-	@SerializedName("dateOfBirth")
-	private String dateOfBirth;
-
-	@SerializedName("contactPhone")
-	private String contactPhone;
+	@SerializedName("occupation")
+	private String occupation;
 
 	@SerializedName("subjectName")
 	private SubjectName subjectName;

@@ -23,13 +23,12 @@ import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.transaction.Batch;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
-import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
+import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.utils.Utils;
 
@@ -322,7 +321,7 @@ public final class GSMAApi {
      * @param bulkTransactionObject Model class for Bulk Transaction
      * @param apiRequestCallback    Listener for api operation
      */
-    public void bulkTransaction(String uuid, Enum notificationMethod, String callbackUrl, BulkTransactionObject bulkTransactionObject, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void bulkTransaction(String uuid, Enum notificationMethod, String callbackUrl, BatchTransaction bulkTransactionObject, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
         if (xCallback.isEmpty()) {
@@ -385,7 +384,7 @@ public final class GSMAApi {
      * @param batchId            batch Id of a batch transaction
      * @param apiRequestCallback Listener for api operation
      */
-    public void retrieveBatch(String uuid, String batchId, APIRequestCallback<BatchTransactionItem> apiRequestCallback) {
+    public void retrieveBatch(String uuid, String batchId, APIRequestCallback<BatchTransaction> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchTransaction(PaymentConfiguration.getUrlVersion(), batchId, headers), apiRequestCallback));
     }

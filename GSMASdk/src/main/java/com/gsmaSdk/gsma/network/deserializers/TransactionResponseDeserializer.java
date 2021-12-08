@@ -6,8 +6,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.lang.reflect.Type;
 import java.util.List;

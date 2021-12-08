@@ -11,7 +11,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;

@@ -2,7 +2,7 @@ package com.gsmaSdk.gsma.interfaces;
 
 
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 /**
  * Interface for clients to retrieve Transaction

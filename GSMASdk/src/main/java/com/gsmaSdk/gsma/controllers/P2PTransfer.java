@@ -8,8 +8,8 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.ArrayList;
 

@@ -25,7 +25,7 @@ import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
@@ -33,8 +33,8 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.CreditPartyItem;
 import com.gsmaSdk.gsma.models.common.DebitPartyItem;
-import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -159,7 +159,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void createPaymentReversalObject() {
         reversalObject = new ReversalObject();
-        reversalObject.setReversal("reversal");
+        reversalObject.setType("reversal");
     }
 
     /**

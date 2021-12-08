@@ -1,4 +1,4 @@
-package com.gsmaSdk.gsma.models.transaction;
+package com.gsmaSdk.gsma.models.common;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -22,11 +22,34 @@ public class InternationalTransferInformation{
 	@SerializedName("remittancePurpose")
 	private String remittancePurpose;
 
+
 	@SerializedName("sendingServiceProviderCountry")
 	private String sendingServiceProviderCountry;
 
+	@SerializedName("recipientBlockingReason")
+	private String recipientBlockingReason;
+
+	@SerializedName("senderBlockingReason")
+	private String senderBlockingReason;
+
 	@SerializedName("quoteId")
 	private String quoteId;
+
+	public String getRecipientBlockingReason() {
+		return recipientBlockingReason;
+	}
+
+	public void setRecipientBlockingReason(String recipientBlockingReason) {
+		this.recipientBlockingReason = recipientBlockingReason;
+	}
+
+	public String getSenderBlockingReason() {
+		return senderBlockingReason;
+	}
+
+	public void setSenderBlockingReason(String senderBlockingReason) {
+		this.senderBlockingReason = senderBlockingReason;
+	}
 
 	public String getQuotationReference(){
 		return quotationReference;

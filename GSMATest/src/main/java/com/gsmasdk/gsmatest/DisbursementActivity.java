@@ -27,20 +27,19 @@ import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.Batch;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
-import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
 import com.gsmaSdk.gsma.models.common.CreditPartyItem;
 import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 
-import com.gsmaSdk.gsma.models.transaction.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +50,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class DisbursementActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private TransactionRequest transactionRequest;
-    private BulkTransactionObject bulkTransactionObject;
+    private BatchTransaction bulkTransactionObject;
     private TextView txtResponse;
 
     private String transactionRef = "";
@@ -158,7 +157,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
     private void createPaymentReversalObject() {
         reversalObject = new ReversalObject();
-        reversalObject.setReversal("reversal");
+        reversalObject.setType("reversal");
     }
 
     private void createBatchRequestObject() {
@@ -175,7 +174,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
      * Method for creating Bulk transaction object.
      */
     private void createBulkTransactionObject() {
-        bulkTransactionObject = new BulkTransactionObject();
+        bulkTransactionObject = new BatchTransaction();
 
         ArrayList<TransactionRequest> transactionItems = new ArrayList<>();
         TransactionRequest transactionItem = new TransactionRequest();
@@ -629,7 +628,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
         showLoading();
         SDKManager.disbursement.viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
             @Override
-            public void batchTransactionSuccess(BatchTransactionItem batchTransactionItem) {
+            public void batchTransactionSuccess(BatchTransaction batchTransactionItem) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(batchTransactionItem));

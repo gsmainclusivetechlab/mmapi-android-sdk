@@ -9,21 +9,27 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
  * */
 @SuppressWarnings("ALL")
 public class Balance extends BaseResponse {
+
     @SerializedName("currentBalance")
     @Expose
     private String currentBalance;
+
     @SerializedName("availableBalance")
     @Expose
     private String availableBalance;
+
     @SerializedName("reservedBalance")
     @Expose
     private String reservedBalance;
+
     @SerializedName("unclearedBalance")
     @Expose
     private String unclearedBalance;
+
     @SerializedName("currency")
     @Expose
     private String currency;
+
     @SerializedName("accountStatus")
     @Expose
     private String accountStatus;

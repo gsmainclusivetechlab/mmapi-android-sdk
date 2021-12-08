@@ -1,4 +1,4 @@
-package com.gsmaSdk.gsma.models.transaction;
+package com.gsmaSdk.gsma.models.transaction.batchcompletion;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
@@ -8,26 +8,31 @@ import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 
 public class BatchTransactionCompletionItem{
 
-	@SerializedName("debitParty")
-	private List<DebitPartyItem> debitParty;
-
 	@SerializedName("transactionReference")
 	private String transactionReference;
 
-	@SerializedName("link")
-	private String link;
 
 	@SerializedName("requestingOrganisationTransactionReference")
 	private String requestingOrganisationTransactionReference;
 
+
+	@SerializedName("debitParty")
+	private List<DebitPartyItem> debitParty;
+
+	@SerializedName("creditParty")
+	private List<CreditPartyItem> creditParty;
+
+
 	@SerializedName("completionDate")
 	private String completionDate;
+
+	@SerializedName("link")
+	private String link;
+
 
 	@SerializedName("customData")
 	private List<CustomDataItem> customData;
 
-	@SerializedName("creditParty")
-	private List<CreditPartyItem> creditParty;
 
 	@SerializedName("completedDate")
 	private String completedDate;

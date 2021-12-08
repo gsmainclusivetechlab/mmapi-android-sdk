@@ -12,11 +12,11 @@ import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
-import com.gsmaSdk.gsma.models.transaction.Transaction;
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.Map;
 
@@ -246,7 +246,7 @@ public interface APIService {
      *
      */
     @GET("{version}/batchtransactions/{batchId}")
-    Call<BatchTransactionItem> retrieveBatchTransaction(@Path(value = "version", encoded = true) String version, @Path("batchId") String batchId,@HeaderMap Map<String, String> headers);
+    Call<BatchTransaction> retrieveBatchTransaction(@Path(value = "version", encoded = true) String version, @Path("batchId") String batchId, @HeaderMap Map<String, String> headers);
 
 
 

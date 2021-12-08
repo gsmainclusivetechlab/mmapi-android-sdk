@@ -16,7 +16,6 @@ public class AuthorisationCodeRequest {
 	@SerializedName("amount")
 	private String amount;
 
-
 	@SuppressWarnings("unused")
 	public String getRequestDate() {
 		return requestDate;

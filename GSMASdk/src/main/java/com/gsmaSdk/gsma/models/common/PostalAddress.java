@@ -5,20 +5,42 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("ALL")
 public class PostalAddress{
 
-	@SerializedName("country")
-	private String country;
+	@SerializedName("addressLine1")
+	private String addressLine1;
+
+	@SerializedName("addressLine2")
+	private String addressLine2;
+
+	@SerializedName("addressLine3")
+	private String addressLine3;
 
 	@SerializedName("city")
 	private String city;
 
+	@SerializedName("stateProvince")
+	private String stateProvince;
+
 	@SerializedName("postalCode")
 	private String postalCode;
 
-	@SerializedName("addressLine1")
-	private String addressLine1;
+	@SerializedName("country")
+	private String country;
 
-	@SerializedName("stateProvince")
-	private String stateProvince;
+	public String getAddressLine2() {
+		return addressLine2;
+	}
+
+	public void setAddressLine2(String addressLine2) {
+		this.addressLine2 = addressLine2;
+	}
+
+	public String getAddressLine3() {
+		return addressLine3;
+	}
+
+	public void setAddressLine3(String addressLine3) {
+		this.addressLine3 = addressLine3;
+	}
 
 	public String getCountry(){
 		return country;

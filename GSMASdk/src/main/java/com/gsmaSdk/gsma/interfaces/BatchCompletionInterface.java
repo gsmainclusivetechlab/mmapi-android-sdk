@@ -2,7 +2,7 @@ package com.gsmaSdk.gsma.interfaces;
 
 
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
 
 /**
  * Interface for clients to receive completed batch transactions

@@ -10,12 +10,11 @@ import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.Batch;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionCompletion;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionItem;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
-import com.gsmaSdk.gsma.models.transaction.BulkTransactionObject;
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
+import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -67,7 +66,7 @@ public class Disbursement extends Common {
      * @param callbackUrl           The server URl for receiving response of a transaction
      * @param bulkTransactionObject Transaction Object containing details required for initiating the bulk transaction
      */
-    public void createBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BulkTransactionObject bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
+    public void createBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BatchTransaction bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;
@@ -210,9 +209,9 @@ public class Disbursement extends Common {
             batchTransactionItemInterface.onValidationError(Utils.setError(3));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().retrieveBatch(uuid, batchId, new APIRequestCallback<BatchTransactionItem>() {
+            GSMAApi.getInstance().retrieveBatch(uuid, batchId, new APIRequestCallback<BatchTransaction>() {
                         @Override
-                        public void onSuccess(int responseCode, BatchTransactionItem serializedResponse) {
+                        public void onSuccess(int responseCode, BatchTransaction serializedResponse) {
                             batchTransactionItemInterface.batchTransactionSuccess(serializedResponse);
                         }
 

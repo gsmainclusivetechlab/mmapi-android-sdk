@@ -35,15 +35,15 @@ import com.gsmaSdk.gsma.models.common.CreditPartyItem;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 import com.gsmaSdk.gsma.models.common.IdDocumentItem;
-import com.gsmaSdk.gsma.models.transaction.InternationalTransferInformation;
+import com.gsmaSdk.gsma.models.common.InternationalTransferInformation;
 import com.gsmaSdk.gsma.models.common.PostalAddress;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
-import com.gsmaSdk.gsma.models.common.SenderKyc;
+import com.gsmaSdk.gsma.models.common.Kyc;
 import com.gsmaSdk.gsma.models.common.SubjectName;
-import com.gsmaSdk.gsma.models.transaction.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
-import com.gsmaSdk.gsma.models.transaction.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.Transaction;
+import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 
 import java.util.ArrayList;
@@ -459,7 +459,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         transactionRequest.setChosenDeliveryMethod("agent");
 
         //sender kyc object
-        SenderKyc senderKyc = new SenderKyc();
+        Kyc senderKyc = new Kyc();
         senderKyc.setNationality("GB");
         senderKyc.setDateOfBirth("1970-07-03T11:43:27.405Z");
         senderKyc.setOccupation("manager");
@@ -662,7 +662,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //create a reversal object for transaction
     private void createPaymentReversalObject() {
         reversalObject = new ReversalObject();
-        reversalObject.setReversal("reversal");
+        reversalObject.setType("reversal");
     }
 
 }

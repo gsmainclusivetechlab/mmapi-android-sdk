@@ -2,7 +2,7 @@ package com.gsmaSdk.gsma.interfaces;
 
 
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
 
 /**
  * Interface for clients to receive rejected batch transactions
