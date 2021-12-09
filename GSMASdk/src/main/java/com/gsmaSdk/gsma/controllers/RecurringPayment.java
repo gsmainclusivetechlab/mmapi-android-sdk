@@ -5,7 +5,7 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
-import com.gsmaSdk.gsma.models.account.DebitMandate;
+import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;

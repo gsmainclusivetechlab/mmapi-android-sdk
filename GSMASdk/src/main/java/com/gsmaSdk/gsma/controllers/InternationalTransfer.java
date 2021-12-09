@@ -9,6 +9,7 @@ import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.transaction.quotation.QuotationRequest;
 import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
 import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
@@ -64,8 +65,8 @@ public class InternationalTransfer extends Common {
      * @param transactionRequest    the request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
-    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-      Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
+    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull QuotationRequest quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
+      Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,quotationRequest,requestStateInterface);
     }
 
     /**

@@ -6,6 +6,7 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.transaction.quotation.QuotationRequest;
 import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
@@ -25,18 +26,18 @@ public class Quotation {
      * @param requestStateInterface callback for request state object
      */
     @SuppressWarnings("rawtypes")
-    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull QuotationRequest quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;
         }
 
-        if (transactionRequest == null) {
+        if (quotationRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
         } else if (Utils.isOnline()) {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
-            GSMAApi.getInstance().requestQuotation(uuid, notificationMethod, callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().requestQuotation(uuid, notificationMethod, callbackUrl, quotationRequest, new APIRequestCallback<RequestStateObject>() {
                 @Override
                 public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                     requestStateInterface.onRequestStateSuccess(serializedResponse);

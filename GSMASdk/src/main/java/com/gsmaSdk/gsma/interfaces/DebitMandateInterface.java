@@ -1,6 +1,6 @@
 package com.gsmaSdk.gsma.interfaces;
 
-import com.gsmaSdk.gsma.models.account.DebitMandate;
+import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 
 public interface DebitMandateInterface extends BaseInterface {

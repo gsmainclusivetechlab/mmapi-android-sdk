@@ -11,7 +11,7 @@ import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.account.AccountHolderObject;
 import com.gsmaSdk.gsma.models.account.AccountLinkingObject;
 import com.gsmaSdk.gsma.models.account.AccountLinks;
-import com.gsmaSdk.gsma.models.account.DebitMandate;
+import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 
@@ -26,6 +26,7 @@ import com.gsmaSdk.gsma.models.transaction.Batch;
 import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
 import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
+import com.gsmaSdk.gsma.models.transaction.quotation.QuotationRequest;
 import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
@@ -400,7 +401,7 @@ public final class GSMAApi {
      * @param transactionRequest - International Transfer
      * @param apiRequestCallback Listener for api operation
      */
-    public void requestQuotation(String uuid, Enum notificationMethod, String callbackUrl, TransactionRequest transactionRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void requestQuotation(String uuid, Enum notificationMethod, String callbackUrl, QuotationRequest quotationRequest, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
         if (xCallback.isEmpty()) {
@@ -408,7 +409,7 @@ public final class GSMAApi {
         } else {
             headers.put(APIConstants.CALL_BACK_URL, xCallback);
         }
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.requestQuotation(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(transactionRequest), mediaType), headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.requestQuotation(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(quotationRequest), mediaType), headers), apiRequestCallback));
     }
 
 

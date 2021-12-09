@@ -40,6 +40,7 @@ import com.gsmaSdk.gsma.models.common.PostalAddress;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
 import com.gsmaSdk.gsma.models.common.Kyc;
 import com.gsmaSdk.gsma.models.common.SubjectName;
+import com.gsmaSdk.gsma.models.transaction.quotation.QuotationRequest;
 import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
@@ -65,6 +66,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     private String transactionRef = "";
     private String serverCorrelationId;
 
+    private QuotationRequest quotationRequest;
     private TransactionRequest transactionRequest;
     ArrayList<Identifier> identifierArrayList;
 
@@ -277,11 +279,116 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
 
     private void createInternationalTransferObject() {
-//        transactionRequest=new TransactionRequest();
+       transactionRequest=new TransactionRequest();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
             return;
         } else {
+
+            //create debit party and credit party for internal transfer quotation
+            ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
+            ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
+            DebitPartyItem debitPartyItem = new DebitPartyItem();
+            CreditPartyItem creditPartyItem = new CreditPartyItem();
+
+            //debit party
+            debitPartyItem.setKey("walletid");
+            debitPartyItem.setValue("1");
+            debitPartyList.add(debitPartyItem);
+
+            //credit party
+            creditPartyItem.setKey("msisdn");
+            creditPartyItem.setValue("+44012345678");
+            creditPartyList.add(creditPartyItem);
+
+            //add debit and credit party to transaction object
+            quotationRequest.setDebitParty(debitPartyList);
+            quotationRequest.setCreditParty(creditPartyList);
+
+
+            //set amount,currency and request date into transaction request
+            quotationRequest.setRequestAmount("75.30");
+            quotationRequest.setRequestCurrency("RWF");
+            quotationRequest.setRequestDate("2018-07-03T11:43:27.405Z");
+            quotationRequest.setType("inttransfer");
+            quotationRequest.setSubType("abc");
+            quotationRequest.setChosenDeliveryMethod("agent");
+
+            //sender kyc object
+            Kyc senderKyc = new Kyc();
+            senderKyc.setNationality("GB");
+            senderKyc.setDateOfBirth("1970-07-03T11:43:27.405Z");
+            senderKyc.setOccupation("manager");
+            senderKyc.setEmployerName("MFX");
+            senderKyc.setContactPhone("447125588999");
+            senderKyc.setGender("m"); // m or f
+            senderKyc.setEmailAddress("luke.skywalkeraaabbb@gmail.com");
+            senderKyc.setBirthCountry("GB");
+
+            // create object for documentation
+            ArrayList<IdDocumentItem> idDocumentItemList = new ArrayList<>();
+            IdDocumentItem idDocumentItem = new IdDocumentItem();
+            idDocumentItem.setIdType("nationalidcard");
+            idDocumentItem.setIdNumber("1234567");
+            idDocumentItem.setIssueDate("2018-07-03T11:43:27.405Z");
+            idDocumentItem.setExpiryDate("2021-07-03T11:43:27.405Z");
+            idDocumentItem.setIssuer("UKPA");
+            idDocumentItem.setIssuerPlace("GB");
+            idDocumentItem.setIssuerCountry("GB");
+            idDocumentItem.setOtherIdDescription("test");
+
+            idDocumentItemList.add(idDocumentItem);
+
+            //add document details to kyc object
+            senderKyc.setIdDocument(idDocumentItemList);
+
+            //create object for postal address
+            PostalAddress postalAddress = new PostalAddress();
+            postalAddress.setCountry("GB");
+            postalAddress.setAddressLine1("111 ABC Street");
+            postalAddress.setCity("New York");
+            postalAddress.setStateProvince("New York");
+            postalAddress.setPostalCode("ABCD");
+
+            //add postal address to kyc object
+            senderKyc.setPostalAddress(postalAddress);
+
+            //create subject model
+
+            SubjectName subjectName = new SubjectName();
+            subjectName.setTitle("Mr");
+            subjectName.setFirstName("Luke");
+            subjectName.setMiddleName("R");
+            subjectName.setLastName("Skywalker");
+            subjectName.setFullName("Luke R Skywalker");
+            subjectName.setNativeName("ABC");
+
+            //add  subject to kyc model
+
+            senderKyc.setSubjectName(subjectName);
+
+            //create array for custom data items
+            ArrayList<CustomDataItem> customDataItemList = new ArrayList<>();
+
+            // create a custom data item
+            CustomDataItem customDataItem = new CustomDataItem();
+            customDataItem.setKey("keytest");
+            customDataItem.setValue("keyvalue");
+
+            //add custom object into custom array
+            customDataItemList.add(customDataItem);
+
+            //add kyc object to request object
+            quotationRequest.setSenderKyc(senderKyc);
+
+            //add custom data object to request object
+            quotationRequest.setCustomData(customDataItemList);
+
+            quotationRequest.setSendingServiceProviderCountry("AD");
+            quotationRequest.setOriginCountry("AD");
+            quotationRequest.setReceivingCountry("AD");
+
+
 
             //set amount and currency
             transactionRequest.setAmount("100");
@@ -352,7 +459,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Request the quotation to perform international transfer
     private void requestQuotation() {
 
-        SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "",quotationRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -427,7 +534,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     //create a transaction object for international transfer request
     private void createInternationalQuotationObject() {
-        transactionRequest = new TransactionRequest();
+        quotationRequest = new QuotationRequest();
+
 
         //create debit party and credit party for internal transfer quotation
         ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
@@ -446,17 +554,17 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         creditPartyList.add(creditPartyItem);
 
         //add debit and credit party to transaction object
-        transactionRequest.setDebitParty(debitPartyList);
-        transactionRequest.setCreditParty(creditPartyList);
+        quotationRequest.setDebitParty(debitPartyList);
+        quotationRequest.setCreditParty(creditPartyList);
 
 
         //set amount,currency and request date into transaction request
-        transactionRequest.setRequestAmount("75.30");
-        transactionRequest.setRequestCurrency("RWF");
-        transactionRequest.setRequestDate("2018-07-03T11:43:27.405Z");
-        transactionRequest.setType("inttransfer");
-        transactionRequest.setSubType("abc");
-        transactionRequest.setChosenDeliveryMethod("agent");
+        quotationRequest.setRequestAmount("75.30");
+        quotationRequest.setRequestCurrency("RWF");
+        quotationRequest.setRequestDate("2018-07-03T11:43:27.405Z");
+        quotationRequest.setType("inttransfer");
+        quotationRequest.setSubType("abc");
+        quotationRequest.setChosenDeliveryMethod("agent");
 
         //sender kyc object
         Kyc senderKyc = new Kyc();
@@ -523,14 +631,14 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         customDataItemList.add(customDataItem);
 
         //add kyc object to request object
-        transactionRequest.setSenderKyc(senderKyc);
+        quotationRequest.setSenderKyc(senderKyc);
 
         //add custom data object to request object
-        transactionRequest.setCustomData(customDataItemList);
+        quotationRequest.setCustomData(customDataItemList);
 
-        transactionRequest.setSendingServiceProviderCountry("AD");
-        transactionRequest.setOriginCountry("AD");
-        transactionRequest.setReceivingCountry("AD");
+        quotationRequest.setSendingServiceProviderCountry("AD");
+        quotationRequest.setOriginCountry("AD");
+        quotationRequest.setReceivingCountry("AD");
 
         //request for quotation
         requestQuotation();

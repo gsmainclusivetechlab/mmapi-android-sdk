@@ -114,21 +114,7 @@ public class TransactionRequest extends BaseResponse {
 
 
 
-    @SerializedName("quotationReference")
-    private String quotationReference;
 
-    @SerializedName("requestAmount")
-    @Expose
-    private String requestAmount;
-
-    @SerializedName("requestCurrency")
-    @Expose
-    private  String requestCurrency;
-
-
-    @SerializedName("receivingCountry")
-    @Expose
-    private String receivingCountry;
 
 
     @SerializedName("internationalTransferInformation")
@@ -237,13 +223,6 @@ public class TransactionRequest extends BaseResponse {
         this.modificationDate = modificationDate;
     }
 
-    public String getQuotationReference() {
-        return quotationReference;
-    }
-
-    public void setQuotationReference(String quotationReference) {
-        this.quotationReference = quotationReference;
-    }
 
     public Kyc getRecipientKyc() {
         return recipientKyc;
@@ -317,29 +296,7 @@ public class TransactionRequest extends BaseResponse {
     public ArrayList<CreditPartyItem> getCreditParty() {
         return creditParty;
     }
-    public String getRequestAmount() {
-        return requestAmount;
-    }
 
-    public void setRequestAmount(String requestAmount) {
-        this.requestAmount = requestAmount;
-    }
-
-    public String getRequestCurrency() {
-        return requestCurrency;
-    }
-
-    public void setRequestCurrency(String requestCurrency) {
-        this.requestCurrency = requestCurrency;
-    }
-
-    public String getReceivingCountry() {
-        return receivingCountry;
-    }
-
-    public void setReceivingCountry(String receivingCountry) {
-        this.receivingCountry = receivingCountry;
-    }
 
     public String getRequestDate() {
         return requestDate;
@@ -365,13 +322,6 @@ public class TransactionRequest extends BaseResponse {
         this.subType = subType;
     }
 
-    public String getChosenDeliveryMethod() {
-        return chosenDeliveryMethod;
-    }
-
-    public void setChosenDeliveryMethod(String chosenDeliveryMethod) {
-        this.chosenDeliveryMethod = chosenDeliveryMethod;
-    }
 
     public Kyc getSenderKyc() {
         return senderKyc;
@@ -381,13 +331,6 @@ public class TransactionRequest extends BaseResponse {
         this.senderKyc = senderKyc;
     }
 
-    public String getOriginCountry() {
-        return originCountry;
-    }
-
-    public void setOriginCountry(String originCountry) {
-        this.originCountry = originCountry;
-    }
 
     public List<CustomDataItem> getCustomData() {
         return customData;
@@ -396,29 +339,6 @@ public class TransactionRequest extends BaseResponse {
     public void setCustomData(List<CustomDataItem> customData) {
         this.customData = customData;
     }
-
-    public String getSendingServiceProviderCountry() {
-        return sendingServiceProviderCountry;
-    }
-
-    public void setSendingServiceProviderCountry(String sendingServiceProviderCountry) {
-        this.sendingServiceProviderCountry = sendingServiceProviderCountry;
-    }
-
-
-
-    @SerializedName("chosenDeliveryMethod")
-    @Expose
-    private  String chosenDeliveryMethod;
-
-    @SerializedName("originCountry")
-    @Expose
-    private String originCountry;
-
-
-    @SerializedName("sendingServiceProviderCountry")
-    @Expose
-    private String sendingServiceProviderCountry;
 
 
 }

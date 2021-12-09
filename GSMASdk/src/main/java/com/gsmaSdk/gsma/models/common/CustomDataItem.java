@@ -18,7 +18,7 @@ public class CustomDataItem{
 		this.value = value;
 	}
 
-	@SuppressWarnings("unused")
+
 	public String getValue(){
 		return value;
 	}
@@ -27,7 +27,7 @@ public class CustomDataItem{
 		this.key = key;
 	}
 
-	@SuppressWarnings("unused")
+
 	public String getKey(){
 		return key;
 	}

@@ -3,7 +3,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 
 import com.gsmaSdk.gsma.models.account.AccountHolderObject;
 import com.gsmaSdk.gsma.models.account.AccountLinks;
-import com.gsmaSdk.gsma.models.account.DebitMandate;
+import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 import com.gsmaSdk.gsma.models.account.Balance;
@@ -259,7 +259,7 @@ public interface APIService {
 
 
     @POST("{version}/quotations")
-    Call<RequestStateObject> requestQuotation(@Path(value = "version", encoded = true) String version, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> requestQuotation(@Path(value = "version", encoded = true) String version, @Body RequestBody quoRequestBody, @HeaderMap Map<String, String> headers);
 
 
 

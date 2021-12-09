@@ -1,68 +1,81 @@
-package com.gsmaSdk.gsma.models.account;
+package com.gsmaSdk.gsma.models.debitmandate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.gsmaSdk.gsma.models.account.PayeeItem;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 @SuppressWarnings("ALL")
 public class DebitMandate extends BaseResponse {
 
-    @SerializedName("payee")
-    @Expose
-    private List<PayeeItem> payee;
-
-    @SerializedName("amountLimit")
-    @Expose
-    private String amountLimit;
-
-    @SerializedName("numberOfPayments")
-    @Expose
-    private String numberOfPayments;
-
-    @SerializedName("endDate")
-    @Expose
-    private String endDate;
-
-    @SerializedName("frequencyType")
-    @Expose
-    private String frequencyType;
-
-    @SerializedName("requestDate")
-    @Expose
-    private String requestDate;
-
-    @SerializedName("currency")
-    @Expose
-    private String currency;
-
-    @SerializedName("customData")
-    @Expose
-    private ArrayList<CustomDataItem> customData;
-
-    @SerializedName("startDate")
-    @Expose
-    private String startDate;
-
     @SerializedName("mandateReference")
     @Expose
     private String mandateReference;
 
-    @SerializedName("creationDate")
+    @SerializedName("payee")
     @Expose
-    private String creationDate;
-
-    @SerializedName("modificationDate")
-    @Expose
-    private String modificationDate;
+    private List<PayeeItem> payee;
 
     @SerializedName("mandateStatus")
     @Expose
     private String mandateStatus;
 
+
+    @SerializedName("startDate")
+    @Expose
+    private String startDate;
+
+    @SerializedName("amountLimit")
+    @Expose
+    private String amountLimit;
+
+
+    @SerializedName("currency")
+    @Expose
+    private String currency;
+
+
+    @SerializedName("endDate")
+    @Expose
+    private String endDate;
+
+
+    @SerializedName("frequencyType")
+    @Expose
+    private String frequencyType;
+
+
+    @SerializedName("numberOfPayments")
+    @Expose
+    private String numberOfPayments;
+
+
+    @SerializedName("creationDate")
+    @Expose
+    private String creationDate;
+
+
+    @SerializedName("customData")
+    @Expose
+    private ArrayList<CustomDataItem> customData;
+
+
+    @SerializedName("requestDate")
+    @Expose
+    private String requestDate;
+
+
+    @SerializedName("modificationDate")
+    @Expose
+    private String modificationDate;
+
+    public void setPayee(List<PayeeItem> payee) {
+        this.payee = payee;
+    }
 
     public String getMandateStatus() {
         return mandateStatus;
