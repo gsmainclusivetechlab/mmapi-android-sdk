@@ -6,20 +6,20 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-public class MissingCodeDeserializer implements JsonDeserializer<AuthorisationCode> {
+public class MissingCodeDeserializer implements JsonDeserializer<AuthorisationCodes> {
     @Override
-    public AuthorisationCode deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public AuthorisationCodes deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<AuthorisationCodeItem>>(){}.getType();
-        List<AuthorisationCodeItem> authorisationCodesItems = gson.fromJson(json,listType);
-        AuthorisationCode authorisationCode = new AuthorisationCode();
+        Type listType = new TypeToken<List<AuthorisationCode>>(){}.getType();
+        List<AuthorisationCode> authorisationCodesItems = gson.fromJson(json,listType);
+        AuthorisationCodes authorisationCode = new AuthorisationCodes();
         authorisationCode.setAuthCode(authorisationCodesItems);
         return authorisationCode;
     }

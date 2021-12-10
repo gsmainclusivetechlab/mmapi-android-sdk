@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 public class BatchTransaction extends BaseResponse {
@@ -22,7 +22,7 @@ public class BatchTransaction extends BaseResponse {
 
 	@SerializedName("transactions")
 	@Expose
-	private ArrayList<TransactionRequest> transactions;
+	private ArrayList<Transaction> transactions;
 
 	@SerializedName("approvalDate")
 	@Expose
@@ -91,7 +91,109 @@ public class BatchTransaction extends BaseResponse {
 	@Expose
 	private List<CustomDataItem> customData;
 
+	public String getBatchId() {
+		return batchId;
+	}
 
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
+	}
+
+	public String getBatchStatus() {
+		return batchStatus;
+	}
+
+	public void setBatchStatus(String batchStatus) {
+		this.batchStatus = batchStatus;
+	}
+
+	public String getApprovalDate() {
+		return approvalDate;
+	}
+
+	public void setApprovalDate(String approvalDate) {
+		this.approvalDate = approvalDate;
+	}
+
+	public String getCompletionDate() {
+		return completionDate;
+	}
+
+	public void setCompletionDate(String completionDate) {
+		this.completionDate = completionDate;
+	}
+
+	public boolean isProcessingFlag() {
+		return processingFlag;
+	}
+
+	public void setProcessingFlag(boolean processingFlag) {
+		this.processingFlag = processingFlag;
+	}
+
+	public int getCompletedCount() {
+		return completedCount;
+	}
+
+	public void setCompletedCount(int completedCount) {
+		this.completedCount = completedCount;
+	}
+
+	public int getParsingSuccessCount() {
+		return parsingSuccessCount;
+	}
+
+	public void setParsingSuccessCount(int parsingSuccessCount) {
+		this.parsingSuccessCount = parsingSuccessCount;
+	}
+
+	public int getRejectionCount() {
+		return rejectionCount;
+	}
+
+	public void setRejectionCount(int rejectionCount) {
+		this.rejectionCount = rejectionCount;
+	}
+
+	public RequestingOrganisation getRequestingOrganisation() {
+		return requestingOrganisation;
+	}
+
+	public void setRequestingOrganisation(RequestingOrganisation requestingOrganisation) {
+		this.requestingOrganisation = requestingOrganisation;
+	}
+
+	public String getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getModificationDate() {
+		return modificationDate;
+	}
+
+	public void setModificationDate(String modificationDate) {
+		this.modificationDate = modificationDate;
+	}
+
+	public String getRequestDate() {
+		return requestDate;
+	}
+
+	public void setRequestDate(String requestDate) {
+		this.requestDate = requestDate;
+	}
+
+	public List<CustomDataItem> getCustomData() {
+		return customData;
+	}
+
+	public void setCustomData(List<CustomDataItem> customData) {
+		this.customData = customData;
+	}
 
 	public void setBatchTitle(String batchTitle){
 		this.batchTitle = batchTitle;
@@ -101,11 +203,11 @@ public class BatchTransaction extends BaseResponse {
 		return batchTitle;
 	}
 
-	public void setTransactions(ArrayList<TransactionRequest> transactions){
+	public void setTransactions(ArrayList<Transaction> transactions){
 		this.transactions = transactions;
 	}
 
-	public List<TransactionRequest> getTransactions(){
+	public List<Transaction> getTransactions(){
 		return transactions;
 	}
 

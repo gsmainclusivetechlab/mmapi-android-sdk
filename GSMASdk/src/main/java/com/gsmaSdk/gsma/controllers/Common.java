@@ -11,7 +11,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -63,9 +63,9 @@ public class Common {
             transactionInterface.onValidationError(Utils.setError(3));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().viewTransaction(uuid, transactionReference, new APIRequestCallback<TransactionRequest>() {
+            GSMAApi.getInstance().viewTransaction(uuid, transactionReference, new APIRequestCallback<Transaction>() {
                         @Override
-                        public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
+                        public void onSuccess(int responseCode, Transaction serializedResponse) {
                             transactionInterface.onTransactionSuccess(serializedResponse);
                         }
 

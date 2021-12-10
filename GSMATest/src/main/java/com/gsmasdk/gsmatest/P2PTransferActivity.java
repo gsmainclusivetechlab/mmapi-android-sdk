@@ -22,25 +22,29 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
-import com.gsmaSdk.gsma.models.account.AccountHolderObject;
+import com.gsmaSdk.gsma.models.account.AccountHolderName;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.common.Address;
+import com.gsmaSdk.gsma.models.common.IdDocument;
+import com.gsmaSdk.gsma.models.common.KYCInformation;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.common.CreditPartyItem;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
-import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 import com.gsmaSdk.gsma.models.common.InternationalTransferInformation;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.common.SubjectName;
+import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
+
 
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-
-
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,12 +59,14 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     private TextView txtResponse;
     private ProgressDialog progressdialog;
     private String correlationId = "";
-    private ReversalObject reversalObject;
+    private Reversal reversalObject;
 
     private String transactionRef = "";
     private String serverCorrelationId;
 
-    private TransactionRequest transactionRequest;
+    private Quotation quotationRequest;
+    private Transaction transactionRequest;
+
     ArrayList<Identifier> identifierArrayList;
 
 
@@ -202,7 +208,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction) {
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
@@ -223,13 +229,13 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
      */
     private void createP2PQuotationObject() {
 
-        transactionRequest = new TransactionRequest();
+        quotationRequest = new Quotation();
 
         //create debit party and credit party for P2P transfer quotation
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
 
         //debit party
         debitPartyItem.setKey("accountid");
@@ -242,17 +248,70 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         creditPartyList.add(creditPartyItem);
 
         //add debit and credit party to transaction object
-        transactionRequest.setDebitParty(debitPartyList);
-        transactionRequest.setCreditParty(creditPartyList);
+        quotationRequest.setDebitParty(debitPartyList);
+        quotationRequest.setCreditParty(creditPartyList);
 
 
         //set amount,currency and request date into transaction request
-        transactionRequest.setRequestAmount("75.30");
-        transactionRequest.setRequestCurrency("RWF");
-        transactionRequest.setRequestDate("2018-07-03T11:43:27.405Z");
-        transactionRequest.setType("transfer");
-        transactionRequest.setSubType("abc");
-        transactionRequest.setChosenDeliveryMethod("directtoaccount");
+        quotationRequest.setRequestAmount("75.30");
+        quotationRequest.setRequestCurrency("RWF");
+        quotationRequest.setRequestDate("2018-07-03T11:43:27.405Z");
+        quotationRequest.setType("inttransfer");
+        quotationRequest.setSubType("abc");
+        quotationRequest.setChosenDeliveryMethod("agent");
+
+        //sender kyc object
+        KYCInformation senderKyc = new KYCInformation();
+        senderKyc.setNationality("GB");
+        senderKyc.setDateOfBirth("1970-07-03T11:43:27.405Z");
+        senderKyc.setOccupation("manager");
+        senderKyc.setEmployerName("MFX");
+        senderKyc.setContactPhone("447125588999");
+        senderKyc.setGender("m"); // m or f
+        senderKyc.setEmailAddress("luke.skywalkeraaabbb@gmail.com");
+        senderKyc.setBirthCountry("GB");
+
+        // create object for documentation
+        ArrayList<IdDocument> idDocumentItemList = new ArrayList<>();
+        IdDocument idDocumentItem = new IdDocument();
+        idDocumentItem.setIdType("nationalidcard");
+        idDocumentItem.setIdNumber("1234567");
+        idDocumentItem.setIssueDate("2018-07-03T11:43:27.405Z");
+        idDocumentItem.setExpiryDate("2021-07-03T11:43:27.405Z");
+        idDocumentItem.setIssuer("UKPA");
+        idDocumentItem.setIssuerPlace("GB");
+        idDocumentItem.setIssuerCountry("GB");
+        idDocumentItem.setOtherIdDescription("test");
+
+        idDocumentItemList.add(idDocumentItem);
+
+        //add document details to kyc object
+        senderKyc.setIdDocument(idDocumentItemList);
+
+        //create object for postal address
+        Address postalAddress = new Address();
+        postalAddress.setCountry("GB");
+        postalAddress.setAddressLine1("111 ABC Street");
+        postalAddress.setCity("New York");
+        postalAddress.setStateProvince("New York");
+        postalAddress.setPostalCode("ABCD");
+
+        //add postal address to kyc object
+        senderKyc.setPostalAddress(postalAddress);
+
+        //create subject model
+
+        SubjectName subjectName = new SubjectName();
+        subjectName.setTitle("Mr");
+        subjectName.setFirstName("Luke");
+        subjectName.setMiddleName("R");
+        subjectName.setLastName("Skywalker");
+        subjectName.setFullName("Luke R Skywalker");
+        subjectName.setNativeName("ABC");
+
+        //add  subject to kyc model
+
+        senderKyc.setSubjectName(subjectName);
 
         //create array for custom data items
         ArrayList<CustomDataItem> customDataItemList = new ArrayList<>();
@@ -265,8 +324,16 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         //add custom object into custom array
         customDataItemList.add(customDataItem);
 
+        //add kyc object to request object
+        quotationRequest.setSenderKyc(senderKyc);
+
         //add custom data object to request object
-        transactionRequest.setCustomData(customDataItemList);
+        quotationRequest.setCustomData(customDataItemList);
+
+        quotationRequest.setSendingServiceProviderCountry("AD");
+        quotationRequest.setOriginCountry("AD");
+        quotationRequest.setReceivingCountry("AD");
+
 
         //request for quotation
         requestQuotation();
@@ -277,38 +344,119 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
      * create a transaction object for P2P transfer request
      */
     private void createP2PTransferObject() {
-//        transactionRequest=new TransactionRequest();
+
+        transactionRequest=new Transaction();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
+            return;
         } else {
+
+            //create debit party and credit party for internal transfer quotation
+            ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+            ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+            AccountIdentifier debitPartyItem = new AccountIdentifier();
+            AccountIdentifier creditPartyItem = new AccountIdentifier();
+
+            //debit party
+            debitPartyItem.setKey("walletid");
+            debitPartyItem.setValue("1");
+            debitPartyList.add(debitPartyItem);
+
+            //credit party
+            creditPartyItem.setKey("msisdn");
+            creditPartyItem.setValue("+44012345678");
+            creditPartyList.add(creditPartyItem);
+
+            //add debit and credit party to transaction object
+            transactionRequest.setDebitParty(debitPartyList);
+            transactionRequest.setCreditParty(creditPartyList);
+
+
+            //sender kyc object
+            KYCInformation senderKyc = new KYCInformation();
+            senderKyc.setNationality("GB");
+            senderKyc.setDateOfBirth("1970-07-03T11:43:27.405Z");
+            senderKyc.setOccupation("manager");
+            senderKyc.setEmployerName("MFX");
+            senderKyc.setContactPhone("447125588999");
+            senderKyc.setGender("m"); // m or f
+            senderKyc.setEmailAddress("luke.skywalkeraaabbb@gmail.com");
+            senderKyc.setBirthCountry("GB");
+
+            // create object for documentation
+            ArrayList<IdDocument> idDocumentItemList = new ArrayList<>();
+            IdDocument idDocumentItem = new IdDocument();
+            idDocumentItem.setIdType("nationalidcard");
+            idDocumentItem.setIdNumber("1234567");
+            idDocumentItem.setIssueDate("2018-07-03T11:43:27.405Z");
+            idDocumentItem.setExpiryDate("2021-07-03T11:43:27.405Z");
+            idDocumentItem.setIssuer("UKPA");
+            idDocumentItem.setIssuerPlace("GB");
+            idDocumentItem.setIssuerCountry("GB");
+            idDocumentItem.setOtherIdDescription("test");
+
+            idDocumentItemList.add(idDocumentItem);
+
+            //add document details to kyc object
+            senderKyc.setIdDocument(idDocumentItemList);
+
+            //create object for postal address
+            Address postalAddress = new Address();
+            postalAddress.setCountry("GB");
+            postalAddress.setAddressLine1("111 ABC Street");
+            postalAddress.setCity("New York");
+            postalAddress.setStateProvince("New York");
+            postalAddress.setPostalCode("ABCD");
+
+            //add postal address to kyc object
+            senderKyc.setPostalAddress(postalAddress);
+
+            //create subject model
+
+            SubjectName subjectName = new SubjectName();
+            subjectName.setTitle("Mr");
+            subjectName.setFirstName("Luke");
+            subjectName.setMiddleName("R");
+            subjectName.setLastName("Skywalker");
+            subjectName.setFullName("Luke R Skywalker");
+            subjectName.setNativeName("ABC");
+
+            //add  subject to kyc model
+
+            senderKyc.setSubjectName(subjectName);
+
+            //create array for custom data items
+            ArrayList<CustomDataItem> customDataItemList = new ArrayList<>();
+
+            // create a custom data item
+            CustomDataItem customDataItem = new CustomDataItem();
+            customDataItem.setKey("keytest");
+            customDataItem.setValue("keyvalue");
+
+            //add custom object into custom array
+            customDataItemList.add(customDataItem);
+
+            //add kyc object to request object
+            quotationRequest.setSenderKyc(senderKyc);
+
+            //add custom data object to request object
+
 
             //set amount and currency
             transactionRequest.setAmount("100");
             transactionRequest.setCurrency("GBP");
 
-            ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-            ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-            DebitPartyItem debitPartyItem = new DebitPartyItem();
-            CreditPartyItem creditPartyItem = new CreditPartyItem();
-
-            //debit party
-            debitPartyItem.setKey("accountid");
-            debitPartyItem.setValue("2999");
-            debitPartyList.add(debitPartyItem);
-
-            //credit party
-            creditPartyItem.setKey("accountid");
-            creditPartyItem.setValue("2000");
-            creditPartyList.add(creditPartyItem);
-
             //create international information object to perform international transfer
 
             InternationalTransferInformation internationalTransferInformation = new InternationalTransferInformation();
-            internationalTransferInformation.setOriginCountry("AD");
+            internationalTransferInformation.setOriginCountry("GB");
             internationalTransferInformation.setQuotationReference("REF-1636521507766");
             internationalTransferInformation.setQuoteId("REF-1636521507766");
+            internationalTransferInformation.setReceivingCountry("RW");
             internationalTransferInformation.setRemittancePurpose("personal");
+            internationalTransferInformation.setRelationshipSender("none");
             internationalTransferInformation.setDeliveryMethod("agent");
+            internationalTransferInformation.setSendingServiceProviderCountry("AD");
             transactionRequest.setInternationalTransferInformation(internationalTransferInformation);
 
             RequestingOrganisation requestingOrganisation = new RequestingOrganisation();
@@ -318,12 +466,9 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             //add requesting organisation object into transaction request
             transactionRequest.setRequestingOrganisation(requestingOrganisation);
 
-            //add debit and credit party to transaction object
-            transactionRequest.setDebitParty(debitPartyList);
-            transactionRequest.setCreditParty(creditPartyList);
-
             performTransfer();
         }
+
     }
 
 
@@ -334,7 +479,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         showLoading();
         SDKManager.p2PTransfer.viewAccountName(identifierArrayList, new AccountHolderInterface() {
             @Override
-            public void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject) {
+            public void onRetrieveAccountInfoSuccess(AccountHolderName accountHolderObject) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(accountHolderObject));
                 Utils.showToast(P2PTransferActivity.this, "Success");
@@ -483,7 +628,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
+            public void onTransactionSuccess(Transaction transactionObject) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -542,7 +687,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         showLoading();
         SDKManager.p2PTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
+            public void onTransactionSuccess(Transaction transactionObject) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -596,7 +741,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
      * Create Payment Reversal Object.
      */
     private void createPaymentReversalObject() {
-        reversalObject = new ReversalObject();
+        reversalObject = new Reversal();
         reversalObject.setType("reversal");
     }
 
@@ -634,7 +779,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Request the quotation to perform P2P transfer
     private void requestQuotation() {
 
-        SDKManager.p2PTransfer.createQuotation(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.p2PTransfer.createQuotation(NotificationMethod.POLLING, "",quotationRequest , new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();

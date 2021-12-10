@@ -20,21 +20,19 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.common.CreditPartyItem;
-import com.gsmaSdk.gsma.models.common.DebitPartyItem;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,12 +49,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
     private TextView txtResponse;
-    private TransactionRequest transactionRequest;
-    private AuthorisationCodeRequest authorisationCodeRequest;
+    private Transaction transactionRequest;
+    private AuthorisationCode authorisationCodeRequest;
     private String transactionRef = "";
     private String serverCorrelationId="";
     private String correlationId = "";
-    private ReversalObject reversalObject;
+    private Reversal reversalObject;
     private ProgressDialog progressdialog;
     private String[] merchantPaymentsArray = {
             "Balance",
@@ -158,7 +156,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      * Create Payment Reversal Object.
      */
     private void createPaymentReversalObject() {
-        reversalObject = new ReversalObject();
+        reversalObject = new Reversal();
         reversalObject.setType("reversal");
     }
 
@@ -166,11 +164,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      * Transaction Object for Merchant Pay.
      */
     private void createTransactionObject() {
-        transactionRequest = new TransactionRequest();
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+        transactionRequest = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
 
         debitPartyItem.setKey("walletid");
         debitPartyItem.setValue("1");
@@ -200,11 +199,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      * Code Request Object for Obtaining Authorisation code.
      */
     private void createCodeRequestObject() {
-        authorisationCodeRequest = new AuthorisationCodeRequest();
+        authorisationCodeRequest = new AuthorisationCode();
         authorisationCodeRequest.setAmount("200.00");
         authorisationCodeRequest.setRequestDate("2021-10-18T10:43:27.405Z");
         authorisationCodeRequest.setCurrency("RWF");
-
+        authorisationCodeRequest.setCodeLifetime(1);
+        System.out.println("Auth code"+new Gson().toJson(authorisationCodeRequest));
     }
 
     @Override
@@ -271,7 +271,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         showLoading();
         SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
             @Override
-            public void onAuthorisationCodeSuccess(AuthorisationCodeItem authorisationCodeItem) {
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(authorisationCodeItem));
@@ -420,7 +420,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionRequest) {
+            public void onTransactionSuccess(Transaction transactionRequest) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(transactionRequest));
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
@@ -531,7 +531,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction) {
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
@@ -632,11 +632,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         showLoading();
         SDKManager.merchantPayment.viewAuthorisationCodeResponse(correlationId, new AuthorisationCodeInterface() {
             @Override
-            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCode) {
+            public void onAuthorisationCodeSuccess(AuthorisationCodes authorisationCode) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(authorisationCode));
-                Log.d(SUCCESS, "onAuthorisationCodeSuccess: " + new Gson().toJson(authorisationCode, AuthorisationCode.class));
+                Log.d(SUCCESS, "onAuthorisationCodeSuccess: " + new Gson().toJson(authorisationCode, AuthorisationCodes.class));
             }
 
             @Override

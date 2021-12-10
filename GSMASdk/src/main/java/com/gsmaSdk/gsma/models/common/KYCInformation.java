@@ -4,7 +4,7 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("ALL")
-public class Kyc {
+public class KYCInformation {
 
 
 	@SerializedName("birthCountry")
@@ -26,13 +26,13 @@ public class Kyc {
 	private String gender;
 
 	@SerializedName("idDocument")
-	private List<IdDocumentItem> idDocument;
+	private List<IdDocument> idDocument;
 
 	@SerializedName("nationality")
 	private String nationality;
 
 	@SerializedName("postalAddress")
-	private PostalAddress postalAddress;
+	private Address postalAddress;
 
 	@SerializedName("occupation")
 	private String occupation;
@@ -49,7 +49,7 @@ public class Kyc {
 		this.occupation = occupation;
 	}
 
-	public void setPostalAddress(PostalAddress postalAddress) {
+	public void setPostalAddress(Address postalAddress) {
 		this.postalAddress = postalAddress;
 	}
 
@@ -61,7 +61,7 @@ public class Kyc {
 		this.gender = gender;
 	}
 
-	public void setIdDocument(List<IdDocumentItem> idDocument) {
+	public void setIdDocument(List<IdDocument> idDocument) {
 		this.idDocument = idDocument;
 	}
 
@@ -93,7 +93,7 @@ public class Kyc {
 		return occupation;
 	}
 
-	public PostalAddress getPostalAddress(){
+	public Address getPostalAddress(){
 		return postalAddress;
 	}
 
@@ -105,7 +105,7 @@ public class Kyc {
 		return gender;
 	}
 
-	public List<IdDocumentItem> getIdDocument(){
+	public List<IdDocument> getIdDocument(){
 		return idDocument;
 	}
 

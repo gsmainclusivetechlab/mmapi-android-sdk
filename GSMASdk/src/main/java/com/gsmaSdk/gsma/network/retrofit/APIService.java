@@ -1,22 +1,22 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
 
-import com.gsmaSdk.gsma.models.account.AccountHolderObject;
-import com.gsmaSdk.gsma.models.account.AccountLinks;
+import com.gsmaSdk.gsma.models.account.AccountHolderName;
+import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.Token;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.Map;
 
@@ -100,7 +100,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/transactions/{id}")
-    Call<TransactionRequest> viewTransaction(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
+    Call<Transaction> viewTransaction(@Path(value = "version", encoded = true) String version, @Path("id") String id, @HeaderMap Map<String, String> headers);
 
     /**
      * View Request state.
@@ -118,7 +118,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/accounts/{accountIdentfiers}/transactions")
-    Call<Transaction> retrieveTransaction(@Path(value = "version", encoded = true) String version,@Path(value = "accountIdentfiers", encoded = true)  String accountIdentfiers, @HeaderMap Map<String, String> headers, @Query(value = "offset") int offset, @Query(value = "limit") int limit);
+    Call<Transactions> retrieveTransaction(@Path(value = "version", encoded = true) String version, @Path(value = "accountIdentfiers", encoded = true)  String accountIdentfiers, @HeaderMap Map<String, String> headers, @Query(value = "offset") int offset, @Query(value = "limit") int limit);
 
 
 
@@ -161,10 +161,10 @@ public interface APIService {
      */
 
     @GET("{version}/accounts/{accountIdentifier}/authorisationcodes/{authorizationCode}")
-    Call<AuthorisationCodeItem> viewAuthorizationCode(@Path(value = "version", encoded = true) String version,
-                                                      @Path(value = "accountIdentifier",encoded = true) String accountIdentifier,
-                                                      @Path("authorizationCode") String authorizationCode,
-                                                      @HeaderMap Map<String, String> headers);
+    Call<AuthorisationCode> viewAuthorizationCode(@Path(value = "version", encoded = true) String version,
+                                                  @Path(value = "accountIdentifier",encoded = true) String accountIdentifier,
+                                                  @Path("authorizationCode") String authorizationCode,
+                                                  @HeaderMap Map<String, String> headers);
 
 
 
@@ -177,7 +177,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/{url}")
-    Call<AuthorisationCode> getMissingCodes(@Path(value = "url", encoded = true)
+    Call<AuthorisationCodes> getMissingCodes(@Path(value = "url", encoded = true)
                                                     String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
 
@@ -217,7 +217,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/batchtransactions/{id}/rejections")
-    Call<BatchTransactionRejection> retrieveBatchRejections(@Path("id") String id,@Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<BatchRejection> retrieveBatchRejections(@Path("id") String id, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
 
 
@@ -227,7 +227,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/batchtransactions/{id}/completions")
-    Call<BatchTransactionCompletion> retrieveBatchCompletions(@Path("id") String id,@Path(value = "version", encoded = true) String version,  @HeaderMap Map<String, String> headers);
+    Call<BatchCompletion> retrieveBatchCompletions(@Path("id") String id, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
 
 
@@ -265,7 +265,7 @@ public interface APIService {
 
 
     @GET("{version}/quotations/{quotationReference}")
-    Call<TransactionRequest> viewQuotation(@Path(value = "version", encoded = true) String version, @Path("quotationReference") String quotationReference , @HeaderMap Map<String, String> headers);
+    Call<Transaction> viewQuotation(@Path(value = "version", encoded = true) String version, @Path("quotationReference") String quotationReference , @HeaderMap Map<String, String> headers);
 
 
     /***************************************P2P Transefer API Interfaces********************************/
@@ -277,7 +277,7 @@ public interface APIService {
      */
     @SuppressWarnings("SpellCheckingInspection")
     @GET("{version}/accounts/{accountIdentifier}/accountname")
-    Call<AccountHolderObject> viewAccountName(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @HeaderMap Map<String, String> headers);
+    Call<AccountHolderName> viewAccountName(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @HeaderMap Map<String, String> headers);
 
 
     /*****************************************Recurring Payment Interfaces******************************/
@@ -320,7 +320,7 @@ public interface APIService {
      */
     @SuppressWarnings("SpellCheckingInspection")
     @GET("{version}/accounts/{accountIdentifier}/links/{linkReference}")
-    Call<AccountLinks> viewAccountLink(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @Path("linkReference") String transactionReference, @HeaderMap Map<String, String> headers);
+    Call<Link> viewAccountLink(@Path(value = "version", encoded = true) String version, @Path( value = "accountIdentifier",encoded = true) String accountIdentifier, @Path("linkReference") String transactionReference, @HeaderMap Map<String, String> headers);
 
 
 

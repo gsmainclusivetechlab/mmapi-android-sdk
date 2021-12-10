@@ -6,10 +6,10 @@ import com.google.gson.GsonBuilder;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.Token;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.network.deserializers.BatchCompletionsDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.BatchRejectionsDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.MissingCodeDeserializer;
@@ -62,10 +62,10 @@ public final class RetrofitHelper {
     private static GsonConverterFactory buildGsonConverter() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         // Adding custom deserializers
-        gsonBuilder.registerTypeAdapter(Transaction.class, new TransactionResponseDeserializer());
-        gsonBuilder.registerTypeAdapter(AuthorisationCode.class, new MissingCodeDeserializer());
-        gsonBuilder.registerTypeAdapter(BatchTransactionRejection.class, new BatchRejectionsDeserializer());
-        gsonBuilder.registerTypeAdapter(BatchTransactionCompletion.class, new BatchCompletionsDeserializer());
+        gsonBuilder.registerTypeAdapter(Transactions.class, new TransactionResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(AuthorisationCodes.class, new MissingCodeDeserializer());
+        gsonBuilder.registerTypeAdapter(BatchRejection.class, new BatchRejectionsDeserializer());
+        gsonBuilder.registerTypeAdapter(BatchCompletion.class, new BatchCompletionsDeserializer());
         gsonBuilder.registerTypeAdapter(MissingResponse.class, new MissingResponseDeserializer());
         Gson myGson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
         return GsonConverterFactory.create(myGson);

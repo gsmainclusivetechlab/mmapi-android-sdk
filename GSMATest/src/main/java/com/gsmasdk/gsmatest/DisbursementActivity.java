@@ -21,25 +21,24 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.Batch;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
-import com.gsmaSdk.gsma.models.common.CreditPartyItem;
-import com.gsmaSdk.gsma.models.common.DebitPartyItem;
+
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
+
 
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-
-
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,13 +48,13 @@ import androidx.appcompat.app.AppCompatActivity;
 @SuppressWarnings("ALL")
 public class DisbursementActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private TransactionRequest transactionRequest;
+    private Transaction transactionRequest;
     private BatchTransaction bulkTransactionObject;
     private TextView txtResponse;
 
     private String transactionRef = "";
     private String serverCorrelationId;
-    private ReversalObject reversalObject;
+    private Reversal reversalObject;
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
@@ -134,11 +133,12 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     }
 
     private void createTransactionObject() {
-        transactionRequest = new TransactionRequest();
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+        transactionRequest = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
 
         debitPartyItem.setKey("accountid");
         debitPartyItem.setValue("2999");
@@ -156,7 +156,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     }
 
     private void createPaymentReversalObject() {
-        reversalObject = new ReversalObject();
+        reversalObject = new Reversal();
         reversalObject.setType("reversal");
     }
 
@@ -176,12 +176,12 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     private void createBulkTransactionObject() {
         bulkTransactionObject = new BatchTransaction();
 
-        ArrayList<TransactionRequest> transactionItems = new ArrayList<>();
-        TransactionRequest transactionItem = new TransactionRequest();
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+        ArrayList<Transaction> transactionItems = new ArrayList<>();
+        Transaction transactionItem = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
 
         debitPartyItem.setKey("accountid");
         debitPartyItem.setValue("2000");
@@ -251,7 +251,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
+            public void onTransactionSuccess(Transaction transactionObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -449,7 +449,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction) {
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
@@ -513,7 +513,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void batchTransactionRejections(BatchTransactionRejection batchTransactionRejection) {
+            public void batchTransactionRejections(BatchRejection batchTransactionRejection) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(batchTransactionRejection));
@@ -570,7 +570,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion) {
+            public void batchTransactionCompleted(BatchCompletion batchTransactionCompletion) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(batchTransactionCompletion));

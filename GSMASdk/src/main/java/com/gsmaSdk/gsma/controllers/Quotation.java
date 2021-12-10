@@ -6,8 +6,7 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.quotation.QuotationRequest;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -26,7 +25,7 @@ public class Quotation {
      * @param requestStateInterface callback for request state object
      */
     @SuppressWarnings("rawtypes")
-    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull QuotationRequest quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull com.gsmaSdk.gsma.models.transaction.quotation.Quotation quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;
@@ -70,9 +69,9 @@ public class Quotation {
             transactionInterface.onValidationError(Utils.setError(10));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<TransactionRequest>() {
+            GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<Transaction>() {
                         @Override
-                        public void onSuccess(int responseCode, TransactionRequest serializedResponse) {
+                        public void onSuccess(int responseCode, Transaction serializedResponse) {
                             transactionInterface.onTransactionSuccess(serializedResponse);
                         }
 
@@ -88,7 +87,7 @@ public class Quotation {
 
 
     public static Quotation getInstance() {
-        return Quotation.SingletonCreationAdmin.INSTANCE;
+        return com.gsmaSdk.gsma.controllers.Quotation.SingletonCreationAdmin.INSTANCE;
     }
 
     private static class SingletonCreationAdmin {

@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -13,7 +13,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 import java.util.ArrayList;
 
 
-public class AccountTransactions {
+public class AccountTransactionsController {
 
     /**
      *View Account Transaction - Retrieve a set of transactions
@@ -30,9 +30,9 @@ public class AccountTransactions {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().retrieveTransaction(uuid, Utils.getIdentifiers(identifierArrayList), offset, limit, new APIRequestCallback<Transaction>() {
+            GSMAApi.getInstance().retrieveTransaction(uuid, Utils.getIdentifiers(identifierArrayList), offset, limit, new APIRequestCallback<Transactions>() {
                         @Override
-                        public void onSuccess(int responseCode, Transaction serializedResponse) {
+                        public void onSuccess(int responseCode, Transactions serializedResponse) {
                             retrieveTransactionInterface.onRetrieveTransactionSuccess(serializedResponse);
                         }
 
@@ -49,12 +49,12 @@ public class AccountTransactions {
 
     }
 
-    public static AccountTransactions getInstance() {
-        return AccountTransactions.SingletonCreationAdmin.INSTANCE;
+    public static AccountTransactionsController getInstance() {
+        return AccountTransactionsController.SingletonCreationAdmin.INSTANCE;
     }
 
     private static class SingletonCreationAdmin {
-        private static final AccountTransactions INSTANCE = new AccountTransactions();
+        private static final AccountTransactionsController INSTANCE = new AccountTransactionsController();
     }
 
 

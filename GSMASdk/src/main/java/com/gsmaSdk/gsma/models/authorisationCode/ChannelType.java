@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
-public class RedemptionChannel extends BaseResponse {
+public class ChannelType extends BaseResponse {
 
     @Expose
     @SerializedName("channelType")

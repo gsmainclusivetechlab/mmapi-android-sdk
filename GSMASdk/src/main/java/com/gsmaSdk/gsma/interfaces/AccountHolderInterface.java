@@ -1,7 +1,7 @@
 package com.gsmaSdk.gsma.interfaces;
 
 
-import com.gsmaSdk.gsma.models.account.AccountHolderObject;
+import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 
 /**
@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 @SuppressWarnings("ALL")
 public interface AccountHolderInterface extends BaseInterface{
 
-    void onRetrieveAccountInfoSuccess(AccountHolderObject accountHolderObject);
+    void onRetrieveAccountInfoSuccess(AccountHolderName accountHolderObject);
 
     void onRetrieveAccountInfoFailure(GSMAError gsmaError);
 }

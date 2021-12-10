@@ -3,7 +3,7 @@ package com.gsmaSdk.gsma.models.common;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings("ALL")
-public class PostalAddress{
+public class Address {
 
 	@SerializedName("addressLine1")
 	private String addressLine1;

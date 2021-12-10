@@ -1,7 +1,7 @@
 package com.gsmaSdk.gsma.interfaces;
 
 
-import com.gsmaSdk.gsma.models.account.AccountLinks;
+import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 
 /**
@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 @SuppressWarnings("ALL")
 public interface AccountLinkInterface extends BaseInterface{
 
-    void onAccountLinkSuccess(AccountLinks accountLinks);
+    void onAccountLinkSuccess(Link accountLinks);
 
     void onAccountLinkFailure(GSMAError gsmaError);
 }

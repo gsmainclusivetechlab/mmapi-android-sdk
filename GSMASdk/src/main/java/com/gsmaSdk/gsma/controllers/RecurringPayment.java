@@ -9,8 +9,8 @@ import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -109,7 +109,7 @@ public class RecurringPayment extends Common {
      * @param callbackUrl        The server URl for receiving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
-    public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
     }
 
@@ -120,7 +120,7 @@ public class RecurringPayment extends Common {
      * @param callbackUrl        The server URl for receiving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the refund process
      */
-    public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         RefundTransaction.getInstance().createRefundTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
     }
 
@@ -133,7 +133,7 @@ public class RecurringPayment extends Common {
      * @param reversal           Reversal Object containing the type of the transaction
      */
 
-    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
+    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull Reversal reversal, @NonNull RequestStateInterface requestStateInterface) {
         ReversalTransaction.getInstance().createReversal(notificationMethod,callbackUrl,referenceId,reversal,requestStateInterface);
 
     }
@@ -144,7 +144,7 @@ public class RecurringPayment extends Common {
      * @param identifierArrayList - List of identifiers to identify a particular account
      */
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        AccountBalance.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
+        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
 
     }
 
@@ -156,7 +156,7 @@ public class RecurringPayment extends Common {
      * @param limit               limit set for receiving records per request
      */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
 
     }
 }

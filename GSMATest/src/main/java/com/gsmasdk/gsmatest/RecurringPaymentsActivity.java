@@ -19,21 +19,19 @@ import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
-import com.gsmaSdk.gsma.models.account.PayeeItem;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.common.CreditPartyItem;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
-import com.gsmaSdk.gsma.models.common.DebitPartyItem;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,13 +48,13 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
     private TextView txtResponse;
     private ProgressDialog progressdialog;
     private String correlationId = "";
-    private ReversalObject reversalObject;
+    private Reversal reversalObject;
 
 
     private String transactionRef = "";
     private String serverCorrelationId;
 
-    private TransactionRequest transactionRequest;
+    private Transaction transactionRequest;
     ArrayList<Identifier> identifierArrayList;
 
     private String debitMandateReference;
@@ -118,10 +116,10 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         debitMandateRequest = new DebitMandate();
 
         //payee object of debit mandate
-        ArrayList<PayeeItem> payeeItemArrayList = new ArrayList<>();
+        ArrayList<AccountIdentifier> payeeItemArrayList = new ArrayList<>();
 
         //payee object
-        PayeeItem payeeItem = new PayeeItem();
+        AccountIdentifier payeeItem = new AccountIdentifier();
         payeeItem.setKey("accountid");
         payeeItem.setValue("2999");
         payeeItemArrayList.add(payeeItem);
@@ -292,14 +290,14 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
     }
 
     private void createTransactionObject() {
-        transactionRequest = new TransactionRequest();
+        transactionRequest = new Transaction();
         transactionRequest.setAmount("200");
-        transactionRequest = new TransactionRequest();
+        transactionRequest = new Transaction();
 
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
 
         debitPartyItem.setKey("mandatereference");
         debitPartyItem.setValue(debitMandateReference);
@@ -433,7 +431,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
+            public void onTransactionSuccess(Transaction transactionObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -455,7 +453,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
      */
     private void createPaymentReversalObject() {
 
-        reversalObject = new ReversalObject();
+        reversalObject = new Reversal();
         reversalObject.setType("reversal");
 
     }
@@ -465,7 +463,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
      */
     private void paymentRefund() {
         showLoading();
-        
+
         SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -586,7 +584,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction) {
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));

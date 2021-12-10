@@ -1,7 +1,7 @@
 package com.gsmaSdk.gsma.interfaces;
 
 
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 
 /**
@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 @SuppressWarnings("ALL")
 public interface AuthorisationCodeItemInterface extends BaseInterface{
 
-    void onAuthorisationCodeSuccess(AuthorisationCodeItem authorisationCodeItem);
+    void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem);
 
     void onAuthorisationCodeFailure(GSMAError gsmaError);
 }

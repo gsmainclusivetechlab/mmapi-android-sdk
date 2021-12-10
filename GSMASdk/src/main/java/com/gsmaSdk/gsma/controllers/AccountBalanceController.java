@@ -13,7 +13,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 import java.util.ArrayList;
 
 
-public class AccountBalance {
+public class AccountBalanceController {
 
     /**
      * View Account Balance-Get the balance of a particular account
@@ -48,12 +48,12 @@ public class AccountBalance {
         }
     }
 
-    public static AccountBalance getInstance() {
-        return AccountBalance.SingletonCreationAdmin.INSTANCE;
+    public static AccountBalanceController getInstance() {
+        return AccountBalanceController.SingletonCreationAdmin.INSTANCE;
     }
 
     private static class SingletonCreationAdmin {
-        private static final AccountBalance INSTANCE = new AccountBalance();
+        private static final AccountBalanceController INSTANCE = new AccountBalanceController();
     }
 
 }

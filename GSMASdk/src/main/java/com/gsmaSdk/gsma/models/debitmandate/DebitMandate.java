@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.gsmaSdk.gsma.models.account.PayeeItem;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
@@ -18,7 +18,7 @@ public class DebitMandate extends BaseResponse {
 
     @SerializedName("payee")
     @Expose
-    private List<PayeeItem> payee;
+    private ArrayList<AccountIdentifier> payee;
 
     @SerializedName("mandateStatus")
     @Expose
@@ -73,7 +73,8 @@ public class DebitMandate extends BaseResponse {
     @Expose
     private String modificationDate;
 
-    public void setPayee(List<PayeeItem> payee) {
+
+    public void setPayee(ArrayList<AccountIdentifier> payee) {
         this.payee = payee;
     }
 
@@ -109,10 +110,6 @@ public class DebitMandate extends BaseResponse {
         this.modificationDate = modificationDate;
     }
 
-    public void setPayee(ArrayList<PayeeItem> payee) {
-        this.payee = payee;
-    }
-
     public void setAmountLimit(String amountLimit) {
         this.amountLimit = amountLimit;
     }
@@ -145,7 +142,7 @@ public class DebitMandate extends BaseResponse {
         this.startDate = startDate;
     }
 
-    public List<PayeeItem> getPayee() {
+    public ArrayList<AccountIdentifier> getPayee() {
         return payee;
     }
 

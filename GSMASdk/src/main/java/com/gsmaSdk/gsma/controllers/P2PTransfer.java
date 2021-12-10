@@ -8,8 +8,9 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class P2PTransfer extends Common{
      * @param identifierArrayList account identifiers of the user
      */
     public void viewAccountName(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
-       AccountName.getInstance().viewAccountName(identifierArrayList,accountHolderInterface);
+       AccountNameController.getInstance().viewAccountName(identifierArrayList,accountHolderInterface);
     }
 
     /**
@@ -34,8 +35,8 @@ public class P2PTransfer extends Common{
      * @param requestStateInterface callback for request state object
      */
 
-    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
+    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Quotation quotation, @NonNull RequestStateInterface requestStateInterface) {
+        com.gsmaSdk.gsma.controllers.Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,quotation,requestStateInterface);
     }
 
     /**
@@ -45,7 +46,7 @@ public class P2PTransfer extends Common{
      *
      */
     public void viewQuotation(@NonNull String quotationReference, @NonNull TransactionInterface transactionInterface) {
-        Quotation.getInstance().viewQuotation(quotationReference,transactionInterface);
+        com.gsmaSdk.gsma.controllers.Quotation.getInstance().viewQuotation(quotationReference,transactionInterface);
     }
 
 
@@ -55,7 +56,7 @@ public class P2PTransfer extends Common{
      * @param transactionRequest    the request object-P2P Transfers
      * @param requestStateInterface callback for request state object
      */
-    public void createTransferTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createTransferTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         TransferTransaction.getInstance().createTransferTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
     }
 
@@ -70,7 +71,7 @@ public class P2PTransfer extends Common{
      * @param reversal           Reversal Object containing the type of the transaction
      */
 
-    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
+    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull Reversal reversal, @NonNull RequestStateInterface requestStateInterface) {
         ReversalTransaction.getInstance().createReversal(notificationMethod,callbackUrl,referenceId,reversal,requestStateInterface);
 
     }
@@ -82,7 +83,7 @@ public class P2PTransfer extends Common{
      */
 
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        AccountBalance.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
+        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
 
     }
 
@@ -95,7 +96,7 @@ public class P2PTransfer extends Common{
      * @param limit               limit set for receiving records per request
      */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, int offset, int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
 
     }
 

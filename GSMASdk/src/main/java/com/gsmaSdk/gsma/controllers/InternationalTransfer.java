@@ -9,9 +9,9 @@ import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.quotation.QuotationRequest;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -31,7 +31,7 @@ public class InternationalTransfer extends Common {
      * @param requestStateInterface callback for request state object
      */
 
-    public void createInternationalTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createInternationalTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;
@@ -65,8 +65,8 @@ public class InternationalTransfer extends Common {
      * @param transactionRequest    the request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
-    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull QuotationRequest quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
-      Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,quotationRequest,requestStateInterface);
+    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Quotation quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
+      com.gsmaSdk.gsma.controllers.Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,quotationRequest,requestStateInterface);
     }
 
     /**
@@ -76,7 +76,7 @@ public class InternationalTransfer extends Common {
      *
      */
     public void viewQuotation(@NonNull String quotationReference, @NonNull TransactionInterface transactionInterface) {
-      Quotation.getInstance().viewQuotation(quotationReference,transactionInterface);
+      com.gsmaSdk.gsma.controllers.Quotation.getInstance().viewQuotation(quotationReference,transactionInterface);
     }
 
 
@@ -87,7 +87,7 @@ public class InternationalTransfer extends Common {
      */
 
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        AccountBalance.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
+        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
 
     }
 
@@ -100,7 +100,7 @@ public class InternationalTransfer extends Common {
      * @param reversal           Reversal Object containing the type of the transaction
      */
 
-    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
+    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull Reversal reversal, @NonNull RequestStateInterface requestStateInterface) {
         ReversalTransaction.getInstance().createReversal(notificationMethod,callbackUrl,referenceId,reversal,requestStateInterface);
 
     }
@@ -113,7 +113,7 @@ public class InternationalTransfer extends Common {
      * @param limit               limit set for receiving records per request
      */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
     }
 
 

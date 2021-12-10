@@ -7,7 +7,7 @@ import java.io.Serializable;
 /***
  * Class RedemptionTransactionType
  */
-public class RedemptionTransactionType extends BaseResponse {
+public class TransactionType extends BaseResponse {
 
 
     private String transactionType;

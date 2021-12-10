@@ -10,11 +10,11 @@ import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.Batch;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchTransactionRejection;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
@@ -33,7 +33,7 @@ public class Disbursement extends Common {
      * @param callbackUrl        The server URl for receiving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
-    public void createDisbursementTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createDisbursementTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;
@@ -107,9 +107,9 @@ public class Disbursement extends Common {
             batchRejectionInterface.onValidationError(Utils.setError(6));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().retrieveBatchRejections(uuid, batchId, new APIRequestCallback<BatchTransactionRejection>() {
+            GSMAApi.getInstance().retrieveBatchRejections(uuid, batchId, new APIRequestCallback<BatchRejection>() {
                 @Override
-                public void onSuccess(int responseCode, BatchTransactionRejection serializedResponse) {
+                public void onSuccess(int responseCode, BatchRejection serializedResponse) {
 
                     batchRejectionInterface.batchTransactionRejections(serializedResponse);
                 }
@@ -138,10 +138,10 @@ public class Disbursement extends Common {
             batchCompletionInterface.onValidationError(Utils.setError(6));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().retrieveBatchCompletions(uuid, batchId, new APIRequestCallback<BatchTransactionCompletion>() {
+            GSMAApi.getInstance().retrieveBatchCompletions(uuid, batchId, new APIRequestCallback<BatchCompletion>() {
 
                 @Override
-                public void onSuccess(int responseCode, BatchTransactionCompletion serializedResponse) {
+                public void onSuccess(int responseCode, BatchCompletion serializedResponse) {
                     batchCompletionInterface.batchTransactionCompleted(serializedResponse);
                 }
 
@@ -234,7 +234,7 @@ public class Disbursement extends Common {
      * @param referenceId        Reference id of a previous transaction
      * @param reversal           Reversal Object containing the type of the transaction
      */
-    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
+    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull Reversal reversal, @NonNull RequestStateInterface requestStateInterface) {
         ReversalTransaction.getInstance().createReversal(notificationMethod, callbackUrl, referenceId, reversal, requestStateInterface);
 
     }
@@ -247,7 +247,7 @@ public class Disbursement extends Common {
      * @param limit               limit set for receiving records per request
      */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList, offset, limit, retrieveTransactionInterface);
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList, offset, limit, retrieveTransactionInterface);
 
     }
 
@@ -258,7 +258,7 @@ public class Disbursement extends Common {
      */
 
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        AccountBalance.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
+        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
 
     }
 

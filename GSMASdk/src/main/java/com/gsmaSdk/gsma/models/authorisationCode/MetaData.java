@@ -3,7 +3,7 @@ package com.gsmaSdk.gsma.models.authorisationCode;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MetaDataObject {
+public class MetaData {
 
     @Expose
     @SerializedName("value")

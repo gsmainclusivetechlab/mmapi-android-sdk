@@ -22,26 +22,22 @@ import com.gsmaSdk.gsma.interfaces.AccountLinkInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
-import com.gsmaSdk.gsma.models.account.AccountLinkingObject;
-import com.gsmaSdk.gsma.models.account.AccountLinks;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
+import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.account.Identifier;
 
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.account.Balance;
 
-import com.gsmaSdk.gsma.models.account.SourceAccountIdentifiersItem;
-
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.common.CreditPartyItem;
-import com.gsmaSdk.gsma.models.common.DebitPartyItem;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,14 +52,14 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
     private TextView txtResponse;
     private ProgressDialog progressdialog;
     private String correlationId = "";
-    private ReversalObject reversalObject;
+    private Reversal reversalObject;
 
     private String transactionRef = "";
     private String linkReference = "";
     private String serverCorrelationId;
 
-    private TransactionRequest transactionRequest;
-    private AccountLinkingObject accountLinkingObject;
+    private Transaction transactionRequest;
+    private Link accountLinkingObject;
     ArrayList<Identifier> identifierArrayList;
 
 
@@ -153,15 +149,15 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
 
 
     private void createTransactionObject() {
-        transactionRequest = new TransactionRequest();
+        transactionRequest = new Transaction();
         //set amount and currency
         transactionRequest.setAmount("200");
         transactionRequest.setCurrency("RWF");
 
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
 
         //debit party
         debitPartyItem.setKey("accountid");
@@ -180,14 +176,16 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
     }
 
     private void createAccountLinkingObject() {
-        accountLinkingObject = new AccountLinkingObject();
+        accountLinkingObject = new Link();
+
         //set amount and currency
+
         accountLinkingObject.setMode("active");
         accountLinkingObject.setStatus("both");
 
-        ArrayList<SourceAccountIdentifiersItem> sourceAccountIdentifiersList = new ArrayList<>();
+        ArrayList<AccountIdentifier> sourceAccountIdentifiersList = new ArrayList<>();
         ArrayList<CustomDataItem> customDataList = new ArrayList<>();
-        SourceAccountIdentifiersItem sourceAccountIdentifiersItem = new SourceAccountIdentifiersItem();
+        AccountIdentifier sourceAccountIdentifiersItem = new AccountIdentifier();
         CustomDataItem customDataItem = new CustomDataItem();
         RequestingOrganisation requestingOrganisationItem = new RequestingOrganisation();
 
@@ -219,7 +217,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
      * Create Payment Reversal Object.
      */
     private void createPaymentReversalObject() {
-        reversalObject = new ReversalObject();
+        reversalObject = new Reversal();
         reversalObject.setType("reversal");
     }
 
@@ -392,7 +390,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
         showLoading();
         SDKManager.accountLinking.viewAccountLink(identifierArrayList, transactionRef, new AccountLinkInterface() {
             @Override
-            public void onAccountLinkSuccess(AccountLinks accountLinks) {
+            public void onAccountLinkSuccess(Link accountLinks) {
                 hideLoading();
                 Utils.showToast(AccountLinkingActivity.this, "Success");
                 linkReference = accountLinks.getLinkReference();
@@ -431,7 +429,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionRequest) {
+            public void onTransactionSuccess(Transaction transactionRequest) {
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(transactionRequest));
                 Utils.showToast(AccountLinkingActivity.this, "Success");
@@ -461,7 +459,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction) {
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
                 Utils.showToast(AccountLinkingActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));

@@ -8,9 +8,9 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class MerchantPayment extends Common{
      * @param identifierArrayList - List of identifiers to identify a particular account
      */
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-       AccountBalance.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
+       AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
 
     }
 
@@ -35,7 +35,7 @@ public class MerchantPayment extends Common{
      * @param callbackUrl        The server URl for receiving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
-    public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
     }
 
@@ -46,7 +46,7 @@ public class MerchantPayment extends Common{
      * @param callbackUrl        The server URl for receiving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the refund process
      */
-    public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull TransactionRequest transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         RefundTransaction.getInstance().createRefundTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
     }
 
@@ -59,7 +59,7 @@ public class MerchantPayment extends Common{
      * @param reversal           Reversal Object containing the type of the transaction
      */
 
-    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull ReversalObject reversal, @NonNull RequestStateInterface requestStateInterface) {
+    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull Reversal reversal, @NonNull RequestStateInterface requestStateInterface) {
         ReversalTransaction.getInstance().createReversal(notificationMethod,callbackUrl,referenceId,reversal,requestStateInterface);
 
     }
@@ -72,7 +72,7 @@ public class MerchantPayment extends Common{
      * @param limit               limit set for receiving records per request
      */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, int offset, int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-       AccountTransactions.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
+       AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
 
     }
 
@@ -82,8 +82,8 @@ public class MerchantPayment extends Common{
      * @param identifierArrayList List of account identifiers of a user
      * @param codeRequest  An Object containing required details for getting the authorisation code
      */
-    public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
-       AuthorisationCode.getInstance().createAuthorisationCode(identifierArrayList,notificationMethod,callbackUrl,codeRequest,requestStateInterface);
+    public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCode codeRequest, @NonNull RequestStateInterface requestStateInterface) {
+       AuthorisationCodeController.getInstance().createAuthorisationCode(identifierArrayList,notificationMethod,callbackUrl,codeRequest,requestStateInterface);
     }
 
     /**
@@ -93,7 +93,7 @@ public class MerchantPayment extends Common{
      */
 
     public void viewAuthorisationCodeResponse(String correlationId, @NonNull AuthorisationCodeInterface authorisationCodeInterface) {
-         AuthorisationCode.getInstance().viewAuthorisationCodeResponse(correlationId,authorisationCodeInterface);
+         AuthorisationCodeController.getInstance().viewAuthorisationCodeResponse(correlationId,authorisationCodeInterface);
     }
 
     /**
@@ -104,7 +104,7 @@ public class MerchantPayment extends Common{
      *
      */
     public void viewAuthorisationCode(@NonNull ArrayList<Identifier> identifierArrayList, String authorisationCode, AuthorisationCodeItemInterface authorisationCodeInterface) {
-      AuthorisationCode.getInstance().viewAuthorisationCode(identifierArrayList,authorisationCode,authorisationCodeInterface);
+      AuthorisationCodeController.getInstance().viewAuthorisationCode(identifierArrayList,authorisationCode,authorisationCodeInterface);
 
     }
 

@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 @SuppressWarnings({"ALL", "unused"})
-public class BatchTransactionRejection extends BaseResponse {
+public class BatchRejection extends BaseResponse {
 
 	@SerializedName("BatchTransactionRejection")
-	private List<BatchTransactionRejectionItem> batchTransactionRejection;
+	private List<BatchRejectionItem> batchTransactionRejection;
 
-	public void setBatchTransactionRejection(List<BatchTransactionRejectionItem> batchTransactionRejection){
+	public void setBatchTransactionRejection(List<BatchRejectionItem> batchTransactionRejection){
 		this.batchTransactionRejection = batchTransactionRejection;
 	}
 
-	public List<BatchTransactionRejectionItem> getBatchTransactionRejection(){
+	public List<BatchRejectionItem> getBatchTransactionRejection(){
 		return batchTransactionRejection;
 	}
 }

@@ -4,11 +4,10 @@ import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.gsmaSdk.gsma.models.common.CreditPartyItem;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
-import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 
-public class BatchTransactionRejectionItem{
+public class BatchRejectionItem {
 
 	@SerializedName("transactionReference")
 	@Expose
@@ -21,11 +20,11 @@ public class BatchTransactionRejectionItem{
 
 	@SerializedName("creditParty")
 	@Expose
-	private List<CreditPartyItem> creditParty;
+	private List<AccountIdentifier> creditParty;
 
 	@SerializedName("debitParty")
 	@Expose
-	private List<DebitPartyItem> debitParty;
+	private List<AccountIdentifier> debitParty;
 
 
 	@SerializedName("rejectionReason")
@@ -46,11 +45,11 @@ public class BatchTransactionRejectionItem{
 	private List<CustomDataItem> customData;
 
 
-	public void setDebitParty(List<DebitPartyItem> debitParty){
+	public void setDebitParty(List<AccountIdentifier> debitParty){
 		this.debitParty = debitParty;
 	}
 
-	public List<DebitPartyItem> getDebitParty(){
+	public List<AccountIdentifier> getDebitParty(){
 		return debitParty;
 	}
 
@@ -102,11 +101,11 @@ public class BatchTransactionRejectionItem{
 		return rejectionReason;
 	}
 
-	public void setCreditParty(List<CreditPartyItem> creditParty){
+	public void setCreditParty(List<AccountIdentifier> creditParty){
 		this.creditParty = creditParty;
 	}
 
-	public List<CreditPartyItem> getCreditParty(){
+	public List<AccountIdentifier> getCreditParty(){
 		return creditParty;
 	}
 }

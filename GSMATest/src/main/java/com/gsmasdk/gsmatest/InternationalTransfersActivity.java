@@ -23,6 +23,7 @@ import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.account.Balance;
@@ -31,20 +32,18 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 
-import com.gsmaSdk.gsma.models.common.CreditPartyItem;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
-import com.gsmaSdk.gsma.models.common.DebitPartyItem;
-import com.gsmaSdk.gsma.models.common.IdDocumentItem;
+import com.gsmaSdk.gsma.models.common.IdDocument;
 import com.gsmaSdk.gsma.models.common.InternationalTransferInformation;
-import com.gsmaSdk.gsma.models.common.PostalAddress;
+import com.gsmaSdk.gsma.models.common.Address;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
-import com.gsmaSdk.gsma.models.common.Kyc;
+import com.gsmaSdk.gsma.models.common.KYCInformation;
 import com.gsmaSdk.gsma.models.common.SubjectName;
-import com.gsmaSdk.gsma.models.transaction.quotation.QuotationRequest;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
-
-import com.gsmaSdk.gsma.models.transaction.reversal.ReversalObject;
+import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 
 import java.util.ArrayList;
@@ -61,13 +60,13 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     private TextView txtResponse;
     private ProgressDialog progressdialog;
     private String correlationId = "";
-    private ReversalObject reversalObject;
+    private Reversal reversalObject;
 
     private String transactionRef = "";
     private String serverCorrelationId;
 
-    private QuotationRequest quotationRequest;
-    private TransactionRequest transactionRequest;
+    private Quotation quotationRequest;
+    private Transaction transactionRequest;
     ArrayList<Identifier> identifierArrayList;
 
     private final String[] internationalTransfersArray = {
@@ -196,7 +195,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
+            public void onTransactionSuccess(Transaction transactionObject) {
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -253,7 +252,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         showLoading();
         SDKManager.internationalTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override
-            public void onTransactionSuccess(TransactionRequest transactionObject) {
+            public void onTransactionSuccess(Transaction transactionObject) {
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
@@ -279,17 +278,17 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
 
     private void createInternationalTransferObject() {
-       transactionRequest=new TransactionRequest();
+       transactionRequest=new Transaction();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
             return;
         } else {
 
             //create debit party and credit party for internal transfer quotation
-            ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-            ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-            DebitPartyItem debitPartyItem = new DebitPartyItem();
-            CreditPartyItem creditPartyItem = new CreditPartyItem();
+            ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+            ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+            AccountIdentifier debitPartyItem = new AccountIdentifier();
+            AccountIdentifier creditPartyItem = new AccountIdentifier();
 
             //debit party
             debitPartyItem.setKey("walletid");
@@ -302,20 +301,12 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             creditPartyList.add(creditPartyItem);
 
             //add debit and credit party to transaction object
-            quotationRequest.setDebitParty(debitPartyList);
-            quotationRequest.setCreditParty(creditPartyList);
+            transactionRequest.setDebitParty(debitPartyList);
+            transactionRequest.setCreditParty(creditPartyList);
 
-
-            //set amount,currency and request date into transaction request
-            quotationRequest.setRequestAmount("75.30");
-            quotationRequest.setRequestCurrency("RWF");
-            quotationRequest.setRequestDate("2018-07-03T11:43:27.405Z");
-            quotationRequest.setType("inttransfer");
-            quotationRequest.setSubType("abc");
-            quotationRequest.setChosenDeliveryMethod("agent");
 
             //sender kyc object
-            Kyc senderKyc = new Kyc();
+            KYCInformation senderKyc = new KYCInformation();
             senderKyc.setNationality("GB");
             senderKyc.setDateOfBirth("1970-07-03T11:43:27.405Z");
             senderKyc.setOccupation("manager");
@@ -326,8 +317,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             senderKyc.setBirthCountry("GB");
 
             // create object for documentation
-            ArrayList<IdDocumentItem> idDocumentItemList = new ArrayList<>();
-            IdDocumentItem idDocumentItem = new IdDocumentItem();
+            ArrayList<IdDocument> idDocumentItemList = new ArrayList<>();
+            IdDocument idDocumentItem = new IdDocument();
             idDocumentItem.setIdType("nationalidcard");
             idDocumentItem.setIdNumber("1234567");
             idDocumentItem.setIssueDate("2018-07-03T11:43:27.405Z");
@@ -343,7 +334,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             senderKyc.setIdDocument(idDocumentItemList);
 
             //create object for postal address
-            PostalAddress postalAddress = new PostalAddress();
+            Address postalAddress = new Address();
             postalAddress.setCountry("GB");
             postalAddress.setAddressLine1("111 ABC Street");
             postalAddress.setCity("New York");
@@ -382,11 +373,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             quotationRequest.setSenderKyc(senderKyc);
 
             //add custom data object to request object
-            quotationRequest.setCustomData(customDataItemList);
-
-            quotationRequest.setSendingServiceProviderCountry("AD");
-            quotationRequest.setOriginCountry("AD");
-            quotationRequest.setReceivingCountry("AD");
 
 
 
@@ -534,14 +520,14 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     //create a transaction object for international transfer request
     private void createInternationalQuotationObject() {
-        quotationRequest = new QuotationRequest();
+        quotationRequest = new Quotation();
 
 
         //create debit party and credit party for internal transfer quotation
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
 
         //debit party
         debitPartyItem.setKey("walletid");
@@ -567,7 +553,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         quotationRequest.setChosenDeliveryMethod("agent");
 
         //sender kyc object
-        Kyc senderKyc = new Kyc();
+        KYCInformation senderKyc = new KYCInformation();
         senderKyc.setNationality("GB");
         senderKyc.setDateOfBirth("1970-07-03T11:43:27.405Z");
         senderKyc.setOccupation("manager");
@@ -578,8 +564,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         senderKyc.setBirthCountry("GB");
 
         // create object for documentation
-        ArrayList<IdDocumentItem> idDocumentItemList = new ArrayList<>();
-        IdDocumentItem idDocumentItem = new IdDocumentItem();
+        ArrayList<IdDocument> idDocumentItemList = new ArrayList<>();
+        IdDocument idDocumentItem = new IdDocument();
         idDocumentItem.setIdType("nationalidcard");
         idDocumentItem.setIdNumber("1234567");
         idDocumentItem.setIssueDate("2018-07-03T11:43:27.405Z");
@@ -595,7 +581,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         senderKyc.setIdDocument(idDocumentItemList);
 
         //create object for postal address
-        PostalAddress postalAddress = new PostalAddress();
+        Address postalAddress = new Address();
         postalAddress.setCountry("GB");
         postalAddress.setAddressLine1("111 ABC Street");
         postalAddress.setCity("New York");
@@ -720,7 +706,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction) {
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
@@ -769,7 +755,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     //create a reversal object for transaction
     private void createPaymentReversalObject() {
-        reversalObject = new ReversalObject();
+        reversalObject = new Reversal();
         reversalObject.setType("reversal");
     }
 

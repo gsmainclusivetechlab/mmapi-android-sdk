@@ -2,11 +2,10 @@ package com.gsmaSdk.gsma.models.transaction.batchcompletion;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
-import com.gsmaSdk.gsma.models.common.CreditPartyItem;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
-import com.gsmaSdk.gsma.models.common.DebitPartyItem;
 
-public class BatchTransactionCompletionItem{
+public class BatchCompletionItem {
 
 	@SerializedName("transactionReference")
 	private String transactionReference;
@@ -17,10 +16,10 @@ public class BatchTransactionCompletionItem{
 
 
 	@SerializedName("debitParty")
-	private List<DebitPartyItem> debitParty;
+	private List<AccountIdentifier> debitParty;
 
 	@SerializedName("creditParty")
-	private List<CreditPartyItem> creditParty;
+	private List<AccountIdentifier> creditParty;
 
 
 	@SerializedName("completionDate")
@@ -37,11 +36,11 @@ public class BatchTransactionCompletionItem{
 	@SerializedName("completedDate")
 	private String completedDate;
 
-	public void setDebitParty(List<DebitPartyItem> debitParty){
+	public void setDebitParty(List<AccountIdentifier> debitParty){
 		this.debitParty = debitParty;
 	}
 
-	public List<DebitPartyItem> getDebitParty(){
+	public List<AccountIdentifier> getDebitParty(){
 		return debitParty;
 	}
 
@@ -85,11 +84,11 @@ public class BatchTransactionCompletionItem{
 		return customData;
 	}
 
-	public void setCreditParty(List<CreditPartyItem> creditParty){
+	public void setCreditParty(List<AccountIdentifier> creditParty){
 		this.creditParty = creditParty;
 	}
 
-	public List<CreditPartyItem> getCreditParty(){
+	public List<AccountIdentifier> getCreditParty(){
 		return creditParty;
 	}
 

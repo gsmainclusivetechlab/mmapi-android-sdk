@@ -6,21 +6,21 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-public class TransactionResponseDeserializer implements JsonDeserializer<Transaction> {
+public class TransactionResponseDeserializer implements JsonDeserializer<Transactions> {
 
     @Override
-    public Transaction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public Transactions deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<TransactionRequest>>(){}.getType();
-        List<TransactionRequest> transactionItems = gson.fromJson(json,listType);
-        Transaction transaction = new Transaction();
+        Type listType = new TypeToken<List<Transaction>>(){}.getType();
+        List<Transaction> transactionItems = gson.fromJson(json,listType);
+        Transactions transaction = new Transactions();
         transaction.setTransaction(transactionItems);
         return transaction;
     }

@@ -2,7 +2,7 @@ package com.gsmaSdk.gsma.interfaces;
 
 
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
 
 /**
  * Interface for clients to receive completed batch transactions
@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompl
 @SuppressWarnings("ALL")
 public interface BatchCompletionInterface extends BaseInterface {
 
-    void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion);
+    void batchTransactionCompleted(BatchCompletion batchTransactionCompletion);
 
     void onTransactionFailure(GSMAError gsmaError);
 }

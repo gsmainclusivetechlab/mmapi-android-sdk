@@ -2,7 +2,7 @@ package com.gsmaSdk.gsma.interfaces;
 
 
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 /**
  * Interface for clients to receive Transaction Response
@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.transaction.transactions.TransactionRequest;
 @SuppressWarnings("ALL")
 public interface TransactionInterface extends BaseInterface{
 
-    void onTransactionSuccess(TransactionRequest transactionObject);
+    void onTransactionSuccess(Transaction transactionObject);
 
     void onTransactionFailure(GSMAError gsmaError);
 }

@@ -6,8 +6,8 @@ import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeItem;
-import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodeRequest;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -18,7 +18,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 import java.util.ArrayList;
 
 @SuppressWarnings("ConstantConditions")
-public class AuthorisationCode {
+public class AuthorisationCodeController {
 
 
     /**
@@ -28,7 +28,7 @@ public class AuthorisationCode {
      * @param codeRequest         An Object containing required details for getting the authorisation code
      */
     @SuppressWarnings("rawtypes")
-    public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCodeRequest codeRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCode codeRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;
@@ -38,7 +38,7 @@ public class AuthorisationCode {
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
-            GSMAApi.getInstance().obtainAuthorisationCode(uuid, notificationMethod, callbackUrl, Utils.getIdentifiers(identifierArrayList), codeRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().obtainAuthorisationCode(uuid, notificationMethod, callbackUrl, Utils.getIdentifiers(identifierArrayList), codeRequest  , new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse);
@@ -82,9 +82,9 @@ public class AuthorisationCode {
                         @Override
                         public void onSuccess(int responseCode, GetLink serializedResponse) {
 
-                            GSMAApi.getInstance().getMissingCodes(serializedResponse.getLink(), new APIRequestCallback<com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode>() {
+                            GSMAApi.getInstance().getMissingCodes(serializedResponse.getLink(), new APIRequestCallback<AuthorisationCodes>() {
                                 @Override
-                                public void onSuccess(int responseCode, com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode serializedResponse) {
+                                public void onSuccess(int responseCode, AuthorisationCodes serializedResponse) {
                                     authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse);
                                 }
 
@@ -127,9 +127,9 @@ public class AuthorisationCode {
             authorisationCodeInterface.onValidationError(Utils.setError(9));
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().viewAuthorizationCode(uuid, Utils.getIdentifiers(identifierArrayList), authorisationCode, new APIRequestCallback<AuthorisationCodeItem>() {
+            GSMAApi.getInstance().viewAuthorizationCode(uuid, Utils.getIdentifiers(identifierArrayList), authorisationCode, new APIRequestCallback<com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode>() {
                         @Override
-                        public void onSuccess(int responseCode, AuthorisationCodeItem serializedResponse) {
+                        public void onSuccess(int responseCode, com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode serializedResponse) {
                             authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse);
                         }
 
@@ -147,12 +147,12 @@ public class AuthorisationCode {
     }
 
 
-    public static AuthorisationCode getInstance() {
-        return AuthorisationCode.SingletonCreationAdmin.INSTANCE;
+    public static AuthorisationCodeController getInstance() {
+        return AuthorisationCodeController.SingletonCreationAdmin.INSTANCE;
     }
 
     private static class SingletonCreationAdmin {
-        private static final AuthorisationCode INSTANCE = new AuthorisationCode();
+        private static final AuthorisationCodeController INSTANCE = new AuthorisationCodeController();
     }
 
 

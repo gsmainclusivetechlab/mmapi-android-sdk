@@ -6,21 +6,21 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchTransactionCompletionItem;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletionItem;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-public class BatchCompletionsDeserializer implements JsonDeserializer<BatchTransactionCompletion> {
+public class BatchCompletionsDeserializer implements JsonDeserializer<BatchCompletion> {
     @Override
-    public BatchTransactionCompletion deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public BatchCompletion deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<BatchTransactionCompletionItem>>(){}.getType();
-        List<BatchTransactionCompletionItem> transactionItems = gson.fromJson(json,listType);
-        BatchTransactionCompletion transaction = new BatchTransactionCompletion();
+        Type listType = new TypeToken<List<BatchCompletionItem>>(){}.getType();
+        List<BatchCompletionItem> transactionItems = gson.fromJson(json,listType);
+        BatchCompletion transaction = new BatchCompletion();
         transaction.setBatchTransactionCompletion(transactionItems);
         return transaction;
     }

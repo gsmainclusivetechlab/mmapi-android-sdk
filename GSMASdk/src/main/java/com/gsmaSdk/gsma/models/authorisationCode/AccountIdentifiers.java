@@ -1,17 +1,20 @@
-package com.gsmaSdk.gsma.models.common;
+package com.gsmaSdk.gsma.models.authorisationCode;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model class for Redemption Account Identifier
+ * */
 @SuppressWarnings("ALL")
-public class CreditPartyItem{
+public class AccountIdentifiers {
 
-	@SerializedName("value")
 	@Expose
+	@SerializedName("value")
 	private String value;
 
-	@SerializedName("key")
 	@Expose
+	@SerializedName("key")
 	private String key;
 
 	public void setValue(String value){

@@ -3,7 +3,7 @@ package com.gsmaSdk.gsma.models.common;
 import com.google.gson.annotations.SerializedName;
 
 @SuppressWarnings({"ALL", "unused"})
-public class IdDocumentItem{
+public class IdDocument {
 
 	@SerializedName("idType")
 	private String idType;

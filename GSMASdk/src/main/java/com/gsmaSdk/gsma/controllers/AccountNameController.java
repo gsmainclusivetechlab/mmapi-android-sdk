@@ -3,7 +3,7 @@ package com.gsmaSdk.gsma.controllers;
 import androidx.annotation.NonNull;
 
 import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
-import com.gsmaSdk.gsma.models.account.AccountHolderObject;
+import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
@@ -13,7 +13,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 import java.util.ArrayList;
 
 
-public class AccountName {
+public class AccountNameController {
 
 
     /**
@@ -32,9 +32,9 @@ public class AccountName {
             accountHolderInterface.onValidationError(Utils.setError(1));
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().viewAccountName(uuid, Utils.getIdentifiers(identifierArrayList), new APIRequestCallback<AccountHolderObject>() {
+            GSMAApi.getInstance().viewAccountName(uuid, Utils.getIdentifiers(identifierArrayList), new APIRequestCallback<AccountHolderName>() {
                 @Override
-                public void onSuccess(int responseCode, AccountHolderObject serializedResponse) {
+                public void onSuccess(int responseCode, AccountHolderName serializedResponse) {
                     accountHolderInterface.onRetrieveAccountInfoSuccess(serializedResponse);
                 }
 
@@ -49,12 +49,12 @@ public class AccountName {
         }
     }
 
-    public static AccountName getInstance() {
+    public static AccountNameController getInstance() {
         return SingletonCreationAdmin.INSTANCE;
     }
 
     private static class SingletonCreationAdmin {
-        private static final AccountName INSTANCE = new AccountName();
+        private static final AccountNameController INSTANCE = new AccountNameController();
     }
 
 

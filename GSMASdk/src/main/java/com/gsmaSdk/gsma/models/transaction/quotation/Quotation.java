@@ -2,11 +2,10 @@ package com.gsmaSdk.gsma.models.transaction.quotation;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.gsmaSdk.gsma.models.authorisationCode.MetaDataObject;
-import com.gsmaSdk.gsma.models.common.CreditPartyItem;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
+import com.gsmaSdk.gsma.models.authorisationCode.MetaData;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
-import com.gsmaSdk.gsma.models.common.DebitPartyItem;
-import com.gsmaSdk.gsma.models.common.Kyc;
+import com.gsmaSdk.gsma.models.common.KYCInformation;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * Model class for Account Balance
  * */
-public class QuotationRequest extends BaseResponse {
+public class Quotation extends BaseResponse {
 
     @SerializedName("quotationReference")
     @Expose
@@ -25,12 +24,12 @@ public class QuotationRequest extends BaseResponse {
 
     @SerializedName("creditParty")
     @Expose
-    private ArrayList<CreditPartyItem> creditParty;
+    private ArrayList<AccountIdentifier> creditParty;
 
 
     @SerializedName("debitParty")
     @Expose
-    private ArrayList<DebitPartyItem> debitParty;
+    private ArrayList<AccountIdentifier> debitParty;
 
 
     @SerializedName("type")
@@ -55,6 +54,14 @@ public class QuotationRequest extends BaseResponse {
     private  String requestCurrency;
 
 
+    public List<Quote> getQuoteList() {
+        return quoteList;
+    }
+
+    public void setQuoteList(List<Quote> quoteList) {
+        this.quoteList = quoteList;
+    }
+
     @SerializedName("availableDeliveryMethod")
     @Expose
     private  String  availableDeliveryMethod;
@@ -77,12 +84,12 @@ public class QuotationRequest extends BaseResponse {
 
     @SerializedName("senderKyc")
     @Expose
-    private Kyc senderKyc;
+    private KYCInformation senderKyc;
 
 
     @SerializedName("recipientKyc")
     @Expose
-    private Kyc  recipientKyc;
+    private KYCInformation recipientKyc;
 
     @SerializedName("quotes")
     @Expose
@@ -126,7 +133,7 @@ public class QuotationRequest extends BaseResponse {
 
     @SerializedName("metadata")
     @Expose
-    private ArrayList<MetaDataObject> metaDataObject;
+    private ArrayList<MetaData> metaDataObject;
 
     public String getQuotationReference() {
         return quotationReference;
@@ -136,19 +143,19 @@ public class QuotationRequest extends BaseResponse {
         this.quotationReference = quotationReference;
     }
 
-    public ArrayList<CreditPartyItem> getCreditParty() {
+    public ArrayList<AccountIdentifier> getCreditParty() {
         return creditParty;
     }
 
-    public void setCreditParty(ArrayList<CreditPartyItem> creditParty) {
+    public void setCreditParty(ArrayList<AccountIdentifier> creditParty) {
         this.creditParty = creditParty;
     }
 
-    public ArrayList<DebitPartyItem> getDebitParty() {
+    public ArrayList<AccountIdentifier> getDebitParty() {
         return debitParty;
     }
 
-    public void setDebitParty(ArrayList<DebitPartyItem> debitParty) {
+    public void setDebitParty(ArrayList<AccountIdentifier> debitParty) {
         this.debitParty = debitParty;
     }
 
@@ -224,19 +231,19 @@ public class QuotationRequest extends BaseResponse {
         this.receivingCountry = receivingCountry;
     }
 
-    public Kyc getSenderKyc() {
+    public KYCInformation getSenderKyc() {
         return senderKyc;
     }
 
-    public void setSenderKyc(Kyc senderKyc) {
+    public void setSenderKyc(KYCInformation senderKyc) {
         this.senderKyc = senderKyc;
     }
 
-    public Kyc getRecipientKyc() {
+    public KYCInformation getRecipientKyc() {
         return recipientKyc;
     }
 
-    public void setRecipientKyc(Kyc recipientKyc) {
+    public void setRecipientKyc(KYCInformation recipientKyc) {
         this.recipientKyc = recipientKyc;
     }
 
@@ -304,11 +311,11 @@ public class QuotationRequest extends BaseResponse {
         this.customData = customData;
     }
 
-    public ArrayList<MetaDataObject> getMetaDataObject() {
+    public ArrayList<MetaData> getMetaDataObject() {
         return metaDataObject;
     }
 
-    public void setMetaDataObject(ArrayList<MetaDataObject> metaDataObject) {
+    public void setMetaDataObject(ArrayList<MetaData> metaDataObject) {
         this.metaDataObject = metaDataObject;
     }
 }
