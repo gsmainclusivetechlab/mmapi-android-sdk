@@ -23,6 +23,7 @@ import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
@@ -440,7 +441,11 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Retrieve Disbursement
     private void retrieveTransactionDisbursement() {
         showLoading();
-        SDKManager.disbursement.viewAccountTransactions(identifierArrayList, 0, 5, new RetrieveTransactionInterface() {
+        TransactionFilter transactionFilter=new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        SDKManager.disbursement.viewAccountTransactions(identifierArrayList, transactionFilter,  new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

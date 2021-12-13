@@ -33,6 +33,7 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Interface for Retrofit methods
@@ -118,7 +119,10 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/accounts/{accountIdentfiers}/transactions")
-    Call<Transactions> retrieveTransaction(@Path(value = "version", encoded = true) String version, @Path(value = "accountIdentfiers", encoded = true)  String accountIdentfiers, @HeaderMap Map<String, String> headers, @Query(value = "offset") int offset, @Query(value = "limit") int limit);
+    Call<Transactions> retrieveTransaction(@Path(value = "version", encoded = true) String version,
+                                           @Path(value = "accountIdentfiers", encoded = true)  String accountIdentfiers,
+                                           @HeaderMap Map<String, String> headers,
+                                           @QueryMap Map<String,String> params);
 
 
 

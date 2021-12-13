@@ -8,6 +8,7 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
@@ -68,11 +69,11 @@ public class MerchantPayment extends Common{
      * Retrieve a transaction
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param offset              offset required for pagination
+     * @param transactionFilter Filter object for transaction
      * @param limit               limit set for receiving records per request
      */
-    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, int offset, int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-       AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
+    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+       AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,transactionFilter,retrieveTransactionInterface);
 
     }
 

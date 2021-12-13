@@ -25,6 +25,7 @@ import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.Address;
 import com.gsmaSdk.gsma.models.common.IdDocument;
 import com.gsmaSdk.gsma.models.common.KYCInformation;
@@ -199,7 +200,12 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Retrieve Transaction for an FSP
     private void retrieveTransactionFSP() {
         showLoading();
-        SDKManager.p2PTransfer.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+        TransactionFilter transactionFilter=new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+
+        SDKManager.p2PTransfer.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

@@ -34,6 +34,7 @@ public class Balance extends BaseResponse {
     @Expose
     private String accountStatus;
 
+
     public String getCurrentBalance() {
         return currentBalance;
     }

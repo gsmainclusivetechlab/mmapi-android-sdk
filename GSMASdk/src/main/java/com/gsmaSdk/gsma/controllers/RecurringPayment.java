@@ -5,6 +5,7 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -110,7 +111,7 @@ public class RecurringPayment extends Common {
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
     public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
+        MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod, callbackUrl, transactionRequest, requestStateInterface);
     }
 
     /**
@@ -121,7 +122,7 @@ public class RecurringPayment extends Common {
      * @param transactionRequest Transaction Object containing details required for initiating the refund process
      */
     public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        RefundTransaction.getInstance().createRefundTransaction(notificationMethod,callbackUrl,transactionRequest,requestStateInterface);
+        RefundTransaction.getInstance().createRefundTransaction(notificationMethod, callbackUrl, transactionRequest, requestStateInterface);
     }
 
     /**
@@ -134,7 +135,7 @@ public class RecurringPayment extends Common {
      */
 
     public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull Reversal reversal, @NonNull RequestStateInterface requestStateInterface) {
-        ReversalTransaction.getInstance().createReversal(notificationMethod,callbackUrl,referenceId,reversal,requestStateInterface);
+        ReversalTransaction.getInstance().createReversal(notificationMethod, callbackUrl, referenceId, reversal, requestStateInterface);
 
     }
 
@@ -144,7 +145,7 @@ public class RecurringPayment extends Common {
      * @param identifierArrayList - List of identifiers to identify a particular account
      */
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
+        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
 
     }
 
@@ -152,11 +153,10 @@ public class RecurringPayment extends Common {
      * Retrieve a transaction
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param offset              offset required for pagination
-     * @param limit               limit set for receiving records per request
+     * @param transactionFilter   Filter object for transaction
      */
-    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
+    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList, transactionFilter, retrieveTransactionInterface);
 
     }
 }

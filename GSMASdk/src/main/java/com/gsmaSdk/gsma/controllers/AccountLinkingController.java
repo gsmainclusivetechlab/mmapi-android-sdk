@@ -8,6 +8,7 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
@@ -41,7 +42,7 @@ public class AccountLinkingController extends  Common {
      * @param identifierArrayList - List of identifiers to identify a particular account
      */
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
+      //  AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
 
     }
 
@@ -49,11 +50,10 @@ public class AccountLinkingController extends  Common {
      * Retrieve a transaction
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param offset              offset required for pagination
-     * @param limit               limit set for receiving records per request
+     * @param transactionFilter  transactionFilter Filter object for transaction
      */
-    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, int offset, int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList, offset, limit, retrieveTransactionInterface);
+    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,transactionFilter, retrieveTransactionInterface);
 
     }
 

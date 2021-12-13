@@ -7,6 +7,7 @@ import com.gsmaSdk.gsma.interfaces.BatchTransactionItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.Batch;
@@ -246,8 +247,8 @@ public class Disbursement extends Common {
      * @param offset              offset required for pagination
      * @param limit               limit set for receiving records per request
      */
-    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList, offset, limit, retrieveTransactionInterface);
+    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,transactionFilter, retrieveTransactionInterface);
 
     }
 

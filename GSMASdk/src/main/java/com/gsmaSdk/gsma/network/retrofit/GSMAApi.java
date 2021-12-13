@@ -184,13 +184,12 @@ public final class GSMAApi {
      *
      * @param uuid               UUID
      * @param accountIdentifier          Account id
-     * @param offset             Offset
-     * @param limit              limit
+     * @param params Hashmap-Filter list
      * @param apiRequestCallback Listener for api operation
      */
-    public void retrieveTransaction(String uuid, String accountIdentifier, int offset, int limit, APIRequestCallback<Transactions> apiRequestCallback) {
+    public void retrieveTransaction(String uuid, String accountIdentifier,HashMap<String,String> params, APIRequestCallback<Transactions> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(), accountIdentifier, headers, offset, limit), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveTransaction(PaymentConfiguration.getUrlVersion(), accountIdentifier, headers,params), apiRequestCallback));
     }
 
 

@@ -9,6 +9,7 @@ import android.util.Base64;
 
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -43,6 +45,34 @@ public class Utils {
             data = convertedKey.getBytes(Charset.forName("UTF-8"));
         }
         return Base64.encodeToString(data, Base64.NO_WRAP);
+    }
+
+    public static HashMap<String, String> getHashMapFromObject(Object object) {
+        HashMap<String, String> params = new HashMap<>();
+
+        if (object instanceof TransactionFilter) {
+            TransactionFilter transactionFilter = (TransactionFilter) object;
+            if (transactionFilter.getLimit() != 0) {
+                params.put("limit", String.valueOf(transactionFilter.getLimit()));
+            }
+            if (transactionFilter.getOffset() != 0) {
+                params.put("offset", String.valueOf(transactionFilter.getOffset()));
+            }
+            if (transactionFilter.getFromDateTime() != null) {
+                params.put("fromDateTime", transactionFilter.getFromDateTime());
+            }
+            if (transactionFilter.getTransactionStatus() != null) {
+                params.put("toDateTime", transactionFilter.getToDateTime());
+            }
+            if (transactionFilter.getTransactionStatus() != null) {
+                params.put("transactionStatus", transactionFilter.getTransactionStatus());
+            }
+            if (transactionFilter.getTransactionType() != null) {
+                params.put("transactionType", transactionFilter.getTransactionType());
+            }
+        }
+
+        return params;
     }
 
 
@@ -95,7 +125,7 @@ public class Utils {
         return (activeNetworkInfo != null) && (activeNetworkInfo.isConnected());
     }
 
-    public static String getIdentifiers(ArrayList<Identifier> identifierArrayList){
+    public static String getIdentifiers(ArrayList<Identifier> identifierArrayList) {
         String identifierValue = "";
         if (identifierArrayList.size() == 1) {
             Identifier identifier = identifierArrayList.get(0);

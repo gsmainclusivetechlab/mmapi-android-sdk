@@ -7,6 +7,7 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
@@ -109,11 +110,10 @@ public class InternationalTransfer extends Common {
      * View Account Transaction - Retrieve a set of transactions
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param offset              offset required for pagination
-     * @param limit               limit set for receiving records per request
+     * @param transactionFilter Filter object for transaction
      */
-    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull int offset, @NonNull int limit, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,offset,limit,retrieveTransactionInterface);
+    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,transactionFilter,retrieveTransactionInterface);
     }
 
 
