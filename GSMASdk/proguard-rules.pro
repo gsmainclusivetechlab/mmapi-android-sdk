@@ -41,7 +41,6 @@
 -optimizations !code/allocation/variable
 
 -keep class com.gsmaSdk.gsma.** { *; }
--keep public class gotap.com.tapglkitandroid.** { *; }
 # GSON.
 -keepnames class com.google.gson.** {*;}
 -keepnames enum com.google.gson.** {*;}
