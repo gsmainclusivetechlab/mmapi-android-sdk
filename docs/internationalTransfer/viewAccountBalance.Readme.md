@@ -1,5 +1,6 @@
 # View Account Balance
 
+Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
 
 ### Usage/Examples
 
