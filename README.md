@@ -83,7 +83,15 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
 
 
   ```
-### International Transfers
+ ## Use Cases
+
+-   [Merchant Payments](#merchant-payments)
+-   [Disbursements](#disbursements)
+-   [International Transfers](#international-transfers)
+-   [P2P Transfers](#p2p-transfers)
+
+ 
+# International Transfers
 
 Contains functions for all the use case scenarios within International Transfers.
 
@@ -101,7 +109,7 @@ Contains functions for all the use case scenarios within International Transfers
     <td rowspan="3">International Transfer via Hub</td>
     <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
     <td>createQuotation</td>
-    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface<</td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/internationalTransfer/createInternationalTransaction.Readme.md">Perform an International Transfer</a></td>
@@ -131,19 +139,11 @@ Contains functions for all the use case scenarios within International Transfers
     <td>String transactionReference,TransactionInterface transactionInterface</td>
   </tr>
   <tr>
- 
- 
   <tr>
-    <td>Merchant Payment Refund</td>
-    <td>Perform a Merchant Payment Refund</td>
-    <td>createRefundTransaction</td>
-    <td>string $transactionReference, Reversal $reversal=null, string $callBackUrl=null</td>
-  </tr>
-  <tr>
-    <td>Merchant Payment Reversal</td>
-    <td>Perform a Merchant Payment Reversal</td>
+    <td>International Transfer Reversal</td>
+    <td><a href="/docs/internationalTransfer/createReversal.Readme.md">Perform a Transaction Reversal</a></td>
     <td>createReversal</td>
-    <td>string $transactionReference, Reversal $reversal=null, string $callBackUrl=null</td>
+    <td>NotificationMethod, string callBackUrl="",String referenceId,Reversal reversal,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Obtain a Merchant Balance</td>
