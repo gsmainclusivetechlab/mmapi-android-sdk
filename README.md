@@ -7,6 +7,8 @@ Android SDK to use MMAPI.
 
 A library that fully covers payment process inside your Android application
 
+Use the Android SDK to get started quickly with the [GSMA Mobile Money API](https://developer.mobilemoneyapi.io/1.2).
+
 # Requirements
 ---
 To use the SDK the following requirements must be met:
@@ -30,7 +32,11 @@ implementation files('libs/GSMASdk-debug-1.0.4.aar')
 
 # Configure the SDK
 
-After including the SDK into your project,Configure the SDK with either SANDBOX account or LIVE account
+After you install the SDK, make it available to your app and configure SDK. 
+Configuration details include either sandbox for testing or live for production, and your consumer key, consumer secret, api key, security option  and callback url for your app.
+
+In the directory where you installed the SDK,  include this code to make the SDK available and configure your environment with your application credentials for sandbox and live environments in the Developer Dashboard.
+
 
 ```
  /**
@@ -83,7 +89,17 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
 
 
   ```
-### Merchant Payment 
+ ## Use Cases
+
+-   [Merchant Payments](#merchant-payments)
+-   [Disbursements](#disbursements)
+-   [International Transfers](#international-transfers)
+-   [P2P Transfers](#p2p-transfers)
+
+ 
+# International Transfers
+
+Contains functions for all the use case scenarios within International Transfers.
 
 <table>
 <thead>
@@ -96,87 +112,73 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
 </thead>
 <tbody>
   <tr>
-    <td rowspan="3">Payee-Initiated Merchant Payment using the Polling Method</td>
-    <td>Payee Initiated Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
+    <td rowspan="3">International Transfer via Hub</td>
+    <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
+    <td>createQuotation</td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
-    <td>Poll to Determine the Request State</td>
-    <td>viewRequestState</td>
-    <td>string $serverCorrelationId</td>
+    <td><a href="/docs/internationalTransfer/createInternationalTransaction.Readme.md">Perform an International Transfer</a></td>
+    <td>createInternationalTransaction</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
-    <td>Retrieve a Transaction</td>
-    <td>RequestState</td>
-    <td>string $transactionReference</td>
+    <td>Optional <a href="/docs/internationalTransfer/viewQuotation.Readme.md">View A Quotation</a></td>
+    <td>viewQuotation</td>
+    <td>String transactionReference,TransactionInterface transactionInterface</td>
   </tr>
   <tr>
-    <td>Payee-Initiated Merchant Payment</td>
-    <td>Payee Initiated Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
+    <td rowspan="3">Bilateral International Transfer</td>
+    <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
+    <td>createQuotation</td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
+  </tr>
+
+ <tr>
+    <td><a href="/docs/internationalTransfer/createInternationalTransaction.Readme.md">Perform an International Transfer</a></td>
+    <td>createInternationalTransaction</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
-    <td>Payer-Initiated Merchant Payment</td>
-    <td>Payer Initiated Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
+    <td>Optional <a href="/docs/internationalTransfer/viewQuotation.Readme.md">View A Quotation</a></td>
+    <td>viewQuotation</td>
+    <td>String transactionReference,TransactionInterface transactionInterface</td>
   </tr>
   <tr>
-    <td rowspan="3">Payee-Initiated Merchant Payment using a Pre-authorised Payment Code</td>
-    <td>Obtain an Authorisation Code</td>
-    <td>createAuthorisationCode</td>
-    <td>array $accountIdentifier, AuthorisationCode $authorisationCode</td>
-  </tr>
   <tr>
-    <td>Perform a Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
-  </tr>
-  <tr>
-    <td>View An Authorisation Code</td>
-    <td>viewAuthorisationCode</td>
-    <td>string $accountIdentifier, string $authorisationCode</td>
-  </tr>
-  <tr>
-    <td>Merchant Payment Refund</td>
-    <td>Perform a Merchant Payment Refund</td>
-    <td>createRefundTransaction</td>
-    <td>string $transactionReference, Reversal $reversal=null, string $callBackUrl=null</td>
-  </tr>
-  <tr>
-    <td>Merchant Payment Reversal</td>
-    <td>Perform a Merchant Payment Reversal</td>
+    <td>International Transfer Reversal</td>
+    <td><a href="/docs/internationalTransfer/createReversal.Readme.md">Perform a Transaction Reversal</a></td>
     <td>createReversal</td>
-    <td>string $transactionReference, Reversal $reversal=null, string $callBackUrl=null</td>
+    <td>NotificationMethod, string callBackUrl="",String referenceId,Reversal reversal,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
-    <td>Obtain a Merchant Balance</td>
-    <td>Get an Account Balance</td>
+    <td>Obtain an FSP Balance</td>
+    <td><a href="/docs/internationalTransfer/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
     <td>viewAccountBalance</td>
-    <td>array $accountIdentifier, array $filter=null</td>
+    <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
   </tr>
   <tr>
-    <td>Retrieve Payments for a Merchant</td>
-    <td>Retrieve a Set of Transactions for an Account</td>
+    <td>Retrieve Transactions for an FSP</td>
+    <td><a href="/docs/internationalTransfer/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
     <td>viewAccountTransactions</td>
-    <td>array $accountIdentifier, array $filter=null</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
   </tr>
   <tr>
     <td>Check for Service Availability</td>
-    <td>Check for Service Availability</td>
+    <td><a href="/docs/internationalTransfer/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
     <td>viewServiceAvailability</td>
     <td>NA</td>
   </tr>
   <tr>
     <td>Retrieve a Missing API Response</td>
-    <td>Retrieve a Missing Response</td>
+    <td><a href="/docs/internationalTransfer/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
     <td>viewResponse</td>
-    <td>string $clientCorrelationId, Object $objRef=null</td>
+    <td>String correlationId</td>
   </tr>
 </tbody>
 </table>
+
+
 
 
 
