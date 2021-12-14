@@ -84,6 +84,7 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
 
   ```
 ### Merchant Payment 
+Contains functions for all the use case scenarios within Merchant Payments.
 
 <table>
 <thead>
