@@ -146,28 +146,28 @@ Contains functions for all the use case scenarios within International Transfers
     <td>NotificationMethod, string callBackUrl="",String referenceId,Reversal reversal,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
-    <td>Obtain a Merchant Balance</td>
-    <td>Get an Account Balance</td>
+    <td>Obtain an FSP Balance</td>
+    <td><a href="/docs/internationalTransfer/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
     <td>viewAccountBalance</td>
-    <td>array $accountIdentifier, array $filter=null</td>
+    <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
   </tr>
   <tr>
-    <td>Retrieve Payments for a Merchant</td>
-    <td>Retrieve a Set of Transactions for an Account</td>
+    <td>Retrieve Transactions for an FSP</td>
+    <td><a href="/docs/internationalTransfer/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a>/td>
     <td>viewAccountTransactions</td>
-    <td>array $accountIdentifier, array $filter=null</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
   </tr>
   <tr>
     <td>Check for Service Availability</td>
-    <td>Check for Service Availability</td>
+    <td><a href="/docs/internationalTransfer/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
     <td>viewServiceAvailability</td>
     <td>NA</td>
   </tr>
   <tr>
     <td>Retrieve a Missing API Response</td>
-    <td>Retrieve a Missing Response</td>
+    <td><a href="/docs/internationalTransfer/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
     <td>viewResponse</td>
-    <td>string $clientCorrelationId, Object $objRef=null</td>
+    <td>String correlationId</td>
   </tr>
 </tbody>
 </table>
