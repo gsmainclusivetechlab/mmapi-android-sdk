@@ -196,7 +196,7 @@ Contains functions for all the use case scenarios within International Transfers
 <tbody>
   <tr>
     <td rowspan="3">International Transfer via Hub</td>
-    <td><a href="/docs/quotations/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
+    <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
     <td>createQuotation</td>
     <td>Transaction transaction, string callBackUrl = null</td>
   </tr>
