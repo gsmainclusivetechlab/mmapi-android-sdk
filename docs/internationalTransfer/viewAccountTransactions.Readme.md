@@ -1,8 +1,48 @@
-# View Account Specific Transaction
+# View Account Specific Transaction - International Transfer
 
+The merchant can retrieve a set of transcation of a particular account
 
 ### Usage/Examples
 
+```
+ArrayList<Identifier> identifierArrayList;
+
+```
+
+```
+   private void createAccountIdentifier(){
+        identifierArrayList=new ArrayList<>();
+        identifierArrayList.clear();
+
+        Identifier identifierAccount=new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2000");
+        identifierArrayList.add(identifierAccount);
+    }
+
+```
+
+```
+
+ SDKManager.internationalTransfer.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+            
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transaction transaction) {
+           
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+         
+            }
+        });
+ 
+ 
+```
 
 
 
@@ -91,7 +131,7 @@
         "modificationDate": "2021-05-03T08:53:27",
         "requestDate": "2021-05-03T08:53:27"
     },
-    ...,
+    
     {
         "transactionReference": "REF-1620133857481",
         "creditParty": [
