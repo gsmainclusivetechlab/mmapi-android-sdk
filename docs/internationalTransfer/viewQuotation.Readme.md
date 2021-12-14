@@ -1,7 +1,32 @@
 # View A Quotation
 
+ View a quotation details using transacation reference 
+
+### Usage/Examples
+
+```
+    private String transactionRef = "";
+
 ```
 
+```
+
+        SDKManager.internationalTransfer.viewQuotation(transactionRef, new TransactionInterface() {
+            @Override
+            public void onTransactionSuccess(Transaction transactionObject) {
+          
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+               
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+               
+            }
+        });
 
 ```
 
