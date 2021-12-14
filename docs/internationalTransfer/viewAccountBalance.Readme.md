@@ -5,6 +5,11 @@ Obtain the balance of requested account,Pass the account identier list  to the f
 ### Usage/Examples
 
 ```
+    ArrayList<Identifier> identifierArrayList;
+
+```
+
+```
     private void createAccountIdentifier(){
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
