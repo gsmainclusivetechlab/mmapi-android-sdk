@@ -131,7 +131,7 @@ Contains functions for all the use case scenarios within International Transfers
     <td rowspan="3">Bilateral International Transfer</td>
     <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
     <td>createQuotation</td>
-    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface<</td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
   </tr>
 
  <tr>
