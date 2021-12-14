@@ -34,14 +34,14 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
 
 ```
  /**
-         * Initialise payment configuration with the following
-         * consumerKey - provided by Client
-         * consumerSecret - provided by Client
-         * authenticationType - requried level of authentication, eg:AuthenticationType.STANDARD_LEVEL,AuthenticationType.NO_AUTH;
-         * callbackUrl - server url to which long running operation responses are delivered
-         * xAPIkey - provided by client 
-         * environment - sandbox or production
-         */
+   * Initialise payment configuration with the following
+   * consumerKey - provided by Client
+   * consumerSecret - provided by Client
+   * authenticationType - requried level of authentication, eg:AuthenticationType.STANDARD_LEVEL,AuthenticationType.NO_AUTH;
+   * callbackUrl - server url to which long running operation responses are delivered
+   * xAPIkey - provided by client 
+   * environment - sandbox or production
+   */
 
         PaymentConfiguration.
                 init("Place your consumerkey",
