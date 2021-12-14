@@ -8,6 +8,8 @@ The sender FSP will sent a request with Transaction object to a function to perf
 
 ```
 private Transaction transactionRequest;
+private String correlationId = "";
+private String serverCorrelationId;
 
 ```
 
