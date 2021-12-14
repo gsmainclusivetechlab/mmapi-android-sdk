@@ -1,5 +1,5 @@
 
- # Create A International Transfer Transaction
+ # Perform A International Transfer Transaction
 
 The sender FSP will sent a request with Transaction object to a function to perform a International Transfer Transaction
 
