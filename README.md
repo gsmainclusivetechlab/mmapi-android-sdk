@@ -83,104 +83,7 @@ After including the SDK into your project,Configure the SDK with either SANDBOX 
 
 
   ```
-### Merchant Payment 
-Contains functions for all the use case scenarios within Merchant Payments.
-
-<table>
-<thead>
-  <tr>
-    <th>Scenarios</th>
-    <th>API</th>
-    <th>Function</th>
-    <th>Parameters</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td rowspan="3">Payee-Initiated Merchant Payment using the Polling Method</td>
-    <td>Payee Initiated Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Notification Method,</td>
-  </tr>
-  <tr>
-    <td>Poll to Determine the Request State</td>
-    <td>viewRequestState</td>
-    <td>string $serverCorrelationId</td>
-  </tr>
-  <tr>
-    <td>Retrieve a Transaction</td>
-    <td>RequestState</td>
-    <td>string $transactionReference</td>
-  </tr>
-  <tr>
-    <td>Payee-Initiated Merchant Payment</td>
-    <td>Payee Initiated Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
-  </tr>
-  <tr>
-    <td>Payer-Initiated Merchant Payment</td>
-    <td>Payer Initiated Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
-  </tr>
-  <tr>
-    <td rowspan="3">Payee-Initiated Merchant Payment using a Pre-authorised Payment Code</td>
-    <td>Obtain an Authorisation Code</td>
-    <td>createAuthorisationCode</td>
-    <td>array $accountIdentifier, AuthorisationCode $authorisationCode</td>
-  </tr>
-  <tr>
-    <td>Perform a Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
-  </tr>
-  <tr>
-    <td>View An Authorisation Code</td>
-    <td>viewAuthorisationCode</td>
-    <td>string $accountIdentifier, string $authorisationCode</td>
-  </tr>
-  <tr>
-    <td>Merchant Payment Refund</td>
-    <td>Perform a Merchant Payment Refund</td>
-    <td>createRefundTransaction</td>
-    <td>string $transactionReference, Reversal $reversal=null, string $callBackUrl=null</td>
-  </tr>
-  <tr>
-    <td>Merchant Payment Reversal</td>
-    <td>Perform a Merchant Payment Reversal</td>
-    <td>createReversal</td>
-    <td>string $transactionReference, Reversal $reversal=null, string $callBackUrl=null</td>
-  </tr>
-  <tr>
-    <td>Obtain a Merchant Balance</td>
-    <td>Get an Account Balance</td>
-    <td>viewAccountBalance</td>
-    <td>array $accountIdentifier, array $filter=null</td>
-  </tr>
-  <tr>
-    <td>Retrieve Payments for a Merchant</td>
-    <td>Retrieve a Set of Transactions for an Account</td>
-    <td>viewAccountTransactions</td>
-    <td>array $accountIdentifier, array $filter=null</td>
-  </tr>
-  <tr>
-    <td>Check for Service Availability</td>
-    <td>Check for Service Availability</td>
-    <td>viewServiceAvailability</td>
-    <td>NA</td>
-  </tr>
-  <tr>
-    <td>Retrieve a Missing API Response</td>
-    <td>Retrieve a Missing Response</td>
-    <td>viewResponse</td>
-    <td>string $clientCorrelationId, Object $objRef=null</td>
-  </tr>
-</tbody>
-</table>
-
-
-# International Transfers
+### International Transfers
 
 Contains functions for all the use case scenarios within International Transfers.
 
@@ -198,46 +101,38 @@ Contains functions for all the use case scenarios within International Transfers
     <td rowspan="3">International Transfer via Hub</td>
     <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
     <td>createQuotation</td>
-    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestState interface</td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface<</td>
   </tr>
   <tr>
-    <td>Poll to Determine the Request State</td>
-    <td>viewRequestState</td>
-    <td>string $serverCorrelationId</td>
+    <td><a href="/docs/internationalTransfer/createInternationalTransaction.Readme.md">Perform an International Transfer</a></td>
+    <td>createInternationalTransaction</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
-    <td>Retrieve a Transaction</td>
-    <td>RequestState</td>
-    <td>string $transactionReference</td>
+    <td>Optional <a href="/docs/internationalTransfer/viewQuotation.Readme.md">View A Quotation</a></td>
+    <td>viewQuotation</td>
+    <td>String transactionReference,TransactionInterface transactionInterface</td>
   </tr>
   <tr>
-    <td>Payee-Initiated Merchant Payment</td>
-    <td>Payee Initiated Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
+    <td rowspan="3">Bilateral International Transfer</td>
+    <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
+    <td>createQuotation</td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface<</td>
+  </tr>
+
+ <tr>
+    <td><a href="/docs/internationalTransfer/createInternationalTransaction.Readme.md">Perform an International Transfer</a></td>
+    <td>createInternationalTransaction</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
-    <td>Payer-Initiated Merchant Payment</td>
-    <td>Payer Initiated Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
+    <td>Optional <a href="/docs/internationalTransfer/viewQuotation.Readme.md">View A Quotation</a></td>
+    <td>viewQuotation</td>
+    <td>String transactionReference,TransactionInterface transactionInterface</td>
   </tr>
   <tr>
-    <td rowspan="3">Payee-Initiated Merchant Payment using a Pre-authorised Payment Code</td>
-    <td>Obtain an Authorisation Code</td>
-    <td>createAuthorisationCode</td>
-    <td>array $accountIdentifier, AuthorisationCode $authorisationCode</td>
-  </tr>
-  <tr>
-    <td>Perform a Merchant Payment</td>
-    <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
-  </tr>
-  <tr>
-    <td>View An Authorisation Code</td>
-    <td>viewAuthorisationCode</td>
-    <td>string $accountIdentifier, string $authorisationCode</td>
-  </tr>
+ 
+ 
   <tr>
     <td>Merchant Payment Refund</td>
     <td>Perform a Merchant Payment Refund</td>
