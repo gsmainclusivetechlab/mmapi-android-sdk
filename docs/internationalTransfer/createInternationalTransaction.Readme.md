@@ -149,6 +149,7 @@ private void performInternationalTransfer() {
 SDKManager.internationalTransfer.createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
 
             }
 
@@ -162,6 +163,7 @@ SDKManager.internationalTransfer.createInternationalTransaction(NotificationMeth
             }
             @Override
             public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
 
             }
         });  
