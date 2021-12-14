@@ -100,7 +100,7 @@ Contains functions for all the use case scenarios within Merchant Payments.
     <td rowspan="3">Payee-Initiated Merchant Payment using the Polling Method</td>
     <td>Payee Initiated Merchant Payment</td>
     <td>createMerchantTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
+    <td>Notification Method,</td>
   </tr>
   <tr>
     <td>Poll to Determine the Request State</td>
@@ -198,7 +198,7 @@ Contains functions for all the use case scenarios within International Transfers
     <td rowspan="3">International Transfer via Hub</td>
     <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
     <td>createQuotation</td>
-    <td>Transaction transaction, string callBackUrl = null</td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestState interface</td>
   </tr>
   <tr>
     <td>Poll to Determine the Request State</td>
