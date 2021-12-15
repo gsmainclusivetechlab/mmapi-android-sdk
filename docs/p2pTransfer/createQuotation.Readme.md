@@ -132,7 +132,7 @@ Request a quotation to perform an international transfer transaction
     //Request the quotation to perform international transfer
     private void requestQuotation() {
 
-        SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "", quotationRequest, new RequestStateInterface() {
+        SDKManager.p2pTransfer.createQuotation(NotificationMethod.POLLING, "", quotationRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
