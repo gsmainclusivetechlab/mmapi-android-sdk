@@ -11,7 +11,7 @@ This SDK provides for an easy way to connect to [GSMA Mobile Money API](https://
 Please refer to the following documentation for installation instructions and usage information.
 
 -   [API Documentation](https://developer.mobilemoneyapi.io/1.2)
--   [How to use the test Application](sample/)
+-   [How to use the test Application](GSMATest/README.md)
 
 # Requirements
 
