@@ -11,7 +11,7 @@
 
 ```
 
-        SDKManager.internationalTransfer.viewQuotation(transactionRef, new TransactionInterface() {
+        SDKManager.p2PTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(Transaction transactionObject) {
           
