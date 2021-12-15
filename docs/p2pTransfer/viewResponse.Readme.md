@@ -8,7 +8,7 @@ Pass the correlation id of missing response into a viewResponse function to get 
 ```java
 
 
-        SDKManager.internationalTransfer.viewResponse(correlationId, new MissingResponseInterface() {
+        SDKManager.p2PTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
             }
