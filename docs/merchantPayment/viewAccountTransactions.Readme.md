@@ -1,15 +1,8 @@
-# View Account Specific Transaction - International Transfer
+# View Account Specific Transaction
 
-The merchant can retrieve a set of transcation of a particular account
+Merchant can retrieve all transaction details
 
-### Usage/Examples
-
-```
-ArrayList<Identifier> identifierArrayList;
-
-```
-
-```
+```java
    private void createAccountIdentifier(){
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
@@ -22,9 +15,9 @@ ArrayList<Identifier> identifierArrayList;
 
 ```
 
-```
+```java
 
- SDKManager.p2PTransfer.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+ SDKManager.merchantPayment.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
             
@@ -42,9 +35,9 @@ ArrayList<Identifier> identifierArrayList;
         });
  
  
+ 
+
 ```
-
-
 
 ### Example Output
 

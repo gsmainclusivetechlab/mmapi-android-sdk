@@ -39,7 +39,7 @@ private void createAccountIdentifier(){
 ```
 
 ```java
-     SDKManager.merchantPayment.createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"CALLBACK URL if any", authorisationCodeRequest, new RequestStateInterface() {
+     SDKManager.merchantPayment.createAuthorisationCode(identifierArrayList,NotificationMethod,"CALLBACK URL", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                

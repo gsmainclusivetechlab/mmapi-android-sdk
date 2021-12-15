@@ -1,15 +1,9 @@
 # View Account Balance
 
-Obtain the balance of requested account,Pass the Account Identifiers list  to the function to retrieve the balance details
+Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
 
-### Usage/Examples
+```java
 
-```
-    ArrayList<Identifier> identifierArrayList;
-
-```
-
-```
     private void createAccountIdentifier(){
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
@@ -22,16 +16,16 @@ Obtain the balance of requested account,Pass the Account Identifiers list  to th
 
 ```
 
-```
+```java
 
- SDKManager.p2pTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+ SDKManager.merchantPayment.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
             }
 
             @Override
-            public void onBalanceSuccess(Balance balance) {
+            public void onBalanceSuccess(Balance balance, String correlationID) {
        
             }
 
@@ -42,8 +36,6 @@ Obtain the balance of requested account,Pass the Account Identifiers list  to th
         });
 
 ```
-
-
 
 ### Example Output
 

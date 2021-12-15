@@ -1,39 +1,35 @@
+# View A Request State
 
-# View A Request State-International Transfers
-
+This returns a specific request state
 
 ### Usage/Examples
 
-```
-The serverCorrelationId is passed into viewRequestState function to get the state of transaction
+```java
 
-```
-
-```
-    SDKManager.p2PTransfer.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
+
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                transactionRef = requestStateObject.getObjectReference();
+                 transactionRef = requestStateObject.getObjectReference();
+      
             }
-
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-            }
 
-            @Override
+            }
+              @Override
             public void getCorrelationId(String correlationID) {
-                correlationId = correlationID;
+               
             }
+
+
         });
-
-
-
-
-```
+  
+  ````
 
 ### Example Output
 

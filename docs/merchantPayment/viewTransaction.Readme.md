@@ -6,25 +6,18 @@ The details of particular transaction can be viewed using following functions,Pa
 ### Usage/Examples
 
 ```java
-
-SDKManager.p2pTransfer.viewTransaction(transactionRef, new TransactionInterface() {
+SDKManager.merchantPayment.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
             }
-
             @Override
             public void onTransactionSuccess(Transaction transactionObject) {
             }
-
             @Override
             public void onTransactionFailure(GSMAError gsmaError) {
              
             }
-
         });
-
-
-
 ```
 
 ### Example Output
