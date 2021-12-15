@@ -210,23 +210,23 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>Individual Disbursement</td>
     <td><a href="/docs/disbursement/createDisbursementTransaction.Readme.md">Create A Disbursement Transaction</a></td>
     <td>createDisbursementTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td rowspan="4">Bulk Disbursement</td>
     <td><a href="/docs/disbursement/createBatchTransaction.Readme.md">Create A Transaction Batch</a></td>
     <td>createBatchTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",BatchTransaction bulkTransactionObject,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/viewBatchTransaction.Readme.md">View A Transaction Batch</a></td>
     <td>viewBatchTransaction</td>
-    <td>batchId</td>
+    <td>String transactionReference,BatchTransactionItemInterface batchTransactionItemInterface/td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/viewBatchCompletions.Readme.md">View Batch Completions</a></td>
     <td>viewBatchCompletions</td>
-    <td>batchId</td>
+    <td>String batchId,BatchCompletionInterface batchCompletionInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/viewBatchRejections.Readme.md">View Batch Rejections</a></td>
