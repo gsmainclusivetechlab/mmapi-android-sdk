@@ -5,7 +5,7 @@ The details of particular transaction can be viewed using following functions,Pa
 
 ### Usage/Examples
 
-```json
+```java
 
 SDKManager.internationalTransfer.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
