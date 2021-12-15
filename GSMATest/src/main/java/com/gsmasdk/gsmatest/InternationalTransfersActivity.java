@@ -85,6 +85,10 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
         setContentView(R.layout.activity_international_transfers);
         setTitle("International Transfers");
 
@@ -133,6 +137,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
 
     }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
@@ -211,6 +216,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             }
 
         });
+
+
     }
 
     //get the request state of a transaction
@@ -246,6 +253,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Log.d("getCorrelationId", "correlationId: " + correlationID);
             }
         });
+
+
     }
 
 
@@ -279,7 +288,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
 
     private void createInternationalTransferObject() {
-       transactionRequest=new Transaction();
+        transactionRequest = new Transaction();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
             return;
@@ -376,7 +385,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             //add custom data object to request object
 
 
-
             //set amount and currency
             transactionRequest.setAmount("100");
             transactionRequest.setCurrency("GBP");
@@ -446,7 +454,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Request the quotation to perform international transfer
     private void requestQuotation() {
 
-        SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "",quotationRequest, new RequestStateInterface() {
+        SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "", quotationRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -517,6 +525,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
             }
         });
+
+
     }
 
     //create a transaction object for international transfer request
@@ -698,7 +708,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     //Retrieve Transaction for an FSP
     private void retrieveTransactionFSP() {
         showLoading();
-        TransactionFilter transactionFilter=new TransactionFilter();
+        TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
 
@@ -755,8 +765,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
-
-
     }
 
     //create a reversal object for transaction
