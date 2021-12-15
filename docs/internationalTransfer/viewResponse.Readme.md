@@ -32,6 +32,66 @@ Pass the correlation id of missing response into a viewResponse function to get 
 
 ```json
 
-
+{
+ 	"Transaction": [{
+ 		"amount": "200.00",
+ 		"creationDate": "2021-04-10T09:58:12",
+ 		"creditParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"currency": "RWF",
+ 		"debitParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"modificationDate": "2021-04-10T09:58:12",
+ 		"requestDate": "2021-04-10T09:58:12",
+ 		"transactionReference": "REF-1618045092324",
+ 		"transactionStatus": "pending",
+ 		"type": "merchantpay"
+ 	}, {
+ 		"amount": "200.00",
+ 		"creationDate": "2021-04-10T09:58:35",
+ 		"creditParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"currency": "RWF",
+ 		"debitParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"modificationDate": "2021-04-10T09:58:35",
+ 		"requestDate": "2021-04-10T09:58:35",
+ 		"transactionReference": "REF-1618045115056",
+ 		"transactionStatus": "pending",
+ 		"type": "merchantpay"
+ 	}]
+ }
 
 ```
