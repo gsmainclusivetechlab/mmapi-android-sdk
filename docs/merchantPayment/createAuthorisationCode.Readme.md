@@ -9,10 +9,8 @@ Mobile money payer/payee submits the request to generate a code which when prese
  ```java
  private AuthorisationCodeRequest authorisationCodeRequest;
  private TransactionRequest transactionRequest;
- private String serverCorrelationId = "";
  ```
  Initialise the  authorizarion code with  amount,date and currency
-
 
  ```java
      private void createCodeRequestObject() {
@@ -41,7 +39,7 @@ private void createAccountIdentifier(){
 ```
 
 ```java
-     SDKManager.merchantPayment.createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
+     SDKManager.merchantPayment.createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"CALLBACK URL if any", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                
