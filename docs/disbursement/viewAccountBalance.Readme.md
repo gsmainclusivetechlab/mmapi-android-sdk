@@ -24,7 +24,7 @@ Obtain the balance of requested account,Pass the account identier list  to the f
 
 ```
 
- SDKManager.internationalTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+ SDKManager.disbursement.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
