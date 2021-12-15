@@ -6,7 +6,7 @@ The sender FSP will sent a request with Transaction object to a function to perf
 
 ### Usage/Examples
 
-```
+```java
 private Transaction transactionRequest;
 private String correlationId = "";
 private String serverCorrelationId;
