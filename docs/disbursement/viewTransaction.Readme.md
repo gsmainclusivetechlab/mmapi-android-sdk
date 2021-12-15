@@ -7,7 +7,7 @@ The details of particular transaction can be viewed using following functions,Pa
 
 ```java
 
-SDKManager.internationalTransfer.viewTransaction(transactionRef, new TransactionInterface() {
+SDKManager.disbursement.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
             }
