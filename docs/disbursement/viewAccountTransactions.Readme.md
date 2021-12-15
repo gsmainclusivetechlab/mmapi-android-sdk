@@ -24,7 +24,7 @@ ArrayList<Identifier> identifierArrayList;
 
 ```
 
- SDKManager.internationalTransfer.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+ SDKManager.disbursement.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
             
