@@ -7,9 +7,14 @@ Android SDK to use MMAPI.
 
 A library that fully covers payment process inside your Android application
 
-Use the Android SDK to get started quickly with the [GSMA Mobile Money API](https://developer.mobilemoneyapi.io/1.2).
+This SDK provides for an easy way to connect to [GSMA Mobile Money API](https://developer.mobilemoneyapi.io/1.2).
+Please refer to the following documentation for installation instructions and usage information.
+
+-   [API Documentation](https://developer.mobilemoneyapi.io/1.2)
+-   [How to use the test Application](sample/)
 
 # Requirements
+
 ---
 To use the SDK the following requirements must be met:
 
@@ -49,13 +54,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
    * environment - sandbox or production
    */
 
-        PaymentConfiguration.
-                init("Place your consumerkey",
-                        "Place your consumerSecret",
-                        "Place your AuthenticaticationType",
-                        "Place your callback URL",
-                        "Place your X API Key",
-                        Environment.SANDBOX);
+  PaymentConfiguration.init("<Place your consumerkey>","<Place your consumerSecret>","<Place your AuthenticaticationType>","<Place your callback URL>","<Place your X API Key>",Environment.SANDBOX);
 
 
 ```
