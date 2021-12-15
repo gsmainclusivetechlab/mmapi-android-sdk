@@ -20,7 +20,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
 ```
 
-  SDKManager.internationalTransfer.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
+  SDKManager.disbursement.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                       serverCorrelationId = requestStateObject.getServerCorrelationId();
