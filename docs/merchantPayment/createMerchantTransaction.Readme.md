@@ -60,7 +60,7 @@ private void createTransactionObject() {
 
 ### Example Output - Callback
 
-```javascript
+```json
 202
 {
   "serverCorrelationId": "2e9ce6e1-8bbc-4938-9274-418c28e78f80",
@@ -73,7 +73,7 @@ private void createTransactionObject() {
 
 ### Example Output - Polling
 
-```javascript
+```json
 202
 {
   "serverCorrelationId": "2e9ce6e1-8bbc-4938-9274-418c28e78f80",
