@@ -6,7 +6,7 @@ The availability of a service can be checked using this functions
 
 ```java
 
-   SDKManager.internationalTransfer.viewServiceAvailability(new ServiceAvailabilityInterface() {
+   SDKManager.disbursement.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 
