@@ -101,11 +101,11 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 
 
-<<<<<<< HEAD
+
 # Disbursment
 =======
 # Disbursement
->>>>>>> origin/feature-account-linking
+
 
 * [Individual Disbursement](#individual-disbursement)
 * [Bulk Disbursement](#bulk-disbursement)
@@ -127,11 +127,11 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
-<<<<<<< HEAD
+
 # P2P Transfers
 =======
 # P2P Transfers
->>>>>>> origin/feature-account-linking
+
 
 * [P2P Transfer via Switch](#p2p-transfer-switch)
 * [Bilateral P2P Transfer](#p2p-transfer-bilateral)
@@ -155,7 +155,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
-<<<<<<< HEAD
+
 =======
 # Account Linking
 
@@ -172,7 +172,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 
 
->>>>>>> origin/feature-account-linking
+
 
 <a name="payee-initiated"></a>
 
@@ -854,7 +854,6 @@ This use case can be completed by clicking following button in sequential order
  }
 ```
 Use polling or callback scenario to get the complete status for a transaction  
-<<<<<<< HEAD
 
 
 <a name="p2p-transfer-switch"></a>
@@ -1073,8 +1072,6 @@ Set up a recurring payment can be completed by clicking the following buttons
 ```
 
 <a name="take-polling"></a>
-=======
->>>>>>> origin/feature-account-linking
 
 # Take a recurring payment using polling method
 
