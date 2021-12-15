@@ -112,29 +112,30 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>Payee-Initiated Merchant Payment</td>
     <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Payee Initiated Merchant Payment</a></td>
     <td>createMerchantTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td rowspan="3">Payee-Initiated Merchant Payment using the Polling Method</td>
     <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Payee Initiated Merchant Payment</a></td>
     <td>createMerchantTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/merchantPayment/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
     <td>viewRequestState</td>
-    <td>serverCorrelationId</td>
+    <td>String serverCorrelationId,RequestStateInterface requestStateInterface</td>
+
   </tr>
   <tr>
     <td><a href="/docs/merchantPayment/viewTransaction.Readme.md">Retrieve a Transaction</a></td>
     <td>viewTransaction</td>
-    <td>transactionReference</td>
+    <td>String transactionReference</td>
   </tr>
   <tr>
     <td>Payer-Initiated Merchant Payment</td>
     <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Payer Initiated Merchant Payment</a></td>
     <td>createMerchantTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td rowspan="3">Payee-Initiated Merchant Payment using a Pre-authorised Payment Code</td>
@@ -145,52 +146,50 @@ In the directory where you installed the SDK,  include this code to make the SDK
   <tr>
     <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Perform a Merchant Payment</a></td>
     <td>createMerchantTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/merchantPayment/viewAuthorisationCode.Readme.md">View An Authorisation Code</a></td>
     <td>viewAuthorisationCode</td>
-    <td>{ identifierType1: identifier1 }</td>
-  </tr>
+    <td>ArrayList<Identifier> identifierList,NotificationMethod, string callBackUrl="",AuthorisationCode authorisationCodeRequest ,RequestStateInterface requestStateInterface</td>
+ </tr>
   <tr>
     <td>Merchant Payment Refund</td>
     <td><a href="/docs/merchantPayment/createRefundTransaction.Readme.md">Perform a Merchant Payment Refund</a></td>
     <td>createRefundTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Merchant Payment Reversal</td>
     <td><a href="/docs/merchantPayment/createReversal.Readme.md">Perform a Merchant Payment Reversal</a></td>
     <td>createReversal</td>
-    <td>originalTransactionReference</td>
+    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Obtain a Merchant Balance</td>
     <td><a href="docs/merchantPayment/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
     <td>viewAccountBalance</td>
-    <td>{ identifierType: identifier }</td>
+       <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
   </tr>
   <tr>
     <td>Retrieve Payments for a Merchant</td>
     <td><a href="/docs/merchantPayment/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
     <td>viewAccountTransactions</td>
-    <td>{ identifierType: identifier }</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
   </tr>
   <tr>
     <td>Check for Service Availability</td>
     <td><a href="/docs/merchantPayment/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
     <td>viewServiceAvailability</td>
-    <td></td>
+    <td>NA</td>
   </tr>
   <tr>
     <td rowspan="2">Retrieve a Missing API Response</td>
     <td><a href="/docs/merchantPayment/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
     <td>viewResponse</td>
-    <td>clientCorrelationId</td>
+    <td>String correlationId</td>
   </tr>
-    <td><a href="/docs/merchantPayment/viewResource.Readme.md">Retrieve Representation a Missing Resource</a></td>
-    <td>viewResource</td>
-    <td>link</td>
+
   </tr>
 </tbody>
 </table>
