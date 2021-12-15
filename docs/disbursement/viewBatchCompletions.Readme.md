@@ -9,7 +9,7 @@ This use case allows the disbursement organisation to retrieve all completed tra
   
   ```java
   
-   SDKManager.disbursement.retrieveBatchCompletions("Place your batch id here", new BatchCompletionInterface() {
+   SDKManager.disbursement.viewBatchCompletions("Place your batch id here", new BatchCompletionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
               
