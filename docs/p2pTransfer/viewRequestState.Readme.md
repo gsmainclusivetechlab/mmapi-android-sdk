@@ -10,7 +10,7 @@ The serverCorrelationId is passed into viewRequestState function to get the stat
 ```
 
 ```
-    SDKManager.internationalTransfer.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+    SDKManager.p2PTransfer.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
             }
