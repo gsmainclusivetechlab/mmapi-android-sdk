@@ -15,12 +15,11 @@ Please refer to the following documentation for installation instructions and us
 
 # Requirements
 
----
 Optimum requirements to use this SDK are -
 
-1. **Android Studio 4.0** or newer
-2. **Android Platform Version**: API 31
-3. **Build gradle**:4.2.1
+1. **Android Studio `4.0`** or newer
+2. **Android Platform Version**: `API 31`
+3. **Build gradle**: `4.2.1`
 
 <a name="Setup"></a>
 
