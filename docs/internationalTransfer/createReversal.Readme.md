@@ -1,6 +1,10 @@
-# Create A Reversal - International Transfers
 
-In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
+# Create A Reversal
+
+`Here, createReversal(String transactionReference) creates a POST request to 
+/transactions/{transactionReference}/reversals`
+
+> `Provided with a valid object representation, this endpoint allows for a new reversal to be
 
 ### Usage/Examples
 
