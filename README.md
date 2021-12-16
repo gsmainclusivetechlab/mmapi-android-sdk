@@ -265,7 +265,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
-    <td><a href="/docs/disbursement/viewRequestState.Readme.Readme.md">Poll to Determine the Request State</a></td>
+    <td><a href="/docs/disbursement/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
     <td>viewRequestState</td>
     <td>String serverCorrelationId,RequestStateInterface requestStateInterface</td>
  </tr>
