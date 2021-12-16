@@ -313,8 +313,6 @@ In the directory where you installed the SDK,  include this code to make the SDK
  
 ### International Transfers
 
-Contains functions for all the use case scenarios within International Transfers.
-
 <table>
 <thead>
   <tr>
