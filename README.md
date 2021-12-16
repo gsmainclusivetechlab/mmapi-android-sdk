@@ -30,7 +30,7 @@ Copy the GSMASdk-debug-1.0.4.aar file, available in the latest version in aar fo
 
 Add the below line in dependencies of your build.gradle file in your application.
 
-```
+```java
 implementation files('libs/GSMASdk-debug-1.0.4.aar')
 ```
 <a name="Configure"></a>
@@ -43,7 +43,7 @@ Configuration details include either sandbox for testing or live for production,
 In the directory where you installed the SDK,  include this code to make the SDK available and configure your environment with your application credentials for sandbox and live environments in the Developer Dashboard.
 
 
-```
+```java
  /**
    * Initialise payment configuration with the following
    * consumerKey - provided by Client
@@ -61,7 +61,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
 
 
   Create a token  if the security option is DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
-```
+```java
    /**
      *Initialise the preference object
     */
