@@ -9,11 +9,11 @@
 
 Declare the revesal object
 
-```
+```java
 private ReversalObject reversalObject;
 ```
 
-```
+```java
 private void createPaymentReversalObject() {
         reversalObject = new ReversalObject();
         reversalObject.setReversal("reversal");
@@ -21,7 +21,7 @@ private void createPaymentReversalObject() {
 ```
 Call the reversal function with reversal and reference Id of transaction obtained using the polling method
 
-```
+```java
 
   SDKManager.disbursement.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
@@ -49,7 +49,7 @@ Call the reversal function with reversal and reference Id of transaction obtaine
 
 ### Example Output
 
-```javascript
+```json
 202
 {
   "serverCorrelationId": "66b3e91a-1d36-41a6-8f4a-833ef1f9d125",
