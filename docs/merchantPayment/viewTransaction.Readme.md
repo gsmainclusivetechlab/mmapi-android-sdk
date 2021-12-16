@@ -1,7 +1,8 @@
-# View A Transaction
+# Retrieve a Transaction
 
-The details of particular transaction can be viewed using following functions,Pass the tranactionb reference obtained from view Request state
+`viewTransaction(transactionReference) creates a GET request to /transactions/{transactionReference}`
 
+> `This endpoint returns the details of a transact
 
 ### Usage/Examples
 
