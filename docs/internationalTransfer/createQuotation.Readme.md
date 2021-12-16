@@ -187,5 +187,9 @@ Request a quotation to perform an international transfer transaction
   "pollLimit": 100
 }
 ```
+**NOTE**
 
+In asynchronous flows, a callback mechanism or polling mechanism is utilised to allow the client to determine the request's final state. Use the [viewRequestState()](viewRequestState.Readme.md) function for the polling mechanism to receive the status of a request, and the [viewQuotation()](viewTransaction.Readme.md) function to acquire the final representation of the Transaction object.
+
+---
 
