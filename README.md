@@ -407,50 +407,50 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td rowspan="3">P2P Transfer via Switch</td>
     <td><a href="/docs/p2pTransfer/viewAccountName.Readme.md">Retrieve the Name of the Recipient</a></td>
     <td>viewAccountName</td>
-    <td>{ identifierType: identifier }</td>
+    <td>ArrayList<Identifier> identifierArrayList,AccountHolderInterface accountHolderInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/p2pTransfer/createQuotation.Readme.md">Request a P2P Quotation</a></td>
     <td>createQuotation</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Optional <a href="/docs/p2pTransfer/createTransferTransaction.Readme.md">Perform a P2P Transfer</a></td>
     <td>createTransferTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td rowspan="2">Bilateral P2P Transfer</td>
     <td><a href="/docs/p2pTransfer/viewAccountName.Readme.md">Retrieve the Name of the Recipient</a></td>
     <td>viewAccountName</td>
-    <td>{ identifierType: identifier }</td>
+    <td>ArrayList<Identifier> identifierArrayList,AccountHolderInterface accountHolderInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/p2pTransfer/createTransferTransaction.Readme.md">Perform a P2P Transfer</a></td>
     <td>createTransferTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td rowspan="3">‘On-us’ P2P Transfer Initiated by a Third Party Provider</td>
     <td><a href="/docs/p2pTransfer/viewAccountName.Readme.md">Retrieve the Name of the Recipient</a></td>
     <td>viewAccountName</td>
-    <td>{ identifierType: identifier }</td>
+    <td>ArrayList<Identifier> identifierArrayList,AccountHolderInterface accountHolderInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/p2pTransfer/createQuotation.Readme.md">Request a P2P Quotation</a></td>
     <td>createQuotation</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/p2pTransfer/createTransferTransaction.Readme.md">Perform a P2P Transfer</a></td>
     <td>createTransferTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>P2P Transfer Reversal</td>
     <td><a href="/docs/p2pTransfer/createReversal.Readme.md">Perform a Transaction Reversal</a></td>
     <td>createReversal</td>
-    <td>originalTransactionReference</td>
+    <td>NotificationMethod, string callBackUrl="",String referenceId,Reversal reversal,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Obtain an FSP Balance</td>
