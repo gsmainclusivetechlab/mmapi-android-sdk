@@ -19,11 +19,11 @@ As usual, you get started by
 
 ## How  to install the apk in real Device
 
-1.Download the file GSMA-Test-debug-1.0.4 from the following link into the filemanager of your  device
+1.Download the file GSMATest-v1.0.5 from the following link into the filemanager of your  device
  
 [Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/release/GSMA-Test-debug-1.0.4.apk)
 
-2.Click on the file GSMA-Test-debug-1.0.4 from your device and system will ask for the installation dialog and continue the installation process 
+2.Click on the file GSMATest-v1.0.5 from your device and system will ask for the installation dialog and continue the installation process 
 
 3.Once the Apk is installed in your device,Open the application from app drawer of your device 
 
@@ -100,10 +100,6 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Retrieve a Missing API Response](#missing-response)
 
 
-
-
-# Disbursment
-=======
 # Disbursement
 
 
@@ -128,8 +124,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Retrieve a Missing API Response](#missing-response)
 
 
-# P2P Transfers
-=======
+
 # P2P Transfers
 
 
@@ -155,8 +150,6 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
-
-=======
 # Account Linking
 
 * [Setup an Account Link](#setup-accountlink)
@@ -167,10 +160,6 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Retrieve Transfers for a Financial Service Provider](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
-
-
-
-
 
 
 

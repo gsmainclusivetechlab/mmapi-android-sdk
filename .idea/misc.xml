@@ -730,6 +730,18 @@
     <pattern value="com.gsmasdk.gsmatest.P2PTransferActivity" />
     <pattern value="com.gsmasdk.gsmatest.RecurringPaymentsActivity" />
     <pattern value="com.gsmaSdk.gsma.models.MissingResponse" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Fees" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Fees" method="getFeeAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Fees" method="getFeeCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Fees" method="getFeeType" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Fees" method="setFeeAmount" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Fees" method="setFeeCurrency" />
+    <pattern value="com.gsmaSdk.gsma.models.common.Fees" method="setFeeType" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.MetaData" method="getKey" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.MetaData" method="getValue" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.MetaData" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.MetaData" method="setKey" />
+    <pattern value="com.gsmaSdk.gsma.models.authorisationCode.MetaData" method="setValue" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="JavadocGenerationManager">

@@ -25,12 +25,12 @@ Optimum requirements to use this SDK are -
 
 # How to include GSMA SDK in your android application
 
-Copy the GSMASdk-debug-1.0.4.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
+Copy the GSMASdk-v1.0.5.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
 
 Add the below line in dependencies of your `build.gradle` file in your application.
 
 ```groovy
-implementation files('libs/GSMASdk-debug-1.0.4.aar')
+implementation files('libs/GSMASdk-v1.0.5.aar')
 ```
 <a name="Configure"></a>
 
