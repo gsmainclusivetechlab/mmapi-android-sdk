@@ -1,8 +1,8 @@
-# Create A Transfer Transaction
+# Create a Transaction
 
+`Here, createTransferTransaction() creates a POST request to /transactions/type/transfer`
 
-Perform the Transfer with the receiving FSP.
-
+> `Provided with a valid object representation, this endpoint allows for a new transaction to be created for a given transaction type passed via the URL.`
 
 ### Usage/Examples
 
