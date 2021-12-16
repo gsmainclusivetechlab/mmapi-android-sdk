@@ -825,12 +825,11 @@ This use case can be completed by clicking following button in sequential order
 * Perform a international Transfer
 
  ### Example Output - Request a international Transfer Quotation
-=======
+
 * Request a international Transfer Quotation
 * Perform a international Transfer
 
  ### Example Output - Request a international Transfer Quotation
->>>>>>> origin/feature-account-linking
  
  ```json
  {
