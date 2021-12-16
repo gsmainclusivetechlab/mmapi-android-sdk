@@ -6,19 +6,19 @@ In some failure scenarios, merchant may need to reverse a transaction,Create a r
 
 Declare the revesal object
 
-```
-private ReversalObject reversalObject;
+```java
+private Reversal reversalObject;
 ```
 
-```
+```java
 private void createPaymentReversalObject() {
-        reversalObject = new ReversalObject();
+        reversalObject = new Reversal();
         reversalObject.setReversal("reversal");
  }
 ```
 Call the reversal function with reversal and reference Id of transaction obtained using the polling method
 
-```
+```java
 
   SDKManager.internationalTransfer.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override
