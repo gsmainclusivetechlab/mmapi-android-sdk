@@ -270,13 +270,13 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>String serverCorrelationId,RequestStateInterface requestStateInterface</td>
  </tr>
   <tr>
-    <td><a href="/docs/disbursement/viewTransaction.Readme.Readme.md">Retrieve a Transaction</a></td>
+    <td><a href="/docs/disbursement/viewTransaction.Readme.md">Retrieve a Transaction</a></td>
     <td>viewTransaction</td>
     <td>String transactionReference</td>
   </tr>
   <tr>
     <td>Disbursement Reversal</td>
-    <td><a href="/docs/disbursement/createReversal.Readme.Readme.md">Perform a Disbursement Reversal</a></td>
+    <td><a href="/docs/disbursement/createReversal.Readme.md">Perform a Disbursement Reversal</a></td>
     <td>createReversal</td>
     <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,RequestStateInterface requestStateInterface</td>
   </tr>
