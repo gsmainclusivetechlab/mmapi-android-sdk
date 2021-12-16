@@ -2,7 +2,7 @@
 Android SDK to use MMAPI.
 
 [![Platform](https://img.shields.io/badge/platform-Android-inactive.svg?style=flat)](https://github.com/gsmainclusivetechlab/mmapi-android-sdk)
-[![SDK Version](https://img.shields.io/badge/minSdkVersion-21-blue.svg)](https://developer.android.com/about/versions/android-4.1)
+[![SDK Version](https://img.shields.io/badge/minSdkVersion-23-blue.svg)](https://developer.android.com/about/versions/android-4.1)
 [![SDK Version](https://img.shields.io/badge/targetSdkVersion-31-informational.svg)](https://developer.android.com/sdk/api_diff/31/changes)
 
 A library that fully covers payment process inside your Android application
@@ -188,8 +188,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>viewResponse</td>
     <td>String correlationId</td>
   </tr>
-
-  </tr>
+  <tr></tr>
 </tbody>
 </table>
 
@@ -304,7 +303,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>viewResponse</td>
     <td>String correlationId</td>
   </tr>
-  </tr>
+   <tr></tr>
 </tbody>
 </table>
 
@@ -476,9 +475,8 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td><a href="/docs/p2pTransfer/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
     <td>viewResponse</td>
     <td>clientCorrelationId</td>
-  </tr>
- 
-  
+ </tr>
+ <tr></tr>
 </tbody>
 </table>
 
