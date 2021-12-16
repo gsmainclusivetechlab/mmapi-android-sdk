@@ -456,25 +456,25 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>Obtain an FSP Balance</td>
     <td><a href="/docs/p2pTransfer/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
     <td>viewAccountBalance</td>
-    <td>{ identifierType: identifier }</td>
+       <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
   </tr>
    <tr>
     <td>Retrieve Transactions for an FSP</td>
     <td><a href="/docs/p2pTransfer/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
     <td>viewAccountTransactions</td>
-    <td>{ identifierType1: identifier1 }</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
   </tr>
   <tr>
     <td>Check for Service Availability</td>
     <td><a href="/docs/p2pTransfer/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
     <td>viewServiceAvailability</td>
-    <td></td>
+    <td>NA</td>
   </tr>
   <tr>
     <td rowspan="2">Retrieve a Missing API Response</td>
     <td><a href="/docs/p2pTransfer/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
     <td>viewResponse</td>
-    <td>clientCorrelationId</td>
+    <td>String correlationId</td>
  </tr>
  <tr></tr>
 </tbody>
