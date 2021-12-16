@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 
+@SuppressWarnings("unused")
 public class BatchRejectionItem {
 
 	@SerializedName("transactionReference")
@@ -45,67 +46,83 @@ public class BatchRejectionItem {
 	private List<CustomDataItem> customData;
 
 
-	public void setDebitParty(List<AccountIdentifier> debitParty){
+	@SuppressWarnings("unused")
+    public void setDebitParty(List<AccountIdentifier> debitParty){
 		this.debitParty = debitParty;
 	}
 
-	public List<AccountIdentifier> getDebitParty(){
+	@SuppressWarnings("unused")
+    public List<AccountIdentifier> getDebitParty(){
 		return debitParty;
 	}
 
-	public void setDateRejected(String dateRejected){
+	@SuppressWarnings("unused")
+    public void setDateRejected(String dateRejected){
 		this.dateRejected = dateRejected;
 	}
 
-	public String getDateRejected(){
+	@SuppressWarnings("unused")
+    public String getDateRejected(){
 		return dateRejected;
 	}
 
-	public void setTransactionReference(String transactionReference){
+	@SuppressWarnings("unused")
+    public void setTransactionReference(String transactionReference){
 		this.transactionReference = transactionReference;
 	}
 
-	public String getTransactionReference(){
+	@SuppressWarnings("unused")
+    public String getTransactionReference(){
 		return transactionReference;
 	}
 
-	public void setRejectionDate(String rejectionDate){
+	@SuppressWarnings("unused")
+    public void setRejectionDate(String rejectionDate){
 		this.rejectionDate = rejectionDate;
 	}
 
-	public String getRejectionDate(){
+	@SuppressWarnings("unused")
+    public String getRejectionDate(){
 		return rejectionDate;
 	}
 
-	public void setRequestingOrganisationTransactionReference(String requestingOrganisationTransactionReference){
+	@SuppressWarnings("unused")
+    public void setRequestingOrganisationTransactionReference(String requestingOrganisationTransactionReference){
 		this.requestingOrganisationTransactionReference = requestingOrganisationTransactionReference;
 	}
 
-	public String getRequestingOrganisationTransactionReference(){
+	@SuppressWarnings("unused")
+    public String getRequestingOrganisationTransactionReference(){
 		return requestingOrganisationTransactionReference;
 	}
 
-	public void setCustomData(List<CustomDataItem> customData){
+	@SuppressWarnings("unused")
+    public void setCustomData(List<CustomDataItem> customData){
 		this.customData = customData;
 	}
 
-	public List<CustomDataItem> getCustomData(){
+	@SuppressWarnings("unused")
+    public List<CustomDataItem> getCustomData(){
 		return customData;
 	}
 
-	public void setRejectionReason(String rejectionReason){
+	@SuppressWarnings("unused")
+    public void setRejectionReason(String rejectionReason){
 		this.rejectionReason = rejectionReason;
 	}
 
-	public String getRejectionReason(){
+	@SuppressWarnings("unused")
+    public String getRejectionReason(){
 		return rejectionReason;
 	}
 
-	public void setCreditParty(List<AccountIdentifier> creditParty){
+	@SuppressWarnings("unused")
+    public void setCreditParty(List<AccountIdentifier> creditParty){
 		this.creditParty = creditParty;
 	}
 
-	public List<AccountIdentifier> getCreditParty(){
+	@SuppressWarnings("unused")
+    public List<AccountIdentifier> getCreditParty(){
 		return creditParty;
 	}
 }

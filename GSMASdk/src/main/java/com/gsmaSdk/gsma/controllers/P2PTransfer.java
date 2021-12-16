@@ -37,7 +37,7 @@ public class P2PTransfer extends Common{
      */
 
     public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Quotation quotation, @NonNull RequestStateInterface requestStateInterface) {
-        com.gsmaSdk.gsma.controllers.Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,quotation,requestStateInterface);
+        QuotationController.getInstance().createQuotation(notificationMethod,callbackUrl,quotation,requestStateInterface);
     }
 
     /**
@@ -47,7 +47,7 @@ public class P2PTransfer extends Common{
      *
      */
     public void viewQuotation(@NonNull String quotationReference, @NonNull TransactionInterface transactionInterface) {
-        com.gsmaSdk.gsma.controllers.Quotation.getInstance().viewQuotation(quotationReference,transactionInterface);
+        QuotationController.getInstance().viewQuotation(quotationReference,transactionInterface);
     }
 
 

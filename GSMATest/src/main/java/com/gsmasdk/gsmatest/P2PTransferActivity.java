@@ -349,11 +349,13 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     /**
      * create a transaction object for P2P transfer request
      */
+    @SuppressWarnings("ConstantConditions")
     private void createP2PTransferObject() {
 
         transactionRequest=new Transaction();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
+            //noinspection UnnecessaryReturnStatement
             return;
         } else {
 
@@ -443,8 +445,9 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             customDataItemList.add(customDataItem);
 
             //add kyc object to request object
-            quotationRequest.setSenderKyc(senderKyc);
+           transactionRequest.setSenderKyc(senderKyc);
 
+           transactionRequest.setCustomData(customDataItemList);
             //add custom data object to request object
 
 

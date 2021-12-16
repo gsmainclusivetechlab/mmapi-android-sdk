@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 
+@SuppressWarnings("ALL")
 public class BatchCompletionItem {
 
 	@SerializedName("transactionReference")

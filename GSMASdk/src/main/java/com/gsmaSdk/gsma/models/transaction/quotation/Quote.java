@@ -6,6 +6,7 @@ import com.gsmaSdk.gsma.models.common.Fees;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class Quote {
 
     @SerializedName("quoteId")

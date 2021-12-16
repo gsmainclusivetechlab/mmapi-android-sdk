@@ -63,11 +63,11 @@ public class InternationalTransfer extends Common {
      *
      * @param notificationMethod The enumerated datatype to determine polling or callback
      * @param callbackUrl        The server URl for receiving response of transaction
-     * @param transactionRequest    the request object-International Transfers
+     * @param quotationRequest   the request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
     public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Quotation quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
-      com.gsmaSdk.gsma.controllers.Quotation.getInstance().createQuotation(notificationMethod,callbackUrl,quotationRequest,requestStateInterface);
+      QuotationController.getInstance().createQuotation(notificationMethod,callbackUrl,quotationRequest,requestStateInterface);
     }
 
     /**
@@ -77,7 +77,7 @@ public class InternationalTransfer extends Common {
      *
      */
     public void viewQuotation(@NonNull String quotationReference, @NonNull TransactionInterface transactionInterface) {
-      com.gsmaSdk.gsma.controllers.Quotation.getInstance().viewQuotation(quotationReference,transactionInterface);
+      QuotationController.getInstance().viewQuotation(quotationReference,transactionInterface);
     }
 
 

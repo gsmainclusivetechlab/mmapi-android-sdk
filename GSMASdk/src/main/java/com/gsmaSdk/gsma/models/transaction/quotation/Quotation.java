@@ -54,10 +54,12 @@ public class Quotation extends BaseResponse {
     private  String requestCurrency;
 
 
+    @SuppressWarnings("unused")
     public List<Quote> getQuoteList() {
         return quoteList;
     }
 
+    @SuppressWarnings("unused")
     public void setQuoteList(List<Quote> quoteList) {
         this.quoteList = quoteList;
     }
@@ -135,14 +137,17 @@ public class Quotation extends BaseResponse {
     @Expose
     private ArrayList<MetaData> metaDataObject;
 
+    @SuppressWarnings("unused")
     public String getQuotationReference() {
         return quotationReference;
     }
 
+    @SuppressWarnings("unused")
     public void setQuotationReference(String quotationReference) {
         this.quotationReference = quotationReference;
     }
 
+    @SuppressWarnings("unused")
     public ArrayList<AccountIdentifier> getCreditParty() {
         return creditParty;
     }
@@ -151,6 +156,7 @@ public class Quotation extends BaseResponse {
         this.creditParty = creditParty;
     }
 
+    @SuppressWarnings("unused")
     public ArrayList<AccountIdentifier> getDebitParty() {
         return debitParty;
     }
@@ -159,6 +165,7 @@ public class Quotation extends BaseResponse {
         this.debitParty = debitParty;
     }
 
+    @SuppressWarnings("unused")
     public String getType() {
         return type;
     }
@@ -167,6 +174,7 @@ public class Quotation extends BaseResponse {
         this.type = type;
     }
 
+    @SuppressWarnings("unused")
     public String getSubType() {
         return subType;
     }
@@ -175,14 +183,17 @@ public class Quotation extends BaseResponse {
         this.subType = subType;
     }
 
+    @SuppressWarnings("unused")
     public String getQuotationStatus() {
         return quotationStatus;
     }
 
+    @SuppressWarnings("unused")
     public void setQuotationStatus(String quotationStatus) {
         this.quotationStatus = quotationStatus;
     }
 
+    @SuppressWarnings("unused")
     public String getRequestAmount() {
         return requestAmount;
     }
@@ -191,6 +202,7 @@ public class Quotation extends BaseResponse {
         this.requestAmount = requestAmount;
     }
 
+    @SuppressWarnings("unused")
     public String getRequestCurrency() {
         return requestCurrency;
     }
@@ -199,14 +211,17 @@ public class Quotation extends BaseResponse {
         this.requestCurrency = requestCurrency;
     }
 
+    @SuppressWarnings("unused")
     public String getAvailableDeliveryMethod() {
         return availableDeliveryMethod;
     }
 
+    @SuppressWarnings("unused")
     public void setAvailableDeliveryMethod(String availableDeliveryMethod) {
         this.availableDeliveryMethod = availableDeliveryMethod;
     }
 
+    @SuppressWarnings("unused")
     public String getChosenDeliveryMethod() {
         return chosenDeliveryMethod;
     }
@@ -215,6 +230,7 @@ public class Quotation extends BaseResponse {
         this.chosenDeliveryMethod = chosenDeliveryMethod;
     }
 
+    @SuppressWarnings("unused")
     public String getOriginCountry() {
         return originCountry;
     }
@@ -223,6 +239,7 @@ public class Quotation extends BaseResponse {
         this.originCountry = originCountry;
     }
 
+    @SuppressWarnings("unused")
     public String getReceivingCountry() {
         return receivingCountry;
     }
@@ -231,6 +248,7 @@ public class Quotation extends BaseResponse {
         this.receivingCountry = receivingCountry;
     }
 
+    @SuppressWarnings("unused")
     public KYCInformation getSenderKyc() {
         return senderKyc;
     }
@@ -239,38 +257,47 @@ public class Quotation extends BaseResponse {
         this.senderKyc = senderKyc;
     }
 
+    @SuppressWarnings("unused")
     public KYCInformation getRecipientKyc() {
         return recipientKyc;
     }
 
+    @SuppressWarnings("unused")
     public void setRecipientKyc(KYCInformation recipientKyc) {
         this.recipientKyc = recipientKyc;
     }
 
+    @SuppressWarnings("unused")
     public String getRecipientBlockingReason() {
         return recipientBlockingReason;
     }
 
+    @SuppressWarnings("unused")
     public void setRecipientBlockingReason(String recipientBlockingReason) {
         this.recipientBlockingReason = recipientBlockingReason;
     }
 
+    @SuppressWarnings("unused")
     public String getSenderBlockingReason() {
         return senderBlockingReason;
     }
 
+    @SuppressWarnings("unused")
     public void setSenderBlockingReason(String senderBlockingReason) {
         this.senderBlockingReason = senderBlockingReason;
     }
 
+    @SuppressWarnings("unused")
     public RequestingOrganisation getRequestingOrganisation() {
         return requestingOrganisation;
     }
 
+    @SuppressWarnings("unused")
     public void setRequestingOrganisation(RequestingOrganisation requestingOrganisation) {
         this.requestingOrganisation = requestingOrganisation;
     }
 
+    @SuppressWarnings("unused")
     public String getSendingServiceProviderCountry() {
         return sendingServiceProviderCountry;
     }
@@ -279,22 +306,27 @@ public class Quotation extends BaseResponse {
         this.sendingServiceProviderCountry = sendingServiceProviderCountry;
     }
 
+    @SuppressWarnings("unused")
     public String getCreationDate() {
         return creationDate;
     }
 
+    @SuppressWarnings("unused")
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
+    @SuppressWarnings("unused")
     public String getModificationDate() {
         return modificationDate;
     }
 
+    @SuppressWarnings("unused")
     public void setModificationDate(String modificationDate) {
         this.modificationDate = modificationDate;
     }
 
+    @SuppressWarnings("unused")
     public String getRequestDate() {
         return requestDate;
     }
@@ -303,6 +335,7 @@ public class Quotation extends BaseResponse {
         this.requestDate = requestDate;
     }
 
+    @SuppressWarnings("unused")
     public List<CustomDataItem> getCustomData() {
         return customData;
     }
@@ -311,10 +344,12 @@ public class Quotation extends BaseResponse {
         this.customData = customData;
     }
 
+    @SuppressWarnings("unused")
     public ArrayList<MetaData> getMetaDataObject() {
         return metaDataObject;
     }
 
+    @SuppressWarnings("unused")
     public void setMetaDataObject(ArrayList<MetaData> metaDataObject) {
         this.metaDataObject = metaDataObject;
     }

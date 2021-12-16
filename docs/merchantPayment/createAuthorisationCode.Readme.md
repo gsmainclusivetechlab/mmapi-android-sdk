@@ -16,7 +16,7 @@ Mobile money payer/payee submits the request to generate a code which when prese
  private AuthorisationCodeRequest authorisationCodeRequest;
  private TransactionRequest transactionRequest;
  ```
- Initialise the  authorizarion code with  amount,date and currency
+ Initialise the  authorization code with  amount,date and currency
 
  ```java
      private void createCodeRequestObject() {

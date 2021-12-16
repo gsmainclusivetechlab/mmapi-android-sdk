@@ -1,8 +1,8 @@
 package com.gsmaSdk.gsma.manager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -23,24 +23,21 @@ public class PreferenceManager {
      * @param context Context of the application
      */
 
+    @SuppressLint("ObsoleteSdkInt")
     public void init(Context context) {
         if (preferences == null) {
             preferences = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                try {
-                    MasterKey masterKey = new MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build();
-                    preferences = EncryptedSharedPreferences.create(
-                            context,
-                            "secret_shared_prefs",
-                            masterKey,
-                            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                    );
-                } catch (GeneralSecurityException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+           try {
+                MasterKey masterKey = new MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build();
+                preferences = EncryptedSharedPreferences.create(
+                        context,
+                        "secret_shared_prefs",
+                        masterKey,
+                        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                );
+            } catch (GeneralSecurityException | IOException e) {
+                e.printStackTrace();
             }
         }
     }

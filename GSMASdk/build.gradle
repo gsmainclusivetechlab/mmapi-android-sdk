@@ -13,9 +13,6 @@ android.libraryVariants.all { variant ->
     }
 }
 
-def apikeyPropertiesFile = rootProject.file("apikey.properties")
-def apikeyProperties = new Properties()
-apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 
 android {
@@ -23,16 +20,11 @@ android {
 
     defaultConfig {
 //        applicationId "com.gsmaSdk.gsma"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
-        // should correspond to key/value pairs inside the file
-        buildConfigField("String", "CONSUMER_KEY", apikeyProperties['CONSUMER_KEY'])
-        buildConfigField("String", "CONSUMER_SECRET", apikeyProperties['CONSUMER_SECRET'])
-        buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
-        buildConfigField("String", "CALLBACK_URL", apikeyProperties['CALLBACK_URL'])
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

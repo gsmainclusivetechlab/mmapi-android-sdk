@@ -6,13 +6,14 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
 
 @SuppressWarnings("ConstantConditions")
-public class Quotation {
+public class QuotationController {
 
 
 
@@ -21,11 +22,11 @@ public class Quotation {
      *
      * @param notificationMethod The enumerated datatype to determine polling or callback
      * @param callbackUrl        The server URl for receiving response of transaction
-     * @param transactionRequest    the request object-International Transfers
+     * @param quotationRequest    the quotation request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
     @SuppressWarnings("rawtypes")
-    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull com.gsmaSdk.gsma.models.transaction.quotation.Quotation quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Quotation quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;
@@ -86,12 +87,12 @@ public class Quotation {
 
 
 
-    public static Quotation getInstance() {
-        return com.gsmaSdk.gsma.controllers.Quotation.SingletonCreationAdmin.INSTANCE;
+    public static QuotationController getInstance() {
+        return QuotationController.SingletonCreationAdmin.INSTANCE;
     }
 
     private static class SingletonCreationAdmin {
-        private static final Quotation INSTANCE = new Quotation();
+        private static final QuotationController INSTANCE = new QuotationController();
     }
 
 

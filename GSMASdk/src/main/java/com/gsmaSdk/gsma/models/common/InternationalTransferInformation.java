@@ -2,6 +2,7 @@ package com.gsmaSdk.gsma.models.common;
 
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class InternationalTransferInformation{
 
 	@SerializedName("quotationReference")

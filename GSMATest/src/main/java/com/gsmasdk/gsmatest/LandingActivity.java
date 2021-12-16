@@ -10,7 +10,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.gsmaSdk.gsma.BuildConfig;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.enums.Environment;
@@ -65,13 +64,13 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
          * environment - sandbox or production
          */
 
-        System.out.println(""+BuildConfig.CONSUMER_KEY);
+
         PaymentConfiguration.
-                init(BuildConfig.CONSUMER_KEY,
-                        BuildConfig.CONSUMER_SECRET,
+                init(getString(R.string.consumer_key),
+                        getString(R.string.consumer_secret),
                         AuthenticationType.STANDARD_LEVEL,
-                        BuildConfig.CALLBACK_URL,
-                        BuildConfig.CONSUMER_KEY,
+                        getString(R.string.callback_url),
+                        getString(R.string.api_key),
                         Environment.SANDBOX);
 
         //  PaymentConfiguration.init("https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io",Environment.LIVE);

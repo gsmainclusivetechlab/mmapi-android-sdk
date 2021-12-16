@@ -10,6 +10,7 @@ import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
+@SuppressWarnings("ALL")
 public class BatchTransaction extends BaseResponse {
 
 	@SerializedName("batchId")

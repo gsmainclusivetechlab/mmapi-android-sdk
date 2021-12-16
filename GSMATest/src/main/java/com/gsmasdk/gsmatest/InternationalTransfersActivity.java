@@ -380,7 +380,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             customDataItemList.add(customDataItem);
 
             //add kyc object to request object
-            quotationRequest.setSenderKyc(senderKyc);
+            transactionRequest.setSenderKyc(senderKyc);
 
             //add custom data object to request object
 
