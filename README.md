@@ -95,7 +95,6 @@ In the directory where you installed the SDK,  include this code to make the SDK
 -   [International Transfers](#international-transfers)
 -   [P2P Transfers](#p2p-transfers)
 
-
 ### Merchant Payments
 
 <table>
@@ -141,7 +140,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td rowspan="3">Payee-Initiated Merchant Payment using a Pre-authorised Payment Code</td>
     <td><a href="/docs/merchantPayment/createAuthorisationCode.Readme.md">Obtain an Authorisation Code</a></td>
     <td>createAuthorisationCode</td>
-     <td>ArrayList<Identifier> identifierList,NotificationMethod, string callBackUrl="",AuthorisationCode authorisationCodeRequest ,RequestStateInterface requestStateInterface</td>****
+     <td>ArrayList<Identifier> identifierList,NotificationMethod, string callBackUrl="",AuthorisationCode authorisationCodeRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Perform a Merchant Payment</a></td>
@@ -221,7 +220,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
   <tr>
     <td><a href="/docs/disbursement/viewBatchTransaction.Readme.md">View A Transaction Batch</a></td>
     <td>viewBatchTransaction</td>
-    <td>String transactionReference,BatchTransactionItemInterface batchTransactionItemInterface/td>
+    <td>String transactionReference,BatchTransactionItemInterface batchTransactionItemInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/viewBatchCompletions.Readme.md">View Batch Completions</a></td>
@@ -247,7 +246,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
   <tr>
     <td><a href="/docs/disbursement/viewBatchTransaction.Readme.md">View A Transaction Batch</a></td>
     <td>viewBatchTransaction</td>
-    <td>String transactionReference,BatchTransactionItemInterface atchTransactionItemInterface</td>
+    <td>String transactionReference,BatchTransactionItemInterface batchTransactionItemInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/viewBatchCompletions.Readme.md">View Batch Completions</a></td>
@@ -297,7 +296,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>Check for Service Availability</td>
     <td><a href="/docs/disbursement/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
     <td>viewServiceAvailability</td>
-    <tdNA>NA</td>
+    <td>NA</td>
   </tr>
   <tr>
     <td rowspan="2">Retrieve a Missing API Response</td>
@@ -481,7 +480,7 @@ Contains functions for all the use case scenarios within International Transfers
     <td>clientCorrelationId</td>
   </tr>
  
-  </tr>
+  
 </tbody>
 </table>
 
