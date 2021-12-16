@@ -1,7 +1,9 @@
 
-# View Account Name
+`Here, viewAccountName(Identifiers identifiers) creates a GET request to /accounts/{identifierType}/{identifier}/accountname`
 
-This Returns the name of an account holder where a single identifier is not sufficient to identify an account.`
+> `This endpoint returns the name of an account holder.
+
+
 
 ### Usage/Examples
 
