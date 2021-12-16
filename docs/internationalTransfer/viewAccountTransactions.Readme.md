@@ -1,15 +1,18 @@
-# View Account Specific Transaction - International Transfer
 
-The merchant can retrieve a set of transcation of a particular account
+# View Account Specific Transaction
+
+`Here, viewAccountTransactions(Identifiers identifiers, TransactionFilter filter) creates a GET request to /accounts/{identifierType}/{identifier}/transactions`
+
+> `This endpoint returns transactions linked to a specific account.`
 
 ### Usage/Examples
 
-```
+```java
 ArrayList<Identifier> identifierArrayList;
 
 ```
 
-```
+```java
    private void createAccountIdentifier(){
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
@@ -22,7 +25,7 @@ ArrayList<Identifier> identifierArrayList;
 
 ```
 
-```
+```java
 
  SDKManager.internationalTransfer.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
             @Override
