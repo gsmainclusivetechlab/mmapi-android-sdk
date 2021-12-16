@@ -1,6 +1,11 @@
-# View An Authorisation Code
+# Retrieve An Authorisation Code
 
-This returns a specific Authorisation Code linked to an account.
+1. `viewAuthorisationCode([ 'identifierType1' => 'identifier1' ], authorisationCode) creates a GET request to /accounts/{identifierType}/{identifier}/authorisationcodes/{authorisationCode}`
+
+> `This endpoint returns a specific Authorisation Code linked to an account.`
+1. `Here, viewAuthorisationCode([ 'identifierType1' => 'identifier1', 'identifierType2' => 'identifier2', 'identifierType3' => 'identifier3' ], authorisationCode) creates a GET request to /accounts/{RequestorAccountIdentifiers}/authorisationcodes/{authorisationCode}`
+
+> `This endpoint returns a specific Authorisation Code linked to an account.`
 
 ### Usage/Examples
 
