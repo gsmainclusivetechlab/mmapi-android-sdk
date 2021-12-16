@@ -1,15 +1,19 @@
 
-# View A Request State-International Transfers
+# View A Request State
+
+`Here, viewRequestState(String serverCorrelationId) creates a GET request to /requeststates/{serverCorrelationId}`
+
+> `This endpoint returns a specific request state.`
 
 
 ### Usage/Examples
 
-```
+```java
 The serverCorrelationId is passed into viewRequestState function to get the state of transaction
 
 ```
 
-```
+```java
     SDKManager.disbursement.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
