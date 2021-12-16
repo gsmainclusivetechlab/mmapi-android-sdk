@@ -21,7 +21,7 @@ This use case allows the disbursement organisation to retrieve all completed tra
             }
 
             @Override
-            public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion, String correlationID) {
+            public void batchTransactionCompleted(BatchCompletion batchTransactionCompletion, String correlationID) {
            
             }
 
