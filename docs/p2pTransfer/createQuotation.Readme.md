@@ -1,16 +1,20 @@
 # Create A New Quotation
 
-Request a quotation to perform an international transfer transaction
+`Here, createQuotation() creates a POST request to /quotations`
+
+> `Provided with a valid object representation, this endpoint allows for a new quotation to be created
+
+
 
 ### Usage/Examples
 
-```
+```java
     private String correlationId = "";
     private String serverCorrelationId;
 
 ```
 
-```
+```java
 
     //create a transaction object for international transfer request
     private void createInternationalQuotationObject() {
@@ -127,7 +131,7 @@ Request a quotation to perform an international transfer transaction
 
 ```
 
-```
+```java
 
     //Request the quotation to perform international transfer
     private void requestQuotation() {
