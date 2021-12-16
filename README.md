@@ -297,7 +297,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>Check for Service Availability</td>
     <td><a href="/docs/disbursement/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
     <td>viewServiceAvailability</td>
-    <tdNA></td>
+    <tdNA>NA</td>
   </tr>
   <tr>
     <td rowspan="2">Retrieve a Missing API Response</td>
