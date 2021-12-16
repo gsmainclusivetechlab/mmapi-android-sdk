@@ -1,6 +1,11 @@
+
 # View Batch Completions
 
-This API lists all transactions that have successfully completed for a given batch.`
+`Here, viewBatchCompletions(String batchId) creates a GET request to /batchtransactions/{batchId}/completions`
+
+> `This endpoint returns completed transactions for a specific batch.`
+
+
 ### Usage / Examples
 
 This use case allows the disbursement organisation to retrieve all completed transactions for a given batch.
