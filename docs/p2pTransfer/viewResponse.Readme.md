@@ -1,7 +1,10 @@
+
 # View A Response
 
+`Here, viewResponse(String clientCorrelationId,Missing Response) creates a GET request to /responses/{clientCorrelationId}`
 
-Pass the correlation id of missing response into a viewResponse function to get the missing response
+> `This endpoint returns a specific response.`
+
 
 ### Usage/Examples
 
