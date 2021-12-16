@@ -434,7 +434,7 @@ The balance scenario can be completed by using following methods
 
 ### Example Output - Retrieve Transaction
 
-```
+```json
  {
  	"Transaction": [{
  		"amount": "200.00",
