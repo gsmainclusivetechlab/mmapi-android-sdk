@@ -16,7 +16,7 @@ Please refer to the following documentation for installation instructions and us
 # Requirements
 
 ---
-To use the SDK the following requirements must be met:
+Optimum requirements to use this SDK are -
 
 1. **Android Studio 4.0** or newer
 2. **Android Platform Version**: API 31
