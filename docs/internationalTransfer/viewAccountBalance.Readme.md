@@ -1,6 +1,9 @@
 # View Account Balance
 
-Obtain the balance of requested account,Pass the account identier list  to the function to retrieve the balance details
+`Here, viewAccountBalance(Identifiers identifiers) creates a GET request to /accounts/{identifierType}/{identifier}/balance`
+
+> `This endpoint returns the balance of an account.
+
 
 ### Usage/Examples
 
