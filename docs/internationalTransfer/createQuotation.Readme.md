@@ -1,6 +1,10 @@
+
 # Create A New Quotation
 
-Request a quotation to perform an international transfer transaction
+`Here, createQuotation() creates a POST request to /quotations`
+
+> `Provided with a valid object representation, this endpoint
+
 
 ### Usage/Examples
 
