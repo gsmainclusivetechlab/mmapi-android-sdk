@@ -40,5 +40,30 @@ This use case allows the disbursement organisation to retrieve all completed tra
 
 ```json
 200
-[]
+[
+  {
+    "transactionReference": "string",
+    "requestingOrganisationTransactionReference": "string",
+    "creditParty": [
+      {
+        "key": "msisdn",
+        "value": "+33555123456"
+      }
+    ],
+    "debitParty": [
+      {
+        "key": "msisdn",
+        "value": "+33555123456"
+      }
+    ],
+    "completionDate": "2021-12-16T05:40:44.678Z",
+    "link": "string",
+    "customData": [
+      {
+        "key": "string",
+        "value": "string"
+      }
+    ]
+  }
+]
 ```
