@@ -1,6 +1,9 @@
-# Create A Disbursement Transaction
+# Create a Transaction
 
-> Function allows for a new transaction to be created for a given transaction type 'disbursement' passed via the URL.`
+`Here, createDisbursementTransaction() creates a POST request to /transactions/type/disbursement`
+
+> `Provided with a valid object representation, this endpoint allows for a new transaction to be created for a given transaction type passed via the URL.`
+
 
 ### Usage/Examples
 
