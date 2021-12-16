@@ -28,9 +28,9 @@ To use the SDK the following requirements must be met:
 
 Copy the GSMASdk-debug-1.0.4.aar file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
 
-Add the below line in dependencies of your build.gradle file in your application.
+Add the below line in dependencies of your `build.gradle` file in your application.
 
-```java
+```groovy
 implementation files('libs/GSMASdk-debug-1.0.4.aar')
 ```
 <a name="Configure"></a>
@@ -38,7 +38,7 @@ implementation files('libs/GSMASdk-debug-1.0.4.aar')
 # Configure the SDK
 
 After you install the SDK, make it available to your app and configure SDK. 
-Configuration details include either sandbox for testing or live for production, and your consumer key, consumer secret, api key, security option  and callback url for your app.
+Configuration details include either sandbox for testing or live for production, and your `consumer key`, `consumer secret`, `api key`, security option  and `callback url` for your app.
 
 In the directory where you installed the SDK,  include this code to make the SDK available and configure your environment with your application credentials for sandbox and live environments in the Developer Dashboard.
 
