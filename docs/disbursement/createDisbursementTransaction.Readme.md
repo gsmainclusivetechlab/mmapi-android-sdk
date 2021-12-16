@@ -11,33 +11,36 @@ A transaction object is to be created before calling the payee-initiated merchan
 
 
 ```java
-private TransactionRequest transactionRequest;
+private Transaction transactionRequest;
 private String serverCorrelationId = "";
 private String transactionRef = "";
 ```
 
 ```java
 
-private void createTransactionObject() {
-        transactionRequest = new TransactionRequest();
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+    private void createTransactionObject() {
+        transactionRequest = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
 
         debitPartyItem.setKey("accountid");
-        debitPartyItem.setValue("Place your account id of debit party here");
+        debitPartyItem.setValue("2999");
         debitPartyList.add(debitPartyItem);
 
         creditPartyItem.setKey("accountid");
-        creditPartyItem.setValue("Place your account id of credit party here");
+        creditPartyItem.setValue("2999");
         creditPartyList.add(creditPartyItem);
 
         transactionRequest.setDebitParty(debitPartyList);
         transactionRequest.setCreditParty(creditPartyList);
-        transactionRequest.setAmount("Place your amount"); //eg:200.00
-        transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
-  }
+        transactionRequest.setAmount("200.00");
+        transactionRequest.setCurrency("RWF");
+
+    }
+
 ```
  Initiate the mechant pay request using the following code
 
