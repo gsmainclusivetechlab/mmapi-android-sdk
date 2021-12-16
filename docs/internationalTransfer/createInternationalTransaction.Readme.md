@@ -1,7 +1,10 @@
 
- # Perform A International Transfer Transaction
+# Perform an International Transfer
 
-The sender FSP will sent a request with Transaction object to a function to perform a International Transfer Transaction
+`Here, createInternationalTransaction() creates a POST request to /transactions/type/inttransfer`
+
+> `Provided with a valid object representation, this endpoint allows for a new transaction to be created for a inttransfer transaction type passed via the URL.`
+
 
 
 ### Usage/Examples
@@ -199,3 +202,5 @@ SDKManager.internationalTransfer.createInternationalTransaction(NotificationMeth
   "pollLimit": 100
 }
 ```
+
+
