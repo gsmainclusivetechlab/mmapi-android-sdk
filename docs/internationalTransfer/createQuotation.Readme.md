@@ -4,13 +4,13 @@ Request a quotation to perform an international transfer transaction
 
 ### Usage/Examples
 
-```
+```java
     private String correlationId = "";
     private String serverCorrelationId;
 
 ```
 
-```
+```java
 
     //create a transaction object for international transfer request
     private void createInternationalQuotationObject() {
@@ -127,7 +127,7 @@ Request a quotation to perform an international transfer transaction
 
 ```
 
-```
+```java
 
     //Request the quotation to perform international transfer
     private void requestQuotation() {
