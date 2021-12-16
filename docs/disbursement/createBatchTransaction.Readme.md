@@ -1,7 +1,6 @@
 # Create A Transaction Batch
 
-The function allows for a new transaction batch to be created`
-
+`Here, createBatchTransaction() creates a POST request to /batchtransactions`
 
 ### Usage/Examples
 
