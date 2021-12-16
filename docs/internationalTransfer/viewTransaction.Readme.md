@@ -1,7 +1,8 @@
 # View A Transaction
 
-The details of particular transaction can be viewed using following functions,Pass the tranactionb reference obtained from view Request state
+`Here, viewTransaction(String transactionReference) creates a GET request to /transactions/{transactionReference}`
 
+> `This endpoint returns the details of a transaction.`
 
 ### Usage/Examples
 
