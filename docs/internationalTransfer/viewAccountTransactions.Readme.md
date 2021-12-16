@@ -27,22 +27,27 @@ ArrayList<Identifier> identifierArrayList;
 
 ```java
 
- SDKManager.internationalTransfer.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+ 
+ TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+  SDKManager.internationalTransfer.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
+              
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
             
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction) {
-           
-            }
-
-            @Override
             public void onRetrieveTransactionFailure(GSMAError gsmaError) {
-         
+              
             }
         });
+ 
  
  
 ```
