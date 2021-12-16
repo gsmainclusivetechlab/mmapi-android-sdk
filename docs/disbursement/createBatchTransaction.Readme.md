@@ -1,39 +1,40 @@
-
 # Create A Transaction Batch
 
-The function allows for a new transaction batch to be created`
+`Here, createBatchTransaction() creates a POST request to /batchtransactions`
 
 ### Usage/Examples
 
  Create a bulk Transaction Object before performing the bulk disbursement
   
   ```java
-  private BulkTransactionObject bulkTransactionObject;
-  
+    private BatchTransaction bulkTransactionObject;
+
+
   ```
   
   ```java
     private void createBulkTransactionObject() {
-        bulkTransactionObject = new BulkTransactionObject();
+     
+     bulkTransactionObject = new BatchTransaction();
 
-        ArrayList<TransactionItem> transactionItems = new ArrayList<>();
-        TransactionItem transactionItem = new TransactionItem();
-        ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
-        ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
-        DebitPartyItem debitPartyItem = new DebitPartyItem();
-        CreditPartyItem creditPartyItem = new CreditPartyItem();
+        ArrayList<Transaction> transactionItems = new ArrayList<>();
+        Transaction transactionItem = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
 
         debitPartyItem.setKey("accountid");
-        debitPartyItem.setValue("Place debit party account id here");
+        debitPartyItem.setValue("2000");
         debitPartyList.add(debitPartyItem);
 
-        creditPartyItem.setKey("accountid");
-        creditPartyItem.setValue("Place credit party account id here");
+        creditPartyItem.setKey("walletid");
+        creditPartyItem.setValue("1");
         creditPartyList.add(creditPartyItem);
 
-        transactionItem.setAmount("Place your amount here");//amount
+        transactionItem.setAmount("200");
         transactionItem.setType("transfer");
-        transactionItem.setCurrency("RWF");//country code
+        transactionItem.setCurrency("RWF");
         transactionItem.setCreditParty(creditPartyList);
         transactionItem.setDebitParty(debitPartyList);
         transactionItems.add(transactionItem);
@@ -41,8 +42,9 @@ The function allows for a new transaction batch to be created`
 
         bulkTransactionObject.setBatchDescription("Testing a Batch transaction");
         bulkTransactionObject.setBatchTitle("Batch Test");
-        bulkTransactionObject.setScheduledStartDate("2019-12-11T15:08:03.158Z");//scheduled time
+        bulkTransactionObject.setScheduledStartDate("2019-12-11T15:08:03.158Z");
         bulkTransactionObject.setTransactions(transactionItems);
+
 
     }
 ```
@@ -98,3 +100,9 @@ Perform the bulk transaction using the following code
   "pollLimit": 100
 }
 ```
+
+**NOTE**
+
+In asynchronous flows, a callback mechanism or polling mechanism is utilised to allow the client to determine the request's final state. Use the [viewRequestState()](viewRequestState.Readme.md) function for the polling mechanism to receive the status of a request, and the [viewTransaction()](viewTransaction.Readme.md) function to acquire the final representation of the Transaction object.
+
+---

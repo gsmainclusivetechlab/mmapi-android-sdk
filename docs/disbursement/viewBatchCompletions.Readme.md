@@ -1,6 +1,11 @@
+
 # View Batch Completions
 
-This API lists all transactions that have successfully completed for a given batch.`
+`Here, viewBatchCompletions(String batchId) creates a GET request to /batchtransactions/{batchId}/completions`
+
+> `This endpoint returns completed transactions for a specific batch.`
+
+
 ### Usage / Examples
 
 This use case allows the disbursement organisation to retrieve all completed transactions for a given batch.
@@ -16,7 +21,7 @@ This use case allows the disbursement organisation to retrieve all completed tra
             }
 
             @Override
-            public void batchTransactionCompleted(BatchTransactionCompletion batchTransactionCompletion, String correlationID) {
+            public void batchTransactionCompleted(BatchCompletion batchTransactionCompletion, String correlationID) {
            
             }
 
@@ -35,5 +40,30 @@ This use case allows the disbursement organisation to retrieve all completed tra
 
 ```json
 200
-[]
+[
+  {
+    "transactionReference": "string",
+    "requestingOrganisationTransactionReference": "string",
+    "creditParty": [
+      {
+        "key": "msisdn",
+        "value": "+33555123456"
+      }
+    ],
+    "debitParty": [
+      {
+        "key": "msisdn",
+        "value": "+33555123456"
+      }
+    ],
+    "completionDate": "2021-12-16T05:40:44.678Z",
+    "link": "string",
+    "customData": [
+      {
+        "key": "string",
+        "value": "string"
+      }
+    ]
+  }
+]
 ```

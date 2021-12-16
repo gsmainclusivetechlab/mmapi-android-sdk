@@ -1,4 +1,10 @@
-# Create An Authorisation Code Via An Account Identifier
+
+# Create an Authorisation Code via an account identifier
+
+`Here, createAuthorisationCode(Identifiers identifiers) creates a POST request to /accounts/{identifierType}/{identifier}/authorisationcodes`
+
+> `This endpoint allows allows a mobile money payer or payee to generate a code which when presented to the other party, can be redeemed for an amount set by the payer or payee, depending upon the use case.`
+
 
 Mobile money payer/payee submits the request to generate a code which when presented to the other party, can be redeemed for an amount set by the payer/payee, depending on the use case. The MMP returns the request state object to indicate the request is pending. The payer/payee communicate the code to respective parties verabally or by a QR code.
 ### Usage/Examples

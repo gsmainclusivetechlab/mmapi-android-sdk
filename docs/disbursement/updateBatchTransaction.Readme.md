@@ -1,6 +1,8 @@
 # Update A Transaction Batch
 
-This function updates a specific transaction batch. Only the batchStatus field can be modified. The Batch Status is set to 'approved'`
+`Here, updateBatchTransaction(String batchId) creates a PATCH request to /batchtransactions/{batchId}`
+
+> `This endpoint updates a specific transaction batch. Only the batchStatus field can be modified.`
 
 ### Usage / Examples
 

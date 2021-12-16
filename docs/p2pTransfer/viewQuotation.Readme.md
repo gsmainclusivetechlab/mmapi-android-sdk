@@ -1,15 +1,18 @@
 # View A Quotation
 
- View a quotation details using transacation reference 
+`Here, viewQuotation(String quotationReference) creates a GET request to 
+/quotations/{quotationReference}`
+
+> `This endpoint returns a specific quotation.
 
 ### Usage/Examples
 
-```
+```java
     private String transactionRef = "";
 
 ```
 
-```
+```java
 
         SDKManager.p2PTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override

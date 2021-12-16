@@ -1,7 +1,10 @@
 
- # Perform A International Transfer Transaction
+# Perform an International Transfer
 
-The sender FSP will sent a request with Transaction object to a function to perform a International Transfer Transaction
+`Here, createInternationalTransaction() creates a POST request to /transactions/type/inttransfer`
+
+> `Provided with a valid object representation, this endpoint allows for a new transaction to be created for a inttransfer transaction type passed via the URL.`
+
 
 
 ### Usage/Examples
@@ -199,3 +202,10 @@ SDKManager.internationalTransfer.createInternationalTransaction(NotificationMeth
   "pollLimit": 100
 }
 ```
+
+**NOTE**
+
+In asynchronous flows, a callback mechanism or polling mechanism is utilised to allow the client to determine the request's final state. Use the [viewRequestState()](viewRequestState.Readme.md) function for the polling mechanism to receive the status of a request, and the [viewTransaction()](viewTransaction.Readme.md) function to acquire the final representation of the Transaction object.
+
+---
+

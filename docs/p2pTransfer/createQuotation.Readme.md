@@ -1,16 +1,20 @@
 # Create A New Quotation
 
-Request a quotation to perform an international transfer transaction
+`Here, createQuotation() creates a POST request to /quotations`
+
+> `Provided with a valid object representation, this endpoint allows for a new quotation to be created
+
+
 
 ### Usage/Examples
 
-```
+```java
     private String correlationId = "";
     private String serverCorrelationId;
 
 ```
 
-```
+```java
 
     //create a transaction object for international transfer request
     private void createInternationalQuotationObject() {
@@ -127,7 +131,7 @@ Request a quotation to perform an international transfer transaction
 
 ```
 
-```
+```java
 
     //Request the quotation to perform international transfer
     private void requestQuotation() {
@@ -188,4 +192,8 @@ Request a quotation to perform an international transfer transaction
 }
 ```
 
+**NOTE**
 
+In asynchronous flows, a callback mechanism or polling mechanism is utilised to allow the client to determine the request's final state. Use the [viewRequestState()](viewRequestState.Readme.md) function for the polling mechanism to receive the status of a request, and the [viewQuotation()](viewTransaction.Readme.md) function to acquire the final representation of the Transaction object.
+
+---

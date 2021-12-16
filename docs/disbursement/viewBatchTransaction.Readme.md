@@ -1,8 +1,10 @@
+
 # View A Transaction Batch
 
+`Here, viewBatchTransaction(String batchId) creates a GET request to /batchtransactions/{batchId}`
 
+> `This endpoint returns the current status of a batch transaction
 
-> `This endpoint returns the current status of a batch transaction.`
 ### Usage / Examples
 
 ```java

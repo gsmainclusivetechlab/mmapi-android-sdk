@@ -1,10 +1,12 @@
 # View Batch Rejections
 
-This API enables clients to retrieve information on all transactions that have either failed parsing or have failed to complete.`
+`Here, viewBatchRejections(String batchId) creates a GET request to /batchtransactions/{batchId}/rejections`
+
+> `This endpoint returns rejected transactions for a specific batch.`
 
 ### Usage / Examples
 
-
+```java
         SDKManager.disbursement.viewBatchRejections("REF-1635765084301", new BatchRejectionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -22,10 +24,37 @@ This API enables clients to retrieve information on all transactions that have e
             }
         });
 
-
+```
 ### Example Output
+200
 
 ```json
-200
-[]
+
+[
+  {
+    "transactionReference": "string",
+    "requestingOrganisationTransactionReference": "string",
+    "creditParty": [
+      {
+        "key": "msisdn",
+        "value": "+33555123456"
+      }
+    ],
+    "debitParty": [
+      {
+        "key": "msisdn",
+        "value": "+33555123456"
+      }
+    ],
+    "rejectionReason": "string",
+    "rejectionDate": "2021-12-16T05:43:19.429Z",
+    "customData": [
+      {
+        "key": "string",
+        "value": "string"
+      }
+    ]
+  }
+]
+
 ```

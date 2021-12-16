@@ -1,15 +1,17 @@
 # View Account Balance
 
-Obtain the balance of requested account,Pass the Account Identifiers list  to the function to retrieve the balance details
+`Here, viewAccountBalance(Identifiers identifiers) creates a GET request to /accounts/{identifierType}/{identifier}/balance`
+
+> `This endpoint returns the balance of an account.`
 
 ### Usage/Examples
 
-```
+```java
     ArrayList<Identifier> identifierArrayList;
 
 ```
 
-```
+```java
     private void createAccountIdentifier(){
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
@@ -22,7 +24,7 @@ Obtain the balance of requested account,Pass the Account Identifiers list  to th
 
 ```
 
-```
+```java
 
  SDKManager.p2pTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override

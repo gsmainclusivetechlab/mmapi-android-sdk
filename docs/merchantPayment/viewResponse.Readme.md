@@ -1,40 +1,30 @@
-
 # View A Response
 
-`Here, viewResponse(String clientCorrelationId,MissingResponse Response) creates a GET request to /responses/{clientCorrelationId}`
+`Here, viewResponse(String clientCorrelationId, Class<T> objectReference) creates a GET request to /responses/{clientCorrelationId}`
 
 > `This endpoint returns a specific response.`
-
 
 ### Usage/Examples
 
 ```java
-
-
-        SDKManager.p2PTransfer.viewResponse(correlationId, new MissingResponseInterface() {
+        SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
             }
-
             @Override
             public void onMissingResponseFailure(GSMAError gsmaError) {
               
             }
-
             @Override
             public void onValidationError(ErrorObject errorObject) {
                
             }
         });
-
-
-
 ```
 
 ### Example Output
 
 ```json
-
 {
  	"Transaction": [{
  		"amount": "200.00",
@@ -96,5 +86,4 @@
  		"type": "merchantpay"
  	}]
  }
-
 ```

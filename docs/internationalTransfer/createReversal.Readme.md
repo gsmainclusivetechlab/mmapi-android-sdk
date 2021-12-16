@@ -1,24 +1,28 @@
-# Create A Reversal - International Transfers
 
-In some failure scenarios, merchant may need to reverse a transaction,Create a reversal object of reversal transaction
+# Create A Reversal
+
+`Here, createReversal(String transactionReference) creates a POST request to 
+/transactions/{transactionReference}/reversals`
+
+> `Provided with a valid object representation, this endpoint allows for a new reversal to be
 
 ### Usage/Examples
 
 Declare the revesal object
 
-```
-private ReversalObject reversalObject;
+```java
+private Reversal reversalObject;
 ```
 
-```
+```java
 private void createPaymentReversalObject() {
-        reversalObject = new ReversalObject();
+        reversalObject = new Reversal();
         reversalObject.setReversal("reversal");
  }
 ```
 Call the reversal function with reversal and reference Id of transaction obtained using the polling method
 
-```
+```java
 
   SDKManager.internationalTransfer.createReversal(NotificationMethod.POLLING,"","Place your Reference id", reversalObject, new RequestStateInterface() {
             @Override

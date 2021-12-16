@@ -1,8 +1,10 @@
 # Create A MerchantPay Transaction
 
-The merchant initiates the request and will be credited when the payer approves the request.
+`createMerchantTransaction() creates a POST request to /transactions/type/merchantpay`
 
-A transaction object must be created before calling the payee-initiated merchant payment. An example for transaction object is as follows.
+> `Provided with a valid object representation, this endpoint allows for a new transaction to be created for a given transaction type 'merchantpay' passed via the URL.`
+
+
 
 ```java
 

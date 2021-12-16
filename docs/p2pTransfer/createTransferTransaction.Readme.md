@@ -1,14 +1,14 @@
-# Create A Transfer Transaction
+# Create a Transaction
 
+`Here, createTransferTransaction() creates a POST request to /transactions/type/transfer`
 
-Perform the Transfer with the receiving FSP.
-
+> `Provided with a valid object representation, this endpoint allows for a new transaction to be created for a given transaction type passed via the URL.`
 
 ### Usage/Examples
 
 ```java
 
-private TransactionRequest transactionRequest;
+private Transaction transactionRequest;
 
 ```
 
@@ -118,3 +118,8 @@ private void createP2PTransferObject() {
   "pollLimit": 100
 }
 ```
+**NOTE**
+
+In asynchronous flows, a callback mechanism or polling mechanism is utilised to allow the client to determine the request's final state. Use the [viewRequestState()](viewRequestState.Readme.md) function for the polling mechanism to receive the status of a request, and the [viewTransaction()](viewTransaction.Readme.md) function to acquire the final representation of the Transaction object.
+
+---

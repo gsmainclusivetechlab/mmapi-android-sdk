@@ -1,6 +1,8 @@
 # View A Request State
 
-This returns a specific request state
+`Here, viewRequestState(serverCorrelationId) creates a GET request to /requeststates/{serverCorrelationId}`
+
+> `This endpoint returns a specific request state`
 
 ### Usage/Examples
 
