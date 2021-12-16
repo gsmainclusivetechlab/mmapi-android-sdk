@@ -9,7 +9,7 @@
 Declare the revesal object
 
 ```java
-private ReversalObject reversalObject;
+private Reversal reversalObject;
 ```
 
 ```java
