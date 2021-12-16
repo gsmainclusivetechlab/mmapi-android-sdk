@@ -1,7 +1,7 @@
 
 # View A Response
 
-`Here, viewResponse(String clientCorrelationId, Class<T> objectReference) creates a GET request to /responses/{clientCorrelationId}`
+`Here, viewResponse(String clientCorrelationId, MissingResponse missingResponse) creates a GET request to /responses/{clientCorrelationId}`
 
 > `This endpoint returns a specific response.`
 
