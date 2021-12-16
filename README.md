@@ -141,7 +141,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td rowspan="3">Payee-Initiated Merchant Payment using a Pre-authorised Payment Code</td>
     <td><a href="/docs/merchantPayment/createAuthorisationCode.Readme.md">Obtain an Authorisation Code</a></td>
     <td>createAuthorisationCode</td>
-    <td>{ identifierType1: identifier1 }</td>
+     <td>ArrayList<Identifier> identifierList,NotificationMethod, string callBackUrl="",AuthorisationCode authorisationCodeRequest ,RequestStateInterface requestStateInterface</td>****
   </tr>
   <tr>
     <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Perform a Merchant Payment</a></td>
@@ -151,7 +151,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
   <tr>
     <td><a href="/docs/merchantPayment/viewAuthorisationCode.Readme.md">View An Authorisation Code</a></td>
     <td>viewAuthorisationCode</td>
-    <td>ArrayList<Identifier> identifierList,NotificationMethod, string callBackUrl="",AuthorisationCode authorisationCodeRequest ,RequestStateInterface requestStateInterface</td>
+    <td>ArrayList<Identifier> identifierList,String transactionReference,AuthorisationCodeItemInterface authorisationCodeItemInterface</td>
  </tr>
   <tr>
     <td>Merchant Payment Refund</td>
@@ -231,84 +231,80 @@ In the directory where you installed the SDK,  include this code to make the SDK
   <tr>
     <td><a href="/docs/disbursement/viewBatchRejections.Readme.md">View Batch Rejections</a></td>
     <td>viewBatchRejections</td>
-    <td>batchId</td>
+    <td>String batchId,BatchRejectionInterface batchRejectionInterface</td>
   </tr>
   <tr>
     <td rowspan="5">Bulk Disbursement with Maker / Checker</td>
     <td><a href="/docs/disbursement/createBatchTransaction.Readme.md">Create A Transaction Batch</a></td>
     <td>createBatchTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",BatchTransaction bulkTransactionObject,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/updateBatchTransaction.Readme.md">Update A Transaction Batch</a></td>
     <td>updateBatchTransaction</td>
-    <td>batchId</td>
+     <td>NotificationMethod, string callBackUrl="",String batchId,ArrayList<Batch> batchArrayList,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/viewBatchTransaction.Readme.md">View A Transaction Batch</a></td>
     <td>viewBatchTransaction</td>
-    <td>batchId</td>
+    <td>String transactionReference,BatchTransactionItemInterface atchTransactionItemInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/viewBatchCompletions.Readme.md">View Batch Completions</a></td>
     <td>viewBatchCompletions</td>
-    <td>batchId</td>
+    <td>String batchId,BatchCompletionInterface batchCompletionInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/viewBatchRejections.Readme.md">View Batch Rejections</a></td>
     <td>viewBatchRejections</td>
-    <td>batchId</td>
+    <td>String batchId,BatchRejectionInterface batchRejectionInterface</td>
   </tr>
   <tr>
     <td rowspan="3">Individual Disbursement Using the Polling Method</td>
     <td><a href="/docs/disbursement/createDisbursementTransaction.Readme.md">Create a Individual Disbursement request </a></td>
     <td>createDisbursementTransaction</td>
-    <td></td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/disbursement/viewRequestState.Readme.Readme.md">Poll to Determine the Request State</a></td>
     <td>viewRequestState</td>
-    <td>serverCorrelationId</td>
-  </tr>
+    <td>String serverCorrelationId,RequestStateInterface requestStateInterface</td>
+ </tr>
   <tr>
     <td><a href="/docs/disbursement/viewTransaction.Readme.Readme.md">Retrieve a Transaction</a></td>
     <td>viewTransaction</td>
-    <td>transactionReference</td>
+    <td>String transactionReference</td>
   </tr>
   <tr>
     <td>Disbursement Reversal</td>
     <td><a href="/docs/disbursement/createReversal.Readme.Readme.md">Perform a Disbursement Reversal</a></td>
     <td>createReversal</td>
-    <td>originalTransactionReference</td>
+    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Obtain a Disbursement Organisation Balance</td>
     <td><a href="/docs/disbursement/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
     <td>viewAccountBalance</td>
-    <td>{ identifierType: identifier }</td>
+     <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
   </tr>
   <tr>
     <td>Retrieve Transactions for a Disbursement Organisation</td>
     <td><a href="/docs/disbursement/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
     <td>viewAccountTransactions</td>
-    <td>{ identifierType1: identifier1 }</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
   </tr>
   <tr>
     <td>Check for Service Availability</td>
     <td><a href="/docs/disbursement/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
     <td>viewServiceAvailability</td>
-    <td></td>
+    <tdNA></td>
   </tr>
   <tr>
     <td rowspan="2">Retrieve a Missing API Response</td>
     <td><a href="/docs/disbursement/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
     <td>viewResponse</td>
-    <td>clientCorrelationId</td>
+    <td>String correlationId</td>
   </tr>
-  <tr>
-    <td><a href="/docs/disbursement/viewResource.Readme.md">Retrieve Representation a Missing Resource</a></td>
-    <td>viewResource</td>
-    <td>link</td>
   </tr>
 </tbody>
 </table>
@@ -484,10 +480,7 @@ Contains functions for all the use case scenarios within International Transfers
     <td>viewResponse</td>
     <td>clientCorrelationId</td>
   </tr>
-  <tr>
-    <td><a href="/docs/p2pTransfer/viewResource.Readme.md">Retrieve Representation a Missing Resource</a></td>
-    <td>viewResource</td>
-    <td>link</td>
+ 
   </tr>
 </tbody>
 </table>
