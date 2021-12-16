@@ -4,12 +4,12 @@ Obtain the balance of requested account,Pass the account identier list  to the f
 
 ### Usage/Examples
 
-```
+```java
     ArrayList<Identifier> identifierArrayList;
 
 ```
 
-```
+```java
     private void createAccountIdentifier(){
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
@@ -22,7 +22,7 @@ Obtain the balance of requested account,Pass the account identier list  to the f
 
 ```
 
-```
+```java
 
  SDKManager.internationalTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
