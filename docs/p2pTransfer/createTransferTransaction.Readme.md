@@ -8,7 +8,7 @@
 
 ```java
 
-private TransactionRequest transactionRequest;
+private Transaction transactionRequest;
 
 ```
 
