@@ -1,5 +1,9 @@
 
-# View A Request State-International Transfers
+# View A Request State
+
+`Here, viewRequestState(String serverCorrelationId) creates a GET request to /requeststates/{serverCorrelationId}`
+
+> `This endpoint returns a specific request state.`
 
 
 ### Usage/Examples
