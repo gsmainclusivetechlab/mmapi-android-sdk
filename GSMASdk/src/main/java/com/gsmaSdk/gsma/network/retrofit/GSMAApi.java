@@ -10,6 +10,7 @@ import com.gsmaSdk.gsma.manager.PreferenceManager;
 
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.Link;
+import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
@@ -511,6 +512,24 @@ public final class GSMAApi {
     public void viewAccountLink(String uuid, String accountIdentifier, String linkReference,APIRequestCallback<Link> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountLink(PaymentConfiguration.getUrlVersion(),accountIdentifier,linkReference, headers), apiRequestCallback));
+    }
+
+
+    /****************************************Bill Payments********************************************/
+
+
+
+    /**
+     * Retrieval of Bills
+     *
+     * @param uuid               UUID
+     * @param accountIdentifier          Account id
+     * @param params Hashmap-Filter list
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void viewAccountBills(String uuid, String accountIdentifier,HashMap<String,String> params, APIRequestCallback<Bills> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountBills(PaymentConfiguration.getUrlVersion(), accountIdentifier, headers,params), apiRequestCallback));
     }
 
 }

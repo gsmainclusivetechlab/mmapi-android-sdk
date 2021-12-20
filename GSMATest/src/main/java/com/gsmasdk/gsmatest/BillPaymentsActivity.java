@@ -12,15 +12,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.gsmaSdk.gsma.interfaces.RetrieveBillPaymentInterface;
+import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.Link;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
+import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,6 +97,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
         switch (position) {
             case 0:
                 //View Account Bills;
+                viewBillPayment();
                 break;
             case 1:
                 //Create Bill Transaction
@@ -108,7 +114,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
             case 5:
                 //  Retrieve a Missing API Response
                 break;
-            case  6:
+            case 6:
                 //view transaction
                 break;
             default:
@@ -117,6 +123,46 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
         }
 
     }
+
+    /**
+     * Retrieve Transaction
+     */
+    private void viewBillPayment() {
+        showLoading();
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        SDKManager.billPayment.viewAccountBills(identifierArrayList, transactionFilter, new RetrieveBillPaymentInterface() {
+            @Override
+            public void onRetrieveBillPaymentSuccess(Bills bills) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(bills));
+                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(bills));
+            }
+
+            @Override
+            public void onRetrieveBillPaymentFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, gsmaError.getErrorBody().getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(gsmaError));
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(errorObject));
+                Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(errorObject));
+
+            }
+        });
+
+    }
+
 
     /**
      * Method for checking Service Availability.
@@ -165,7 +211,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("2000");
+        identifierAccount.setValue("1");
 
         identifierArrayList.add(identifierAccount);
 
