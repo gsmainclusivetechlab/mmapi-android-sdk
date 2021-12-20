@@ -10,7 +10,7 @@ import androidx.annotation.RestrictTo;
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 public abstract class BaseResponse {
 
-   private MetaData metaData;
+    private MetaData metaData;
 
     public MetaData getMetaData() {
         return metaData;

@@ -140,6 +140,8 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case 6:
                 //Bill Payments
+                startActivity(new Intent(LandingActivity.this,BillPaymentsActivity.class));
+
                 break;
             case 7:
                 //Agent Services

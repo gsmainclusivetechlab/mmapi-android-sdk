@@ -4,6 +4,7 @@ package com.gsmaSdk.gsma.manager;
 import android.content.Context;
 
 import com.gsmaSdk.gsma.controllers.AccountLinkingController;
+import com.gsmaSdk.gsma.controllers.BillPaymentController;
 import com.gsmaSdk.gsma.controllers.Disbursement;
 import com.gsmaSdk.gsma.controllers.InternationalTransfer;
 import com.gsmaSdk.gsma.controllers.MerchantPayment;
@@ -36,6 +37,7 @@ public class SDKManager {
     public static P2PTransfer p2PTransfer=new P2PTransfer();
     public static RecurringPayment recurringPayment=new RecurringPayment();
     public static AccountLinkingController accountLinking=new AccountLinkingController();
+    public static BillPaymentController billPayment=new BillPaymentController();
 
     private SDKManager() {
     }
