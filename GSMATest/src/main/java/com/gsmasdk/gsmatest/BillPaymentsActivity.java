@@ -1,7 +1,5 @@
 package com.gsmasdk.gsmatest;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -15,25 +13,28 @@ import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveBillPaymentInterface;
-import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
+import com.gsmaSdk.gsma.interfaces.BillPaymentInterface;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
+import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
-import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
-import com.gsmaSdk.gsma.models.bills.BillPayment;
+import com.gsmaSdk.gsma.models.bills.BillPay;
 import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BillPaymentsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -52,7 +53,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
     private String serverCorrelationId;
     ArrayList<Identifier> identifierArrayList;
     private Transaction transactionRequest;
-    private BillPayment billPayment;
+    private BillPay billPayment;
 
     private final String[] billPaymentArray = {
             "View Account Bills",
@@ -106,7 +107,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
         switch (position) {
             case 0:
                 //View Account Bills;
-                viewBillPayment();
+                viewAccountBillPayment();
                 break;
             case 1:
                 //Create Bill Transaction
@@ -125,12 +126,15 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
                 break;
             case 4:
                 //View Bill Payment
+                viewBillPayment();
                 break;
             case 5:
                 //  Retrieve a Missing API Response
+                getMissingTransaction();
                 break;
             case 6:
                 //view transaction
+                viewTransaction();
                 break;
             default:
                 break;
@@ -138,6 +142,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
         }
 
     }
+
 
     /**
      * Transaction Object for Merchant Pay.
@@ -208,7 +213,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
     /**
      * Retrieve Transaction
      */
-    private void viewBillPayment() {
+    private void viewAccountBillPayment() {
         showLoading();
 
         TransactionFilter transactionFilter = new TransactionFilter();
@@ -278,6 +283,106 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
 
     }
 
+    /**
+     * Method for retrieve a set of Bill payments.
+     */
+    private void viewBillPayment() {
+        showLoading();
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        SDKManager.billPayment.viewBillPayment(identifierArrayList, transactionFilter, transactionRef, new BillPaymentInterface() {
+            @Override
+            public void onBillPaymentSuccess(BillPay billPayment) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(billPayment));
+                Log.d(SUCCESS, "onBillPaymentSuccess: " + new Gson().toJson(billPayment));
+            }
+
+            @Override
+            public void onBillPaymentFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onBillPaymentFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
+    }
+
+    /**
+     * View Transaction-View the transaction Details
+     */
+    private void viewTransaction() {
+        showLoading();
+        SDKManager.billPayment.viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onTransactionSuccess(Transaction transactionRequest) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(transactionRequest));
+                Utils.showToast(BillPaymentsActivity.this, "Success");
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        });
+    }
+
+    /**
+     * Retrieve a missing Transaction
+     */
+    private void getMissingTransaction() {
+        showLoading();
+
+        SDKManager.billPayment.viewResponse(correlationId, new MissingResponseInterface() {
+            @Override
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(missingResponse));
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
+            }
+
+            @Override
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(BillPaymentsActivity.this, "Failure");
+                Log.d(FAILURE, "onMissingResponseFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
+
+    }
+
     public void showLoading() {
         progressdialog.show();
     }
@@ -300,7 +405,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
 
     private void createBillPayments() {
         showLoading();
-        billPayment = new BillPayment();
+        billPayment = new BillPay();
         billPayment.setCurrency("GBP");
         billPayment.setAmountPaid("5.30");
 

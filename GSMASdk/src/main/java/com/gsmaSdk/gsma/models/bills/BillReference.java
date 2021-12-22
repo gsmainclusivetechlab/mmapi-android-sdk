@@ -3,7 +3,7 @@ package com.gsmaSdk.gsma.models.bills;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SupplementaryBillReference {
+public class BillReference {
 
     @Expose
     @SerializedName("paymentReferenceType")

@@ -7,10 +7,8 @@ import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class BillPayment extends BaseResponse {
-
+public class BillPay extends BaseResponse {
 
     @Expose
     @SerializedName("serviceProviderPaymentReference")
@@ -53,7 +51,7 @@ public class BillPayment extends BaseResponse {
 
     @Expose
     @SerializedName("supplementaryBillReferenceDetails")
-    private ArrayList<SupplementaryBillReference> supplementaryBillReferenceList;
+    private ArrayList<BillReference> supplementaryBillReferenceList;
 
     @Expose
     @SerializedName("serviceProviderNotification")
@@ -146,11 +144,11 @@ public class BillPayment extends BaseResponse {
         this.requestingOrganisation = requestingOrganisation;
     }
 
-    public ArrayList<SupplementaryBillReference> getSupplementaryBillReferenceList() {
+    public ArrayList<BillReference> getSupplementaryBillReferenceList() {
         return supplementaryBillReferenceList;
     }
 
-    public void setSupplementaryBillReferenceList(ArrayList<SupplementaryBillReference> supplementaryBillReferenceList) {
+    public void setSupplementaryBillReferenceList(ArrayList<BillReference> supplementaryBillReferenceList) {
         this.supplementaryBillReferenceList = supplementaryBillReferenceList;
     }
 

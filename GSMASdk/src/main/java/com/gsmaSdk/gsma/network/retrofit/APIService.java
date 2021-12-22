@@ -2,22 +2,23 @@ package com.gsmaSdk.gsma.network.retrofit;
 
 
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
-import com.gsmaSdk.gsma.models.account.Balance;
-import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
+import com.gsmaSdk.gsma.models.bills.BillPay;
 import com.gsmaSdk.gsma.models.common.GetLink;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
+import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
 import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
+import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.util.Map;
 
@@ -294,6 +295,7 @@ public interface APIService {
     Call<Link> viewAccountLink(@Path(value = "version", encoded = true) String version, @Path(value = "accountIdentifier", encoded = true) String accountIdentifier, @Path("linkReference") String transactionReference, @HeaderMap Map<String, String> headers);
 
 
+
     /*********************************Bill Payment Interfaces******************************/
 
     /**
@@ -319,5 +321,13 @@ public interface APIService {
                                                @Body RequestBody billPayment,
                                                @HeaderMap Map<String, String> headers);
 
+    /**
+     * View Bill Payments.
+     *
+     * @return the call
+     */
+    @SuppressWarnings("SpellCheckingInspection")
+    @GET("{version}/accounts/{accountIdentifier}/bills/{billReference}/payments")
+    Call<BillPay> viewBillPayment(@Path(value = "version", encoded = true) String version, @Path(value = "accountIdentifier", encoded = true) String accountIdentifier, @Path("billReference") String billReference, @HeaderMap Map<String, String> headers, @QueryMap Map<String, String> params);
 
 }
