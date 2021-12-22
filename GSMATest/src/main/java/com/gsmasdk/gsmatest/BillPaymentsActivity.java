@@ -12,16 +12,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.gsmaSdk.gsma.enums.NotificationMethod;
+import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveBillPaymentInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
+import com.gsmaSdk.gsma.models.bills.BillPayment;
 import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
@@ -46,6 +51,8 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
 
     private String serverCorrelationId;
     ArrayList<Identifier> identifierArrayList;
+    private Transaction transactionRequest;
+    private BillPayment billPayment;
 
     private final String[] billPaymentArray = {
             "View Account Bills",
@@ -75,6 +82,8 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
 
         checkServiceAvailability();
         createAccountIdentifier();
+        createTransactionObject();
+
     }
 
 
@@ -101,12 +110,18 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
                 break;
             case 1:
                 //Create Bill Transaction
+                createBillTransaction();
+
                 break;
             case 2:
                 //Create Bill Payments
+                createBillPayments();
+
                 break;
             case 3:
                 //View Request State
+                requestState();
+
                 break;
             case 4:
                 //View Bill Payment
@@ -123,6 +138,72 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
         }
 
     }
+
+    /**
+     * Transaction Object for Merchant Pay.
+     */
+    private void createTransactionObject() {
+        transactionRequest = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
+
+        debitPartyItem.setKey("walletid");
+        debitPartyItem.setValue("1");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("msisdn");
+        creditPartyItem.setValue("+44012345678");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("200.00");
+        transactionRequest.setCurrency("RWF");
+
+    }
+
+    /**
+     * Payee/payer  initiated payment
+     */
+    private void createBillTransaction() {
+        showLoading();
+        SDKManager.billPayment.createBillTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(requestStateObject).toString());
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Utils.showToast(BillPaymentsActivity.this, "Success");
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(BillPaymentsActivity.this, "Failure");
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
 
     /**
      * Retrieve Transaction
@@ -215,6 +296,83 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
 
         identifierArrayList.add(identifierAccount);
 
+    }
+
+    private void createBillPayments() {
+        showLoading();
+        billPayment = new BillPayment();
+        billPayment.setCurrency("GBP");
+        billPayment.setAmountPaid("5.30");
+
+        SDKManager.billPayment.createBillPayment(NotificationMethod.CALLBACK, "", identifierArrayList, billPayment, "REF-000001", new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, gsmaError.getErrorBody().getErrorDescription());
+                Log.d(VALIDATION, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
+
+    }
+
+    /**
+     * Get the request state of a transaction
+     */
+    private void requestState() {
+        showLoading();
+        SDKManager.accountLinking.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                transactionRef = requestStateObject.getObjectReference();
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
     }
 
 }

@@ -211,6 +211,11 @@ public class Utils {
                 errorObject.setErrorDescription("Invalid account identifier format!maximum 3 identifiers are allowed");
                 break;
 
+            case 12:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid bill Reference");
+                break;
             default:
                 errorObject.setErrorCategory("");
                 errorObject.setErrorCode("GenericError");

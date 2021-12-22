@@ -10,6 +10,7 @@ import com.gsmaSdk.gsma.manager.PreferenceManager;
 
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.Link;
+import com.gsmaSdk.gsma.models.bills.BillPayment;
 import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
@@ -531,5 +532,27 @@ public final class GSMAApi {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountBills(PaymentConfiguration.getUrlVersion(), accountIdentifier, headers,params), apiRequestCallback));
     }
+
+
+
+    /**
+     * Merchant Pay.
+     *
+     * @param uuid               UUID
+     * @param transactionType    Type of transaction - merchant pay
+     * @param transactionRequest Model class for Transaction Request
+     */
+    public void createBillPayment(String uuid, Enum notificationMethod, String accountIdentifier, String callbackUrl, String billReference, BillPayment billPayment, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL, xCallback);
+        }
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createBillPayment(PaymentConfiguration.getUrlVersion(),accountIdentifier,billReference,RequestBody.create(new Gson().toJson(billPayment), mediaType), headers), apiRequestCallback));
+    }
+
+
 
 }
