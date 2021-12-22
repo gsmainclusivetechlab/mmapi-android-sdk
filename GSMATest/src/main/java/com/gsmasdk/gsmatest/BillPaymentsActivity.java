@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.gsmaSdk.gsma.interfaces.BillPaymentInterface;
 import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
+import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
@@ -22,6 +23,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,6 +117,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
                 break;
             case 6:
                 //view transaction
+                viewTransaction();
                 break;
             default:
                 break;
@@ -189,6 +192,38 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
                 Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+        });
+    }
+
+    /**
+     * View Transaction-View the transaction Details
+     */
+    private void viewTransaction() {
+        showLoading();
+        SDKManager.billPayment.viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onTransactionSuccess(Transaction transactionRequest) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(transactionRequest));
+                Utils.showToast(BillPaymentsActivity.this, "Success");
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(BillPaymentsActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+
         });
     }
 
