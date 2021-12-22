@@ -8,8 +8,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.gsmaSdk.gsma.models.bills.Bill;
 import com.gsmaSdk.gsma.models.bills.Bills;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.lang.reflect.Type;
 import java.util.List;

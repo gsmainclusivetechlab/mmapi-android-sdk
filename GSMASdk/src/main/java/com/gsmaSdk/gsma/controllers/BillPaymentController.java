@@ -9,6 +9,7 @@ import com.gsmaSdk.gsma.interfaces.RetrieveBillPaymentInterface;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.bills.BillPay;
+import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -83,9 +84,9 @@ public class BillPaymentController extends Common{
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             HashMap<String, String> params = Utils.getHashMapFromObject(transactionFilter);
-            GSMAApi.getInstance().viewBillPayment(uuid, Utils.getIdentifiers(identifierArrayList),params, billReference, new APIRequestCallback<BillPay>() {
+            GSMAApi.getInstance().viewBillPayment(uuid, Utils.getIdentifiers(identifierArrayList),params, billReference, new APIRequestCallback<BillPayments>() {
                 @Override
-                public void onSuccess(int responseCode, BillPay serializedResponse) {
+                public void onSuccess(int responseCode, BillPayments serializedResponse) {
                     billPaymentInterface.onBillPaymentSuccess(serializedResponse);
                 }
 

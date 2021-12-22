@@ -4,6 +4,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Link;
+import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
@@ -328,6 +329,6 @@ public interface APIService {
      */
     @SuppressWarnings("SpellCheckingInspection")
     @GET("{version}/accounts/{accountIdentifier}/bills/{billReference}/payments")
-    Call<BillPay> viewBillPayment(@Path(value = "version", encoded = true) String version, @Path(value = "accountIdentifier", encoded = true) String accountIdentifier, @Path("billReference") String billReference, @HeaderMap Map<String, String> headers, @QueryMap Map<String, String> params);
+    Call<BillPayments> viewBillPayment(@Path(value = "version", encoded = true) String version, @Path(value = "accountIdentifier", encoded = true) String accountIdentifier, @Path("billReference") String billReference, @HeaderMap Map<String, String> headers, @QueryMap Map<String, String> params);
 
 }

@@ -2,6 +2,7 @@ package com.gsmaSdk.gsma.interfaces;
 
 
 import com.gsmaSdk.gsma.models.bills.BillPay;
+import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 
 /**
@@ -10,7 +11,7 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 @SuppressWarnings("ALL")
 public interface BillPaymentInterface extends BaseInterface{
 
-    void onBillPaymentSuccess(BillPay billPayment);
+    void onBillPaymentSuccess(BillPayments billPayments);
 
     void onBillPaymentFailure(GSMAError gsmaError);
 }
