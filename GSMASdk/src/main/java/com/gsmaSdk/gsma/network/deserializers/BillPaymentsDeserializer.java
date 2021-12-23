@@ -6,10 +6,8 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import com.gsmaSdk.gsma.models.bills.Bill;
 import com.gsmaSdk.gsma.models.bills.BillPay;
 import com.gsmaSdk.gsma.models.bills.BillPayments;
-import com.gsmaSdk.gsma.models.bills.Bills;
 
 import java.lang.reflect.Type;
 import java.util.List;

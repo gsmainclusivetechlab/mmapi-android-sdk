@@ -1,7 +1,6 @@
 package com.gsmaSdk.gsma.interfaces;
 
 
-import com.gsmaSdk.gsma.models.bills.BillPay;
 import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 

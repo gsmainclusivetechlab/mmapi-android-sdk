@@ -5,6 +5,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class BillPayments extends BaseResponse {
 
     @SerializedName("billPayments")
