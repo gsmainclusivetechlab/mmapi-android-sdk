@@ -28,7 +28,6 @@ import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 import java.util.ArrayList;
@@ -36,6 +35,7 @@ import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+@SuppressWarnings("unchecked")
 public class BillPaymentsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 
@@ -46,14 +46,12 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
     private TextView txtResponse;
     private ProgressDialog progressdialog;
     private String correlationId = "";
-    private Reversal reversalObject;
 
     private String transactionRef = "";
 
     private String serverCorrelationId;
     ArrayList<Identifier> identifierArrayList;
     private Transaction transactionRequest;
-    private BillPay billPayment;
 
     private final String[] billPaymentArray = {
             "View Account Bills",
@@ -65,6 +63,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
             "View Transaction"
     };
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,7 +185,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(requestStateObject).toString());
+                txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(BillPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
@@ -405,7 +404,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
 
     private void createBillPayments() {
         showLoading();
-        billPayment = new BillPay();
+        BillPay billPayment = new BillPay();
         billPayment.setCurrency("GBP");
         billPayment.setAmountPaid("5.30");
 

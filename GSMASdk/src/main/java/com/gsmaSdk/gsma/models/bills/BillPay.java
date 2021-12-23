@@ -8,6 +8,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 import java.util.ArrayList;
 
+@SuppressWarnings({"ALL", "unused"})
 public class BillPay extends BaseResponse {
 
     @Expose

@@ -8,12 +8,11 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.gsmaSdk.gsma.models.bills.Bill;
 import com.gsmaSdk.gsma.models.bills.Bills;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class BillResponseDeserializer  implements JsonDeserializer<Bills> {
 
     /**
@@ -27,7 +26,7 @@ public class BillResponseDeserializer  implements JsonDeserializer<Bills> {
      *
      * @param json    The Json data being deserialized
      * @param typeOfT The type of the Object to deserialize to
-     * @param context
+     * @param context The context
      * @return a deserialized object of the specified type typeOfT which is a subclass of {@code T}
      * @throws JsonParseException if json is not in the expected format of {@code typeofT}
      */

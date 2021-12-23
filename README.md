@@ -48,13 +48,13 @@ In the directory where you installed the SDK,  include this code to make the SDK
    * Initialise payment configuration with the following
    * consumerKey - provided by Client
    * consumerSecret - provided by Client
-   * authenticationType - requried level of authentication, eg:AuthenticationType.STANDARD_LEVEL,AuthenticationType.NO_AUTH;
+   * authenticationType - required level of authentication, eg:AuthenticationType.STANDARD_LEVEL,AuthenticationType.NO_AUTH;
    * callbackUrl - server url to which long running operation responses are delivered
    * xAPIkey - provided by client 
    * environment - sandbox or production
    */
 
-  PaymentConfiguration.init("<Place your consumerkey>","<Place your consumerSecret>","<Place your AuthenticaticationType>","<Place your callback URL>","<Place your X API Key>",Environment.SANDBOX);
+  PaymentConfiguration.init("<Place your consumerKey>","<Place your consumerSecret>","<Place your AuthenticationType>","<Place your callback URL>","<Place your X API Key>",Environment.SANDBOX);
 
 
 ```

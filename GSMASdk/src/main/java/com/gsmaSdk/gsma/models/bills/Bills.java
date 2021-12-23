@@ -1,11 +1,11 @@
 package com.gsmaSdk.gsma.models.bills;
 
 import com.google.gson.annotations.SerializedName;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public class Bills extends BaseResponse {
 
     @SerializedName("bills")

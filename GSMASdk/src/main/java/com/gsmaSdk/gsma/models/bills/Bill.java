@@ -9,6 +9,7 @@ import com.gsmaSdk.gsma.network.responses.BaseResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"ALL", "unused"})
 public class Bill extends BaseResponse {
 
     @Expose
@@ -55,90 +56,112 @@ public class Bill extends BaseResponse {
     @Expose
     private ArrayList<MetaData> metaDataObject;
 
+    @SuppressWarnings("unused")
     public String getBillReference() {
         return billReference;
     }
 
+    @SuppressWarnings("unused")
     public void setBillReference(String billReference) {
         this.billReference = billReference;
     }
 
+    @SuppressWarnings("unused")
     public String getBillStatus() {
         return billStatus;
     }
 
+    @SuppressWarnings("unused")
     public void setBillStatus(String billStatus) {
         this.billStatus = billStatus;
     }
 
+    @SuppressWarnings("unused")
     public String getAmountDue() {
         return amountDue;
     }
 
+    @SuppressWarnings("unused")
     public void setAmountDue(String amountDue) {
         this.amountDue = amountDue;
     }
 
+    @SuppressWarnings("unused")
     public String getBillDescription() {
         return billDescription;
     }
 
+    @SuppressWarnings("unused")
     public void setBillDescription(String billDescription) {
         this.billDescription = billDescription;
     }
 
+    @SuppressWarnings("unused")
     public String getCurrency() {
         return currency;
     }
 
+    @SuppressWarnings("unused")
     public void setCurrency(String currency) {
         this.currency = currency;
     }
 
+    @SuppressWarnings("unused")
     public String getDueDate() {
         return dueDate;
     }
 
+    @SuppressWarnings("unused")
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 
+    @SuppressWarnings("unused")
     public String getMinimumAmountDue() {
         return minimumAmountDue;
     }
 
+    @SuppressWarnings("unused")
     public void setMinimumAmountDue(String minimumAmountDue) {
         this.minimumAmountDue = minimumAmountDue;
     }
 
+    @SuppressWarnings("unused")
     public String getCreationDate() {
         return creationDate;
     }
 
+    @SuppressWarnings("unused")
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
+    @SuppressWarnings("unused")
     public String getModificationDate() {
         return modificationDate;
     }
 
+    @SuppressWarnings("unused")
     public void setModificationDate(String modificationDate) {
         this.modificationDate = modificationDate;
     }
 
+    @SuppressWarnings("unused")
     public List<CustomDataItem> getCustomData() {
         return customData;
     }
 
+    @SuppressWarnings("unused")
     public void setCustomData(ArrayList<CustomDataItem> customData) {
         this.customData = customData;
     }
 
+    @SuppressWarnings("unused")
     public ArrayList<MetaData> getMetaDataObject() {
         return metaDataObject;
     }
 
+    @SuppressWarnings("unused")
     public void setMetaDataObject(ArrayList<MetaData> metaDataObject) {
         this.metaDataObject = metaDataObject;
     }

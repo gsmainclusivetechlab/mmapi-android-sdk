@@ -20,6 +20,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@SuppressWarnings("ALL")
 public class BillPaymentController extends Common{
 
 
@@ -156,10 +157,12 @@ public class BillPaymentController extends Common{
 
     }
 
+    @SuppressWarnings("unused")
     public static BillPaymentController getInstance() {
         return BillPaymentController.SingletonCreationAdmin.INSTANCE;
     }
 
+    @SuppressWarnings("unused")
     private static class SingletonCreationAdmin {
         private static final BillPaymentController INSTANCE = new BillPaymentController();
     }

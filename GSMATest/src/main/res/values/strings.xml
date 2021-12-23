@@ -2,6 +2,6 @@
     <string name="app_name">GSMA Sample Application</string>
     <string name="consumer_key">59vthmq3f6i15v6jmcjskfkmh</string>
     <string name="consumer_secret">ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb</string>
-    <string name="callback_url">https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io</string>
+    <string name="callback_url" tools:ignore="TypographyDashes">https://3a38bb51-0e77-4317-a54a-abda601877c9.mock.pstmn.io</string>
     <string name="api_key">oVN89kXyTx1cKT3ZohH7h6foEmQmjqQm3OK2U8Ue</string>
 </resources>
