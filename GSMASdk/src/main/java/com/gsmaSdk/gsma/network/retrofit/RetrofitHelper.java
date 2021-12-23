@@ -4,6 +4,7 @@ package com.gsmaSdk.gsma.network.retrofit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
+import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.Token;
@@ -13,6 +14,7 @@ import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.network.deserializers.BatchCompletionsDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.BatchRejectionsDeserializer;
+import com.gsmaSdk.gsma.network.deserializers.BillPaymentsDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.BillResponseDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.MissingCodeDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.MissingResponseDeserializer;
@@ -71,6 +73,7 @@ public final class RetrofitHelper {
         gsonBuilder.registerTypeAdapter(BatchCompletion.class, new BatchCompletionsDeserializer());
         gsonBuilder.registerTypeAdapter(MissingResponse.class, new MissingResponseDeserializer());
         gsonBuilder.registerTypeAdapter(Bills.class, new BillResponseDeserializer());
+        gsonBuilder.registerTypeAdapter(BillPayments.class, new BillPaymentsDeserializer());
         Gson myGson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
         return GsonConverterFactory.create(myGson);
     }

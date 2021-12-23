@@ -22,6 +22,7 @@ import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.bills.BillPay;
+import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
@@ -292,13 +293,13 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
 
-        SDKManager.billPayment.viewBillPayment(identifierArrayList, transactionFilter, transactionRef, new BillPaymentInterface() {
+        SDKManager.billPayment.viewBillPayment(identifierArrayList, transactionFilter, "REF-000001", new BillPaymentInterface() {
             @Override
-            public void onBillPaymentSuccess(BillPay billPayment) {
+            public void onBillPaymentSuccess(BillPayments billPayments) {
                 hideLoading();
                 Utils.showToast(BillPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(billPayment));
-                Log.d(SUCCESS, "onBillPaymentSuccess: " + new Gson().toJson(billPayment));
+                txtResponse.setText(new Gson().toJson(billPayments));
+                Log.d(SUCCESS, "onBillPaymentSuccess: " + new Gson().toJson(billPayments));
             }
 
             @Override

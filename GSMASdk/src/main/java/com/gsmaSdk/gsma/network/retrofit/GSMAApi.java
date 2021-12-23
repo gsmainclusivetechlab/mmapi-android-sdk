@@ -11,6 +11,7 @@ import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.bills.BillPay;
+import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
@@ -506,7 +507,7 @@ public final class GSMAApi {
      * @param billReference      - Bill Reference
      * @param apiRequestCallback Listener for api operation
      */
-    public void viewBillPayment(String uuid, String accountIdentifier, HashMap<String, String> params,String billReference, APIRequestCallback<BillPay> apiRequestCallback) {
+    public void viewBillPayment(String uuid, String accountIdentifier, HashMap<String, String> params,String billReference, APIRequestCallback<BillPayments> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewBillPayment(PaymentConfiguration.getUrlVersion(), accountIdentifier, billReference, headers, params), apiRequestCallback));
     }
