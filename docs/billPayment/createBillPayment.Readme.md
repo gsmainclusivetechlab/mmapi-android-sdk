@@ -3,7 +3,7 @@
 `Here, createBillPayment(['identifierType' => 'identifier'], billReference, $billPay) creates a POST request to /accounts/{identifierType}/{identifier}/bills/{billReference}/payments`
 
 > `Provided with a valid object representation, this endpoint allows for a new bill payment to be created for a specific account where one identifier suffices to uniquely identify an account.`
-`Here, createBillPayment([ 'identifierType1' => 'identifier1', 'identifierType2' => 'identifier2', 'identifierType3' => 'identifier3' ], billReference, $billPay) creates a POST request to /accounts/{AccountIdentifiers}/bills/{billReference}/payments`
+`Here, createBillPayment([ 'identifierType1' => 'identifier1', 'identifierType2' => 'identifier2', 'identifierType3' => 'identifier3' ], billReference, billPay) creates a POST request to /accounts/{AccountIdentifiers}/bills/{billReference}/payments`
 
 > `Provided with a valid object representation, this endpoint allows for a new bill payment to be created for a specific account where a single identifier is not sufficient to identify an account.`
 ### Usage/Examples
