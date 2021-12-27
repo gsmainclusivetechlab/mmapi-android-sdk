@@ -1,8 +1,10 @@
- # Create A Reversal
- 
-In certain scenarios a provider may need to reverse a transaction. We need to create a reversal object of this transaction.
+# Create A Reversal
 
-Create the Reversal Object
+`Here, createReversal(String transactionReference) creates a POST request to 
+/transactions/{transactionReference}/reversals`
+
+> `Provided with a valid object representation, this endpoint allows for a new reversal to be created.`
+
 
 ```java
 private void createPaymentReversalObject() {
