@@ -5,7 +5,7 @@ The availability of a service can be checked using this functions
 ### Usage/Examples
 
 ```java
-   SDKManager.merchantPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
+   SDKManager.accountLinking.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 
