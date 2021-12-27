@@ -224,14 +224,14 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
 
 
     private void createAccountIdentifier() {
-        identifierArrayList = new ArrayList<>();
+            identifierArrayList = new ArrayList<>();
 
-        //account id
-        Identifier identifierAccount = new Identifier();
-        identifierAccount.setKey("accountid");
-        identifierAccount.setValue("2000");
+            //account id
+            Identifier identifierAccount = new Identifier();
+            identifierAccount.setKey("accountid");
+            identifierAccount.setValue("2000");
 
-        identifierArrayList.add(identifierAccount);
+            identifierArrayList.add(identifierAccount);
 
     }
 
