@@ -1,4 +1,4 @@
- Create A BillPay Transaction
+ # Create A BillPay Transaction
 
 `createBillTransaction() creates a POST request to /transactions/type/billpay`
 
