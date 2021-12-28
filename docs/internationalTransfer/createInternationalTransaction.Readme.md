@@ -17,8 +17,7 @@ private String serverCorrelationId;
 ```
 
 ```java
-    private void createInternationalTransferObject() {
-       transactionRequest=new Transaction();
+      transactionRequest=new Transaction();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
             return;
@@ -141,15 +140,14 @@ private String serverCorrelationId;
             transactionRequest.setRequestingOrganisation(requestingOrganisation);
 
             performInternationalTransfer();
-        }
-    }
+       
+    
 
 ```
 
 
 ```java
 
-private void performInternationalTransfer() {
 
 SDKManager.internationalTransfer.createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
@@ -173,7 +171,6 @@ SDKManager.internationalTransfer.createInternationalTransaction(NotificationMeth
             }
         });  
  
-}
 
 ```
 
