@@ -25,7 +25,7 @@
 
 ```java
 
-  debitMandateRequest = new DebitMandate();
+        debitMandateRequest = new DebitMandate();
 
         //payee object of debit mandate
         ArrayList<AccountIdentifier> payeeItemArrayList = new ArrayList<>();
