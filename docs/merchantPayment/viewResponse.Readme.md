@@ -25,7 +25,6 @@
 ### Example Output
 
 ```json
-200
 {
  	"Transaction": [{
  		"amount": "200.00",
