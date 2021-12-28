@@ -27,9 +27,9 @@ ArrayList<Identifier> identifierArrayList;
 ```java
 
  
-        TransactionFilter transactionFilter = new TransactionFilter();
-        transactionFilter.setLimit(5);
-        transactionFilter.setOffset(0);
+ TransactionFilter transactionFilter = new TransactionFilter();
+ transactionFilter.setLimit(5);
+ transactionFilter.setOffset(0);
  
  SDKManager.internationalTransfer.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
             @Override
