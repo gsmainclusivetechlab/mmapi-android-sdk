@@ -7,10 +7,8 @@
 
 
 ```java
-private void createPaymentReversalObject() {
         reversalObject = new ReversalObject();
         reversalObject.setReversal("reversal");
- }
 ```
 Call the reversal function with reference Id of the transaction obtained.
 
