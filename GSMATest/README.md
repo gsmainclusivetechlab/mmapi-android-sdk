@@ -68,7 +68,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 2.The landing page will have list of all uses cases
 
-3.Click on use case link and the app will redirect to merchant payment activity
+3.Click on use case link and the app will redirect to corresponding activity
 
 4.The activity contains all scenarios for a particular use case
 
@@ -94,7 +94,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#auth-code)
 * [Merchant Payment Refund](#refund)
 * [Merchant Payment Reversal](#reversal)
-* [Obtain a Merchant Balance](#balance)
+* [Obtain a Merchant Balance](#balances)
 * [Retrieve Payments for a Merchant](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
@@ -401,7 +401,8 @@ The objectReference is passed as a parameter to view auth code function to retri
 }
 
 ```
-<a name="balance"> </a>
+
+<a name="balances"></a>
 
 # Balance
 
