@@ -1,8 +1,11 @@
 
+# Create a Transaction
 
-# Create A Refund Transaction
+`Here, createRefundTransaction() creates a POST request to /transactions/type/adjustment`
 
-Create a refund request with transaction parameter
+> `Provided with a valid object representation, this endpoint allows for a new transaction to be created for a given transaction type passed via the URL.`
+
+
 
 ```java
 
