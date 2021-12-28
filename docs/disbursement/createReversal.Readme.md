@@ -14,10 +14,8 @@ Declare the revesal object
 ```
 
 ```java
-
         reversalObject = new Reversal();
         reversalObject.setType("reversal");
-   
 ```
 Call the reversal function with reversal and reference Id of transaction obtained using the polling method
 
