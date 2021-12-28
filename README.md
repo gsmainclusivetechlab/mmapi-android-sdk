@@ -677,40 +677,40 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td>Successful Retrieval of Bills</td>
     <td><a href="/docs/billPayment/viewAccountBills.Readme.md">Retrieve a Set of Bills</a></td>
     <td>viewAccountBills</td>
-    <td>array $accountIdentifier, array $filter = null</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveBillPaymentInterface retrieveBillPaymentInterface</td>
   </tr>
   <tr>
     <td rowspan="2">Make a Successful Bill Payment with Callback</td>
     <td><a href="/docs/billPayment/createBillTransaction.Readme.md">Create a Bill Transaction</a></td>
     <td>createBillTransaction</td>
-    <td>Transaction $transaction, string $callBackUrl = null</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/billPayment/createBillPayment.Readme.md">Make a Bill Payment</a></td>
     <td>createBillPayment</td>
-    <td>array $accountIdentifier, string $billReference, BillPay $billPay</td>
+    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,BillPayment billpayment,String billreference,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td rowspan="3">Make a Bill Payment with Polling</td>
     <td><a href="/docs/billPayment/createBillPayment.Readme.md">Make a Bill Payment</a></td>
     <td>createBillPayment</td>
-    <td>array $accountIdentifier, string $billReference, BillPay $billPay</td>
+    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,BillPayment billpayment,String billreference,RequestStateInterface requestStateInterface</td>
   </tr>
    <tr>
     <td><a href="/docs/billPayment/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
     <td>viewRequestState</td>
-    <td>string $serverCorrelationId</td>
-  </tr>
+    <td>String serverCorrelationId</td>
+   </tr>
   <tr>
     <td><a href="/docs/billPayment/viewBillPayment.Readme.md">Retrieve Bill Payments for a Given Bill</a></td>
     <td>viewBillPayment</td>
-    <td>array $accountIdentifier, string $billReference, array $filter=null</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,String billreference,BillPaymentInterface billPaymentInterface</td>
   </tr>
    <tr>
     <td>Retrieval of Bill Payments</td>
     <td><a href="/docs/billPayment/viewBillPayment.Readme.md">Retrieve a Set of Bill Payments</a></td>
     <td>viewBillPayment</td>
-    <td>array $accountIdentifier, string $billReference, array $filter=null</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,String billreference,BillPaymentInterface billPaymentInterface</td>
   </tr>
   <tr>
     <td>Check for Service Availability</td>
@@ -722,10 +722,12 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td>Retrieve a Missing API Response</td>
     <td><a href="/docs/billPayment/viewBillPayment.Readme.md">Retrieve a Missing Response</a></td>
     <td>viewResponse</td>
-    <td>string $clientCorrelationId, Object $objRef=null</td>
+    <td>String correlationId</td>
   </tr>
 </tbody>
 </table>
+
+
 
 
 
