@@ -12,14 +12,14 @@
 Obtain the balance of requested account,Pass the account identifier list  to the function to retrieve the balance details
 
 ```java
-    private void createAccountIdentifier(){
+   
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
         Identifier identifierAccount=new Identifier();
         identifierAccount.setKey("accountid");
         identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
-    }
+
 ```
 
 ```java
