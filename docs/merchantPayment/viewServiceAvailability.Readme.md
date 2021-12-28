@@ -1,6 +1,9 @@
-# Check Api Availability
+# Check API availability
 
-The availability of a service can be checked using this functions
+`Here, viewServiceAvailability() creates a GET request to /heartbeat`
+
+> `This endpoint returns the current status of the API.`
+
 
 ### Usage/Examples
 
