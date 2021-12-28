@@ -16,7 +16,7 @@ private ArrayList<Batch> batchArrayList;
 Create a batch array with following object
 
 ```java
- private void createBatchRequestObject(){
+
         //create a batch object
         Batch batchObject = new Batch();
         batchObject.setOp("replace");
@@ -24,7 +24,7 @@ Create a batch array with following object
         batchObject.setValue("approved");
         batchArrayList=new ArrayList<>();
         batchArrayList.add(batchObject);
-    }
+
 ```
 Call the update batch request function with batch id and batch array as input parameter
 
