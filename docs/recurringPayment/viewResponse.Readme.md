@@ -6,7 +6,7 @@
 ### Usage/Examples
 
 ```java
-        SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
+        SDKManager.recurringPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
             }
