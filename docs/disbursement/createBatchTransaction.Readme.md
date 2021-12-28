@@ -13,7 +13,7 @@
   ```
   
   ```java
-    private void createBulkTransactionObject() {
+ 
      
      bulkTransactionObject = new BatchTransaction();
 
@@ -45,8 +45,6 @@
         bulkTransactionObject.setScheduledStartDate("2019-12-11T15:08:03.158Z");
         bulkTransactionObject.setTransactions(transactionItems);
 
-
-    }
 ```
 Perform the bulk transaction using the following code
 
