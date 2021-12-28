@@ -111,7 +111,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Obtain a Disbursement Organisation Balance](#balance)
 * [Retrieve Transactions for a Disbursement Organisation](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
-* [Retrieve a Missing API Response]((#missing-response))
+* [Retrieve a Missing API Response](#missing-response))
 
 # International Transfers
 
