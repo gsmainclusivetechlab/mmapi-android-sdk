@@ -108,17 +108,17 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Bulk Disbursement with Maker / Checker](#bulk-disbursement-maker)
 * [Individual Disbursement Using the Polling Method](#disbursment-polling)
 * [Disbursement Reversal](#reversal)
-* [Obtain a Disbursement Organisation Balance](#balance)
+* [Obtain a Disbursement Organisation Balance](#balances)
 * [Retrieve Transactions for a Disbursement Organisation](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
-* [Retrieve a Missing API Response](#missing-response))
+* [Retrieve a Missing API Response](#missing-response)
 
 # International Transfers
 
 * [International Transfer via Hub](#international-transfer-hub)
 * [Bilateral International Transfer](#international-transfer-hub)
 * [International Transfer Reversal](#reversal)
-* [Obtain an FSP Balance](#balance)
+* [Obtain an FSP Balance](#balances)
 * [Retrieve Transactions for an FSP](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
@@ -132,7 +132,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Bilateral P2P Transfer](#p2p-transfer-bilateral)
 * [‘On-us’ P2P Transfer Initiated by a Third Party Provider](#p2p-transfer-switch)
 * [P2P Transfer Reversal](#reversal)
-* [Obtain an FSP Balance](#balance)
+* [Obtain an FSP Balance](#balances)
 * [Retrieve Transactions for an FSP](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
@@ -145,7 +145,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Recurring Payment Refund](#refund)
 * [Recurring Payment Reversal](#reversal)
 * [Payer sets up a Recurring Payment using MMP Channel](#setup-recurring)
-* [Obtain a Service Provider Balance](#balance)
+* [Obtain a Service Provider Balance](#balances)
 * [Retrieve Payments for a Service Provider](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
@@ -156,7 +156,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Perform a Transfer for a Linked Account](#transfer-account-link)
 * [Perform a Transfer using an Account Link via the Polling Method]
 * [Perform a Transfer Reversal]
-* [Obtain a Financial Service Provider Balance](#balance)
+* [Obtain a Financial Service Provider Balance](#balances)
 * [Retrieve Transfers for a Financial Service Provider](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
@@ -820,14 +820,9 @@ The object reference obtained from the request state is passed to view transacti
 
 This use case can be completed by clicking following button in sequential order
 
-<<<<<<< HEAD
 * Request a international Transfer Quotation
 * Perform a international Transfer
 
- ### Example Output - Request a international Transfer Quotation
-
-* Request a international Transfer Quotation
-* Perform a international Transfer
 
  ### Example Output - Request a international Transfer Quotation
  
@@ -1070,10 +1065,6 @@ Set up a recurring payment can be completed by clicking the following buttons
 
 ```
 
-<a name="take-polling"></a>
-
-# Take a recurring payment using polling method
-
 <a name="p2p-transfer-switch"></a>
 
 # P2P Transfer via Switch/On-us’ P2P Transfer Initiated by a Third Party Provider
@@ -1288,6 +1279,7 @@ Set up a recurring payment can be completed by clicking the following buttons
 
 
 ```
+
 
 <a name="take-polling"></a>
 
