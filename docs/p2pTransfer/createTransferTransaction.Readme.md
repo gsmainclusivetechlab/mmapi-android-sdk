@@ -13,7 +13,7 @@ private Transaction transactionRequest;
 ```
 
 ```java
-private void createP2PTransferObject() {
+
      if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
             return;
@@ -60,7 +60,7 @@ private void createP2PTransferObject() {
             transactionRequest.setCreditParty(creditPartyList);
 
             performTransfer();
-        }
+        
     }
 
 
