@@ -164,12 +164,10 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 # Bill Payment
 
 * [Successful Retrieval of Bills](#retrieval-bills)
-* [Unsuccessful Retrieval of Bills]
-* Make a Successful Bill Payment with Callback
-* Make an Unsuccessful Bill Payment with Callback
-* Make a Bill Payment with Polling
-* Retrieval of Bill Payments
-* Check for Service Availability
+* [Make a Successful Bill Payment with Callback](#make-bill-callback)
+* [Make a Bill Payment with Polling](#make-bill-callback)
+* [Retrieval of Bill Payments](#retrieve-payments)
+* [Check for Service Availability])(#check-for-service))
 
 
 
@@ -1548,7 +1546,54 @@ The Bill Payment with polling can be completed by clicking the followimg buttons
 
 ```json
 
-
+{
+ 	"billPayments": [{
+ 		"amountPaid": "0.99",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "GBP",
+ 		"customerReference": "customer ref 0001",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27",
+ 		"supplementaryBillReferenceDetails": [{
+ 			"paymentReferenceType": "type 1",
+ 			"paymentReferenceValue": "value 1"
+ 		}]
+ 	}, {
+ 		"amountPaid": "0.99",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "GBP",
+ 		"customerReference": "customer ref 0001",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27",
+ 		"supplementaryBillReferenceDetails": [{
+ 			"paymentReferenceType": "type 1",
+ 			"paymentReferenceValue": "value 1"
+ 		}]
+ 	}, {
+ 		"amountPaid": "55.00",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "AED",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27"
+ 	}, {
+ 		"amountPaid": "55.00",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "AED",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27"
+ 	}, {
+ 		"amountPaid": "55.00",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "AED",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27"
+ 	}]
+ }
 
 
 ```
