@@ -153,9 +153,9 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 # Account Linking
 
 * [Setup an Account Link](#setup-accountlink)
-* [Perform a Transfer for a Linked Account](#transfer-account-link)
-* [Perform a Transfer using an Account Link via the Polling Method](transfer-account-link-polling)
-* [Perform a Transfer Reversal]
+* [Perform a Transfer for a Linked Account](#perform-transfer)
+* [Perform a Transfer using an Account Link via the Polling Method](#transfer-account-link-polling)
+* [Perform a Transfer Reversal](#reversal)
 * [Obtain a Financial Service Provider Balance](#balances)
 * [Retrieve Transfers for a Financial Service Provider](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
@@ -165,9 +165,9 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 * [Successful Retrieval of Bills](#retrieval-bills)
 * [Make a Successful Bill Payment with Callback](#make-bill-callback)
-* [Make a Bill Payment with Polling](#make-bill-callback)
+* [Make a Bill Payment with Polling](#make-bill-polling)
 * [Retrieval of Bill Payments](#retrieve-payments)
-* [Check for Service Availability])(#check-for-service))
+* [Check for Service Availability](#check-for-service)
 
 
 
@@ -1400,6 +1400,28 @@ The setup an account link scenario can be completed by clicking the following bu
 
  ```
  
+ <a name="perform-transfer"></a>
+ 
+ # Perform a Transfer for Linked Account
+ 
+  Click the the following button to perform a transfer for a Linked Account
+ 
+ * Perform a Transfer for Linked Account
+ 
+  ### Example Output - Transfer
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+ ```
+ 
+
  <a name="transfer-account-link-polling"></a>
  
 # Perform a Transfer using an Account Link via the Polling Method
