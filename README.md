@@ -627,7 +627,7 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td rowspan="3">Perform a Transfer using an Account Link via the Polling Method</td>
     <td><a href="docs/accountLinking/createTransferTransaction.Readme.md">Use a Link to make a Transfer</a></td>
     <td>createTransferTransaction</td>
-    <td>NA</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/accountLinking/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
@@ -726,10 +726,6 @@ Contains functions for all the use case scenarios within Recurring Payments.
   </tr>
 </tbody>
 </table>
-
-
-
-
 
 
 
