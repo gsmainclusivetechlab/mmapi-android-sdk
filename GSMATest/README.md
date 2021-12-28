@@ -161,6 +161,18 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
+# Bill Payment
+
+* [Successful Retrieval of Bills](#retrieval-bills)
+* [Unsuccessful Retrieval of Bills]
+* Make a Successful Bill Payment with Callback
+* Make an Unsuccessful Bill Payment with Callback
+* Make a Bill Payment with Polling
+* Retrieval of Bill Payments
+* Check for Service Availability
+
+
+
 
 
 <a name="payee-initiated"></a>
@@ -1444,3 +1456,100 @@ The object reference obtained from the request state is passed to view transacti
 	"requestDate": "2021-11-30T12:37:15"
 }
 ```
+
+<a name="retrieval-bills"></a>
+
+# Successful Retrieval of Bills
+
+The successful Retrieval of bils scenarios can be completed by clicking the following buttons
+
+* View Account Bills
+
+ ### Example Output - View Account Bills
+ 
+ ```json
+   {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "440",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "pending"
+ }
+```
+
+<a name="make-bill-callback"></a>
+
+# Make a Successful Bill Payment with Callback
+
+The bill payment with callback can be completed by clicking the following methods
+
+ * Create Bill Transaction
+ * Create Bill Payments
+
+ ### Example Output - Create Bill Transaction
+ 
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "19686",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "0cebe7cf-6268-42b2-b2d3-de0986f7e41c",
+ 	"status": "pending"
+ }
+```
+
+ ### Example Output - Create Bill Payments
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+
+<a name="make-bill-polling"></a>
+
+# Make a Bill Payment with Polling
+
+The Bill Payment with polling can be completed by clicking the followimg buttons in sequential order
+
+* Create Bill Payment 
+* Request State
+* View Bill Payment
+
+### Example Output - Create Bill Payments
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+ ### Example Output - Request State
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+```
+
+### Example Output - View Bill Payment
+
+```json
+
+
+
+
+```
+
