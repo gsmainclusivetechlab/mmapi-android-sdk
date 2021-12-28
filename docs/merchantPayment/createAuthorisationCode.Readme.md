@@ -19,14 +19,11 @@ Mobile money payer/payee submits the request to generate a code which when prese
  Initialise the  authorization code with  amount,date and currency
 
  ```java
-     private void createCodeRequestObject() {
+ 
         authorisationCodeRequest = new AuthorisationCodeRequest();
         authorisationCodeRequest.setAmount("Place your amount here"); // eg:200.00
         authorisationCodeRequest.setRequestDate("Place your date here"); //sample format 2021-10-18T10:43:27.405Z
         authorisationCodeRequest.setCurrency("Place your currency"); //eg:RWF
-
-    }
-
 ```
 Obtain Authorization code to perform merchant payment,These scenario can be achieved by passing account identifiers to a function
 
