@@ -7,10 +7,10 @@
 
 
 ```java
-private void createPaymentReversalObject() {
+
         reversalObject = new ReversalObject();
         reversalObject.setReversal("reversal");
- }
+
 ```
 Call the reversal function with reference Id of the transaction obtained.
 
@@ -52,3 +52,10 @@ Call the reversal function with reference Id of the transaction obtained.
   "pollLimit": 100
 }
 ```
+
+### NOTE
+
+In asynchronous flows, a callback mechanism or polling mechanism is utilised to allow the client to determine the request's final state.
+Use the <a href="viewRequestState.Readme.md">viewRequestState()</a> function for the polling mechanism to receive the status of a request, and the <a href="viewTransaction.Readme.md">viewTransaction()</a>
+function to acquire the final representation of the Transaction object.
+
