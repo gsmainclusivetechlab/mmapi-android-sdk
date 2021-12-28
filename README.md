@@ -166,7 +166,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>Merchant Payment Reversal</td>
     <td><a href="/docs/merchantPayment/createReversal.Readme.md">Perform a Merchant Payment Reversal</a></td>
     <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,RequestStateInterface requestStateInterface</td>
+    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalobject,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Obtain a Merchant Balance</td>
@@ -502,21 +502,22 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td>Setup a Recurring Payment</td>
     <td><a href="/docs/recurringPayment/createAccountDebitMandate.Readme.md">Setup a Recurring Payment</a></td>
     <td>createAccountDebitMandate</td>
-    <td>Identifiers identifiers</td>
+    <td>NotificationMethod, string callBackUrl="",DebitMandateRequest debitMandateRequest,ArrayList<Identifier> identifierArrayList,RequestStateInterface requestStateInterface
+</td>
   </tr>
   
   <tr>
     <td>Take a Recurring Payment</td>
     <td><a href="/docs/recurringPayment/createMerchantTransaction.Readme.md">Take a Recurring Payment</a></td>
     <td>createMerchantTransaction</td>
-    <td>NA</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
   </tr>
   
   <tr>
     <td rowspan="3">Take a Recurring Payment using the Polling Method</td>
     <td><a href="/docs/recurringPayment/createMerchantTransaction.Readme.md">Take a Recurring Payment</a></td>
     <td>createMerchantTransaction</td>
-    <td>NA</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/recurringPayment/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
@@ -533,35 +534,35 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td>Recurring Payment Refund</td>
     <td><a href="/docs/recurringPayment/createRefundTransaction.Readme.md">Perform a Recurring Payment Refund</a></td>
     <td>createRefundTransaction</td>
-    <td>NA</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
   </tr>
   
   <tr>
     <td>Recurring Payment Reversal</td>
     <td><a href="/docs/recurringPayment/createReversal.Readme.md">Perform a Merchant Payment Reversal</a></td>
     <td>createReversal</td>
-    <td>String transactionReference</td>
+    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalobject,RequestStateInterface requestStateInterface</td>
   </tr>
   
   <tr>
     <td>Payer sets up a Recurring Payment using MMP Channel</td>
     <td><a href="/docs/recurringPayment/createAccountDebitMandate.Readme.md">Setup a Recurring Payment</a></td>
     <td>createAccountDebitMandate</td>
-    <td>Identifiers identifiers</td>
+    <td>NotificationMethod, string callBackUrl="",DebitMandateRequest debitMandateRequest,ArrayList<Identifier> identifierArrayList,RequestStateInterface requestStateInterface
   </tr>
   
   <tr>
     <td>Obtain a Service Provider Balance</td>
     <td><a href="/docs/recurringPayment/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
     <td>viewAccountBalance</td>
-    <td>Identifiers identifiers</td>
+    <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
   </tr>
   
   <tr>
     <td>Retrieve Payments for a Service Provider</td>
     <td><a href="/docs/recurringPayment/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
     <td>viewAccountTransactions</td>
-    <td>Identifiers identifiers, TransactionFilter filter</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
   </tr>
   
   <tr>
@@ -575,7 +576,7 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td>Retrieve a Missing API Response</td>
     <td><a href="/docs/recurringPayment/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
     <td>viewResponse</td>
-    <td>String clientCorrelationId, Class objectReference</td>
+    <td>String correlationId</td>
   </tr>
   
 </tbody>
