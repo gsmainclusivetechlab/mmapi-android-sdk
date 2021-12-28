@@ -1,11 +1,9 @@
 # Retrieve Bill Payments for a Given Bill
 
-1. `viewBillPayment([ identifierType => identifier ], billReference, $billPay) creates a GET request to /accounts/{identifierType}/{identifier}/bills/{billReference}/payments`
-
-> `This endpoint allows for bill payments for a specific account to be returned where one identifier suffices to uniquely identify an account.`
-2. `viewBillPayment([ 'identifierType1' => 'identifier1', 'identifierType2' => 'identifier2', 'identifierType3' => 'identifier3' ], billReference, $billPay) creates a GET request to /accounts/{AccountIdentifiers}/bills/{billReference}/payments`
+1. `viewBillPayment() creates a GET request to /accounts/{identifierType}/{identifier}/bills/{billReference}/payments`
 
 > `This endpoint allows for bill payments for a specific account to be returned where a single identifier is not sufficient to identify an account.`
+
 ### Usage/Examples
 
 ```java
