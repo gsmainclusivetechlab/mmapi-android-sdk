@@ -6,14 +6,13 @@
 ### Usage/Examples
 
 ```java
-    private void createAccountIdentifier(){
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
         Identifier identifierAccount=new Identifier();
         identifierAccount.setKey("accountid");
         identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
-    }
+
 ```
 
 ```java
