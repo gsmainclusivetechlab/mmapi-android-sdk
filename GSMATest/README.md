@@ -154,7 +154,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 * [Setup an Account Link](#setup-accountlink)
 * [Perform a Transfer for a Linked Account](#transfer-account-link)
-* [Perform a Transfer using an Account Link via the Polling Method]
+* [Perform a Transfer using an Account Link via the Polling Method](transfer-account-link-polling)
 * [Perform a Transfer Reversal]
 * [Obtain a Financial Service Provider Balance](#balances)
 * [Retrieve Transfers for a Financial Service Provider](#retrieve-payments)
@@ -1334,7 +1334,7 @@ The object reference obtained from the request state is passed to view transacti
 
 <a name="setup-accountlink"></a>
 
-# [Setup an Account Link]
+# Setup an Account Link
 
 The setup an account link scenario can be completed by clicking the following buttons
 
@@ -1400,7 +1400,9 @@ The setup an account link scenario can be completed by clicking the following bu
 
  ```
  
-
+ <a name="transfer-account-link-polling"></a>
+ 
+# Perform a Transfer using an Account Link via the Polling Method
 
 Click the following buttons to perform take a recurring payment using following,Before that make sure that you have completed take a recurring payment scenario
 
