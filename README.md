@@ -599,7 +599,7 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td rowspan="3">Common</td>
     <td><a href="/docs/accountLinking/viewAccountBalance.Readme.md">Obtain a Financial Service Provider Balance</a></td>
     <td>viewAccountBalance</td>
-    <td>Identifiers identifiers</td>
+    <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
   </tr>
   <tr>
     <td><a href="/docs/accountLinking/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
@@ -609,19 +609,19 @@ Contains functions for all the use case scenarios within Recurring Payments.
   <tr>
     <td><a href="/docs/accountLinking/viewResponse.Readme.md">Retrieve a Missing API Response</a></td>
     <td>viewResponse</td>
-    <td>String clientCorrelationId, Class<T> objectReference</td>
+    <td>String correlationId</td>
   </tr>
   <tr>
     <td>Setup an Account Link</td>
     <td><a href="/docs/accountLinking/createAccountLink.Readme.md">Establish an Account to Account Link</a></td>
     <td>createAccountLink</td>
-    <td>Identifiers identifiers</td>
+    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierArrayList,Link accountLinkObject,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Perform a Transfer for a Linked Account</td>
     <td><a href="/docs/accountLinking/createTransferTransaction.Readme.md">Use a Link to make a Transfer</a></td>
     <td>createTransferTransaction</td>
-    <td>NA</td>
+    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td rowspan="3">Perform a Transfer using an Account Link via the Polling Method</td>
@@ -643,19 +643,19 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td>Perform a Transfer Reversal</td>
     <td><a href="docs/accountLinking/createReversal.Readme.md">Perform a Transaction Reversal</a></td>
     <td>createReversal</td>
-    <td>String transactionReference</td>
+    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalobject,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Retrieve Transfers for a Financial Service Provider</td>
     <td><a href="/docs/accountLinking/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
     <td>viewAccountTransactions</td>
-    <td>Identifiers identifiers</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
   </tr>
   <tr>
     <td>Read a specific link for a given account.</td>
     <td><a href="/docs/accountLinking/viewAccountLink.Readme.md">Read a specific link for a given account</a></td>
     <td>viewAccountLink</td>
-    <td>Identifiers identifiers, String linkReference</td>
+    <td>ArrayList<Identifier> identifierList,String transactionReference,AccountLinkInterface accountLinkInterface</td>
   </tr>
 </tbody>
 </table>
