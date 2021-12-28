@@ -1,6 +1,6 @@
 # View A Response
 
-`Here, viewResponse(String clientCorrelationId, Class<T> objectReference) creates a GET request to /responses/{clientCorrelationId}`
+`Here, viewResponse() creates a GET request to /responses/{clientCorrelationId}`
 
 > `This endpoint returns a specific response.`
 ### Usage/Examples
