@@ -17,7 +17,7 @@
 ```java
 
     //create a transaction object for international transfer request
-    private void createInternationalQuotationObject() {
+ 
         quotationRequest = new Quotation();
 
 
@@ -127,7 +127,7 @@
         //request for quotation
         requestQuotation();
 
-    }
+   
 
 ```
 
