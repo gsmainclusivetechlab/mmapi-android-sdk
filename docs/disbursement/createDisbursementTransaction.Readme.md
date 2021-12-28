@@ -18,7 +18,6 @@ private String transactionRef = "";
 
 ```java
 
-    private void createTransactionObject() {
         transactionRequest = new Transaction();
         ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
         ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
@@ -39,7 +38,7 @@ private String transactionRef = "";
         transactionRequest.setAmount("200.00");
         transactionRequest.setCurrency("RWF");
 
-    }
+   
 
 ```
  Initiate the mechant pay request using the following code
@@ -95,4 +94,5 @@ private String transactionRef = "";
   "objectReference": "8331",
   "pollLimit": 100
 }
+
 ```
