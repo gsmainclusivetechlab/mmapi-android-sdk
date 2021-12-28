@@ -74,7 +74,7 @@
 ```json
  
  {
- 	"notificationMethod": "callback",
+ 	"notificationMethod": "polling",
  	"objectReference": "1199",
  	"pollLimit": 100,
  	"serverCorrelationId": "3befe732-513e-4bc0-a99d-113161157b2e",
