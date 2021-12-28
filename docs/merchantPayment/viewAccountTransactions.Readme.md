@@ -1,9 +1,13 @@
+
 # View Account Specific Transaction
 
-Merchant can retrieve all transaction details
+`Here, viewAccountTransactions(Identifiers identifiers, TransactionFilter filter) creates a GET request to /accounts/{identifierType}/{identifier}/transactions`
+
+> `This endpoint returns transactions linked to a specific account.`
+
 
 ```java
-   private void createAccountIdentifier(){
+ 
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
 
@@ -11,26 +15,30 @@ Merchant can retrieve all transaction details
         identifierAccount.setKey("accountid");
         identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
-    }
+   
 
 ```
 
 ```java
 
- SDKManager.merchantPayment.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+        TransactionFilter transactionFilter=new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        SDKManager.merchantPayment.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
             
             }
 
             @Override
-            public void onRetrieveTransactionSuccess(Transaction transaction) {
-           
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+            
             }
 
             @Override
             public void onRetrieveTransactionFailure(GSMAError gsmaError) {
-         
+               
             }
         });
  
