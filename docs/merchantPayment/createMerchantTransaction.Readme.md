@@ -8,7 +8,6 @@
 
 ```java
 
-private void createTransactionObject() {
         transactionRequest = new TransactionRequest();
         ArrayList<DebitPartyItem> debitPartyList = new ArrayList<>();
         ArrayList<CreditPartyItem> creditPartyList = new ArrayList<>();
@@ -27,8 +26,8 @@ private void createTransactionObject() {
         transactionRequest.setCreditParty(creditPartyList);
         transactionRequest.setAmount("Place your amount"); //eg:200.00
         transactionRequest.setCurrency("Place your currency here"); // for eg: RWF
-  }
   
+ 
 ```
 
  Initiate the mechant pay request using the following code
@@ -85,3 +84,10 @@ private void createTransactionObject() {
   "pollLimit": 100
 }
 ```
+
+### NOTE
+
+In asynchronous flows, a callback mechanism or polling mechanism is utilised to allow the client to determine the request's final state.
+Use the <a href="viewRequestState.Readme.md">viewRequestState()</a> function for the polling mechanism to receive the status of a request, and the <a href="viewTransaction.Readme.md">viewTransaction()</a>
+function to acquire the final representation of the Transaction object.
+
