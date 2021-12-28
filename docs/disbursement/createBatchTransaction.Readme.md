@@ -15,7 +15,7 @@
   ```java
  
      
-     bulkTransactionObject = new BatchTransaction();
+        bulkTransactionObject = new BatchTransaction();
 
         ArrayList<Transaction> transactionItems = new ArrayList<>();
         Transaction transactionItem = new Transaction();
