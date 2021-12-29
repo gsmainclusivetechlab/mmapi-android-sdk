@@ -145,6 +145,8 @@ public class LandingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case 7:
                 //Agent Services
+                startActivity(new Intent(LandingActivity.this,AgentServicesActivity.class));
+
                 break;
             default:
                 break;
