@@ -229,7 +229,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
             //account id
             Identifier identifierAccount = new Identifier();
             identifierAccount.setKey("accountid");
-            identifierAccount.setValue("2000");
+            identifierAccount.setValue("1");
 
             identifierArrayList.add(identifierAccount);
 
@@ -453,7 +453,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
         showLoading();
 
         TransactionFilter transactionFilter = new TransactionFilter();
-        transactionFilter.setLimit(5);
+        transactionFilter.setLimit(2);
         transactionFilter.setOffset(0);
 
         SDKManager.accountLinking.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {

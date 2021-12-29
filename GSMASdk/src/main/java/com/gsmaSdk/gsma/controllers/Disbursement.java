@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.Batch;
+import com.gsmaSdk.gsma.models.transaction.PatchData;
 import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
 import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
@@ -163,7 +163,7 @@ public class Disbursement extends Common {
      * @param batchArrayList List contains required details for updating a batch disbursement
      */
 
-    public void updateBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String batchId, @NonNull ArrayList<Batch> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
+    public void updateBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String batchId, @NonNull ArrayList<PatchData> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;

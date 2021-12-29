@@ -166,7 +166,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
     <td>Merchant Payment Reversal</td>
     <td><a href="/docs/merchantPayment/createReversal.Readme.md">Perform a Merchant Payment Reversal</a></td>
     <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalobject,RequestStateInterface requestStateInterface</td>
+    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalObject,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Obtain a Merchant Balance</td>
@@ -541,7 +541,7 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td>Recurring Payment Reversal</td>
     <td><a href="/docs/recurringPayment/createReversal.Readme.md">Perform a Merchant Payment Reversal</a></td>
     <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalobject,RequestStateInterface requestStateInterface</td>
+    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalObject,RequestStateInterface requestStateInterface</td>
   </tr>
   
   <tr>
@@ -643,7 +643,7 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td>Perform a Transfer Reversal</td>
     <td><a href="docs/accountLinking/createReversal.Readme.md">Perform a Transaction Reversal</a></td>
     <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalobject,RequestStateInterface requestStateInterface</td>
+    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalObject,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td>Retrieve Transfers for a Financial Service Provider</td>
@@ -688,13 +688,13 @@ Contains functions for all the use case scenarios within Recurring Payments.
   <tr>
     <td><a href="/docs/billPayment/createBillPayment.Readme.md">Make a Bill Payment</a></td>
     <td>createBillPayment</td>
-    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,BillPayment billpayment,String billreference,RequestStateInterface requestStateInterface</td>
+    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,BillPayment billPayment,String billReference,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td rowspan="3">Make a Bill Payment with Polling</td>
     <td><a href="/docs/billPayment/createBillPayment.Readme.md">Make a Bill Payment</a></td>
     <td>createBillPayment</td>
-    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,BillPayment billpayment,String billreference,RequestStateInterface requestStateInterface</td>
+    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,BillPayment billPayment,String billReference,RequestStateInterface requestStateInterface</td>
   </tr>
    <tr>
     <td><a href="/docs/billPayment/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
@@ -704,13 +704,13 @@ Contains functions for all the use case scenarios within Recurring Payments.
   <tr>
     <td><a href="/docs/billPayment/viewBillPayment.Readme.md">Retrieve Bill Payments for a Given Bill</a></td>
     <td>viewBillPayment</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,String billreference,BillPaymentInterface billPaymentInterface</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,String billReference,BillPaymentInterface billPaymentInterface</td>
   </tr>
    <tr>
     <td>Retrieval of Bill Payments</td>
     <td><a href="/docs/billPayment/viewBillPayment.Readme.md">Retrieve a Set of Bill Payments</a></td>
     <td>viewBillPayment</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,String billreference,BillPaymentInterface billPaymentInterface</td>
+    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,String billReference,BillPaymentInterface billPaymentInterface</td>
   </tr>
   <tr>
     <td>Check for Service Availability</td>

@@ -22,7 +22,7 @@ import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.Token;
-import com.gsmaSdk.gsma.models.transaction.Batch;
+import com.gsmaSdk.gsma.models.transaction.PatchData;
 import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
 import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
@@ -353,7 +353,7 @@ public final class GSMAApi {
      * @param batchId            batch Id of a batch transaction
      * @param apiRequestCallback Listener for api operation
      */
-    public void updateBatch(String uuid, Enum notificationMethod, String callbackUrl, String batchId, ArrayList<Batch> batchArrayList, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+    public void updateBatch(String uuid, Enum notificationMethod, String callbackUrl, String batchId, ArrayList<PatchData> batchArrayList, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
         if (xCallback.isEmpty()) {

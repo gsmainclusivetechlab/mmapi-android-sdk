@@ -107,7 +107,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("2000");
+        identifierAccount.setValue("1");
 
         identifierArrayList.add(identifierAccount);
     }

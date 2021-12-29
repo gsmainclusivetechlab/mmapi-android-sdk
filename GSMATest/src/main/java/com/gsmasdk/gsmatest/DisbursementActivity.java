@@ -27,7 +27,7 @@ import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.transaction.Batch;
+import com.gsmaSdk.gsma.models.transaction.PatchData;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
@@ -60,7 +60,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
     private String correlationId = "";
-    private ArrayList<Batch> batchArrayList;
+    private ArrayList<PatchData> patchDataArrayList;
     private ProgressDialog progressdialog;
     ArrayList<Identifier> identifierArrayList;
     private final String[] disbursementArray = {
@@ -163,12 +163,12 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
 
     private void createBatchRequestObject() {
         //create a batch object
-        Batch batchObject = new Batch();
+        PatchData batchObject = new PatchData();
         batchObject.setOp("replace");
         batchObject.setPath("/batchStatus");
         batchObject.setValue("approved");
-        batchArrayList = new ArrayList<>();
-        batchArrayList.add(batchObject);
+        patchDataArrayList = new ArrayList<>();
+        patchDataArrayList.add(batchObject);
     }
 
     /**
@@ -594,7 +594,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     //Update Batch Transaction
     private void updateBatch() {
         showLoading();
-        SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING, "", "REF-1635765084301", batchArrayList, new RequestStateInterface() {
+        SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING, "", "REF-1635765084301", patchDataArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

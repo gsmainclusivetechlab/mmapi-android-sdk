@@ -1476,7 +1476,7 @@ The object reference obtained from the request state is passed to view transacti
 
 # Successful Retrieval of Bills
 
-The successful Retrieval of bils scenarios can be completed by clicking the following buttons
+The successful Retrieval of bills scenarios can be completed by clicking the following buttons
 
 * View Account Bills
 
@@ -1529,7 +1529,7 @@ The bill payment with callback can be completed by clicking the following method
 
 # Make a Bill Payment with Polling
 
-The Bill Payment with polling can be completed by clicking the followimg buttons in sequential order
+The Bill Payment with polling can be completed by clicking the following buttons in sequential order
 
 * Create Bill Payment 
 * Request State

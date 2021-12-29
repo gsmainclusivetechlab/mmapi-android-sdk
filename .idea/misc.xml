@@ -740,6 +740,7 @@
     <pattern value="com.gsmaSdk.gsma.models.authorisationCode.MetaData" />
     <pattern value="com.gsmaSdk.gsma.models.authorisationCode.MetaData" method="setKey" />
     <pattern value="com.gsmaSdk.gsma.models.authorisationCode.MetaData" method="setValue" />
+    <pattern value="com.gsmaSdk.gsma.network.deserializers.BillPaymentsDeserializer" />
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="JavadocGenerationManager">

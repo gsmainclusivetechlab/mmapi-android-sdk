@@ -7,30 +7,24 @@
 ### Usage / Examples
 
 
-```java
-
-private ArrayList<Batch> batchArrayList;
-
-```
-    
 Create a batch array with following object
 
 ```java
 
         //create a batch object
-        Batch batchObject = new Batch();
-        batchObject.setOp("replace");
-        batchObject.setPath("/batchStatus");
-        batchObject.setValue("approved");
-        batchArrayList=new ArrayList<>();
-        batchArrayList.add(batchObject);
+             PatchData batchObject = new PatchData();
+             batchObject.setOp("replace");
+             batchObject.setPath("/batchStatus");
+             batchObject.setValue("approved");
+             patchDataArrayList = new ArrayList<>();
+             patchDataArrayList.add(batchObject);
 
 ```
 Call the update batch request function with batch id and batch array as input parameter
 
 ```java
 
-SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING,"","Place your batch id here",batchArrayList, new RequestStateInterface() {
+SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING,"","Place your batch id here",patchDataArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
              

@@ -3,7 +3,8 @@ package com.gsmaSdk.gsma.models.transaction;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Batch {
+@SuppressWarnings("ALL")
+public class PatchData {
 
     @SerializedName("op")
     @Expose
