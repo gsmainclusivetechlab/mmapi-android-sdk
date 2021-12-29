@@ -95,9 +95,10 @@ In the directory where you installed the SDK,  include this code to make the SDK
 -   [International Transfers](#international-transfers)
 -   [P2P Transfers](#p2p-transfers)
 -   [Recurring Payments](#recurring)
--   [Account Linking](#account-link)
+-   [Account Linking](#account-linking)
 -   [Bill Payments](#bill-payments)
 
+<a name="merchant-payments"></a>
 
 ### Merchant Payments
 
@@ -195,6 +196,8 @@ In the directory where you installed the SDK,  include this code to make the SDK
   <tr></tr>
 </tbody>
 </table>
+
+<a name="disbursement"></a>
 
 ### Disbursements
 
@@ -313,7 +316,8 @@ In the directory where you installed the SDK,  include this code to make the SDK
 
 
 
- 
+ <a name="international-transfers"></a>
+
 ### International Transfers
 
 <table>
@@ -394,7 +398,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
 </table>
 
 
-
+<a name="p2p-transfers"></a>
 ### P2P Transfers
 
 <table>
@@ -484,6 +488,7 @@ In the directory where you installed the SDK,  include this code to make the SDK
 </tbody>
 </table>
 
+<a name="recurring"></a>
 ### Recurring Payments
 
 Contains functions for all the use case scenarios within Recurring Payments.
@@ -582,7 +587,7 @@ Contains functions for all the use case scenarios within Recurring Payments.
 </tbody>
 </table>
 
-
+<a name="account-linking"></a>
 ### Account Linking
 
 <table>
@@ -660,7 +665,8 @@ Contains functions for all the use case scenarios within Recurring Payments.
 </tbody>
 </table>
 
-
+<a name="bill-payments">
+ 
 ### Bill Payments
 
 <table>
