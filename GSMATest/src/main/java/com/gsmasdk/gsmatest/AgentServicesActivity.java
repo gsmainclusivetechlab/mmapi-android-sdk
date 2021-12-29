@@ -19,14 +19,22 @@ import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
+import com.gsmaSdk.gsma.models.account.Account;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.Identity;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.common.Address;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
+import com.gsmaSdk.gsma.models.common.Fees;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.common.IdDocument;
+import com.gsmaSdk.gsma.models.common.KYCInformation;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
+import com.gsmaSdk.gsma.models.common.SubjectName;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 import java.util.ArrayList;
@@ -50,6 +58,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     private String serverCorrelationId;
     ArrayList<Identifier> identifierArrayList;
     private Transaction transactionRequest;
+    private Account accountRequest;
 
     private final String[] agentServiceArray = {
             "Agent Initiated Cash-Out",
@@ -90,6 +99,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         createAccountIdentifier();
         createTransactionObject();
         createCodeRequestObject();
+        createAccountObject();
 
 
     }
@@ -123,6 +133,141 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
             }
         });
+    }
+
+    private void createAccountObject() {
+        accountRequest = new Account();
+
+        ArrayList<AccountIdentifier> accountIdentifiers = new ArrayList<>();
+
+        //account identifiers
+        AccountIdentifier accountIdentifier = new AccountIdentifier();
+        accountIdentifier.setKey("msisdn");
+        accountIdentifier.setValue("+447777777777");
+        accountIdentifiers.add(accountIdentifier);
+
+        //add account identifier to account object
+        accountRequest.setAccountIdentifiers(accountIdentifiers);
+
+        //identity array
+        ArrayList<Identity> identityArrayList = new ArrayList<>();
+        //identity object
+        Identity identity = new Identity();
+
+        //kyc information
+        KYCInformation kycInformation = new KYCInformation();
+
+        kycInformation.setBirthCountry("AD");
+        kycInformation.setContactPhone("+447777777777");
+        kycInformation.setDateOfBirth("2000-11-20");
+        kycInformation.setEmailAddress("xyz@xyz.com");
+        kycInformation.setEmployerName("String");
+        kycInformation.setGender("m");
+
+        //create  id document object
+
+        ArrayList<IdDocument> idDocumentArrayList = new ArrayList<>();
+        IdDocument idDocument = new IdDocument();
+        idDocument.setIdType("passport");
+        idDocument.setIdNumber("111111");
+        idDocument.setIssueDate("2018-11-20");
+        idDocument.setExpiryDate("2018-11-20");
+        idDocument.setIssuer("ABC");
+        idDocument.setIssuerPlace("DEF");
+        idDocument.setIssuerCountry("AD");
+
+        idDocumentArrayList.add(idDocument);
+
+        kycInformation.setIdDocument(idDocumentArrayList);
+
+
+        kycInformation.setNationality("AD");
+        kycInformation.setOccupation("Miner");
+
+        //Postal Address
+        Address address = new Address();
+        address.setAddressLine1("37");
+        address.setAddressLine2("ABC Drive");
+        address.setAddressLine3("string");
+        address.setCity("Berlin");
+        address.setStateProvince("string");
+        address.setPostalCode("AF1234");
+        address.setCountry("AD");
+
+        kycInformation.setPostalAddress(address);
+
+        //subject information
+        SubjectName subjectName = new SubjectName();
+        subjectName.setTitle("Mr");
+        subjectName.setFirstName("H");
+        subjectName.setMiddleName("I");
+        subjectName.setLastName("J");
+        subjectName.setFullName("H I J ");
+        subjectName.setNativeName("string");
+
+
+        kycInformation.setSubjectName(subjectName);
+
+        identity.setIdentityKyc(kycInformation);
+        identity.setAccountRelationship("accountHolder");
+        identity.setKycVerificationStatus("verified");
+        identity.setKycVerificationEntity("ABC Agent");
+
+        //kyc level
+        identity.setKycLevel(1);
+
+        //custom data for identity
+        ArrayList<CustomDataItem> customDataItemArrayList = new ArrayList<>();
+        CustomDataItem customDataItem = new CustomDataItem();
+        customDataItem.setKey("test");
+        customDataItem.setValue("custom");
+
+        customDataItemArrayList.add(customDataItem);
+
+        identity.setCustomData(customDataItemArrayList);
+
+        //add identity to array
+        identityArrayList.add(identity);
+
+        //add indentity array into account object
+        accountRequest.setIdentity(identityArrayList);
+
+
+
+        //account type
+        accountRequest.setAccountType("string");
+
+        //custom data for account
+
+
+        ArrayList<CustomDataItem> customDataItemAccountArrayList = new ArrayList<>();
+        CustomDataItem customDataAccountItem = new CustomDataItem();
+        customDataAccountItem.setKey("test");
+        customDataAccountItem.setValue("custom1");
+
+        customDataItemAccountArrayList.add(customDataAccountItem);
+
+        accountRequest.setCustomData(customDataItemAccountArrayList);
+
+        //Fees array
+
+        ArrayList<Fees> feesArrayList = new ArrayList<>();
+
+        Fees fees = new Fees();
+        fees.setFeeType("string");
+        fees.setFeeAmount("5.46");
+        fees.setFeeCurrency("");
+
+        feesArrayList.add(fees);
+
+        accountRequest.setFees(feesArrayList);
+
+        accountRequest.setRegisteringEntity("ABC Agent");
+        accountRequest.setRequestDate("2021-02-17T15:41:45.194Z");
+
+        System.out.println("data"+new Gson().toJson(accountRequest));
+
+
     }
 
     private void createAccountIdentifier() {
@@ -168,7 +313,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 break;
             case 1:
                 //View Request State
-                 requestState();
+                requestState();
                 break;
             case 2:
                 //View Transaction
@@ -191,12 +336,11 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 break;
             case 6:
                 //Agent Initiated Cash-in
-                 createDepositTransaction();
+                createDepositTransaction();
 
                 break;
             case 7:
                 // Perform a Transaction Reversal
-
 
                 break;
 
@@ -224,6 +368,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 break;
         }
     }
+
     /**
      * Code Request Object for Obtaining Authorisation code.
      */
@@ -269,7 +414,6 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
 
     /**
      * View Authorization Code
-     *
      */
 
     private void viewAuthorizationCode() {
@@ -294,7 +438,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(AgentServicesActivity.this, ""+errorObject.getErrorDescription());
+                Utils.showToast(AgentServicesActivity.this, "" + errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -307,7 +451,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
      */
     private void obtainAuthorizationCode() {
         showLoading();
-        SDKManager.agentService.createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
+        SDKManager.agentService.createAuthorisationCode(identifierArrayList, NotificationMethod.POLLING, "", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -343,7 +487,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     }
 
 
-    private  void createWithdrawalTransaction(){
+    private void createWithdrawalTransaction() {
         showLoading();
         SDKManager.agentService.createWithdrawalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
@@ -380,7 +524,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
 
     }
 
-    private  void createDepositTransaction(){
+    private void createDepositTransaction() {
         showLoading();
         SDKManager.agentService.createDepositTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
