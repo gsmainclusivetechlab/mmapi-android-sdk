@@ -726,7 +726,7 @@ Contains functions for all the use case scenarios within Recurring Payments.
   </tr>
   <tr>
     <td>Retrieve a Missing API Response</td>
-    <td><a href="/docs/billPayment/viewBillPayment.Readme.md">Retrieve a Missing Response</a></td>
+    <td><a href="/docs/billPayment/viewResponse.Readme.md"">Retrieve a Missing Response</a></td>
     <td>viewResponse</td>
     <td>String correlationId</td>
   </tr>
