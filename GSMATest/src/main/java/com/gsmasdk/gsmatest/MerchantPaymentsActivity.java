@@ -205,7 +205,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         authorisationCodeRequest.setRequestDate("2021-10-18T10:43:27.405Z");
         authorisationCodeRequest.setCurrency("RWF");
         authorisationCodeRequest.setCodeLifetime(1);
-        System.out.println("Auth code"+new Gson().toJson(authorisationCodeRequest));
     }
 
     @Override

@@ -13,12 +13,14 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
+import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -39,6 +41,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     private TextView txtResponse;
     private ProgressDialog progressdialog;
     private String correlationId = "";
+    private AuthorisationCode authorisationCodeRequest;
 
     private String transactionRef = "";
 
@@ -84,6 +87,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         checkServiceAvailability();
         createAccountIdentifier();
         createTransactionObject();
+        createCodeRequestObject();
 
 
     }
@@ -125,7 +129,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("1");
+        identifierAccount.setValue("2999");
 
         identifierArrayList.add(identifierAccount);
 
@@ -171,11 +175,12 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
 
             case 3:
                 //Create Authorization Code
+                obtainAuthorizationCode();
 
                 break;
             case 4:
                 //View Authorization Code
-
+                viewAuthorizationCode();
                 break;
             case 5:
                 //Retrieve the Name of the Depositing Customer
@@ -214,6 +219,93 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 break;
         }
     }
+    /**
+     * Code Request Object for Obtaining Authorisation code.
+     */
+    private void createCodeRequestObject() {
+        authorisationCodeRequest = new AuthorisationCode();
+        authorisationCodeRequest.setAmount("200.00");
+        authorisationCodeRequest.setRequestDate("2021-10-18T10:43:27.405Z");
+        authorisationCodeRequest.setCurrency("RWF");
+        authorisationCodeRequest.setCodeLifetime(1);
+    }
+
+
+    /**
+     * View Authorization Code
+     *
+     */
+
+    private void viewAuthorizationCode() {
+        showLoading();
+        SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(authorisationCodeItem));
+                Log.d(SUCCESS, "onAuthorizationCodeItem: " + new Gson().toJson(authorisationCodeItem));
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onAuthorizationCodeFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, ""+errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
+
+    }
+
+
+    /**
+     * Authorization Code
+     */
+    private void obtainAuthorizationCode() {
+        showLoading();
+        SDKManager.agentService.createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+
+    }
+
 
     private  void createWithdrawalTransaction(){
         showLoading();
