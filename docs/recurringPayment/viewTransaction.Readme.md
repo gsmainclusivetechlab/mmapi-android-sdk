@@ -1,4 +1,4 @@
- Retrieve a Transaction
+ # Retrieve a Transaction
 
 `viewTransaction(transactionReference) creates a GET request to /transactions/{transactionReference}`
 
