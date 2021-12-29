@@ -2,6 +2,7 @@ package com.gsmaSdk.gsma.controllers;
 
 import androidx.annotation.NonNull;
 
+import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
@@ -23,6 +24,18 @@ public class AgentServiceController extends Common {
     public void createWithdrawalTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
         MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod, callbackUrl, transactionRequest,"withdrawal", requestStateInterface);
     }
+
+    /**
+     * Initiate Payment - Initiate Bill Payment
+     *
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for receiving response of transaction
+     * @param transactionRequest Transaction Object containing details required for initiating the transaction
+     */
+    public void createDepositTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+        MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod, callbackUrl, transactionRequest,"deposit", requestStateInterface);
+    }
+
 
 
 
@@ -46,6 +59,15 @@ public class AgentServiceController extends Common {
     public void viewAuthorisationCode(@NonNull ArrayList<Identifier> identifierArrayList, String authorisationCode, AuthorisationCodeItemInterface authorisationCodeInterface) {
         AuthorisationCodeController.getInstance().viewAuthorisationCode(identifierArrayList,authorisationCode,authorisationCodeInterface);
 
+    }
+
+    /**
+     * View Account Name-Get name of  particular account holder
+     *
+     * @param identifierArrayList account identifiers of the user
+     */
+    public void viewAccountName(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
+        AccountNameController.getInstance().viewAccountName(identifierArrayList,accountHolderInterface);
     }
 
 }
