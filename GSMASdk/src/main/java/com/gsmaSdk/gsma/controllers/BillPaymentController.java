@@ -111,7 +111,7 @@ public class BillPaymentController extends Common{
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
     public void createBillTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod, callbackUrl, transactionRequest, requestStateInterface);
+        MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod, callbackUrl, transactionRequest,"billpay", requestStateInterface);
     }
 
 

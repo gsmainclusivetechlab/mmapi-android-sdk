@@ -19,7 +19,7 @@ public class MerchantTransaction {
      * @param callbackUrl        The server URl for recieving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
-    public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
+    public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest,String transactionType,@NonNull RequestStateInterface requestStateInterface) {
 
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
@@ -30,7 +30,7 @@ public class MerchantTransaction {
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
-            GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "merchantpay", transactionRequest, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, transactionType, transactionRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse);

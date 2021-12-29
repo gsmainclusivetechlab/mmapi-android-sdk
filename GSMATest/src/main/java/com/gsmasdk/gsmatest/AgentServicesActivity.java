@@ -12,17 +12,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.gsmaSdk.gsma.enums.NotificationMethod;
+import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
+import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@SuppressWarnings("ALL")
 public class AgentServicesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 
@@ -77,6 +83,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
 
         checkServiceAvailability();
         createAccountIdentifier();
+        createTransactionObject();
 
 
     }
@@ -110,8 +117,6 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
             }
         });
-
-
     }
 
     private void createAccountIdentifier() {
@@ -153,14 +158,15 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         switch (position) {
             case 0:
                 //Agent Initiated Cash-Out ;
-
+                createWithdrawalTransaction();
                 break;
             case 1:
                 //View Request State
-
+                 requestState();
                 break;
             case 2:
                 //View Transaction
+                viewTransaction();
                 break;
 
             case 3:
@@ -208,4 +214,141 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 break;
         }
     }
+
+    private  void createWithdrawalTransaction(){
+        showLoading();
+        SDKManager.agentService.createWithdrawalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+
+    }
+
+
+    /**
+     * Transaction Object for Merchant Pay.
+     */
+    private void createTransactionObject() {
+        transactionRequest = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
+
+        debitPartyItem.setKey("walletid");
+        debitPartyItem.setValue("1");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("msisdn");
+        creditPartyItem.setValue("+44012345678");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("200.00");
+        transactionRequest.setCurrency("RWF");
+
+    }
+
+    /**
+     * Get the request state of a transaction
+     */
+    private void requestState() {
+        showLoading();
+        SDKManager.agentService.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                transactionRef = requestStateObject.getObjectReference();
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
+
+    /**
+     * View Transaction-View the transaction Details
+     */
+    private void viewTransaction() {
+        showLoading();
+        SDKManager.agentService.viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onTransactionSuccess(Transaction transactionRequest) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(transactionRequest));
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+
+        });
+    }
+
 }
+
