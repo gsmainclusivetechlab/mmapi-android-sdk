@@ -330,4 +330,18 @@ public interface APIService {
     @GET("{version}/accounts/{accountIdentifier}/bills/{billReference}/payments")
     Call<BillPayments> viewBillPayment(@Path(value = "version", encoded = true) String version, @Path(value = "accountIdentifier", encoded = true) String accountIdentifier, @Path("billReference") String billReference, @HeaderMap Map<String, String> headers, @QueryMap Map<String, String> params);
 
+    /*********************************Agent Service Interfaces******************************/
+
+
+    /**
+     * perform a transaction.
+     *
+     * @return the call
+     */
+    @POST("{version}/accounts/individual")
+    Call<RequestStateObject> createAccount(@Path(value = "version", encoded = true) String version, @Body RequestBody accountBody, @HeaderMap Map<String, String> headers);
+
+
+
+
 }

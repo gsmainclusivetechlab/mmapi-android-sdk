@@ -6,16 +6,23 @@ import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+import com.gsmaSdk.gsma.models.account.Account;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
+import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
+import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
+import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
 public class AgentServiceController extends Common {
 
     /**
-     * Initiate Payment - Initiate Bill Payment
+     * Initiate Payment - Initiate bill withdrawal
      *
      * @param notificationMethod The enumerated datatype to determine polling or callback
      * @param callbackUrl        The server URl for receiving response of transaction
@@ -26,7 +33,7 @@ public class AgentServiceController extends Common {
     }
 
     /**
-     * Initiate Payment - Initiate Bill Payment
+     * Initiate Payment - Initiate Deposit
      *
      * @param notificationMethod The enumerated datatype to determine polling or callback
      * @param callbackUrl        The server URl for receiving response of transaction
@@ -37,7 +44,39 @@ public class AgentServiceController extends Common {
     }
 
 
+    /**
+     * Create Account- Create Deposit Account
+     *
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        Callback Url
+     * @param accountRequest  Model class of create account Request
+     */
+    public void createAccount(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Account accountRequest, @NonNull RequestStateInterface requestStateInterface) {
+        if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+        if (accountRequest == null) {
+            requestStateInterface.onValidationError(Utils.setError(5));
+        } else {
+            String uuid = Utils.generateUUID();
+            requestStateInterface.getCorrelationId(uuid);
+            GSMAApi.getInstance().createAccount(uuid, notificationMethod, callbackUrl, accountRequest, new APIRequestCallback<RequestStateObject>() {
+                        @Override
+                        public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
+                            requestStateInterface.onRequestStateSuccess(serializedResponse);
+                        }
 
+                        @Override
+                        public void onFailure(GSMAError errorDetails) {
+                            requestStateInterface.onRequestStateFailure(errorDetails);
+                        }
+                    }
+            );
+
+        }
+
+    }
 
     /**
      * Obtain Authorisation code for a transaction
@@ -68,6 +107,20 @@ public class AgentServiceController extends Common {
      */
     public void viewAccountName(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
         AccountNameController.getInstance().viewAccountName(identifierArrayList,accountHolderInterface);
+    }
+
+    /**
+     * Reversal - provides transaction reversal
+     *
+     * @param notificationMethod The enumerated datatype to determine polling or callback
+     * @param callbackUrl        The server URl for recieving response of transaction
+     * @param referenceId        Reference id of a previous transaction
+     * @param reversal           Reversal Object containing the type of the transaction
+     */
+
+    public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull Reversal reversal, @NonNull RequestStateInterface requestStateInterface) {
+        ReversalTransaction.getInstance().createReversal(notificationMethod, callbackUrl, referenceId, reversal, requestStateInterface);
+
     }
 
 }

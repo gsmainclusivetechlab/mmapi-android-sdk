@@ -7,6 +7,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.AuthenticationType;
 import com.gsmaSdk.gsma.manager.PreferenceManager;
+import com.gsmaSdk.gsma.models.account.Account;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Link;
@@ -533,11 +534,12 @@ public final class GSMAApi {
 
 
     /**
-     * Merchant Pay.
+     * Bill Payment
      *
      * @param uuid               UUID
      * @param transactionType    Type of transaction - merchant pay
      * @param transactionRequest Model class for Transaction Request
+     * @param apiRequestCallback Listener for api operation
      */
     public void createBillPayment(String uuid, Enum notificationMethod, String accountIdentifier, String callbackUrl, String billReference, BillPay billPayment, APIRequestCallback<RequestStateObject> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
@@ -549,6 +551,33 @@ public final class GSMAApi {
         }
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createBillPayment(PaymentConfiguration.getUrlVersion(),accountIdentifier,billReference,RequestBody.create(new Gson().toJson(billPayment), mediaType), headers), apiRequestCallback));
     }
+
+
+
+    /****************************************Agent Service********************************************/
+
+
+    /**
+     * Create Account
+     *
+     * @param uuid               UUID
+     * @param callbackUrl        Callback Url
+     * @param account         Model class for create account Request
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void createAccount(String uuid, Enum notificationMethod, String callbackUrl, Account account, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL, xCallback);
+        }
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createAccount(PaymentConfiguration.getUrlVersion(),RequestBody.create(new Gson().toJson(account), mediaType), headers), apiRequestCallback));
+    }
+
+
+
 
 
 

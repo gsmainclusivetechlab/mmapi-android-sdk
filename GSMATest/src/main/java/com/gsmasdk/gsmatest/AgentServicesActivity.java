@@ -35,10 +35,12 @@ import com.gsmaSdk.gsma.models.common.KYCInformation;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.SubjectName;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 @SuppressWarnings("ALL")
 public class AgentServicesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -59,6 +61,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     ArrayList<Identifier> identifierArrayList;
     private Transaction transactionRequest;
     private Account accountRequest;
+    private Reversal reversalObject;
 
     private final String[] agentServiceArray = {
             "Agent Initiated Cash-Out",
@@ -99,8 +102,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         createAccountIdentifier();
         createTransactionObject();
         createCodeRequestObject();
-        createAccountObject();
-
+        createPaymentReversalObject();
 
     }
 
@@ -135,7 +137,51 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         });
     }
 
+
+    /**
+     * Payment Reversal
+     */
+    private void paymentReversal() {
+        showLoading();
+        SDKManager.recurringPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                hideLoading();
+                Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
     private void createAccountObject() {
+
+        Random r = new Random();
+        int keyValue = r.nextInt(45 - 28) + 28;
         accountRequest = new Account();
 
         ArrayList<AccountIdentifier> accountIdentifiers = new ArrayList<>();
@@ -143,7 +189,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         //account identifiers
         AccountIdentifier accountIdentifier = new AccountIdentifier();
         accountIdentifier.setKey("msisdn");
-        accountIdentifier.setValue("+447777777777");
+        accountIdentifier.setValue(String.valueOf(keyValue));
         accountIdentifiers.add(accountIdentifier);
 
         //add account identifier to account object
@@ -233,7 +279,6 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         accountRequest.setIdentity(identityArrayList);
 
 
-
         //account type
         accountRequest.setAccountType("string");
 
@@ -256,19 +301,59 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         Fees fees = new Fees();
         fees.setFeeType("string");
         fees.setFeeAmount("5.46");
-        fees.setFeeCurrency("");
+        fees.setFeeCurrency("AED");
 
         feesArrayList.add(fees);
 
         accountRequest.setFees(feesArrayList);
 
+
         accountRequest.setRegisteringEntity("ABC Agent");
         accountRequest.setRequestDate("2021-02-17T15:41:45.194Z");
 
-        System.out.println("data"+new Gson().toJson(accountRequest));
+        //create account using accout object
 
+        createAccount();
+    }
+
+    private void createAccount() {
+        showLoading();
+        SDKManager.agentService.createAccount(NotificationMethod.CALLBACK, "", accountRequest, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                hideLoading();
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+
+            }
+        });
 
     }
+
 
     private void createAccountIdentifier() {
         identifierArrayList = new ArrayList<>();
@@ -341,11 +426,14 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 break;
             case 7:
                 // Perform a Transaction Reversal
+                paymentReversal();
 
                 break;
 
             case 8:
                 // Create a Mobile Money Account
+                createAccountObject();
+
 
                 break;
             case 9:
@@ -656,6 +744,16 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
             }
 
         });
+    }
+
+    /**
+     * Create Payment Reversal Object.
+     */
+    private void createPaymentReversalObject() {
+
+        reversalObject = new Reversal();
+        reversalObject.setType("reversal");
+
     }
 
 }
