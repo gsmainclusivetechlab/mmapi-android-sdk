@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
+import com.gsmaSdk.gsma.interfaces.AccountInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
@@ -35,6 +36,7 @@ import com.gsmaSdk.gsma.models.common.KYCInformation;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.SubjectName;
+import com.gsmaSdk.gsma.models.transaction.PatchData;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 
@@ -62,6 +64,9 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     private Transaction transactionRequest;
     private Account accountRequest;
     private Reversal reversalObject;
+    private ArrayList<PatchData> patchDataArrayList;
+    private String identityId = "";
+
 
     private final String[] agentServiceArray = {
             "Agent Initiated Cash-Out",
@@ -434,19 +439,26 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 // Create a Mobile Money Account
                 createAccountObject();
 
-
                 break;
             case 9:
                 // Retrieve Account Information
+                viewAccount();
+
                 break;
             case 10:
                 // Update KYC Verification Status
+
+                updateKYCStatus();
+
                 break;
             case 11:
                 // Obtain an Agent Balance
+
+
                 break;
             case 12:
                 //Retrieve a Set of Transactions for an Account
+
                 break;
             case 13:
                 //Retrieve a Missing API Response
@@ -455,6 +467,51 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
             default:
                 break;
         }
+    }
+
+
+    private void updateKYCStatus() {
+        PatchData patchObject = new PatchData();
+        patchObject.setOp("replace");
+        patchObject.setPath("/kycVerificationStatus");
+        patchObject.setValue("verified");
+        patchDataArrayList = new ArrayList<>();
+        patchDataArrayList.add(patchObject);
+
+        showLoading();
+        SDKManager.agentService.updateAccountIdentity(NotificationMethod.POLLING, "", identityId, patchDataArrayList, identifierArrayList, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(requestStateObject));
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+
     }
 
     /**
@@ -467,6 +524,42 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         authorisationCodeRequest.setCurrency("RWF");
         authorisationCodeRequest.setCodeLifetime(1);
     }
+
+
+    /**
+     * View Account-View Account details
+     */
+
+    private void viewAccount() {
+        showLoading();
+        SDKManager.agentService.viewAccount(identifierArrayList, new AccountInterface() {
+            @Override
+            public void onAccountSuccess(Account account) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(account));
+                identityId = account.getIdentity().get(0).getIdentityId();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                Log.d(SUCCESS, "onAccountSuccess: " + new Gson().toJson(account));
+            }
+
+            @Override
+            public void onAccountFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onAccountFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
+
+    }
+
 
     /**
      * View Account Name
@@ -485,8 +578,9 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onRetrieveAccountInfoFailure(GSMAError gsmaError) {
                 hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onRetrieveAccountInfoFailure: " + new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onAuthorizationCodeFailure: " + new Gson().toJson(gsmaError));
             }
 
 

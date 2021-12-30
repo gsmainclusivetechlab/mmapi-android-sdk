@@ -63,6 +63,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
     private ArrayList<PatchData> patchDataArrayList;
     private ProgressDialog progressdialog;
     ArrayList<Identifier> identifierArrayList;
+
     private final String[] disbursementArray = {
             "Individual Disbursement",
             "Request State",

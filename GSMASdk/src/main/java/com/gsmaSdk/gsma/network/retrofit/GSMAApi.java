@@ -508,7 +508,7 @@ public final class GSMAApi {
      * @param billReference      - Bill Reference
      * @param apiRequestCallback Listener for api operation
      */
-    public void viewBillPayment(String uuid, String accountIdentifier, HashMap<String, String> params,String billReference, APIRequestCallback<BillPayments> apiRequestCallback) {
+    public void viewBillPayment(String uuid, String accountIdentifier, HashMap<String, String> params, String billReference, APIRequestCallback<BillPayments> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewBillPayment(PaymentConfiguration.getUrlVersion(), accountIdentifier, billReference, headers, params), apiRequestCallback));
     }
@@ -517,20 +517,18 @@ public final class GSMAApi {
     /****************************************Bill Payments********************************************/
 
 
-
     /**
      * Retrieval of Bills
      *
      * @param uuid               UUID
-     * @param accountIdentifier          Account id
-     * @param params Hashmap-Filter list
+     * @param accountIdentifier  Account id
+     * @param params             Hashmap-Filter list
      * @param apiRequestCallback Listener for api operation
      */
-    public void viewAccountBills(String uuid, String accountIdentifier,HashMap<String,String> params, APIRequestCallback<Bills> apiRequestCallback) {
+    public void viewAccountBills(String uuid, String accountIdentifier, HashMap<String, String> params, APIRequestCallback<Bills> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountBills(PaymentConfiguration.getUrlVersion(), accountIdentifier, headers,params), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccountBills(PaymentConfiguration.getUrlVersion(), accountIdentifier, headers, params), apiRequestCallback));
     }
-
 
 
     /**
@@ -549,9 +547,8 @@ public final class GSMAApi {
         } else {
             headers.put(APIConstants.CALL_BACK_URL, xCallback);
         }
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createBillPayment(PaymentConfiguration.getUrlVersion(),accountIdentifier,billReference,RequestBody.create(new Gson().toJson(billPayment), mediaType), headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createBillPayment(PaymentConfiguration.getUrlVersion(), accountIdentifier, billReference, RequestBody.create(new Gson().toJson(billPayment), mediaType), headers), apiRequestCallback));
     }
-
 
 
     /****************************************Agent Service********************************************/
@@ -562,7 +559,7 @@ public final class GSMAApi {
      *
      * @param uuid               UUID
      * @param callbackUrl        Callback Url
-     * @param account         Model class for create account Request
+     * @param account            Model class for create account Request
      * @param apiRequestCallback Listener for api operation
      */
     public void createAccount(String uuid, Enum notificationMethod, String callbackUrl, Account account, APIRequestCallback<RequestStateObject> apiRequestCallback) {
@@ -573,12 +570,46 @@ public final class GSMAApi {
         } else {
             headers.put(APIConstants.CALL_BACK_URL, xCallback);
         }
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createAccount(PaymentConfiguration.getUrlVersion(),RequestBody.create(new Gson().toJson(account), mediaType), headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.createAccount(PaymentConfiguration.getUrlVersion(), RequestBody.create(new Gson().toJson(account), mediaType), headers), apiRequestCallback));
     }
 
 
+    /**
+     * Retrieval of Bills
+     *
+     * @param uuid               UUID
+     * @param accountIdentifier  Account id
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void viewAccount(String uuid, String accountIdentifier, APIRequestCallback<Account> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.viewAccount(PaymentConfiguration.getUrlVersion(), accountIdentifier, headers), apiRequestCallback));
+    }
 
 
+    /**
+     * Update Account Idnetity - Update the KYC status of an account
+     *
+     * @param uuid               UUID
+     * @param callbackUrl        Callback Url
+     * @param identityId         The id used for identifying an account
+     * @param accountIdentifier  The string combination of account identifiers
+     * @param patchDataArrayList The array of patch data object to update the status of KYC
+     * @param apiRequestCallback Listener for api operation
+     */
+    public void updateAccountIdentity(String uuid, Enum notificationMethod, String callbackUrl, String identityId, String acccountIdentifier, ArrayList<PatchData> patchDataArrayList, APIRequestCallback<RequestStateObject> apiRequestCallback) {
+        headers.put(APIConstants.X_CORRELATION_ID, uuid);
+        String xCallback = Utils.setCallbackUrl(notificationMethod, callbackUrl);
+        if (xCallback.isEmpty()) {
+            headers.remove(APIConstants.CALL_BACK_URL);
+        } else {
+            headers.put(APIConstants.CALL_BACK_URL, xCallback);
+        }
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.updateAccountIdentity(PaymentConfiguration.getUrlVersion(), acccountIdentifier, identityId, RequestBody.create(new Gson().toJson(patchDataArrayList), mediaType),headers), apiRequestCallback));
+    }
 
 
 }
+
+
+

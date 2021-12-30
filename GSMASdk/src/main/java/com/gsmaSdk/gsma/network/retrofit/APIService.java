@@ -1,6 +1,7 @@
 package com.gsmaSdk.gsma.network.retrofit;
 
 
+import com.gsmaSdk.gsma.models.account.Account;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Link;
@@ -277,7 +278,7 @@ public interface APIService {
     /*****************************************Account Linking Interfaces******************************/
 
     /**
-     * Create Debit Mandate.
+     * Create Account Link
      *
      * @return the call
      */
@@ -286,7 +287,7 @@ public interface APIService {
     Call<RequestStateObject> createAccountLinking(@Path(value = "version", encoded = true) String version, @Path(value = "accountIdentifier", encoded = true) String accountIdentifier, @Body RequestBody debitMandate, @HeaderMap Map<String, String> headers);
 
     /**
-     * View Debit Mandate.
+     * View Account Link
      *
      * @return the call
      */
@@ -334,7 +335,7 @@ public interface APIService {
 
 
     /**
-     * perform a transaction.
+     * Create a account
      *
      * @return the call
      */
@@ -343,5 +344,30 @@ public interface APIService {
 
 
 
+    /**
+     * view a account
+     *
+     * @return the call
+     */
+    @GET("{version}/accounts/{accountIdentifiers}")
+    Call<Account> viewAccount(@Path(value = "version", encoded = true) String version,
+                              @Path(value = "accountIdentifiers",encoded = true) String accountIdentifier,
+                              @HeaderMap Map<String, String> headers);
+
+
+
+    /**
+     * Update Status-Update Verification Status
+     *
+     * @return the call
+     */
+    @SuppressWarnings("SpellCheckingInspection")
+    @PATCH("{version}/accounts/{accountIdentifier}/identities/{identityId}")
+    Call<RequestStateObject> updateAccountIdentity(
+               @Path(value = "version", encoded = true) String version,
+               @Path(value = "accountIdentifier", encoded = true) String accountIdentifier,
+               @Path(value = "identityId",encoded = true) String identityId,
+               @Body RequestBody patchData,
+               @HeaderMap Map<String, String> headers);
 
 }

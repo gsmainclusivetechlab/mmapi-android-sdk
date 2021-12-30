@@ -216,6 +216,17 @@ public class Utils {
                 errorObject.setErrorCode("GenericError");
                 errorObject.setErrorDescription("Invalid bill Reference");
                 break;
+            case 13:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid Patch Object");
+                break;
+            case 14:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid Identity Id");
+                break;
+
             default:
                 errorObject.setErrorCategory("");
                 errorObject.setErrorCode("GenericError");

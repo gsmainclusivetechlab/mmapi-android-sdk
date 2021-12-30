@@ -27,7 +27,6 @@ public class AccountNameController {
             accountHolderInterface.onValidationError(Utils.setError(0));
             return;
         }
-
         if (identifierArrayList == null) {
             accountHolderInterface.onValidationError(Utils.setError(1));
         } else if (identifierArrayList.size() != 0) {
