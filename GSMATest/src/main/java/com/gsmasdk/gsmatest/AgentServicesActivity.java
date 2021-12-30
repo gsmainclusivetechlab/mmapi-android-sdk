@@ -16,15 +16,20 @@ import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
 import com.gsmaSdk.gsma.interfaces.AccountInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
+import com.gsmaSdk.gsma.interfaces.BalanceInterface;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.Account;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.Identity;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.common.Address;
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
@@ -33,12 +38,14 @@ import com.gsmaSdk.gsma.models.common.Fees;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.IdDocument;
 import com.gsmaSdk.gsma.models.common.KYCInformation;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.SubjectName;
 import com.gsmaSdk.gsma.models.transaction.PatchData;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -454,19 +461,125 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
             case 11:
                 // Obtain an Agent Balance
 
+                 balanceCheck();
 
                 break;
             case 12:
                 //Retrieve a Set of Transactions for an Account
+                retrieveTransaction();
 
                 break;
             case 13:
                 //Retrieve a Missing API Response
+                 getMissingTransaction();
                 break;
 
             default:
                 break;
         }
+    }
+
+
+    /**
+     * Retrieve a missing Transaction
+     */
+    private void getMissingTransaction() {
+        showLoading();
+        SDKManager.agentService.viewResponse(correlationId, new MissingResponseInterface() {
+            @Override
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(missingResponse));
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
+            }
+
+            @Override
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                Log.d(FAILURE, "onMissingResponseFailure: " + new Gson().toJson(gsmaError));
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+        });
+
+    }
+
+    /**
+     * Retrieve Transaction
+     */
+    private void retrieveTransaction() {
+        showLoading();
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        SDKManager.agentService.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(transaction));
+                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+            }
+        });
+    }
+
+
+
+    /**
+     * Checking Balance.
+     */
+    private void balanceCheck() {
+        showLoading();
+        SDKManager.agentService.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+
+            }
+
+            @Override
+            public void onBalanceSuccess(Balance balance) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Success");
+                txtResponse.setText(new Gson().toJson(balance).toString());
+                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+            }
+
+            @Override
+            public void onBalanceFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(AgentServicesActivity.this, "Failure");
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+            }
+        });
     }
 
 

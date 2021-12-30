@@ -6,10 +6,13 @@ import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
 import com.gsmaSdk.gsma.interfaces.AccountInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
+import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
+import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.models.account.Account;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
@@ -205,7 +208,26 @@ public class AgentServiceController extends Common {
             requestStateInterface.onValidationError(Utils.setError(1));
         }
 
+    }
 
+    /**
+     * View Account Balance-Get the balance of a particular account
+     *
+     * @param identifierArrayList - List of identifiers to identify a particular account
+     */
+    public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
+        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
+
+    }
+
+    /**
+     * Retrieve a transaction
+     *
+     * @param identifierArrayList List of account identifiers of a user
+     * @param transactionFilter   Filter object for transaction
+     */
+    public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList, transactionFilter, retrieveTransactionInterface);
 
     }
 
