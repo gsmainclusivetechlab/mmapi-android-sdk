@@ -21,7 +21,6 @@ public class AccountBalanceController {
      * @param identifierArrayList - List of identifiers to identify a particular account
      */
 
-
     public  void viewAccountBalance(ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
         if (!Utils.isOnline()) {
             balanceInterface.onValidationError(Utils.setError(0));
