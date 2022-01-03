@@ -6,7 +6,7 @@
 ### Usage/Examples
 
 ```java
-        SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
+        SDKManager.agentService.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
             }
