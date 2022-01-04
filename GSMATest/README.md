@@ -171,8 +171,8 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Agent-initiated Cash-out](#agent-service-cash-out)
 * [Agent-initiated Cash-out using the Polling Method](#agent-service-cash-out-polling)
 * [Customer-initiated Cash-out](#agent-service-cash-out)
-* [Customer Cash-out at an ATM using an Authorisation Code]((#agent-service-cash-out-auth)
-* Agent-initiated Customer Cash-in
+* [Customer Cash-out at an ATM using an Authorisation Code](#agent-service-cash-out-auth)
+* [Agent-initiated Customer Cash-in](#agent-initiated-cash-in)
 * [Cash-out Reversal](#reversal)
 * Register a Customer Mobile Money Account
 * Verify a Customer’s KYC
@@ -1782,6 +1782,53 @@ Customer Initiated Cash out at atm using Authorisation Code can be achieved by c
  	"status": "pending"
  }
 ```
+<a name="agent-initiated-cash-in"></a>
+
+# Agent-initiated Customer Cash-in
+
+Agent-initiated Customer Cash-in  can be achieved by clicking following button
+
+* Retrieve the name of the Depositing Customer
+* Agent Initiated Cash In 
+
+### Example Output - Retrieve the name of the Depositing Customer
+
+
+```json
+{
+	"lei": "AAAA0012345678901299",
+	"name": {
+		"firstName": "Jeff",
+		"fullName": "Jeff Jimmer",
+		"lastName": "Jimmer",
+		"middleName": "James",
+		"title": "Mr"
+	}
+}
+
+```
+
+
+### Example Output -Agent Initiated Cash In 
+
+```java
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+ }
+
+
+
+```
+
+
+
+```
+
+
+
 
 
 
