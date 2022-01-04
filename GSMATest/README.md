@@ -1630,3 +1630,24 @@ The Bill Payment with polling can be completed by clicking the following buttons
 
 ```
 
+# Agent Initiated Cash out
+
+The agent initited Cash out can be scenario can be achieved by clicking the following buttons
+
+* Agent Initiated Cash Out 
+
+
+### Example Output - Agent Initiated Cash out
+
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+
+
