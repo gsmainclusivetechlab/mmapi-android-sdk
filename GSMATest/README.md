@@ -170,7 +170,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 * [Agent-initiated Cash-out](#agent-service-cash-out)
 * [Agent-initiated Cash-out using the Polling Method](#agent-service-cash-out-polling)
-* [Customer-initiated Cash-out]](#agent-service-cash-out)
+* [Customer-initiated Cash-out](#agent-service-cash-out)
 * [Customer Cash-out at an ATM using an Authorisation Code]((#agent-service-cash-out-auth)
 * Agent-initiated Customer Cash-in
 * [Cash-out Reversal](#reversal)
