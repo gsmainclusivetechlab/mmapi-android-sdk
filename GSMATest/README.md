@@ -1852,7 +1852,7 @@ Verify a customer KYC can be achieved by clickinbg the following buttons
 
 ### Example Output -Retrieve Account information
 
-```json
+```java
 
 
 {
