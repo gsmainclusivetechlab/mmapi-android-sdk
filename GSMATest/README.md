@@ -172,7 +172,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 # Agent Services
 
 * [Agent-initiated Cash-out](#agent-service-cash-out)
-* [Agent-initiated Cash-out using the Polling Method]
+* [Agent-initiated Cash-out using the Polling Method](#agent-service-cash-out-polling)
 * Customer-initiated Cash-out
 * Customer Cash-out at an ATM using an Authorisation Code
 * Agent-initiated Customer Cash-in
@@ -1649,8 +1649,9 @@ The agent initited Cash out can be scenario can be achieved by clicking the foll
  	"status": "pending"
  }
 ```
+<a name="#agent-service-cash-out-polling"></a>
 
-# Agent Initiated Cash out using Polling Methoid
+# Agent Initiated Cash out using Polling Method
 
 The agent initited Cash out can be scenario can be achieved by clicking the following buttons
 
