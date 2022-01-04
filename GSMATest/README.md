@@ -169,6 +169,23 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Retrieval of Bill Payments](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
 
+# Agent Services
+
+* Agent-initiated Cash-out
+* Agent-initiated Cash-out Failure
+* Agent-initiated Cash-out using the Polling Method
+* Customer-initiated Cash-out
+* Customer-initiated Cash-out Failure
+* Customer Cash-out at an ATM using an Authorisation Code
+* Agent-initiated Customer Cash-in
+* [Cash-out Reversal]#reversal)
+* Register a Customer Mobile Money Account
+* Verify a Customer’s KYC
+* [Obtain an Agent Balance](#balances)
+* [Retrieve Transactions for an Agent](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
+
 
 
 
