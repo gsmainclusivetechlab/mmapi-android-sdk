@@ -174,8 +174,8 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Customer Cash-out at an ATM using an Authorisation Code](#agent-service-cash-out-auth)
 * [Agent-initiated Customer Cash-in](#agent-initiated-cash-in)
 * [Cash-out Reversal](#reversal)
-* Register a Customer Mobile Money Account
-* Verify a Customer’s KYC
+* [Register a Customer Mobile Money Account](#register-customer)
+* [Verify a Customer’s KYC](#verify-customer)
 * [Obtain an Agent Balance](#balances)
 * [Retrieve Transactions for an Agent](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
