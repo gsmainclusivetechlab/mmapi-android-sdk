@@ -1811,7 +1811,7 @@ Agent-initiated Customer Cash-in  can be achieved by clicking following button
 
 ### Example Output -Agent Initiated Cash In 
 
-```java
+```json
  	"notificationMethod": "callback",
  	"objectReference": "1207",
  	"pollLimit": 100,
@@ -1820,6 +1820,86 @@ Agent-initiated Customer Cash-in  can be achieved by clicking following button
  }
 
 ```
+
+<a name="register-customer"></a>
+
+# Register a Customer Mobile Money Account
+
+The register a customer in mobile money account can be achieved by clicking the following buttons
+
+* Create a Mobile Money Account
+
+### Example Output -Create a Mobile Money Account
+
+```json
+{
+        "notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+}
+```
+
+<a name="verify-customer"></a>
+
+# Verify a Customer’s KYC
+
+Verify a customer KYC can be achieved by clickinbg the following buttons
+
+* Retrieve Account information
+* Update KYC verification Status
+
+### Example Output -Retrieve Account information
+
+```json
+
+
+{
+	"accountIdentifiers": [{
+			"key": "msisdn",
+			"value": "+449999999"
+		},
+		{
+			"key": "walletid",
+			"value": "1"
+		},
+		{
+			"key": "accountid",
+			"value": "1"
+		},
+		{
+			"key": "mandatereference",
+			"value": "REF-1583141449478"
+		},
+		{
+			"key": "linkref",
+			"value": "REF-1473082363913"
+		}
+	],
+	...
+}
+```
+### Example Output - Update KYC verification Status
+
+```json
+{
+        "notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+}
+
+
+
+```
+
+
+
+
+
+
 
 
 
