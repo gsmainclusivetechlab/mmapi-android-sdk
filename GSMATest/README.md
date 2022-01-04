@@ -171,8 +171,8 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 # Agent Services
 
-* Agent-initiated Cash-out
-* Agent-initiated Cash-out using the Polling Method
+* [Agent-initiated Cash-out](#agent-service-cash-out)
+* [Agent-initiated Cash-out using the Polling Method]
 * Customer-initiated Cash-out
 * Customer Cash-out at an ATM using an Authorisation Code
 * Agent-initiated Customer Cash-in
@@ -1630,11 +1630,33 @@ The Bill Payment with polling can be completed by clicking the following buttons
 
 ```
 
+<a name="agent-service-cash-out"></a>
 # Agent Initiated Cash out
 
 The agent initited Cash out can be scenario can be achieved by clicking the following buttons
 
 * Agent Initiated Cash Out 
+
+### Example Output - Agent Initiated Cash out
+
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+
+# Agent Initiated Cash out using Polling Methoid
+
+The agent initited Cash out can be scenario can be achieved by clicking the following buttons
+
+* Agent Initiated Cash Out 
+* Request State
+* View Transaction
 
 
 ### Example Output - Agent Initiated Cash out
@@ -1649,5 +1671,49 @@ The agent initited Cash out can be scenario can be achieved by clicking the foll
  	"status": "pending"
  }
 ```
+
+ ### Example Output - Request State
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+```
+The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
+
+ ### Example Output - View Transaction
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
+
+
+
 
 
