@@ -123,10 +123,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
 
-
-
 # P2P Transfers
-
 
 * [P2P Transfer via Switch](#p2p-transfer-switch)
 * [Bilateral P2P Transfer](#p2p-transfer-bilateral)
@@ -173,8 +170,8 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 * [Agent-initiated Cash-out](#agent-service-cash-out)
 * [Agent-initiated Cash-out using the Polling Method](#agent-service-cash-out-polling)
-* Customer-initiated Cash-out
-* Customer Cash-out at an ATM using an Authorisation Code
+* [Customer-initiated Cash-out]](#agent-service-cash-out)
+* [Customer Cash-out at an ATM using an Authorisation Code]((#agent-service-cash-out-auth)
 * Agent-initiated Customer Cash-in
 * [Cash-out Reversal](#reversal)
 * Register a Customer Mobile Money Account
@@ -183,9 +180,6 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 * [Retrieve Transactions for an Agent](#retrieve-payments)
 * [Check for Service Availability](#check-for-service)
 * [Retrieve a Missing API Response](#missing-response)
-
-
-
 
 
 <a name="payee-initiated"></a>
@@ -1631,13 +1625,13 @@ The Bill Payment with polling can be completed by clicking the following buttons
 ```
 
 <a name="agent-service-cash-out"></a>
-# Agent Initiated Cash out
+# Agent Initiated Cash out/Customer-initiated Cash-out
 
 The agent initited Cash out can be scenario can be achieved by clicking the following buttons
 
 * Agent Initiated Cash Out 
 
-### Example Output - Agent Initiated Cash out
+### Example Output - Agent Initiated Cash out / Customer-initiated Cash-out
 
  
  ```json
@@ -1649,7 +1643,7 @@ The agent initited Cash out can be scenario can be achieved by clicking the foll
  	"status": "pending"
  }
 ```
-<a name="#agent-service-cash-out-polling"></a>
+<a name="agent-service-cash-out-polling"></a>
 
 # Agent Initiated Cash out using Polling Method
 
@@ -1680,7 +1674,7 @@ The agent initited Cash out can be scenario can be achieved by clicking the foll
  	"notificationMethod": "polling",
  	"objectReference": "REF-1638339051465",
  	"pollLimit": 100,
- 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
  	"status": "completed"
  }
 
@@ -1713,6 +1707,82 @@ The object reference obtained from the request state is passed to view transacti
 	"requestDate": "2021-11-30T12:37:15"
 }
 ```
+<a name="agent-service-cash-out-auth"></a>
+
+# Customer Cash-out at an ATM using an Authorisation Code
+
+Customer Initiated Cash out at atm using Authorisation Code can be achieved by clicking following button
+
+* Create Authorisation Code
+* Request State
+* View Authorisation Code
+* Agent Initiated Cash Out
+
+
+### Éxample Output - Create Authorisation Code
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+```
+
+### Example Output - Request State
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+ 
+ 
+
+```
+### Example Output - View Auth Code
+
+```json
+ {
+ 	"amount": "200.00",
+ 	"authorisationCode": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+ 	"codeState": "active",
+ 	"creationDate": "2021-11-30T13:42:09",
+ 	"currency": "RWF",
+ 	"modificationDate": "2021-11-30T13:42:09",
+ 	"redemptionAccountIdentifiers": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	},{
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907483978"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637909732171"
+ 	}],
+ 	"requestDate": "2021-10-18T10:43:27"
+ }
+```
+
+### Example Output - Agent Initiated Cash out
+
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+ }
+```
+
 
 
 
