@@ -123,7 +123,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
      */
     private void checkServiceAvailability() {
         showLoading();
-        SDKManager.accountLinking.viewServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.agentService.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -155,7 +155,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
      */
     private void paymentReversal() {
         showLoading();
-        SDKManager.recurringPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.agentService.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -349,7 +349,6 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
 
             @Override
             public void getCorrelationId(String correlationID) {
-                hideLoading();
                 correlationId = correlationID;
                 Log.d("getCorrelationId", "correlationId: " + correlationID);
 
@@ -547,8 +546,6 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
             }
         });
     }
-
-
 
     /**
      * Checking Balance.

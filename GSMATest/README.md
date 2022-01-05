@@ -19,11 +19,11 @@ As usual, you get started by
 
 ## How  to install the apk in real Device
 
-1.Download the file GSMATest-v1.0.6 from the following link into the filemanager of your  device
+1.Download the file GSMATest-v1.0.7 from the following link into the filemanager of your  device
  
-[Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/feature-doc/release/GSMATest-v1.0.6.apk)
+[Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/agent-service-doc/release/GSMATest-v1.0.6.apk)
 
-2.Click on the file GSMATest-v1.0.6 from your device and system will ask for the installation dialog and continue the installation process
+2.Click on the file GSMATest-v1.0.7 from your device and system will ask for the installation dialog and continue the installation process
 
 3.Once the Apk is installed in your device,Open the application from app drawer of your device 
 
@@ -1627,7 +1627,7 @@ The Bill Payment with polling can be completed by clicking the following buttons
 <a name="agent-service-cash-out"></a>
 # Agent Initiated Cash out/Customer-initiated Cash-out
 
-The agent initited Cash out can be scenario can be achieved by clicking the following buttons
+The agent initiated Cash out can be scenario can be achieved by clicking the following buttons
 
 * Agent Initiated Cash Out 
 
@@ -1647,7 +1647,7 @@ The agent initited Cash out can be scenario can be achieved by clicking the foll
 
 # Agent Initiated Cash out using Polling Method
 
-The agent initited Cash out can be scenario can be achieved by clicking the following buttons
+The agent Initiated Cash out can be scenario can be achieved by clicking the following buttons
 
 * Agent Initiated Cash Out 
 * Request State
@@ -1719,7 +1719,7 @@ Customer Initiated Cash out at atm using Authorisation Code can be achieved by c
 * Agent Initiated Cash Out
 
 
-### Éxample Output - Create Authorisation Code
+### Example Output - Create Authorisation Code
 
 ```json
  {
@@ -1845,7 +1845,7 @@ The register a customer in mobile money account can be achieved by clicking the 
 
 # Verify a Customer’s KYC
 
-Verify a customer KYC can be achieved by clickinbg the following buttons
+Verify a customer KYC can be achieved by clicking the following buttons
 
 * Retrieve Account information
 * Update KYC verification Status

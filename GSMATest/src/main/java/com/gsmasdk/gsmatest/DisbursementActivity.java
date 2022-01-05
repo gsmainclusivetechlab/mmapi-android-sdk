@@ -213,7 +213,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
      */
     private void checkServiceAvailability() {
         showLoading();
-        SDKManager.merchantPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.disbursement.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

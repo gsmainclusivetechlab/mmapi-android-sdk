@@ -453,7 +453,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     //Request the quotation to perform international transfer
     private void requestQuotation() {
-
+      showLoading();
         SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "", quotationRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {

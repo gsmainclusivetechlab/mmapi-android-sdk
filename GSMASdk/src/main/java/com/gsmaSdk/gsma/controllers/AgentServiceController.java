@@ -4,13 +4,11 @@ import androidx.annotation.NonNull;
 
 import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
 import com.gsmaSdk.gsma.interfaces.AccountInterface;
-import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.models.account.Account;
-import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
@@ -25,6 +23,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class AgentServiceController extends Common {
 
     /**

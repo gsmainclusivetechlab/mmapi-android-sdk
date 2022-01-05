@@ -25,13 +25,13 @@ Optimum requirements to use this SDK are -
 
 # How to include GSMA SDK in your android application
 
-Copy the GSMASdk-v1.0.6.aar [Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/aar/GSMASdk-v1.0.6.aar)
+Copy the GSMASdk-v1.0.7.aar [Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/agent-service-doc/aar/GSMASdk-v1.0.6.aar)
  file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
 
 Add the below line in dependencies of your `build.gradle` file in your application.
 
 ```groovy
-implementation files('libs/GSMASdk-v1.0.6.aar')
+implementation files('libs/GSMASdk-v1.0.7.aar')
 ```
 <a name="Configure"></a>
 
@@ -780,7 +780,7 @@ Contains functions for all the use case scenarios within Recurring Payments.
     <td rowspan="3">Customer Cash-out at an ATM using an Authorisation Code</td>
     <td><a href="docs/agentService/createAuthorisationCode.Readme.md">Obtain an Authorisation Code</a></td>
     <td>createAuthorisationCode</td>
-    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,AuthorizationCode authorizationcode,RequestStateInterface requestStateInterface</td>
+    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,AuthorizationCode authorizationCode,RequestStateInterface requestStateInterface</td>
   </tr>
   <tr>
     <td><a href="docs/agentService/createWithdrawalTransaction.Readme.md">ATM Initiated Cash-Out</a></td>

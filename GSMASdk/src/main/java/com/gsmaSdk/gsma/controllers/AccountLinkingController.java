@@ -42,7 +42,7 @@ public class AccountLinkingController extends  Common {
      * @param identifierArrayList - List of identifiers to identify a particular account
      */
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-      //  AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
+        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
 
     }
 

@@ -101,7 +101,7 @@
         //add identity to array
         identityArrayList.add(identity);
 
-        //add indentity array into account object
+        //add identity array into account object
         accountRequest.setIdentity(identityArrayList);
 
 

@@ -255,7 +255,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
      */
     private void checkServiceAvailability() {
         showLoading();
-        SDKManager.accountLinking.viewServiceAvailability(new ServiceAvailabilityInterface() {
+        SDKManager.billPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -447,7 +447,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements AdapterVi
      */
     private void requestState() {
         showLoading();
-        SDKManager.accountLinking.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+        SDKManager.billPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

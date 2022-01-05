@@ -128,14 +128,14 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
             case 3:
                 //P2P Transfer Reversal
-                 reversal();
+                reversal();
                 break;
             case 4:
                 //Obtain an FSP Balance
                 balanceCheck();
                 break;
 
-            case  5:
+            case 5:
                 retrieveTransactionFSP();
 
                 break;
@@ -200,7 +200,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     //Retrieve Transaction for an FSP
     private void retrieveTransactionFSP() {
         showLoading();
-        TransactionFilter transactionFilter=new TransactionFilter();
+        TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
 
@@ -352,7 +352,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     @SuppressWarnings("ConstantConditions")
     private void createP2PTransferObject() {
 
-        transactionRequest=new Transaction();
+        transactionRequest = new Transaction();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
             //noinspection UnnecessaryReturnStatement
@@ -445,9 +445,9 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             customDataItemList.add(customDataItem);
 
             //add kyc object to request object
-           transactionRequest.setSenderKyc(senderKyc);
+            transactionRequest.setSenderKyc(senderKyc);
 
-           transactionRequest.setCustomData(customDataItemList);
+            transactionRequest.setCustomData(customDataItemList);
             //add custom data object to request object
 
 
@@ -787,8 +787,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
     //Request the quotation to perform P2P transfer
     private void requestQuotation() {
-
-        SDKManager.p2PTransfer.createQuotation(NotificationMethod.POLLING, "",quotationRequest , new RequestStateInterface() {
+        showLoading();
+        SDKManager.p2PTransfer.createQuotation(NotificationMethod.POLLING, "", quotationRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();

@@ -7,8 +7,8 @@ import com.gsmaSdk.gsma.models.common.KYCInformation;
 import com.gsmaSdk.gsma.network.responses.BaseResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
+@SuppressWarnings("ALL")
 public class Identity extends BaseResponse {
 
 
