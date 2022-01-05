@@ -112,10 +112,6 @@ public class Transaction extends BaseResponse {
     private List<CustomDataItem> customData;
 
 
-
-
-
-
     @SerializedName("internationalTransferInformation")
     @Expose
     private InternationalTransferInformation internationalTransferInformation;
