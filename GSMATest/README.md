@@ -21,7 +21,7 @@ As usual, you get started by
 
 1.Download the file GSMATest-v1.0.7 from the following link into the filemanager of your  device
  
-[Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/agent-service-doc/release/GSMATest-v1.0.6.apk)
+[Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/agent-service-doc/release/GSMATest-v1.0.7.apk)
 
 2.Click on the file GSMATest-v1.0.7 from your device and system will ask for the installation dialog and continue the installation process
 
