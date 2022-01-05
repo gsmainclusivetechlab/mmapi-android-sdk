@@ -30,25 +30,17 @@ Transaction Reference and Identifier list must be provided.
 SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(authorisationCodeItem));
-                Log.d(SUCCESS, "onAuthorizationCodeItem: " + new Gson().toJson(authorisationCodeItem));
+              
             }
 
             @Override
             public void onAuthorisationCodeFailure(GSMAError gsmaError) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onAuthorizationCodeFailure: " + new Gson().toJson(gsmaError));
+         
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, ""+errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            
             }
         });
         
