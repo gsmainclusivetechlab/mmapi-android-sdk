@@ -14,7 +14,7 @@
             }
 
             @Override
-            public void batchTransactionRejections(BatchRejection batchTransactionRejection) {
+            public void batchTransactionRejections(BatchRejections batchTransactionRejection) {
      
             }
 
