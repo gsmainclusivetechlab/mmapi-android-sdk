@@ -24,8 +24,8 @@ import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.transaction.PatchData;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletions;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejections;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
 import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
@@ -329,7 +329,7 @@ public final class GSMAApi {
      * @param batchId            batch Id of a batch transaction
      * @param apiRequestCallback Listener for api operation
      */
-    public void retrieveBatchRejections(String uuid, String batchId, APIRequestCallback<BatchRejection> apiRequestCallback) {
+    public void retrieveBatchRejections(String uuid, String batchId, APIRequestCallback<BatchRejections> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchRejections(batchId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
@@ -342,7 +342,7 @@ public final class GSMAApi {
      * @param batchId            batch Id of a batch transaction
      * @param apiRequestCallback Listener for api operation
      */
-    public void retrieveBatchCompletions(String uuid, String batchId, APIRequestCallback<BatchCompletion> apiRequestCallback) {
+    public void retrieveBatchCompletions(String uuid, String batchId, APIRequestCallback<BatchCompletions> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
         requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveBatchCompletions(batchId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }

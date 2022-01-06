@@ -9,8 +9,8 @@ import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletions;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejections;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.network.deserializers.BatchCompletionsDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.BatchRejectionsDeserializer;
@@ -69,8 +69,8 @@ public final class RetrofitHelper {
         // Adding custom deserializers
         gsonBuilder.registerTypeAdapter(Transactions.class, new TransactionResponseDeserializer());
         gsonBuilder.registerTypeAdapter(AuthorisationCodes.class, new MissingCodeDeserializer());
-        gsonBuilder.registerTypeAdapter(BatchRejection.class, new BatchRejectionsDeserializer());
-        gsonBuilder.registerTypeAdapter(BatchCompletion.class, new BatchCompletionsDeserializer());
+        gsonBuilder.registerTypeAdapter(BatchRejections.class, new BatchRejectionsDeserializer());
+        gsonBuilder.registerTypeAdapter(BatchCompletions.class, new BatchCompletionsDeserializer());
         gsonBuilder.registerTypeAdapter(MissingResponse.class, new MissingResponseDeserializer());
         gsonBuilder.registerTypeAdapter(Bills.class, new BillResponseDeserializer());
         gsonBuilder.registerTypeAdapter(BillPayments.class, new BillPaymentsDeserializer());

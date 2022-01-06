@@ -32,8 +32,8 @@ import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletions;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejections;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
 
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
@@ -519,7 +519,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void batchTransactionRejections(BatchRejection batchTransactionRejection) {
+            public void batchTransactionRejections(BatchRejections batchTransactionRejection) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(batchTransactionRejection));
@@ -576,7 +576,7 @@ public class DisbursementActivity extends AppCompatActivity implements AdapterVi
             }
 
             @Override
-            public void batchTransactionCompleted(BatchCompletion batchTransactionCompletion) {
+            public void batchTransactionCompleted(BatchCompletions batchTransactionCompletion) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(batchTransactionCompletion));

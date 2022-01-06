@@ -2,7 +2,7 @@ package com.gsmaSdk.gsma.interfaces;
 
 
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejections;
 
 /**
  * Interface for clients to receive rejected batch transactions
@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
 public interface BatchRejectionInterface extends BaseInterface {
 
     @SuppressWarnings("unused")
-    void batchTransactionRejections(BatchRejection batchTransactionRejection);
+    void batchTransactionRejections(BatchRejections batchTransactionRejection);
 
     @SuppressWarnings("unused")
     void onTransactionFailure(GSMAError gsmaError);

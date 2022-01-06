@@ -11,8 +11,8 @@ import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.transaction.PatchData;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletions;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejections;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
@@ -108,9 +108,9 @@ public class Disbursement extends Common {
             batchRejectionInterface.onValidationError(Utils.setError(6));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().retrieveBatchRejections(uuid, batchId, new APIRequestCallback<BatchRejection>() {
+            GSMAApi.getInstance().retrieveBatchRejections(uuid, batchId, new APIRequestCallback<BatchRejections>() {
                 @Override
-                public void onSuccess(int responseCode, BatchRejection serializedResponse) {
+                public void onSuccess(int responseCode, BatchRejections serializedResponse) {
 
                     batchRejectionInterface.batchTransactionRejections(serializedResponse);
                 }
@@ -139,10 +139,10 @@ public class Disbursement extends Common {
             batchCompletionInterface.onValidationError(Utils.setError(6));
         } else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().retrieveBatchCompletions(uuid, batchId, new APIRequestCallback<BatchCompletion>() {
+            GSMAApi.getInstance().retrieveBatchCompletions(uuid, batchId, new APIRequestCallback<BatchCompletions>() {
 
                 @Override
-                public void onSuccess(int responseCode, BatchCompletion serializedResponse) {
+                public void onSuccess(int responseCode, BatchCompletions serializedResponse) {
                     batchCompletionInterface.batchTransactionCompleted(serializedResponse);
                 }
 

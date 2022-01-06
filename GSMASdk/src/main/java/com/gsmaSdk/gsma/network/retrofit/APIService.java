@@ -15,8 +15,8 @@ import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.Token;
-import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletion;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
+import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletions;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejections;
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
@@ -205,7 +205,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/batchtransactions/{id}/rejections")
-    Call<BatchRejection> retrieveBatchRejections(@Path("id") String id, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<BatchRejections> retrieveBatchRejections(@Path("id") String id, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
 
     /**
@@ -214,7 +214,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/batchtransactions/{id}/completions")
-    Call<BatchCompletion> retrieveBatchCompletions(@Path("id") String id, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<BatchCompletions> retrieveBatchCompletions(@Path("id") String id, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
 
     /**
