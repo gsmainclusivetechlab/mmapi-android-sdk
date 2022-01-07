@@ -2,9 +2,7 @@ package com.gsmaSdk.gsma.models.account;
 
 public class Identifier {
 
-
     private String key;
-
 
     private String value;
 
