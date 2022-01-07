@@ -6,8 +6,10 @@ import android.util.Log;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
@@ -29,53 +31,72 @@ import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Instrumented test, which will execute on an Android device.
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-@RunWith(AndroidJUnit4.class)
 public class MerchantPaymentInstrumentedTest {
 
-    @Before
-    public void setUp() {
 
-        PaymentConfiguration.init("59vthmq3f6i15v6jmcjskfkm",
-                      "", AuthenticationType.STANDARD_LEVEL,
-                        "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb",
-                        "https://e0943004-803f-485d-8f9d-b5acebb0d153.mock.pstmn.io",
-                        Environment.SANDBOX);
+    @Before
+    @DisplayName("Initial setup")
+    public void setUp() throws InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+
+
+        PaymentConfiguration.init("59vthmq3f6i15v6jmcjskfkmh",
+                "ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb",
+                AuthenticationType.STANDARD_LEVEL,
+                "https://e0943004-803f-485d-8f9d-b5acebb0d153.mock.pstmn.io",
+                "oVN89kXyTx1cKT3ZohH7h6foEmQmjqQm3OK2U8Ue",
+                Environment.SANDBOX);
 
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         PreferenceManager.getInstance().init(appContext);
         SDKManager.getInstance().init(appContext, new PaymentInitialiseInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+                countDownLatch.countDown();
             }
 
             @Override
             public void onSuccess(Token token) {
+                Assert.assertNotNull(token);
+                countDownLatch.countDown();
             }
 
             @Override
             public void onFailure(GSMAError gsmaError) {
+                countDownLatch.countDown();
+
             }
         });
+         countDownLatch.await();
     }
 
     @Test
-    public void createMerchantTransactionTestSuccess() {
+    @DisplayName("Payee initiate Merchant Payment")
+    public void createMerchantTransactionTestSuccess() throws InterruptedException {
+
         Transaction transaction = getTransactionObject();
-        SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", transaction, new RequestStateInterface() {
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.CALLBACK, "", transaction, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-
+                assertNotNull(requestStateObject);
+                assertNotNull(requestStateObject.getServerCorrelationId());
+                assertEquals(requestStateObject.getNotificationMethod(), "callback");
+                assertEquals(requestStateObject.getStatus(),"pending");
+                countDownLatch.countDown();
             }
+
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
-
+                countDownLatch.countDown();
             }
 
             @Override
@@ -85,11 +106,11 @@ public class MerchantPaymentInstrumentedTest {
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-
+                countDownLatch.countDown();
             }
         });
 
-
+        countDownLatch.await();
 
     }
 
