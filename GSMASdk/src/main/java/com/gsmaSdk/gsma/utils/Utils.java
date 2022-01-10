@@ -57,7 +57,7 @@ public class Utils {
             if (transactionFilter.getFromDateTime() != null) {
                 params.put("fromDateTime", transactionFilter.getFromDateTime());
             }
-            if (transactionFilter.getToDateTime()!= null) {
+            if (transactionFilter.getToDateTime() != null) {
                 params.put("toDateTime", transactionFilter.getToDateTime());
             }
             if (transactionFilter.getTransactionStatus() != null) {
@@ -86,8 +86,17 @@ public class Utils {
         final String DATETIME = "errorDateTime";
         final String MESSAGE = "message";
 
+        if(response==null){
+            errorObject.setErrorDescription("Invalid Json Format");
+            return errorObject;
+        }
+        if (response.isEmpty()) {
+            errorObject.setErrorDescription("Invalid Json Format");
+            return errorObject;
+        }
         try {
             jsonObject = new JSONObject(response);
+
             if (jsonObject.has(DESCRIPTION)) {
                 description = jsonObject.getString(DESCRIPTION);
                 errorObject.setErrorDescription(description);
@@ -111,6 +120,10 @@ public class Utils {
 
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (NullPointerException nullPointerException) {
+            nullPointerException.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("errors" + e.getMessage());
         }
         return errorObject;
     }
@@ -126,7 +139,7 @@ public class Utils {
         if (identifierArrayList.size() == 1) {
             Identifier identifier = identifierArrayList.get(0);
             identifierValue = identifierValue + identifier.getKey() + "/" + identifier.getValue();
-        } else if (identifierArrayList.size() <= 3) {
+        } else {
             for (int i = 0; i < identifierArrayList.size(); i++) {
                 Identifier identifier = identifierArrayList.get(i);
                 if (identifierArrayList.size() - 1 == i) {
@@ -250,6 +263,9 @@ public class Utils {
                     return callBackUrl;
                 }
             } else {
+                if(PaymentConfiguration.getCallBackURL()==null){
+                    return "";
+                }
                 if (PaymentConfiguration.getCallBackURL().isEmpty()) {
                     return "";
                 } else {
