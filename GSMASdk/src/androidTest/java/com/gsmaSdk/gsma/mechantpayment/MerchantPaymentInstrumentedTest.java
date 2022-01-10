@@ -1,4 +1,4 @@
-package com.gsmaSdk.gsma;
+package com.gsmaSdk.gsma.mechantpayment;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,8 +9,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
@@ -41,9 +39,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class MerchantPaymentInstrumentedTest {
 
-
     @Before
-    @DisplayName("Initial setup")
     public void setUp() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
@@ -79,8 +75,7 @@ public class MerchantPaymentInstrumentedTest {
     }
 
     @Test
-    @DisplayName("Payee initiate Merchant Payment")
-    public void createMerchantTransactionTestSuccess() throws InterruptedException {
+    public void Payee_Initiated_MerchantPay_Success() throws InterruptedException {
 
         Transaction transaction = getTransactionObject();
         CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -96,6 +91,38 @@ public class MerchantPaymentInstrumentedTest {
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+
+            }
+        });
+
+        countDownLatch.await();
+
+    }
+
+
+    @Test
+    public void Payee_Initiated_MerchantPay_Failure() throws InterruptedException {
+
+        Transaction transaction = getFailedTransactionObject();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.CALLBACK, "", transaction, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+
                 countDownLatch.countDown();
             }
 
@@ -106,13 +133,14 @@ public class MerchantPaymentInstrumentedTest {
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                countDownLatch.countDown();
+
             }
         });
 
         countDownLatch.await();
 
     }
+
 
 
     public Transaction getTransactionObject() {
@@ -137,5 +165,15 @@ public class MerchantPaymentInstrumentedTest {
         transactionRequest.setCurrency("RWF");
         return transactionRequest;
     }
+
+
+    public Transaction getFailedTransactionObject() {
+        Transaction transactionRequest = new Transaction();
+
+        transactionRequest.setAmount("200.00");
+        transactionRequest.setCurrency("RWF");
+        return transactionRequest;
+    }
+
 
 }

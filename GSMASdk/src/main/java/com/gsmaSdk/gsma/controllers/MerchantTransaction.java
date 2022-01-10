@@ -20,7 +20,6 @@ public class MerchantTransaction {
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
     public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest,String transactionType,@NonNull RequestStateInterface requestStateInterface) {
-
         if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;

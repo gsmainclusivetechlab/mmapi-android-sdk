@@ -52,16 +52,12 @@ public class Utils {
 
         if (object instanceof TransactionFilter) {
             TransactionFilter transactionFilter = (TransactionFilter) object;
-            if (transactionFilter.getLimit() != 0) {
-                params.put("limit", String.valueOf(transactionFilter.getLimit()));
-            }
-            if (transactionFilter.getOffset() != 0) {
-                params.put("offset", String.valueOf(transactionFilter.getOffset()));
-            }
+            params.put("limit", String.valueOf(transactionFilter.getLimit()));
+            params.put("offset", String.valueOf(transactionFilter.getOffset()));
             if (transactionFilter.getFromDateTime() != null) {
                 params.put("fromDateTime", transactionFilter.getFromDateTime());
             }
-            if (transactionFilter.getTransactionStatus() != null) {
+            if (transactionFilter.getToDateTime()!= null) {
                 params.put("toDateTime", transactionFilter.getToDateTime());
             }
             if (transactionFilter.getTransactionStatus() != null) {
