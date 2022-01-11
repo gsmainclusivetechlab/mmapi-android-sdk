@@ -18,15 +18,18 @@ public class MerchantTransaction {
      * @param notificationMethod The enumerated datatype to determine polling or callback
      * @param callbackUrl        The server URl for recieving response of transaction
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
+     * @param transactionType    The type of transaction
      */
     public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest,String transactionType,@NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        } else if (transactionRequest == null) {
+        if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
-        } else {
+        }
+        else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+        else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, transactionType, transactionRequest, new APIRequestCallback<RequestStateObject>() {

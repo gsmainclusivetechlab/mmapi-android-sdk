@@ -26,7 +26,6 @@ import retrofit2.http.PUT;
  */
 public class UtilUnitTest {
 
-
     /*******************HashMap from Object*********************************/
 
     @Test
