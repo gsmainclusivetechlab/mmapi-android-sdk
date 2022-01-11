@@ -26,20 +26,18 @@ public class InternationalTransfer extends Common {
     /**
      * International Transfer - Perform an International Transaction
      *
-     * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl        The server URl for receiving response of transaction
+     * @param notificationMethod    The enumerated datatype to determine polling or callback
+     * @param callbackUrl           The server URl for receiving response of transaction
      * @param transactionRequest    the request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
 
     public void createInternationalTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
-
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
@@ -61,23 +59,22 @@ public class InternationalTransfer extends Common {
     /**
      * Quotation - Quotation request for transaction
      *
-     * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl        The server URl for receiving response of transaction
-     * @param quotationRequest   the request object-International Transfers
+     * @param notificationMethod    The enumerated datatype to determine polling or callback
+     * @param callbackUrl           The server URl for receiving response of transaction
+     * @param quotationRequest      the request object-International Transfers
      * @param requestStateInterface callback for request state object
      */
     public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Quotation quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
-      QuotationController.getInstance().createQuotation(notificationMethod,callbackUrl,quotationRequest,requestStateInterface);
+        QuotationController.getInstance().createQuotation(notificationMethod, callbackUrl, quotationRequest, requestStateInterface);
     }
 
     /**
      * View Quotations - View a quotation details
      *
      * @param quotationReference - Quotation reference obtained from callback of request quotation API
-     *
      */
     public void viewQuotation(@NonNull String quotationReference, @NonNull TransactionInterface transactionInterface) {
-      QuotationController.getInstance().viewQuotation(quotationReference,transactionInterface);
+        QuotationController.getInstance().viewQuotation(quotationReference, transactionInterface);
     }
 
 
@@ -88,7 +85,7 @@ public class InternationalTransfer extends Common {
      */
 
     public void viewAccountBalance(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList,balanceInterface);
+        AccountBalanceController.getInstance().viewAccountBalance(identifierArrayList, balanceInterface);
 
     }
 
@@ -102,7 +99,7 @@ public class InternationalTransfer extends Common {
      */
 
     public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull Reversal reversal, @NonNull RequestStateInterface requestStateInterface) {
-        ReversalTransaction.getInstance().createReversal(notificationMethod,callbackUrl,referenceId,reversal,requestStateInterface);
+        ReversalTransaction.getInstance().createReversal(notificationMethod, callbackUrl, referenceId, reversal, requestStateInterface);
 
     }
 
@@ -110,12 +107,11 @@ public class InternationalTransfer extends Common {
      * View Account Transaction - Retrieve a set of transactions
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param transactionFilter Filter object for transaction
+     * @param transactionFilter   Filter object for transaction
      */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,transactionFilter,retrieveTransactionInterface);
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList, transactionFilter, retrieveTransactionInterface);
     }
-
 
 
 }

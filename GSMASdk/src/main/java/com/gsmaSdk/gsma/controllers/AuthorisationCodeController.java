@@ -114,12 +114,18 @@ public class AuthorisationCodeController {
 
         if (identifierArrayList == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(1));
+            return;
         } else if (identifierArrayList.size() == 0) {
             authorisationCodeInterface.onValidationError(Utils.setError(1));
-        } else if (authorisationCode == null) {
+        }
+        else if (authorisationCode==null) {
+            authorisationCodeInterface.onValidationError(Utils.setError(9));
+           return;
+        }
+        else if (authorisationCode.isEmpty()) {
             authorisationCodeInterface.onValidationError(Utils.setError(9));
         }
-         else if (!Utils.isOnline()) {
+        else if (!Utils.isOnline()) {
             authorisationCodeInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();

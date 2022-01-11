@@ -480,7 +480,6 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
     }
 
-
     /**
      * View Account Name
      */

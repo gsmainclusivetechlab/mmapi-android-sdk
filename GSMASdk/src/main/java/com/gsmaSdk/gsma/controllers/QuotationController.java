@@ -27,14 +27,13 @@ public class QuotationController {
      */
     @SuppressWarnings("rawtypes")
     public void createQuotation(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Quotation quotationRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
-
         if (quotationRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
-        } else if (Utils.isOnline()) {
+        }
+        else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        }
+        else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().requestQuotation(uuid, notificationMethod, callbackUrl, quotationRequest, new APIRequestCallback<RequestStateObject>() {
@@ -62,13 +61,17 @@ public class QuotationController {
      */
 
     public void viewQuotation(@NonNull String quotationReference, @NonNull TransactionInterface transactionInterface) {
-        if (!Utils.isOnline()) {
-            transactionInterface.onValidationError(Utils.setError(0));
-            return;
-        }
-        if (quotationReference == null || quotationReference.isEmpty()) {
+
+        if (quotationReference == null ) {
             transactionInterface.onValidationError(Utils.setError(10));
-        } else {
+        }
+        else if(quotationReference.isEmpty()){
+            transactionInterface.onValidationError(Utils.setError(10));
+        }
+        else if (!Utils.isOnline()) {
+            transactionInterface.onValidationError(Utils.setError(0));
+        }
+        else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<Transaction>() {
                         @Override

@@ -610,8 +610,7 @@ public class MerchantPaymentUnitTest {
 
     @Test
     public void viewAuthCodeNullIdentifierAuthCodeSuccess() {
-        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
-        SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, "REF-10102", new AuthorisationCodeItemInterface() {
+        SDKManager.merchantPayment.viewAuthorisationCode(null, "REF-10102", new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
 
@@ -630,5 +629,79 @@ public class MerchantPaymentUnitTest {
             }
         });
     }
+
+    @Test
+    public void viewAuthCodeEmptyIdentifierEmptyAuthCodeSuccess() {
+        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
+        SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, "", new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
+
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+        });
+    }
+    @Test
+    public void viewAuthCodeEmptyIdentifierNullAuthCodeSuccess() {
+        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
+        SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, null, new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
+
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+        });
+    }
+
+    @Test
+    public void viewAuthCodeIdentifierEmptyAuthCodeSuccess() {
+        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
+        Identifier identifier=new Identifier();
+        identifier.setKey("accountid");
+        identifier.setValue("2999");
+        identifierArrayList.add(identifier);
+
+        SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, "", new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
+
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid Authorisation Code");
+            }
+        });
+    }
+
 
 }
