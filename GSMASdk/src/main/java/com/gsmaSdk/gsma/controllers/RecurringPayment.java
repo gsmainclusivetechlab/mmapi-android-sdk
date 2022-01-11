@@ -5,11 +5,11 @@ import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
-import com.gsmaSdk.gsma.models.account.TransactionFilter;
-import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
@@ -32,16 +32,14 @@ public class RecurringPayment extends Common {
      * @param debitMandateRequest Request object for creating debit mandate
      */
     public void createAccountDebitMandate(@NonNull NotificationMethod notificationMethod, @NonNull String callbackUrl, @NonNull ArrayList<Identifier> identifierArrayList, DebitMandate debitMandateRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (debitMandateRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
-        }
-        if (identifierArrayList == null) {
+        } else if (identifierArrayList == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
+            return;
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
             return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
@@ -70,20 +68,17 @@ public class RecurringPayment extends Common {
      * @param transactionReference Reference of Debit mandate Request
      */
     public void viewAccountDebitMandate(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull String transactionReference, @NonNull DebitMandateInterface debitMandateInterface) {
-        if (!Utils.isOnline()) {
-            debitMandateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (transactionReference == null) {
             debitMandateInterface.onValidationError(Utils.setError(3));
             return;
-        }
-        if (identifierArrayList == null) {
+        } else if (identifierArrayList == null) {
             debitMandateInterface.onValidationError(Utils.setError(1));
             return;
-
         } else if (transactionReference.isEmpty()) {
             debitMandateInterface.onValidationError(Utils.setError(3));
+        } else if (!Utils.isOnline()) {
+            debitMandateInterface.onValidationError(Utils.setError(0));
+            return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewAccountDebitMandate(uuid, Utils.getIdentifiers(identifierArrayList), transactionReference, new APIRequestCallback<DebitMandate>() {
@@ -111,7 +106,7 @@ public class RecurringPayment extends Common {
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
     public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod, callbackUrl, transactionRequest,"merchantpay", requestStateInterface);
+        MerchantTransaction.getInstance().createMerchantTransaction(notificationMethod, callbackUrl, transactionRequest, "merchantpay", requestStateInterface);
     }
 
     /**
