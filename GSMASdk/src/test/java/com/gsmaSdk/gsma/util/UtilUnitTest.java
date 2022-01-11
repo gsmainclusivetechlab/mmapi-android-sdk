@@ -27,19 +27,6 @@ import retrofit2.http.PUT;
 public class UtilUnitTest {
 
 
-//    @Test
-//    public void base64Encode_String_Success(){
-//
-//        String key="59vthmq3f6i15v6jmcjskfkmh:ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb";
-//
-//        String expectedResult="59vthmq3f6i15v6jmcjskfkmh:ef8tl4gihlpfd7r8jpc1t1nda33q5kcnn32cj375lq6mg2nv7rb";
-//
-//        String actualResult=Utils.base64EncodeString(key);
-//        assertEquals(actualResult,expectedResult);
-//
-//
-//    }
-
     /*******************HashMap from Object*********************************/
 
     @Test
@@ -161,7 +148,7 @@ public class UtilUnitTest {
 
         String actualIdentifierPath=Utils.getIdentifiers(identifierArrayList);
 
-        Assert.assertEquals(expectedIdentifierPath,actualIdentifierPath);
+        assertEquals(expectedIdentifierPath,actualIdentifierPath);
 
 
 
@@ -185,7 +172,7 @@ public class UtilUnitTest {
 
         String actualIdentifierPath=Utils.getIdentifiers(identifierArrayList);
 
-        Assert.assertEquals(expectedIdentifierPath,actualIdentifierPath);
+        assertEquals(expectedIdentifierPath,actualIdentifierPath);
     }
 
     @Test
@@ -211,7 +198,7 @@ public class UtilUnitTest {
 
         String actualIdentifierPath=Utils.getIdentifiers(identifierArrayList);
 
-        Assert.assertEquals(expectedIdentifierPath,actualIdentifierPath);
+       assertEquals(expectedIdentifierPath,actualIdentifierPath);
 
     }
 
@@ -244,7 +231,7 @@ public class UtilUnitTest {
 
         String actualIdentifierPath=Utils.getIdentifiers(identifierArrayList);
 
-        Assert.assertEquals(expectedIdentifierPath,actualIdentifierPath);
+        assertEquals(expectedIdentifierPath,actualIdentifierPath);
 
 
     }
@@ -253,7 +240,7 @@ public class UtilUnitTest {
     public void identifier_Path_With_Empty_Account_Identifier(){
         ArrayList<Identifier> identifierArrayList=new ArrayList<>();
         String actualIdentifierPath=Utils.getIdentifiers(identifierArrayList);
-        Assert.assertEquals("",actualIdentifierPath);
+         assertEquals("",actualIdentifierPath);
 
     }
 
@@ -264,9 +251,9 @@ public class UtilUnitTest {
 
         ErrorObject actualErrorObject=Utils.setError(0);
 
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"Service Unavailable");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"No Internet connectivity");
+       assertEquals(actualErrorObject.getErrorCategory(),"Service Unavailable");
+       assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+       assertEquals(actualErrorObject.getErrorDescription(),"No Internet connectivity");
 
     }
 
@@ -275,9 +262,9 @@ public class UtilUnitTest {
 
         ErrorObject actualErrorObject=Utils.setError(1);
 
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid account identifier");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid account identifier");
 
     }
 
@@ -296,79 +283,79 @@ public class UtilUnitTest {
 
         ErrorObject actualErrorObject=Utils.setError(3);
 
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid transaction reference");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid transaction reference");
 
     }
     @Test
     public void error_Object_Validation_Invalid_Reference_Id(){
         ErrorObject actualErrorObject=Utils.setError(4);
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid reference id");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid reference id");
 
     }
 
     @Test
     public void error_Object_Validation_Invalid_JSON_Format(){
         ErrorObject actualErrorObject=Utils.setError(5);
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid json format");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid json format");
 
     }
 
     @Test
     public void error_Object_Validation_Invalid_Correlation_Id(){
         ErrorObject actualErrorObject=Utils.setError(6);
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid correlation id");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid correlation id");
     }
 
 
     @Test
     public void error_Object_Validation_Invalid_Transaction_Type(){
         ErrorObject actualErrorObject=Utils.setError(7);
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid Transaction type");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid Transaction type");
 
     }
 
     @Test
     public void error_Object_Validation_Invalid_Identifier(){
         ErrorObject actualErrorObject=Utils.setError(8);
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid Identifier");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid Identifier");
 
     }
 
     @Test
     public void error_Object_Validation_Invalid_Auth_Code(){
         ErrorObject actualErrorObject=Utils.setError(9);
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid Authorisation Code");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid Authorisation Code");
     }
 
     @Test
     public void error_Object_Validation_Invalid_Quotation_Reference(){
         ErrorObject actualErrorObject=Utils.setError(10);
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid Quotation Reference");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid Quotation Reference");
     }
 
 
     @Test
     public void error_Object_Validation_Invalid_Quotation_Max(){
         ErrorObject actualErrorObject=Utils.setError(11);
-        Assert.assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid account identifier format!maximum 3 identifiers are allowed");
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid account identifier format!maximum 3 identifiers are allowed");
     }
 
     @Test
@@ -383,8 +370,8 @@ public class UtilUnitTest {
     public void error_Object_Validation_Invalid_Patch_Object(){
         ErrorObject actualErrorObject=Utils.setError(13);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
-        Assert.assertEquals(actualErrorObject.getErrorCode(),"GenericError");
-        Assert.assertEquals(actualErrorObject.getErrorDescription(),"Invalid Patch Object");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid Patch Object");
 
     }
 

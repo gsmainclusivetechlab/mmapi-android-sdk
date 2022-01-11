@@ -20,15 +20,19 @@ public class AccountBalanceController {
      *
      * @param identifierArrayList - List of identifiers to identify a particular account
      */
-
     public  void viewAccountBalance(ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
-        if (!Utils.isOnline()) {
-            balanceInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (identifierArrayList == null) {
             balanceInterface.onValidationError(Utils.setError(1));
-        } else if (identifierArrayList.size() != 0) {
+            return;
+        }
+        else if(identifierArrayList.size()==0){
+            balanceInterface.onValidationError(Utils.setError(1));
+            return;
+        }
+        else if (!Utils.isOnline()) {
+            balanceInterface.onValidationError(Utils.setError(0));
+            return;
+        }else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().checkBalance(uuid, Utils.getIdentifiers(identifierArrayList), new APIRequestCallback<Balance>() {
                 @Override
@@ -42,8 +46,6 @@ public class AccountBalanceController {
                 }
             });
 
-        } else {
-            balanceInterface.onValidationError(Utils.setError(1));
         }
     }
 
