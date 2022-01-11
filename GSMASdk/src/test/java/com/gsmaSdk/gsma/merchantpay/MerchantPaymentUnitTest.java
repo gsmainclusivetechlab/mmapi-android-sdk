@@ -32,7 +32,7 @@ public class MerchantPaymentUnitTest {
     }
 
     @Test
-    public void balance_EmptyAccountIdentifier_Returns_ErrorObject_Success() throws InterruptedException {
+    public void balanceEmptyIdentifierSuccess() throws InterruptedException {
         ArrayList<Identifier> identifierArrayList = new ArrayList<>();
         SDKManager.merchantPayment.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
@@ -56,7 +56,7 @@ public class MerchantPaymentUnitTest {
     }
 
     @Test
-    public void balance_EmptyAccountIdentifier_Returns_ErrorObject_Failure() throws InterruptedException {
+    public void balanceEmptyIdentifierFailure() throws InterruptedException {
         ArrayList<Identifier> identifierArrayList = new ArrayList<>();
         SDKManager.merchantPayment.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
@@ -78,7 +78,7 @@ public class MerchantPaymentUnitTest {
     }
 
     @Test
-    public void balance_NullAccountIdentifier_Returns_ErrorObject_Success() throws InterruptedException {
+    public void balanceNullIdentifierSuccess() throws InterruptedException {
 
         SDKManager.merchantPayment.viewAccountBalance(null, new BalanceInterface() {
             @Override
@@ -102,7 +102,7 @@ public class MerchantPaymentUnitTest {
     }
 
     @Test
-    public void balance_NullAccountIdentifier_Returns_ErrorObject_Failure() throws InterruptedException {
+    public void balanceNullIdentifierFailure() throws InterruptedException {
 
         SDKManager.merchantPayment.viewAccountBalance(null, new BalanceInterface() {
             @Override
@@ -124,7 +124,7 @@ public class MerchantPaymentUnitTest {
     }
 
     @Test
-    public void createMerchantTransaction_Correlation_Id_Returns_ErrorObject_Success() {
+    public void merchantTransactionCorrelationIdSuccess() {
         SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -151,7 +151,7 @@ public class MerchantPaymentUnitTest {
     }
 
     @Test
-    public void createMerchantTransaction_Correlation_Id_Returns_ErrorObject_Failure() {
+    public void merchantTransactionCorrelationIdFailure() {
         SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -166,7 +166,7 @@ public class MerchantPaymentUnitTest {
             @Override
             public void getCorrelationId(String correlationID) {
                 countDownLatch.countDown();
-                assertNotEquals(correlationID,"");
+                assertNotEquals(correlationID, "");
             }
 
             @Override
@@ -178,7 +178,7 @@ public class MerchantPaymentUnitTest {
     }
 
     @Test
-    public void createMerchantTransaction_NullTransactionRequest_Returns_ErrorObject_Success() {
+    public void merchantTransactionNullTransactionRequestSuccess() {
         SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -207,9 +207,8 @@ public class MerchantPaymentUnitTest {
 
     }
 
-
     @Test
-    public void createMerchantTransaction_NullTransactionRequest_Returns_ErrorObject_Failure() {
+    public void merchantTransactionNullTransactionRequestFailure() {
         SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -235,7 +234,6 @@ public class MerchantPaymentUnitTest {
         });
 
     }
-
 
 
 }

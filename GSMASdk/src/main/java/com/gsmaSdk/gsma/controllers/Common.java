@@ -86,17 +86,19 @@ public class Common {
      */
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (serverCorrelationId == null) {
             requestStateInterface.onValidationError(Utils.setError(2));
             return;
         }
         if (serverCorrelationId.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(2));
-        } else {
+            return;
+        }
+        else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }
+        else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().viewRequestState(uuid, serverCorrelationId, new APIRequestCallback<RequestStateObject>() {

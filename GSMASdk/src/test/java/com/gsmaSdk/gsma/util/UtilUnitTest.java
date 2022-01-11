@@ -29,7 +29,7 @@ public class UtilUnitTest {
     /*******************HashMap from Object*********************************/
 
     @Test
-    public void hashMapFrom_Object_Success() {
+    public void hashMapFromObjectSuccess() {
 
         TransactionFilter transactionFilter = new TransactionFilter();
 
@@ -57,7 +57,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void hashMapFrom_Object_Failure() {
+    public void hashMapFromObjectFailure() {
 
         TransactionFilter transactionFilter = new TransactionFilter();
 
@@ -82,7 +82,7 @@ public class UtilUnitTest {
 
 
     @Test
-    public void parse_Error_Success() {
+    public void parseErrorSuccess() {
 
         String response = "{\n" +
                 "\t\"errorCategory\": \"businessRule\",\n" +
@@ -99,7 +99,7 @@ public class UtilUnitTest {
 
 
     @Test
-    public void parse_Error_Failure() {
+    public void parseErrorFailure() {
 
         String response = "{\n" +
                 "\t\"errorCategory\": \"businessRule\",\n" +
@@ -114,19 +114,19 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void parse_Error_Null_String() {
+    public void parseErrorNullStringSuccess() {
         ErrorObject actualObject = Utils.parseError(null);
         assertEquals( "Invalid Json Format",actualObject.getErrorDescription());
     }
 
     @Test
-    public void parse_Error_Empty_String() {
+    public void parseErrorEmptyStringSuccess() {
         ErrorObject actualObject = Utils.parseError("");
         assertEquals( "Invalid Json Format",actualObject.getErrorDescription());
     }
 
     @Test
-    public void parse_Error_Empty_EmptyJson() {
+    public void parseErrorEmptyJsonSuccess() {
         ErrorObject actualObject = Utils.parseError("{}");
         assertEquals(actualObject.getErrorCode(),actualObject.getErrorCode());
     }
@@ -135,7 +135,7 @@ public class UtilUnitTest {
     /*****************************Identifiers*********************************/
 
     @Test
-    public void identifier_Path_With_One_Account_Identifier(){
+    public void identifierPathWithOneAccountIdentifierSuccess(){
         String expectedIdentifierPath="accountid/1";
 
         Identifier identifier=new Identifier();
@@ -154,7 +154,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void identifier_Path_With_Two_Account_Identifier(){
+    public void identifierPathTwoAccountIdentifierSuccess(){
         String expectedIdentifierPath="accountid@2999$walletid@1";
 
         Identifier identifierAccount=new Identifier();
@@ -175,7 +175,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void identifier_Path_With_Three_Account_Identifier(){
+    public void identifierPathThreeAccountIdentifierSuccess(){
         String expectedIdentifierPath="accountid@2999$walletid@1$msidn@+44012345678";
 
         Identifier identifierAccount=new Identifier();
@@ -202,7 +202,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void identifier_Path_With_Four_Account_Identifier(){
+    public void identifierPathFourAccountIdentifierSuccess(){
         String expectedIdentifierPath="accountid@2999$walletid@1$msidn@+44012345678$consumerno@1";
 
         Identifier identifierAccount=new Identifier();
@@ -236,7 +236,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void identifier_Path_With_Empty_Account_Identifier(){
+    public void identifierPathEmptyAccountIdentifierSuccess(){
         ArrayList<Identifier> identifierArrayList=new ArrayList<>();
         String actualIdentifierPath=Utils.getIdentifiers(identifierArrayList);
          assertEquals("",actualIdentifierPath);
@@ -246,7 +246,7 @@ public class UtilUnitTest {
     /****************************Validation Error Object*********************************/
 
     @Test
-    public void error_Object_Validation_No_Internet_connectivity(){
+    public void setErrorValidationNoInternetConnectivitySuccess(){
 
         ErrorObject actualErrorObject=Utils.setError(0);
 
@@ -257,7 +257,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Account_Identifier(){
+    public void setErrorValidationInvalidAccountIdentifierSuccess(){
 
         ErrorObject actualErrorObject=Utils.setError(1);
 
@@ -268,7 +268,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Server_correlation_Id(){
+    public void setErrorValidationInvalidServerCorrelationIdSuccess(){
 
         ErrorObject actualErrorObject=Utils.setError(2);
 
@@ -278,7 +278,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Transaction_Reference(){
+    public void setErrorValidationInvalidTransactionReferenceSuccess(){
 
         ErrorObject actualErrorObject=Utils.setError(3);
 
@@ -288,7 +288,7 @@ public class UtilUnitTest {
 
     }
     @Test
-    public void error_Object_Validation_Invalid_Reference_Id(){
+    public void setErrorValidationInvalidReferenceIdSuccess(){
         ErrorObject actualErrorObject=Utils.setError(4);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -297,7 +297,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_JSON_Format(){
+    public void setErrorValidationInvalidJSONFormatSuccess(){
         ErrorObject actualErrorObject=Utils.setError(5);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -306,7 +306,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Correlation_Id(){
+    public void setErrorValidationInvalidCorrelationIdSuccess(){
         ErrorObject actualErrorObject=Utils.setError(6);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -315,7 +315,7 @@ public class UtilUnitTest {
 
 
     @Test
-    public void error_Object_Validation_Invalid_Transaction_Type(){
+    public void setErrorValidationInvalidTransactionTypeSuccess(){
         ErrorObject actualErrorObject=Utils.setError(7);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -324,7 +324,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Identifier(){
+    public void setErrorValidationInvalidIdentifierSuccess(){
         ErrorObject actualErrorObject=Utils.setError(8);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -333,7 +333,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Auth_Code(){
+    public void setErrorValidationInvalidAuthCodeSuccess(){
         ErrorObject actualErrorObject=Utils.setError(9);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -341,7 +341,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Quotation_Reference(){
+    public void setErrorValidationInvalidQuotationReferenceSuccess(){
         ErrorObject actualErrorObject=Utils.setError(10);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -350,7 +350,7 @@ public class UtilUnitTest {
 
 
     @Test
-    public void error_Object_Validation_Invalid_Quotation_Max(){
+    public void setErrorValidationInvalidQuotationMaxSuccess(){
         ErrorObject actualErrorObject=Utils.setError(11);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -358,7 +358,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Bill_Reference(){
+    public void setErrorValidationInvalidBillReferenceSuccess(){
         ErrorObject actualErrorObject=Utils.setError(12);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -366,7 +366,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Patch_Object(){
+    public void setErrorValidationInvalidPatchObjectSucces(){
         ErrorObject actualErrorObject=Utils.setError(13);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -376,7 +376,7 @@ public class UtilUnitTest {
 
 
     @Test
-    public void error_Object_Validation_Invalid_IdentityId(){
+    public void setErrorValidationInvalidIdentityIdSuccess(){
         ErrorObject actualErrorObject=Utils.setError(14);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -385,7 +385,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void error_Object_Validation_Invalid_Default_Error(){
+    public void setErrorValidationInvalidDefaultErrorSuccess(){
         ErrorObject actualErrorObject=Utils.setError(15);
         assertEquals(actualErrorObject.getErrorCategory(),"");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
@@ -393,13 +393,13 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void create_UUID_Not_Null() {
+    public void generateUUIDNotNullSuccess() {
         String uuid=Utils.generateUUID();
         assertNotNull(uuid);
     }
 
     @Test
-    public void callback_URL_NotificationMethod_Return_String(){
+    public void setCallbackUrlSuccess(){
         String callbackURl="https://e0943004-803f-485d-8f9d-b5acebb0d153.mock.pstmn.io";
         String actualCallBackURl=Utils.setCallbackUrl(NotificationMethod.CALLBACK,callbackURl);
         assertEquals(callbackURl,actualCallBackURl);
@@ -407,26 +407,27 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void nullCallBackURL_NullNotificationMethod_Returns_Empty_String(){
+    public void setNullCallBackNullUrlSuccess(){
+
         String actualCallBackURl=Utils.setCallbackUrl(null,null);
         assertEquals(actualCallBackURl,"");
     }
 
     @Test
-    public void callBackURL_NullNotificationMethod_Returns_Empty_String(){
+    public void setNullCallbackUrlSuccess(){
         String callbackURl="https://e0943004-803f-485d-8f9d-b5acebb0d153.mock.pstmn.io";
         String actualCallBackURl=Utils.setCallbackUrl(null,callbackURl);
         assertEquals(actualCallBackURl,"");
     }
 
     @Test
-    public void nullCallBackURL_NotificationMethod_Returns_Empty_String(){
+    public void setCallbackNullUrlSuccess(){
         String actualCallBackURl=Utils.setCallbackUrl(NotificationMethod.CALLBACK,null);
         assertEquals(actualCallBackURl,"");
     }
 
     @Test
-    public void polling_CallBackURL_Return_Empty_String(){
+    public void setPollingURLSuccess(){
         String callbackURl="https://e0943004-803f-485d-8f9d-b5acebb0d153.mock.pstmn.io";
 
         String actualCallBackURl=Utils.setCallbackUrl(NotificationMethod.POLLING,callbackURl);
@@ -437,7 +438,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void nullPolling_NullCallBackURL_Return_Empty_String(){
+    public void setNullPollingNullUrlSuccess(){
 
         String actualCallBackURl=Utils.setCallbackUrl(null,null);
 
@@ -447,7 +448,7 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void polling_NullCallBackURL_Return_Empty_String(){
+    public void setPollingNullUrlSuccess(){
 
         String actualCallBackURl=Utils.setCallbackUrl(NotificationMethod.POLLING,null);
 
@@ -456,7 +457,7 @@ public class UtilUnitTest {
 
     }
     @Test
-    public void nullPolling_CallBackURL_Return_Empty_String(){
+    public void setNullPollingURLSuccess(){
         String callbackURl="https://e0943004-803f-485d-8f9d-b5acebb0d153.mock.pstmn.io";
 
         String actualCallBackURl=Utils.setCallbackUrl(null,callbackURl);
@@ -466,14 +467,14 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void polling_EmptyCallBackURL_Return_Empty_String(){
+    public void setPollingEmptyUrlSuccess(){
         String actualCallBackURl=Utils.setCallbackUrl(NotificationMethod.POLLING,"");
         assertNotNull(actualCallBackURl);
         assertEquals("",actualCallBackURl);
     }
 
     @Test
-    public void nullNotificationMethod_EmptyCallBackURL_Return_Empty_String(){
+    public void setNullNotificationMethodEmptySuccess(){
         String actualCallBackURl=Utils.setCallbackUrl(null,"");
         assertNotNull(actualCallBackURl);
         assertEquals("",actualCallBackURl);
