@@ -21,14 +21,16 @@ public class RefundTransaction {
      * @param transactionRequest Transaction Object containing details required for initiating the refund process
      */
     public void createRefundTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
+        if (transactionRequest == null) {
+            requestStateInterface.onValidationError(Utils.setError(5));
+            return;
+        }
+        else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
             return;
         }
-        if (transactionRequest == null) {
-            requestStateInterface.onValidationError(Utils.setError(1));
-            return;
-        } else {
+
+        else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().refund(uuid, notificationMethod, callbackUrl, transactionRequest, new APIRequestCallback<RequestStateObject>() {
