@@ -235,6 +235,11 @@ public class Utils {
                 errorObject.setErrorCode("GenericError");
                 errorObject.setErrorDescription("Invalid Identity Id");
                 break;
+            case 15:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid Batch Id");
+                break;
 
             default:
                 errorObject.setErrorCategory("");

@@ -35,12 +35,11 @@ public class Disbursement extends Common {
      * @param transactionRequest Transaction Object containing details required for initiating the transaction
      */
     public void createDisbursementTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
@@ -68,12 +67,11 @@ public class Disbursement extends Common {
      * @param bulkTransactionObject Transaction Object containing details required for initiating the bulk transaction
      */
     public void createBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull BatchTransaction bulkTransactionObject, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (bulkTransactionObject == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
@@ -100,12 +98,14 @@ public class Disbursement extends Common {
      * @param batchId Unique identifier for identifying a batch transaction
      */
     public void viewBatchRejections(String batchId, @NonNull BatchRejectionInterface batchRejectionInterface) {
-        if (!Utils.isOnline()) {
+        if (batchId == null) {
+            batchRejectionInterface.onValidationError(Utils.setError(15));
+            return;
+        } else if (batchId.isEmpty()) {
+            batchRejectionInterface.onValidationError(Utils.setError(15));
+        } else if (!Utils.isOnline()) {
             batchRejectionInterface.onValidationError(Utils.setError(0));
             return;
-        }
-        if (batchId.isEmpty()) {
-            batchRejectionInterface.onValidationError(Utils.setError(6));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveBatchRejections(uuid, batchId, new APIRequestCallback<BatchRejections>() {
@@ -131,12 +131,14 @@ public class Disbursement extends Common {
      */
 
     public void viewBatchCompletions(String batchId, @NonNull BatchCompletionInterface batchCompletionInterface) {
-        if (!Utils.isOnline()) {
+        if (batchId == null) {
+            batchCompletionInterface.onValidationError(Utils.setError(15));
+            return;
+        } else if (batchId.isEmpty()) {
+            batchCompletionInterface.onValidationError(Utils.setError(15));
+        } else if (!Utils.isOnline()) {
             batchCompletionInterface.onValidationError(Utils.setError(0));
             return;
-        }
-        if (batchId.isEmpty()) {
-            batchCompletionInterface.onValidationError(Utils.setError(6));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveBatchCompletions(uuid, batchId, new APIRequestCallback<BatchCompletions>() {
@@ -164,15 +166,14 @@ public class Disbursement extends Common {
      */
 
     public void updateBatchTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String batchId, @NonNull ArrayList<PatchData> batchArrayList, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (batchId == null) {
-            requestStateInterface.onValidationError(Utils.setError(1));
+            requestStateInterface.onValidationError(Utils.setError(15));
             return;
         } else if (batchId.isEmpty()) {
-            requestStateInterface.onValidationError(Utils.setError(1));
+            requestStateInterface.onValidationError(Utils.setError(15));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
@@ -198,16 +199,14 @@ public class Disbursement extends Common {
      * @param batchId Unique identifier for identifying a batch transaction
      */
     public void viewBatchTransaction(String batchId, @NonNull BatchTransactionItemInterface batchTransactionItemInterface) {
-
-        if (!Utils.isOnline()) {
-            batchTransactionItemInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (batchId == null) {
-            batchTransactionItemInterface.onValidationError(Utils.setError(3));
+            batchTransactionItemInterface.onValidationError(Utils.setError(15));
             return;
         } else if (batchId.isEmpty()) {
-            batchTransactionItemInterface.onValidationError(Utils.setError(3));
+            batchTransactionItemInterface.onValidationError(Utils.setError(15));
+        } else if (!Utils.isOnline()) {
+            batchTransactionItemInterface.onValidationError(Utils.setError(0));
+            return;
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveBatch(uuid, batchId, new APIRequestCallback<BatchTransaction>() {
@@ -248,7 +247,7 @@ public class Disbursement extends Common {
      * @param limit               limit set for receiving records per request
      */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,transactionFilter, retrieveTransactionInterface);
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList, transactionFilter, retrieveTransactionInterface);
 
     }
 
