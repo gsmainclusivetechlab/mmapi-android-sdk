@@ -85,7 +85,7 @@ public class MerchantPaymentUnitTest {
     }
 
 
-    /*****************************merchantTransaction************************************/
+    /*****************************Create Merchant Transaction************************************/
 
 
     @Test

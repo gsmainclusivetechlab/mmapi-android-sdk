@@ -33,7 +33,10 @@ import static org.junit.Assert.assertEquals;
 
 public class DisbursementUnitTest {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dfc806778a9273525163e1bca7ab489e58706d6c
     /************************************Balance************************************/
     @Test
     public void viewBalanceEmptyIdentifierSuccess() {
