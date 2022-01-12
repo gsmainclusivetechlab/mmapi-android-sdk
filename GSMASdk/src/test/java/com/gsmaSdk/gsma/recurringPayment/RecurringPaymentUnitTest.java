@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 
 public class RecurringPaymentUnitTest {
+
     /************************************Balance************************************/
     @Test
     public void viewBalanceEmptyIdentifierSuccess() {

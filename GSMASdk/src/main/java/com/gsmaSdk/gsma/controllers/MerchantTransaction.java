@@ -23,11 +23,10 @@ public class MerchantTransaction {
     public void createMerchantTransaction(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest,String transactionType,@NonNull RequestStateInterface requestStateInterface) {
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
-            return;
+
         }
         else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
-            return;
         }
         else {
             String uuid = Utils.generateUUID();

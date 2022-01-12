@@ -23,14 +23,12 @@ public class AccountNameController {
      */
 
     public void viewAccountName(ArrayList<Identifier> identifierArrayList, @NonNull AccountHolderInterface accountHolderInterface) {
-
         if (identifierArrayList == null) {
             accountHolderInterface.onValidationError(Utils.setError(1));
         } else if (identifierArrayList.size() == 0) {
             accountHolderInterface.onValidationError(Utils.setError(1));
         } else if (!Utils.isOnline()) {
             accountHolderInterface.onValidationError(Utils.setError(0));
-
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewAccountName(uuid, Utils.getIdentifiers(identifierArrayList), new APIRequestCallback<AccountHolderName>() {

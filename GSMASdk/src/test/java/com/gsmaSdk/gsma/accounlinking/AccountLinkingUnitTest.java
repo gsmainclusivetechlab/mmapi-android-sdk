@@ -828,7 +828,7 @@ public class AccountLinkingUnitTest {
         TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
-        SDKManager.merchantPayment.viewAccountTransactions(null, transactionFilter, new RetrieveTransactionInterface() {
+        SDKManager.accountLinking.viewAccountTransactions(null, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 assertEquals(errorObject.getErrorCode(), "GenericError");
