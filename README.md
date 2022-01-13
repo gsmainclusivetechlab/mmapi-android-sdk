@@ -853,6 +853,44 @@ Contains functions for all the use case scenarios within Recurring Payments.
 </tbody>
 </table>
  
+# Test
+         
+* Unit Testing     
+     
+Follow the steps to perform unit testing     
+     
+ Step 1:Clone The project using Https or SSH
+       
+#### HTTPS
+
+```
+https://github.com/gsmainclusivetechlab/mmapi-android-sdk.git
+
+```
+
+#### SSH  
+
+```
+git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
+
+```  
+     
+Step 2:Import the project in android studio
+     
+Step 3:Got to test directory under project Directory 
+     
+Step 4:Test directory contains test classes for each module and for static classes
+     
+Step 5:Run a class or a specific function and verify the test cases    
+     
+     
+     
+     
+     
+     
+ 
+     
+     
      
      
  
