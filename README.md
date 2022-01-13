@@ -877,10 +877,10 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 ```  
      
- 1.Import the project in android studio< /br>
- 2.Got to test directory under project Directory < /br>
- 3.Test directory contains test classes for each module and for static classes< /br>
- 4.Run a class or a specific function and verify the test cases< /br>  
+ 1.Import the project in android studio<br/>
+ 2.Got to test directory under project Directory <br/>
+ 3.Test directory contains test classes for each module and for static classes<br/>
+ 4.Run a class or a specific function and verify the test cases<br/>  
      
      
      
