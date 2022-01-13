@@ -366,14 +366,13 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void setErrorValidationInvalidPatchObjectSucces(){
+    public void setErrorValidationInvalidPatchObjectSuccess(){
         ErrorObject actualErrorObject=Utils.setError(13);
         assertEquals(actualErrorObject.getErrorCategory(),"validation");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
         assertEquals(actualErrorObject.getErrorDescription(),"Invalid Patch Object");
 
     }
-
 
     @Test
     public void setErrorValidationInvalidIdentityIdSuccess(){
@@ -385,8 +384,19 @@ public class UtilUnitTest {
     }
 
     @Test
-    public void setErrorValidationInvalidDefaultErrorSuccess(){
+    public void setErrorValidationInvalidBatchIdSuccess(){
         ErrorObject actualErrorObject=Utils.setError(15);
+        assertEquals(actualErrorObject.getErrorCategory(),"validation");
+        assertEquals(actualErrorObject.getErrorCode(),"GenericError");
+        assertEquals(actualErrorObject.getErrorDescription(),"Invalid Batch Id");
+
+    }
+
+
+
+    @Test
+    public void setErrorValidationInvalidDefaultErrorSuccess(){
+        ErrorObject actualErrorObject=Utils.setError(16);
         assertEquals(actualErrorObject.getErrorCategory(),"");
         assertEquals(actualErrorObject.getErrorCode(),"GenericError");
         assertEquals(actualErrorObject.getErrorDescription(),"");

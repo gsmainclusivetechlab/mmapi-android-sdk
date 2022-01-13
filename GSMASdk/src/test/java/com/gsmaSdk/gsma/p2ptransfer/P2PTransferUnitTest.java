@@ -137,7 +137,6 @@ public class P2PTransferUnitTest {
         });
     }
 
-
     /***************************Reversal****************************************/
 
     @Test
@@ -256,65 +255,47 @@ public class P2PTransferUnitTest {
 
             }
         });
+
     }
 
-    /************************************Balance************************************/
-
     @Test
-    public void viewBalanceEmptyIdentifierSuccess() {
-        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
-        SDKManager.p2PTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+    public void createReversalNullReversalEmptyReferenceSuccess() {
+        SDKManager.p2PTransfer.createReversal(NotificationMethod.POLLING, "", "", null, new RequestStateInterface() {
             @Override
-            public void onBalanceSuccess(Balance balance) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
 
             }
 
             @Override
-            public void onBalanceFailure(GSMAError gsmaError) {
+            public void onRequestStateFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 assertEquals(errorObject.getErrorCode(), "GenericError");
                 assertEquals(errorObject.getErrorCategory(), "validation");
-                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+                assertEquals(errorObject.getErrorDescription(), "Invalid reference id");
+
             }
         });
 
     }
 
-
-    @Test
-    public void viewBalanceNullIdentifierSuccess() {
-        SDKManager.p2PTransfer.viewAccountBalance(null, new BalanceInterface() {
-            @Override
-            public void onBalanceSuccess(Balance balance) {
-            }
-
-            @Override
-            public void onBalanceFailure(GSMAError gsmaError) {
-            }
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                assertEquals(errorObject.getErrorCode(), "GenericError");
-                assertEquals(errorObject.getErrorCategory(), "validation");
-                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
-            }
-        });
-
-    }
 
 
     /****************************View Account Transactions**********************/
 
     @Test
-    public void viewAccountTransactionEmptyIdentifierSuccess() {
+    public void viewAccountEmptyIdentifierEmptyFilterSuccess() {
         ArrayList<Identifier> identifierArrayList = new ArrayList<>();
 
         TransactionFilter transactionFilter = new TransactionFilter();
-        transactionFilter.setLimit(5);
-        transactionFilter.setOffset(0);
 
         SDKManager.p2PTransfer.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
             @Override
@@ -338,11 +319,65 @@ public class P2PTransferUnitTest {
     }
 
     @Test
-    public void viewAccountTransactionNullIdentifierSuccess() {
+    public void viewAccountEmptyIdentifierNullFilterSuccess() {
+        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
+        SDKManager.p2PTransfer.viewAccountTransactions(identifierArrayList, null, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
 
-        TransactionFilter transactionFilter = new TransactionFilter();
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+    }
+
+
+    @Test
+    public void viewAccountEmptyIdentifierFilterSuccess() {
+        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
+
+
+        TransactionFilter transactionFilter=new TransactionFilter();
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
+
+
+        SDKManager.p2PTransfer.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+
+    }
+
+    @Test
+    public void viewAccountNullIdentifierEmptyFilterSuccess() {
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+
         SDKManager.p2PTransfer.viewAccountTransactions(null, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -361,6 +396,91 @@ public class P2PTransferUnitTest {
 
             }
         });
+
+    }
+
+    @Test
+    public void viewAccountNullIdentifierNullFilterSuccess() {
+
+        SDKManager.p2PTransfer.viewAccountTransactions(null, null, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+    }
+
+
+    @Test
+    public void viewAccountNullIdentifierFilterSuccess() {
+
+        TransactionFilter transactionFilter=new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+
+        SDKManager.p2PTransfer.viewAccountTransactions(null, transactionFilter, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+
+    }
+
+    @Test
+    public void viewTransactionIdentifierNullFilterSuccess() {
+
+        ArrayList<Identifier> identifierArrayList=new ArrayList<>();
+        Identifier identifier=new Identifier();
+        identifier.setKey("accountno");
+        identifier.setValue("2999");
+        identifierArrayList.add(identifier);
+
+
+        SDKManager.p2PTransfer.viewAccountTransactions(identifierArrayList, null, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid json format");
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+
     }
 
 

@@ -31,6 +31,10 @@ public class AccountTransactionsController {
         }  else if (identifierArrayList.size() == 0) {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
         }
+        else if(transactionFilter==null){
+            retrieveTransactionInterface.onValidationError(Utils.setError(5));
+        }
+
         else if (!Utils.isOnline()) {
             retrieveTransactionInterface.onValidationError(Utils.setError(0));
         }

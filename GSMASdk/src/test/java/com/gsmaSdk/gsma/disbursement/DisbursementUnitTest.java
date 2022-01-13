@@ -33,10 +33,7 @@ import static org.junit.Assert.assertEquals;
 
 public class DisbursementUnitTest {
 
-<<<<<<< HEAD
 
-=======
->>>>>>> dfc806778a9273525163e1bca7ab489e58706d6c
     /************************************Balance************************************/
     @Test
     public void viewBalanceEmptyIdentifierSuccess() {
@@ -454,6 +451,7 @@ public class DisbursementUnitTest {
 
     }
 
+
     /***************************Reversal****************************************/
 
     @Test
@@ -575,15 +573,44 @@ public class DisbursementUnitTest {
 
     }
 
+    @Test
+    public void createReversalNullReversalEmptyReferenceSuccess() {
+        SDKManager.disbursement.createReversal(NotificationMethod.POLLING, "", "", null, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid reference id");
+
+            }
+        });
+
+    }
+
+
+
     /****************************View Account Transactions**********************/
 
     @Test
-    public void viewAccountTransactionEmptyIdentifierSuccess() {
+    public void viewAccountEmptyIdentifierEmptyFilterSuccess() {
         ArrayList<Identifier> identifierArrayList = new ArrayList<>();
 
         TransactionFilter transactionFilter = new TransactionFilter();
-        transactionFilter.setLimit(5);
-        transactionFilter.setOffset(0);
 
         SDKManager.disbursement.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
             @Override
@@ -607,11 +634,65 @@ public class DisbursementUnitTest {
     }
 
     @Test
-    public void viewAccountTransactionNullIdentifierSuccess() {
+    public void viewAccountEmptyIdentifierNullFilterSuccess() {
+        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
+        SDKManager.disbursement.viewAccountTransactions(identifierArrayList, null, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
 
-        TransactionFilter transactionFilter = new TransactionFilter();
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+    }
+
+
+    @Test
+    public void viewAccountEmptyIdentifierFilterSuccess() {
+        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
+
+
+        TransactionFilter transactionFilter=new TransactionFilter();
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
+
+
+        SDKManager.disbursement.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+
+    }
+
+    @Test
+    public void viewAccountNullIdentifierEmptyFilterSuccess() {
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+
         SDKManager.disbursement.viewAccountTransactions(null, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -632,6 +713,95 @@ public class DisbursementUnitTest {
         });
 
     }
+
+    @Test
+    public void viewAccountNullIdentifierNullFilterSuccess() {
+
+        SDKManager.disbursement.viewAccountTransactions(null, null, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+    }
+
+
+    @Test
+    public void viewAccountNullIdentifierFilterSuccess() {
+
+        TransactionFilter transactionFilter=new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+
+        SDKManager.disbursement.viewAccountTransactions(null, transactionFilter, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+
+    }
+
+    @Test
+    public void viewTransactionIdentifierNullFilterSuccess() {
+
+        ArrayList<Identifier> identifierArrayList=new ArrayList<>();
+        Identifier identifier=new Identifier();
+        identifier.setKey("accountno");
+        identifier.setValue("2999");
+        identifierArrayList.add(identifier);
+
+
+        SDKManager.disbursement.viewAccountTransactions(identifierArrayList, null, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid json format");
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+
+            }
+        });
+
+    }
+
+
+
+
+
 
     /********************************View Response***********************************/
 

@@ -240,53 +240,7 @@ public class AgentServiceUnitTest {
         });
     }
 
-    /***********************View Authorisation Code*********************/
-
-
-    @Test
-    public void viewAuthCodeEmptyIdentifierAuthCodeSuccess() {
-        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
-        SDKManager.agentService.viewAuthorisationCode(identifierArrayList, "REF-10102", new AuthorisationCodeItemInterface() {
-            @Override
-            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
-
-            }
-
-            @Override
-            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
-
-            }
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                assertEquals(errorObject.getErrorCode(), "GenericError");
-                assertEquals(errorObject.getErrorCategory(), "validation");
-                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
-            }
-        });
-    }
-
-    @Test
-    public void viewAuthCodeNullIdentifierAuthCodeSuccess() {
-        SDKManager.agentService.viewAuthorisationCode(null, "REF-10102", new AuthorisationCodeItemInterface() {
-            @Override
-            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
-
-            }
-
-            @Override
-            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
-
-            }
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                assertEquals(errorObject.getErrorCode(), "GenericError");
-                assertEquals(errorObject.getErrorCategory(), "validation");
-                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
-            }
-        });
-    }
+    /****************************View AuthorisationCode*************/
 
     @Test
     public void viewAuthCodeEmptyIdentifierEmptyAuthCodeSuccess() {
@@ -335,14 +289,135 @@ public class AgentServiceUnitTest {
     }
 
     @Test
+    public void viewAuthCodeEmptyIdentifierAuthCodeSuccess() {
+        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
+        SDKManager.agentService.viewAuthorisationCode(identifierArrayList, "REF-10102", new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
+
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+        });
+    }
+
+
+
+    @Test
+    public void viewAuthCodeNullIdentifierEmptyAuthCodeSuccess() {
+        SDKManager.agentService.viewAuthorisationCode(null, "", new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
+
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+        });
+    }
+
+    @Test
+    public void viewAuthCodeNullIdentifierNullAuthCodeSuccess() {
+        SDKManager.agentService.viewAuthorisationCode(null, null, new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
+
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+        });
+    }
+
+    @Test
+    public void viewAuthCodeNullIdentifierAuthCodeSuccess() {
+
+        SDKManager.agentService.viewAuthorisationCode(null, "REF-10102", new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
+
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+        });
+    }
+
+
+    @Test
     public void viewAuthCodeIdentifierEmptyAuthCodeSuccess() {
         ArrayList<Identifier> identifierArrayList = new ArrayList<>();
-        Identifier identifier = new Identifier();
+        Identifier identifier=new Identifier();
         identifier.setKey("accountid");
         identifier.setValue("2999");
         identifierArrayList.add(identifier);
 
         SDKManager.agentService.viewAuthorisationCode(identifierArrayList, "", new AuthorisationCodeItemInterface() {
+            @Override
+            public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
+
+            }
+
+            @Override
+            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid Authorisation Code");
+            }
+        });
+    }
+
+    @Test
+    public void viewAuthCodeIdentifierNullAuthCodeSuccess() {
+        ArrayList<Identifier> identifierArrayList = new ArrayList<>();
+        Identifier identifier=new Identifier();
+        identifier.setKey("accountid");
+        identifier.setValue("2999");
+        identifierArrayList.add(identifier);
+
+        SDKManager.agentService.viewAuthorisationCode(identifierArrayList, null, new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
 

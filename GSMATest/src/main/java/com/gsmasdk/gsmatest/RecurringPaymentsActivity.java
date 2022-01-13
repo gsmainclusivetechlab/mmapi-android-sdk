@@ -581,6 +581,12 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
 
+        identifierArrayList.clear();
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2999");
+        identifierArrayList.add(identifierAccount);
+
         SDKManager.recurringPayment.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {

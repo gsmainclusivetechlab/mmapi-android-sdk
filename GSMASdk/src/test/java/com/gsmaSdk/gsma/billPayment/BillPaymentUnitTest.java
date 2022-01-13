@@ -36,6 +36,32 @@ public class BillPaymentUnitTest {
     /************************************View Account Bills************************************/
     @Test
     public void viewAccountBillsEmptyIdentifierSuccess() {
+        ArrayList<Identifier> identifierArrayList=new ArrayList<>();
+        TransactionFilter transactionFilter = new TransactionFilter();
+        SDKManager.billPayment.viewAccountBills(identifierArrayList,transactionFilter, new RetrieveBillPaymentInterface() {
+
+            @Override
+            public void onRetrieveBillPaymentSuccess(Bills bills) {
+
+            }
+
+            @Override
+            public void onRetrieveBillPaymentFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+        });
+
+    }
+    @Test
+    public void viewAccountBillsNullIdentifierSuccess() {
+
         TransactionFilter transactionFilter = new TransactionFilter();
         SDKManager.billPayment.viewAccountBills(null,transactionFilter, new RetrieveBillPaymentInterface() {
 
@@ -59,9 +85,37 @@ public class BillPaymentUnitTest {
 
     }
 
+
     /************************************View Bill Payment************************************/
+
+
     @Test
     public void viewBillPaymentEmptyIdentifierSuccess() {
+        TransactionFilter transactionFilter = new TransactionFilter();
+        SDKManager.billPayment.viewBillPayment(null, transactionFilter, "REF12345", new BillPaymentInterface() {
+
+            @Override
+            public void onBillPaymentSuccess(BillPayments billPayments) {
+
+            }
+
+            @Override
+            public void onBillPaymentFailure(GSMAError gsmaError) {
+
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                assertEquals(errorObject.getErrorCode(), "GenericError");
+                assertEquals(errorObject.getErrorCategory(), "validation");
+                assertEquals(errorObject.getErrorDescription(), "Invalid account identifier");
+            }
+        });
+
+    }
+
+    @Test
+    public void viewBillPaymentNullIdentifierSuccess() {
         TransactionFilter transactionFilter = new TransactionFilter();
         SDKManager.billPayment.viewBillPayment(null, transactionFilter, "REF12345", new BillPaymentInterface() {
 
@@ -141,7 +195,6 @@ public class BillPaymentUnitTest {
 
     @Test
     public void createBillPaymentNullIdentifierSuccess() {
-        ArrayList<Identifier>identifierArrayList = new ArrayList<>();
         BillPay billPayment = new BillPay();
         SDKManager.billPayment.createBillPayment(NotificationMethod.POLLING,"", null,billPayment,"REF1234",  new RequestStateInterface() {
 

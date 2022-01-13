@@ -452,6 +452,14 @@ public class AccountLinkingActivity extends AppCompatActivity implements Adapter
     private void retrieveTransactionFSP() {
         showLoading();
 
+        identifierArrayList.clear();
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2999");
+        identifierArrayList.add(identifierAccount);
+
+
+
         TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(2);
         transactionFilter.setOffset(0);

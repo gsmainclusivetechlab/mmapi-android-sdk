@@ -29,7 +29,6 @@ public class AuthorisationCodeController {
      */
     @SuppressWarnings("rawtypes")
     public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCode codeRequest, @NonNull RequestStateInterface requestStateInterface) {
-
         if (identifierArrayList == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
         } else if (identifierArrayList.size() == 0) {

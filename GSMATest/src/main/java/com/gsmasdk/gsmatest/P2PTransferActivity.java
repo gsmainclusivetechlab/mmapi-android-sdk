@@ -205,6 +205,13 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         transactionFilter.setOffset(0);
 
 
+        identifierArrayList.clear();
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2999");
+        identifierArrayList.add(identifierAccount);
+
+
         SDKManager.p2PTransfer.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -730,7 +737,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         identifierAccount.setValue("1");
         identifierArrayList.add(identifierAccount);
 
-//        //msisdn
+        //msisdn
 //        Identifier identifierMsisdn = new Identifier();
 //        identifierMsisdn.setKey("msisdn");
 //        identifierMsisdn.setValue("%2B123456789102345");
