@@ -35,9 +35,13 @@ public class BillPaymentController extends Common {
     public void viewAccountBills(ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveBillPaymentInterface retrieveBillPaymentInterface) {
         if (identifierArrayList == null) {
             retrieveBillPaymentInterface.onValidationError(Utils.setError(1));
-        } else if (!Utils.isOnline()) {
+        }  else if(identifierArrayList.size()==0){
+            retrieveBillPaymentInterface.onValidationError(Utils.setError(1));
+        }
+        else if (!Utils.isOnline()) {
             retrieveBillPaymentInterface.onValidationError(Utils.setError(0));
-        } else if (identifierArrayList.size() != 0) {
+        }
+        else{
             String uuid = Utils.generateUUID();
             HashMap<String, String> params = Utils.getHashMapFromObject(transactionFilter);
             GSMAApi.getInstance().viewAccountBills(uuid, Utils.getIdentifiers(identifierArrayList), params, new APIRequestCallback<Bills>() {
@@ -52,10 +56,7 @@ public class BillPaymentController extends Common {
                         }
                     }
             );
-        } else {
-            retrieveBillPaymentInterface.onValidationError(Utils.setError(1));
         }
-
 
     }
 

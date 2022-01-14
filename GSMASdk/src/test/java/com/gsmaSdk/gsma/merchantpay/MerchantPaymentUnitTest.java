@@ -88,7 +88,6 @@ public class MerchantPaymentUnitTest {
 
     /*****************************Create Merchant Transaction************************************/
 
-
     @Test
     public void createMerchantTransactionNullTransactionRequestSuccess() {
         SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", null, new RequestStateInterface() {
