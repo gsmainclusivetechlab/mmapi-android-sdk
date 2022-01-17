@@ -1,22 +1,24 @@
 package com.gsmaSdk.gsma;
 
-import static org.junit.Assert.assertNotNull;
-
 import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.network.retrofit.APIService;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static org.junit.Assert.assertNotNull;
+
+@RunWith(AndroidJUnit4.class)
 public class APIUnitTest {
     Retrofit retrofit;
 
