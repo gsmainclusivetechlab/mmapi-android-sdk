@@ -19,7 +19,9 @@ android {
     compileSdkVersion 31
     testOptions {
         unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
     }
+
     defaultConfig {
 //        applicationId "com.gsmaSdk.gsma"
         minSdkVersion 23
