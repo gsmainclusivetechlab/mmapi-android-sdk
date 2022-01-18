@@ -82,7 +82,7 @@ public interface APIService {
      * @return the call
      */
     @POST("{version}/transactions/{referenceId}/reversals")
-    Call<RequestStateObject> reversal(@Path(value = "version", encoded = true) String version, @Path("referenceId") String referenceId, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> reversal(@Path(value = "version", encoded = true) String version, @Path("referenceId") String referenceId, @Body RequestBody reversal, @HeaderMap Map<String, String> headers);
 
 
     /**

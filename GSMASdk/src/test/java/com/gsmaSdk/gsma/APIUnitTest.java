@@ -1,19 +1,29 @@
 package com.gsmaSdk.gsma;
 
+import com.google.gson.Gson;
+import com.gsmaSdk.gsma.models.account.Balance;
+import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.Token;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.network.retrofit.APIService;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Call;
@@ -23,18 +33,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
 public class APIUnitTest {
-    Retrofit retrofit;
 
+    Retrofit retrofit;
     MockWebServer mockWebServer;
     APIService apiService;
+
     private static String URL_VERSION = "simulator/v1.2/passthrough/mm";
 
     private static final String X_CORRELATION_ID = "X-CorrelationID";
-
     private static HashMap<String, String> headers;
+
+    private Reversal reversalObject;
+    private final MediaType mediaType = MediaType.parse("application/json");
+
 
     @Before
     public void setUp() {
@@ -52,6 +67,7 @@ public class APIUnitTest {
 
     }
 
+    /*****************************Common APIs************************************/
 
     @Test
     public void createTokenApiSuccess() throws IOException {
@@ -72,22 +88,85 @@ public class APIUnitTest {
 
     @Test
     public void checkServiceAvailabilityApiSuccess() throws IOException {
-
         String actualServiceAvailability = FileReader.readFromFile("ServiceAvailability.json");
-
         mockWebServer.enqueue(new MockResponse().setBody(actualServiceAvailability));
 
         headers.put(X_CORRELATION_ID, generateUUID());
-
         Call<ServiceAvailability> serviceAvailabilityCall = apiService.checkServiceAvailability(URL_VERSION, headers);
-
         ServiceAvailability serviceAvailability = serviceAvailabilityCall.execute().body();
 
         assertNotNull(serviceAvailability);
-
         assertNotNull(serviceAvailability.getServiceStatus());
 
     }
+
+    @Test
+    public void initiatePaymentApiSuccess() throws IOException {
+        String actualRequestState = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.viewRequestState(URL_VERSION, "b0b17e14-c937-4363-a131-f0d83c054f96", headers);
+
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
+
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+    @Test
+    public void reversalApiSuccess() throws IOException {
+        String actualRequestState = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.reversal(URL_VERSION, "REF-1633580365289", getReversalBody(), headers);
+
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
+
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+
+    @Test
+    public void balanceApiSuccess() throws IOException {
+        String actualBalance = FileReader.readFromFile("Balance.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualBalance));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<Balance> balanceCall = apiService.retrieveBalance(URL_VERSION, getAccountIdentifier(), headers);
+
+        Balance balance=balanceCall.execute().body();
+
+        assertNotNull(balance);
+
+
+    }
+
+
+
+    private String getAccountIdentifier() {
+        String accountIdentifier = "accountid@2999";
+        return accountIdentifier;
+
+    }
+
+
+    private RequestBody getReversalBody() {
+        reversalObject = new Reversal();
+        reversalObject.setType("reversal");
+        return RequestBody.create(new Gson().toJson(reversalObject), mediaType);
+
+    }
+
 
     public String generateUUID() {
         return UUID.randomUUID().toString();
