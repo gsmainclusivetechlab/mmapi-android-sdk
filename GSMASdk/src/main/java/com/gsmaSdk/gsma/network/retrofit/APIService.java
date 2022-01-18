@@ -221,7 +221,7 @@ public interface APIService {
      * Update a batch transaction
      */
     @PATCH("{version}/batchtransactions/{batchId}")
-    Call<RequestStateObject> updateBatchTransaction(@Path(value = "version", encoded = true) String version, @Path("batchId") String batchId, @Body RequestBody batchTransactionObject, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> updateBatchTransaction(@Path(value = "version", encoded = true) String version, @Path("batchId") String batchId, @Body RequestBody patchObject, @HeaderMap Map<String, String> headers);
 
 
     /**

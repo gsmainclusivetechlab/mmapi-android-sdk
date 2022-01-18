@@ -2,6 +2,7 @@ package com.gsmaSdk.gsma;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.Link;
@@ -9,13 +10,18 @@ import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
 import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.bills.Bills;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.Token;
+import com.gsmaSdk.gsma.models.transaction.PatchData;
 import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletions;
+import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
 import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejections;
+import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
@@ -29,6 +35,7 @@ import com.gsmaSdk.gsma.network.deserializers.TransactionResponseDeserializer;
 import com.gsmaSdk.gsma.network.retrofit.APIService;
 import com.gsmaSdk.gsma.utils.Utils;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,9 +73,13 @@ public class APIUnitTest {
     private static final String X_CORRELATION_ID = "X-CorrelationID";
     private static HashMap<String, String> headers;
 
-    private Reversal reversalObject;
+    Reversal reversalObject;
     private final MediaType mediaType = MediaType.parse("application/json");
 
+    private Link accountLinkingObject;
+
+
+    BatchTransaction bulkTransactionObject;
 
     @Before
     public void setUp() {
@@ -196,7 +207,7 @@ public class APIUnitTest {
 
         mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
         headers.put(X_CORRELATION_ID, generateUUID());
-        Call<RequestStateObject> requestStateObjectCall = apiService.viewRequestState(URL_VERSION,"b0b17e14-c937-4363-a131-f0d83c054f96", headers);
+        Call<RequestStateObject> requestStateObjectCall = apiService.viewRequestState(URL_VERSION, "b0b17e14-c937-4363-a131-f0d83c054f96", headers);
 
         RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
 
@@ -211,37 +222,37 @@ public class APIUnitTest {
     public void retrieveTransactionApiSuccess() throws IOException {
         String actualTransactions = FileReader.readFromFile("Transactions.json");
 
-        TransactionFilter transactionFilter=new TransactionFilter();
+        TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
 
-        HashMap<String, String> params = Utils.getHashMapFromObject(transactionFilter);
+        HashMap<String, String> params = getHashMapFromObject(transactionFilter);
 
 
         mockWebServer.enqueue(new MockResponse().setBody(actualTransactions));
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<Transactions> transactionsCall = apiService.retrieveTransaction(URL_VERSION, getAccountIdentifier(), headers,params);
+        Call<Transactions> transactionsCall = apiService.retrieveTransaction(URL_VERSION, getAccountIdentifier(), headers, params);
         Transactions transactions = transactionsCall.execute().body();
 
         assertNotNull(transactions);
 
     }
 
-   @Test
-   public void  retrieveMissingLinkApiSuccess() throws IOException {
+    @Test
+    public void retrieveMissingLinkApiSuccess() throws IOException {
 
-       String actualLink = FileReader.readFromFile("MissingLink.json");
+        String actualLink = FileReader.readFromFile("MissingLink.json");
 
-       mockWebServer.enqueue(new MockResponse().setBody(actualLink));
-       headers.put(X_CORRELATION_ID, generateUUID());
+        mockWebServer.enqueue(new MockResponse().setBody(actualLink));
+        headers.put(X_CORRELATION_ID, generateUUID());
 
-       Call<GetLink> linkCall = apiService.retrieveMissingLink("b0b17e14-c937-4363-a131-f0d83c054f96",URL_VERSION, headers);
+        Call<GetLink> linkCall = apiService.retrieveMissingLink("b0b17e14-c937-4363-a131-f0d83c054f96", URL_VERSION, headers);
 
-       GetLink link=linkCall.execute().body();
+        GetLink link = linkCall.execute().body();
 
-       assertNotNull(link);
-       assertNotNull(link.getLink());
+        assertNotNull(link);
+        assertNotNull(link.getLink());
 
     }
 
@@ -252,9 +263,9 @@ public class APIUnitTest {
         mockWebServer.enqueue(new MockResponse().setBody(actualMissingResponse));
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<MissingResponse> missingResponseCall = apiService.getMissingResponses("/transactions/REF-1636956879897",URL_VERSION, headers);
+        Call<MissingResponse> missingResponseCall = apiService.getMissingResponses("/transactions/REF-1636956879897", URL_VERSION, headers);
 
-        MissingResponse missingResponse=missingResponseCall.execute().body();
+        MissingResponse missingResponse = missingResponseCall.execute().body();
 
         assertNotNull(missingResponse);
         assertNotNull(missingResponse.getJsonObject());
@@ -262,6 +273,153 @@ public class APIUnitTest {
     }
 
 
+    /*****************************Disbursment************************************/
+
+
+    @Test
+    public void bulkTransactionApiSuccess() throws IOException {
+
+        String actualRequestState = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.bulkTransaction(URL_VERSION, getBulkTransactionBody(), headers);
+
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
+
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+
+    @Test
+    public void retrieveBatchRejectionsApiSuccess() throws IOException {
+        String actualBatchRejections = FileReader.readFromFile("BatchRejections.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualBatchRejections));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<BatchRejections> batchRejectionsCall = apiService.retrieveBatchRejections("REF-1635765084301", URL_VERSION, headers);
+
+        BatchRejections batchRejections = batchRejectionsCall.execute().body();
+        assertNotNull(batchRejections.getBatchTransactionRejection().get(0).getRejectionReason());
+        assertNotNull(batchRejections.getBatchTransactionRejection().get(0).getDebitParty());
+        assertNotNull(batchRejections.getBatchTransactionRejection().get(0).getCreditParty());
+
+
+    }
+
+    @Test
+    public void retrieveBatchCompletionsApiSuccess() throws IOException {
+        String actualBatchCompletion = FileReader.readFromFile("BatchCompletions.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualBatchCompletion));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<BatchCompletions> batchCompletionsCall = apiService.retrieveBatchCompletions("REF-1635765084301", URL_VERSION, headers);
+
+        BatchCompletions batchCompletions = batchCompletionsCall.execute().body();
+        assertNotNull(batchCompletions.getBatchTransactionCompletion().get(0).getTransactionReference());
+        assertNotNull(batchCompletions.getBatchTransactionCompletion().get(0).getCreditParty());
+        assertNotNull(batchCompletions.getBatchTransactionCompletion().get(0).getDebitParty());
+        assertNotNull(batchCompletions.getBatchTransactionCompletion().get(0).getCompletionDate());
+        assertNotNull(batchCompletions.getBatchTransactionCompletion().get(0).getLink());
+
+    }
+
+    @Test
+    public void updateBatchTransactionApiSuccess() throws IOException {
+
+        String actualRequestState = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.updateBatchTransaction(URL_VERSION, "REF-1635765084301", getPatchDataBody(), headers);
+
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
+
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
+
+
+    }
+
+    @Test
+    public void retrieveBatchTransactionApiSuccess() throws IOException {
+        String actualBatchTransaction = FileReader.readFromFile("BatchTransaction.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualBatchTransaction));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<BatchTransaction> batchTransactionCall=apiService.retrieveBatchTransaction(URL_VERSION,"REF-1635765084301",  headers);
+
+        BatchTransaction batchTransaction=batchTransactionCall.execute().body();
+
+        assertNotNull(batchTransaction);
+        assertNotNull(batchTransaction.getBatchId());
+        assertNotNull(batchTransaction.getBatchStatus());
+        assertNotNull(batchTransaction.getApprovalDate());
+        assertNotNull(batchTransaction.getCompletionDate());
+
+
+
+    }
+
+    /*****************************Account Link************************************/
+
+    @Test
+    public void createAccountLinkingApiSuccess() throws IOException {
+        String actualRequestState = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.createAccountLinking(URL_VERSION, getAccountIdentifier(),getDebitMandateBody(),headers);
+
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
+
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+    @Test
+    public void viewAccountLinkApiSuccess() throws IOException {
+
+        String actualLink = FileReader.readFromFile("Link.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualLink));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<Link> linkCall=apiService.viewAccountLink(URL_VERSION,getAccountIdentifier(),"1684",headers);
+
+        Link link=linkCall.execute().body();
+
+        assertNotNull(link);
+        assertNotNull(link.getLinkReference());
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    /*****************************Util functions************************************/
 
 
     private String getAccountIdentifier() {
@@ -322,5 +480,95 @@ public class APIUnitTest {
         return params;
     }
 
+
+    private RequestBody getBulkTransactionBody() {
+        bulkTransactionObject = new BatchTransaction();
+
+        ArrayList<Transaction> transactionItems = new ArrayList<>();
+        Transaction transactionItem = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
+
+        debitPartyItem.setKey("accountid");
+        debitPartyItem.setValue("2000");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("accountid");
+        creditPartyItem.setValue("2999");
+        creditPartyList.add(creditPartyItem);
+
+        transactionItem.setAmount("200");
+        transactionItem.setType("transfer");
+        transactionItem.setCurrency("RWF");
+        transactionItem.setCreditParty(creditPartyList);
+        transactionItem.setDebitParty(debitPartyList);
+        transactionItems.add(transactionItem);
+        transactionItems.add(transactionItem);
+
+        bulkTransactionObject.setBatchDescription("Testing a Batch transaction");
+        bulkTransactionObject.setBatchTitle("Batch Test");
+        bulkTransactionObject.setScheduledStartDate("2019-12-11T15:08:03.158Z");
+        bulkTransactionObject.setTransactions(transactionItems);
+
+        return RequestBody.create(new Gson().toJson(bulkTransactionObject), mediaType);
+
+    }
+
+
+    private RequestBody getPatchDataBody() {
+        //create a batch object
+        ArrayList<PatchData> patchDataArrayList;
+        PatchData patchObject = new PatchData();
+        patchObject.setOp("replace");
+        patchObject.setPath("/batchStatus");
+        patchObject.setValue("approved");
+        patchDataArrayList = new ArrayList<>();
+        patchDataArrayList.add(patchObject);
+
+        return RequestBody.create(String.valueOf(new Gson().toJsonTree(patchDataArrayList).getAsJsonArray()), mediaType);
+
+
+    }
+
+
+    private RequestBody getDebitMandateBody() {
+        accountLinkingObject = new Link();
+
+        //set amount and currency
+
+        accountLinkingObject.setMode("active");
+        accountLinkingObject.setStatus("both");
+
+        ArrayList<AccountIdentifier> sourceAccountIdentifiersList = new ArrayList<>();
+        ArrayList<CustomDataItem> customDataList = new ArrayList<>();
+        AccountIdentifier sourceAccountIdentifiersItem = new AccountIdentifier();
+        CustomDataItem customDataItem = new CustomDataItem();
+        RequestingOrganisation requestingOrganisationItem = new RequestingOrganisation();
+
+        //Source Account Identifiers
+        sourceAccountIdentifiersItem.setKey("accountid");
+        sourceAccountIdentifiersItem.setValue("2999");
+        sourceAccountIdentifiersList.add(sourceAccountIdentifiersItem);
+
+        //Custom Data
+        customDataItem.setKey("keytest");
+        customDataItem.setValue("keyvalue");
+        customDataList.add(customDataItem);
+
+        //Requesting Organisation data
+        requestingOrganisationItem.setRequestingOrganisationIdentifierType("organisationid");
+        requestingOrganisationItem.setRequestingOrganisationIdentifier("12345");
+
+
+        //add details to account linking object
+        accountLinkingObject.setSourceAccountIdentifiers(sourceAccountIdentifiersList);
+        accountLinkingObject.setCustomData(customDataList);
+        accountLinkingObject.setRequestingOrganisation(requestingOrganisationItem);
+
+        return RequestBody.create(new Gson().toJson(accountLinkingObject), mediaType);
+
+    }
 
 }
