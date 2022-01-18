@@ -242,7 +242,7 @@ public interface APIService {
     Call<Transaction> viewQuotation(@Path(value = "version", encoded = true) String version, @Path("quotationReference") String quotationReference, @HeaderMap Map<String, String> headers);
 
 
-    /***************************************P2P Transefer API Interfaces********************************/
+    /***************************************P2P Transfer API Interfaces********************************/
 
     /**
      * View Account Name.

@@ -2,20 +2,27 @@ package com.gsmaSdk.gsma;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.gsmaSdk.gsma.models.account.AccountHolderName;
+import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Balance;
-import com.gsmaSdk.gsma.models.account.Identifier;
-import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
+import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
 import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.bills.Bills;
+import com.gsmaSdk.gsma.models.common.Address;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.GetLink;
+import com.gsmaSdk.gsma.models.common.IdDocument;
+import com.gsmaSdk.gsma.models.common.KYCInformation;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
+import com.gsmaSdk.gsma.models.common.SubjectName;
 import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletions;
 import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejections;
+import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
@@ -29,7 +36,6 @@ import com.gsmaSdk.gsma.network.deserializers.TransactionResponseDeserializer;
 import com.gsmaSdk.gsma.network.retrofit.APIService;
 import com.gsmaSdk.gsma.utils.Utils;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +46,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.mockwebserver.MockResponse;
@@ -49,10 +54,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
 public class APIUnitTest {
@@ -67,6 +69,9 @@ public class APIUnitTest {
     private static HashMap<String, String> headers;
 
     private Reversal reversalObject;
+    private AuthorisationCode authorisationCodeRequest;
+    private Transaction transactionRequest;
+    private Quotation quotationRequest;
     private final MediaType mediaType = MediaType.parse("application/json");
 
 
@@ -196,7 +201,7 @@ public class APIUnitTest {
 
         mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
         headers.put(X_CORRELATION_ID, generateUUID());
-        Call<RequestStateObject> requestStateObjectCall = apiService.viewRequestState(URL_VERSION,"b0b17e14-c937-4363-a131-f0d83c054f96", headers);
+        Call<RequestStateObject> requestStateObjectCall = apiService.viewRequestState(URL_VERSION, "b0b17e14-c937-4363-a131-f0d83c054f96", headers);
 
         RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
 
@@ -211,7 +216,7 @@ public class APIUnitTest {
     public void retrieveTransactionApiSuccess() throws IOException {
         String actualTransactions = FileReader.readFromFile("Transactions.json");
 
-        TransactionFilter transactionFilter=new TransactionFilter();
+        TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
 
@@ -221,27 +226,27 @@ public class APIUnitTest {
         mockWebServer.enqueue(new MockResponse().setBody(actualTransactions));
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<Transactions> transactionsCall = apiService.retrieveTransaction(URL_VERSION, getAccountIdentifier(), headers,params);
+        Call<Transactions> transactionsCall = apiService.retrieveTransaction(URL_VERSION, getAccountIdentifier(), headers, params);
         Transactions transactions = transactionsCall.execute().body();
 
         assertNotNull(transactions);
 
     }
 
-   @Test
-   public void  retrieveMissingLinkApiSuccess() throws IOException {
+    @Test
+    public void retrieveMissingLinkApiSuccess() throws IOException {
 
-       String actualLink = FileReader.readFromFile("MissingLink.json");
+        String actualLink = FileReader.readFromFile("MissingLink.json");
 
-       mockWebServer.enqueue(new MockResponse().setBody(actualLink));
-       headers.put(X_CORRELATION_ID, generateUUID());
+        mockWebServer.enqueue(new MockResponse().setBody(actualLink));
+        headers.put(X_CORRELATION_ID, generateUUID());
 
-       Call<GetLink> linkCall = apiService.retrieveMissingLink("b0b17e14-c937-4363-a131-f0d83c054f96",URL_VERSION, headers);
+        Call<GetLink> linkCall = apiService.retrieveMissingLink("b0b17e14-c937-4363-a131-f0d83c054f96", URL_VERSION, headers);
 
-       GetLink link=linkCall.execute().body();
+        GetLink link = linkCall.execute().body();
 
-       assertNotNull(link);
-       assertNotNull(link.getLink());
+        assertNotNull(link);
+        assertNotNull(link.getLink());
 
     }
 
@@ -252,17 +257,155 @@ public class APIUnitTest {
         mockWebServer.enqueue(new MockResponse().setBody(actualMissingResponse));
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<MissingResponse> missingResponseCall = apiService.getMissingResponses("/transactions/REF-1636956879897",URL_VERSION, headers);
+        Call<MissingResponse> missingResponseCall = apiService.getMissingResponses("/transactions/REF-1636956879897", URL_VERSION, headers);
 
-        MissingResponse missingResponse=missingResponseCall.execute().body();
+        MissingResponse missingResponse = missingResponseCall.execute().body();
 
         assertNotNull(missingResponse);
         assertNotNull(missingResponse.getJsonObject());
 
     }
 
+    /*************************************Merchant Payments********************************/
 
+    @Test
+    public void obtainAuthorisationCodeApiSuccess() throws IOException {
 
+        String actualAuthCodeSuccess = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualAuthCodeSuccess));
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<RequestStateObject> obtainAuthorisationCodeCall = apiService.obtainAuthorisationCode(getAccountIdentifier(), URL_VERSION, getAuthorisationCodeRequestBody(), headers);
+
+        RequestStateObject requestStateObject = obtainAuthorisationCodeCall.execute().body();
+
+        assertNotNull(requestStateObject);
+
+        assertNotNull(requestStateObject.getStatus());
+
+    }
+
+    @Test
+    public void viewAuthorisationCodeApiSuccess() throws IOException {
+
+        String actualViewAuthCodeSuccess = FileReader.readFromFile("AuthorisationCode.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualViewAuthCodeSuccess));
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<AuthorisationCode> viewAuthorisationCodeCall = apiService.viewAuthorizationCode(URL_VERSION,getAccountIdentifier(),"b0b17e14-c937-4363-a131-f0d83c054f96", headers);
+
+        AuthorisationCode authorisationCode = viewAuthorisationCodeCall.execute().body();
+
+        assertNotNull(authorisationCode);
+
+        assertNotNull(authorisationCode.getAuthorisationCode());
+
+    }
+
+    @Test
+    public void getMissingCodesApiSuccess() throws IOException {
+
+        String actualGetMissingCodesSuccess = FileReader.readFromFile("AuthorisationCodes.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualGetMissingCodesSuccess));
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<AuthorisationCodes> getMissingCodesSuccessCall = apiService.getMissingCodes("/transactions/REF-1636956879897",URL_VERSION, headers);
+
+        AuthorisationCodes authorisationCodes = getMissingCodesSuccessCall.execute().body();
+
+        assertNotNull(authorisationCodes);
+
+        assertNotNull(authorisationCodes.getAuthCode());
+
+    }
+
+    @Test
+    public void refundApiSuccess() throws IOException {
+
+        String actualRefundSuccess = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualRefundSuccess));
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<RequestStateObject> refundCall = apiService.refund( URL_VERSION, getTransactionRequestBody(), headers);
+
+        RequestStateObject requestStateObject = refundCall.execute().body();
+
+        assertNotNull(requestStateObject);
+
+        assertNotNull(requestStateObject.getStatus());
+
+    }
+
+    /*********************************International Transfers************************/
+
+    @Test
+    public void requestQuotationApiSuccess() throws IOException {
+
+        String actualRequestQuotationSuccess = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualRequestQuotationSuccess));
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<RequestStateObject> requestQuotationCall = apiService.requestQuotation( URL_VERSION, getQuotationRequestBody(), headers);
+
+        RequestStateObject requestStateObject = requestQuotationCall.execute().body();
+
+        assertNotNull(requestStateObject);
+
+        assertNotNull(requestStateObject.getStatus());
+
+    }
+
+    @Test
+    public void viewQuotationApiSuccess() throws IOException {
+        String actualViewQuotation = FileReader.readFromFile("Transaction.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualViewQuotation));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<Transaction> viewQuotationCall = apiService.viewQuotation(URL_VERSION, "1684", headers);
+        Transaction transaction = viewQuotationCall.execute().body();
+
+        assertNotNull(transaction);
+        assertNotNull(transaction.getTransactionReference());
+        assertNotNull(transaction.getType());
+        assertNotNull(transaction.getTransactionStatus());
+        assertNotNull(transaction.getAmount());
+        assertNotNull(transaction.getCurrency());
+
+    }
+
+    /***************************************P2P Transfer********************************/
+
+    @Test
+    public void viewAccountNameApiSuccess() throws IOException {
+
+        String actualViewAccountNameSuccess = FileReader.readFromFile("AccountHolderName.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualViewAccountNameSuccess));
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<AccountHolderName> viewAccountNameSuccessCall = apiService.viewAccountName(URL_VERSION,getAccountIdentifier(), headers);
+
+        AccountHolderName accountHolderName = viewAccountNameSuccessCall.execute().body();
+
+        assertNotNull(accountHolderName);
+
+        assertNotNull(accountHolderName.getName());
+
+    }
+
+    /**************************************************************************************/
 
     private String getAccountIdentifier() {
         return "accountid@2999";
@@ -322,5 +465,144 @@ public class APIUnitTest {
         return params;
     }
 
+    private RequestBody getAuthorisationCodeRequestBody() {
+        authorisationCodeRequest = new AuthorisationCode();
+        authorisationCodeRequest.setAmount("200.00");
+        authorisationCodeRequest.setRequestDate("2021-10-18T10:43:27.405Z");
+        authorisationCodeRequest.setCurrency("RWF");
+        authorisationCodeRequest.setCodeLifetime(1);
+        return RequestBody.create(new Gson().toJson(authorisationCodeRequest), mediaType);
+
+    }
+
+    private RequestBody getTransactionRequestBody(){
+        transactionRequest = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
+
+        debitPartyItem.setKey("walletid");
+        debitPartyItem.setValue("1");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("msisdn");
+        creditPartyItem.setValue("+44012345678");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("200.00");
+        transactionRequest.setCurrency("RWF");
+        return RequestBody.create(new Gson().toJson(transactionRequest), mediaType);
+    }
+
+    private RequestBody getQuotationRequestBody(){
+        quotationRequest = new Quotation();
+
+        //create debit party and credit party for internal transfer quotation
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
+
+        //debit party
+        debitPartyItem.setKey("walletid");
+        debitPartyItem.setValue("1");
+        debitPartyList.add(debitPartyItem);
+
+        //credit party
+        creditPartyItem.setKey("msisdn");
+        creditPartyItem.setValue("+44012345678");
+        creditPartyList.add(creditPartyItem);
+
+        //add debit and credit party to transaction object
+        quotationRequest.setDebitParty(debitPartyList);
+        quotationRequest.setCreditParty(creditPartyList);
+
+        //set amount,currency and request date into transaction request
+        quotationRequest.setRequestAmount("75.30");
+        quotationRequest.setRequestCurrency("RWF");
+        quotationRequest.setRequestDate("2018-07-03T11:43:27.405Z");
+        quotationRequest.setType("inttransfer");
+        quotationRequest.setSubType("abc");
+        quotationRequest.setChosenDeliveryMethod("agent");
+
+        //sender kyc object
+        KYCInformation senderKyc = new KYCInformation();
+        senderKyc.setNationality("GB");
+        senderKyc.setDateOfBirth("1970-07-03T11:43:27.405Z");
+        senderKyc.setOccupation("manager");
+        senderKyc.setEmployerName("MFX");
+        senderKyc.setContactPhone("447125588999");
+        senderKyc.setGender("m"); // m or f
+        senderKyc.setEmailAddress("luke.skywalkeraaabbb@gmail.com");
+        senderKyc.setBirthCountry("GB");
+
+        // create object for documentation
+        ArrayList<IdDocument> idDocumentItemList = new ArrayList<>();
+        IdDocument idDocumentItem = new IdDocument();
+        idDocumentItem.setIdType("nationalidcard");
+        idDocumentItem.setIdNumber("1234567");
+        idDocumentItem.setIssueDate("2018-07-03T11:43:27.405Z");
+        idDocumentItem.setExpiryDate("2021-07-03T11:43:27.405Z");
+        idDocumentItem.setIssuer("UKPA");
+        idDocumentItem.setIssuerPlace("GB");
+        idDocumentItem.setIssuerCountry("GB");
+        idDocumentItem.setOtherIdDescription("test");
+
+        idDocumentItemList.add(idDocumentItem);
+
+        //add document details to kyc object
+        senderKyc.setIdDocument(idDocumentItemList);
+
+        //create object for postal address
+        Address postalAddress = new Address();
+        postalAddress.setCountry("GB");
+        postalAddress.setAddressLine1("111 ABC Street");
+        postalAddress.setCity("New York");
+        postalAddress.setStateProvince("New York");
+        postalAddress.setPostalCode("ABCD");
+
+        //add postal address to kyc object
+        senderKyc.setPostalAddress(postalAddress);
+
+        //create subject model
+
+        SubjectName subjectName = new SubjectName();
+        subjectName.setTitle("Mr");
+        subjectName.setFirstName("Luke");
+        subjectName.setMiddleName("R");
+        subjectName.setLastName("Skywalker");
+        subjectName.setFullName("Luke R Skywalker");
+        subjectName.setNativeName("ABC");
+
+        //add  subject to kyc model
+
+        senderKyc.setSubjectName(subjectName);
+
+        //create array for custom data items
+        ArrayList<CustomDataItem> customDataItemList = new ArrayList<>();
+
+        // create a custom data item
+        CustomDataItem customDataItem = new CustomDataItem();
+        customDataItem.setKey("keytest");
+        customDataItem.setValue("keyvalue");
+
+        //add custom object into custom array
+        customDataItemList.add(customDataItem);
+
+        //add kyc object to request object
+        quotationRequest.setSenderKyc(senderKyc);
+
+        //add custom data object to request object
+        quotationRequest.setCustomData(customDataItemList);
+
+        quotationRequest.setSendingServiceProviderCountry("AD");
+        quotationRequest.setOriginCountry("AD");
+        quotationRequest.setReceivingCountry("AD");
+        return RequestBody.create(new Gson().toJson(transactionRequest), mediaType);
+    }
 
 }
