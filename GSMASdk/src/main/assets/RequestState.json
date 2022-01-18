@@ -1,0 +1,7 @@
+{
+  "serverCorrelationId": "b0b17e14-c937-4363-a131-f0d83c054f96",
+  "objectReference": "1684",
+  "status": "pending",
+  "notificationMethod": "callback",
+  "pollLimit": 100
+}

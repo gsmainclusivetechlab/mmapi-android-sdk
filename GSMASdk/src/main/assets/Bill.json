@@ -1,0 +1,23 @@
+{
+  "billReference": "string",
+  "billStatus": "unpaid",
+  "amountDue": "15.00",
+  "currency": "AED",
+  "billdescription": "string",
+  "dueDate": "2018-11-20",
+  "minimumAmountDue": "15.00",
+  "creationDate": "2022-01-04T11:49:42.946Z",
+  "modificationDate": "2022-01-04T11:49:42.946Z",
+  "customData": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ],
+  "metadata": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ]
+}

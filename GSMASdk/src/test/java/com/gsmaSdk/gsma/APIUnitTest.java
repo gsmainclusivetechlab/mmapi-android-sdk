@@ -1,5 +1,6 @@
 package com.gsmaSdk.gsma;
 
+import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.network.retrofit.APIService;
 
@@ -8,14 +9,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.UUID;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
@@ -24,11 +30,17 @@ public class APIUnitTest {
 
     MockWebServer mockWebServer;
     APIService apiService;
-    public static String URL_VERSION = "simulator/v1.2/passthrough/mm";
+    private static String URL_VERSION = "simulator/v1.2/passthrough/mm";
+
+    private static final String X_CORRELATION_ID = "X-CorrelationID";
+
+    private static HashMap<String, String> headers;
 
     @Before
     public void setUp() {
         mockWebServer = new MockWebServer();
+        headers = new HashMap<>();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(mockWebServer.url("").toString())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -36,6 +48,7 @@ public class APIUnitTest {
                 //TODO Add your Retrofit parameters here
                 .build();
         apiService = retrofit.create(APIService.class);
+
 
     }
 
@@ -52,8 +65,33 @@ public class APIUnitTest {
         Token expectedToken = tokenCall.execute().body();
 
         assertNotNull(expectedToken);
+        assertNotNull(expectedToken.getAccessToken());
 
 
     }
+
+    @Test
+    public void checkServiceAvailabilityApiSuccess() throws IOException {
+
+        String actualServiceAvailability = FileReader.readFromFile("ServiceAvailability.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualServiceAvailability));
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<ServiceAvailability> serviceAvailabilityCall = apiService.checkServiceAvailability(URL_VERSION, headers);
+
+        ServiceAvailability serviceAvailability = serviceAvailabilityCall.execute().body();
+
+        assertNotNull(serviceAvailability);
+
+        assertNotNull(serviceAvailability.getServiceStatus());
+
+    }
+
+    public String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
+
 
 }

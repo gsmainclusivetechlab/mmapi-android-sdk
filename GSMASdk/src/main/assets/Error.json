@@ -1,0 +1,12 @@
+{
+  "errorCategory": "businessRule",
+  "errorCode": "genericError",
+  "errordescription": "string",
+  "errorDateTime": "2022-01-04T12:19:17.268Z",
+  "errorParameters": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "quotationReference": "string",
+  "creditParty": [
+    {
+      "key": "msisdn",
+      "value": "+33555123456"
+    }
+  ],
+  "debitParty": [
+    {
+      "key": "msisdn",
+      "value": "+33555123456"
+    }
+  ],
+  "type": "billpay",
+  "subType": "string",
+  "quotationStatus": "pending",
+  "requestAmount": "15.00",
+  "requestCurrency": "AED",
+  "availableDeliveryMethod": "directtoaccount",
+  "chosenDeliveryMethod": "directtoaccount",
+  "originCountry": "AD",
+  "receivingCountry": "AD",
+  "quotes": [
+    {
+      "quoteId": "string",
+      "receivingAmount": "15.00",
+      "receivingCurrency": "AED",
+      "sendingAmount": "15.00",
+      "sendingCurrency": "AED",
+      "deliveryMethod": "directtoaccount",
+      "fees": [
+        {
+          "feeType": "string",
+          "feeAmount": "5.46",
+          "feeCurrency": "AED"
+        }
+      ],
+      "fxRate": "1.3436",
+      "quoteExpiryTime": "2022-01-04T12:25:31.947Z",
+      "receivingServiceProvider": "string"
+    }
+  ],
+  "recipientKyc": {
+    "birthCountry": "AD",
+    "contactPhone": "string",
+    "dateOfBirth": "2000-11-20",
+    "emailAddress": "string",
+    "employerName": "string",
+    "gender": "m",
+    "idDocument": [
+      {
+        "idType": "passport",
+        "idNumber": "string",
+        "issueDate": "2018-11-20",
+        "expiryDate": "2018-11-20",
+        "issuer": "string",
+        "issuerPlace": "string",
+        "issuerCountry": "AD",
+        "otherIddescription": "string"
+      }
+    ],
+    "nationality": "AD",
+    "occupation": "string",
+    "postalAddress": {
+      "addressLine1": "string",
+      "addressLine2": "string",
+      "addressLine3": "string",
+      "city": "string",
+      "stateProvince": "string",
+      "postalCode": "string",
+      "country": "AD"
+    },
+    "subjectName": {
+      "title": "string",
+      "firstName": "string",
+      "middleName": "string",
+      "lastName": "string",
+      "fullName": "string",
+      "nativeName": "string"
+    }
+  },
+  "senderKyc": {
+    "birthCountry": "AD",
+    "contactPhone": "string",
+    "dateOfBirth": "2000-11-20",
+    "emailAddress": "string",
+    "employerName": "string",
+    "gender": "m",
+    "idDocument": [
+      {
+        "idType": "passport",
+        "idNumber": "string",
+        "issueDate": "2018-11-20",
+        "expiryDate": "2018-11-20",
+        "issuer": "string",
+        "issuerPlace": "string",
+        "issuerCountry": "AD",
+        "otherIddescription": "string"
+      }
+    ],
+    "nationality": "AD",
+    "occupation": "string",
+    "postalAddress": {
+      "addressLine1": "string",
+      "addressLine2": "string",
+      "addressLine3": "string",
+      "city": "string",
+      "stateProvince": "string",
+      "postalCode": "string",
+      "country": "AD"
+    },
+    "subjectName": {
+      "title": "string",
+      "firstName": "string",
+      "middleName": "string",
+      "lastName": "string",
+      "fullName": "string",
+      "nativeName": "string"
+    }
+  },
+  "recipientBlockingReason": "string",
+  "senderBlockingReason": "string",
+  "requestingOrganisation": {
+    "requestingOrganisationIdentifierType": "lei",
+    "requestingOrganisationIdentifier": "string"
+  },
+  "sendingServiceProviderCountry": "AD",
+  "creationDate": "2022-01-04T12:25:31.948Z",
+  "modificationDate": "2022-01-04T12:25:31.948Z",
+  "requestDate": "2022-01-04T12:25:31.948Z",
+  "customData": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ],
+  "metadata": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ]
+}

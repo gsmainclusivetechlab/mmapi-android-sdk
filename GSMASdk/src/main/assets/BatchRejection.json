@@ -1,0 +1,24 @@
+{
+  "transactionReference": "string",
+  "requestingOrganisationTransactionReference": "string",
+  "creditParty": [
+    {
+      "key": "msisdn",
+      "value": "+33555123456"
+    }
+  ],
+  "debitParty": [
+    {
+      "key": "msisdn",
+      "value": "+33555123456"
+    }
+  ],
+  "rejectionReason": "string",
+  "rejectionDate": "2022-01-04T11:33:12.470Z",
+  "customData": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ]
+}
