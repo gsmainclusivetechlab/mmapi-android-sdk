@@ -196,7 +196,6 @@ public class MerchantPaymentUnitTest {
 
     }
 
-
     @Test
     public void viewTransactionEmptyReferenceSuccess() {
         SDKManager.merchantPayment.viewTransaction("", new TransactionInterface() {

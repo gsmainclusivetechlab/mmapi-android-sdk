@@ -130,7 +130,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/responses/{correlationId}")
-    Call<GetLink> retrieveMissingResponse(@Path("correlationId") String correlationId, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<GetLink> retrieveMissingLink(@Path("correlationId") String correlationId, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
     /**
      * Check for Retrieve Missing Transaction
@@ -138,7 +138,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/{url}")
-    Call<MissingResponse> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<MissingResponse> getMissingResponses(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
 
     /*************************************Merchant Payments API Interfaces********************************/
