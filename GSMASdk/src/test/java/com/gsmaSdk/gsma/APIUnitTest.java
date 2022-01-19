@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
+import com.gsmaSdk.gsma.models.account.Account;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Balance;
+import com.gsmaSdk.gsma.models.account.Identity;
 import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
@@ -21,6 +23,7 @@ import com.gsmaSdk.gsma.models.common.Address;
 
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
+import com.gsmaSdk.gsma.models.common.Fees;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.IdDocument;
@@ -64,6 +67,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.UUID;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -91,6 +95,9 @@ public class APIUnitTest {
 
     private static final String X_CORRELATION_ID = "X-CorrelationID";
     private static HashMap<String, String> headers;
+
+    private Account accountRequest;
+    private ArrayList<PatchData> patchDataArrayList;
 
 
     private BillPay billPay;
@@ -161,15 +168,15 @@ public class APIUnitTest {
         ResponseBody errorBody = tokenResponse.errorBody();
 
 
-        GSMAError gsmaError=new GSMAError(tokenResponse.code(),Utils.parseError(errorBody.string()), null);
+        GSMAError gsmaError=new GSMAError(tokenResponse.code(),parseError(errorBody.string()), null);
         ErrorObject errorObject=gsmaError.getErrorBody();
 
         assertNotNull(errorObject);
         assertNotNull(errorObject.getErrorCode());
         assertNotNull(errorObject.getErrorDescription());
 
-
     }
+
 
     @Test
     public void checkServiceAvailabilityApiSuccess() throws IOException {
@@ -184,6 +191,8 @@ public class APIUnitTest {
         assertNotNull(serviceAvailability.getServiceStatus());
 
     }
+
+
 
     @Test
     public void checkServiceAvailabilityApiFailure() throws IOException {
@@ -204,7 +213,7 @@ public class APIUnitTest {
         ResponseBody errorBody = serviceAvailabilityResponse.errorBody();
 
 
-        GSMAError gsmaError=new GSMAError(serviceAvailabilityResponse.code(),Utils.parseError(errorBody.string()), null);
+        GSMAError gsmaError=new GSMAError(serviceAvailabilityResponse.code(),parseError(errorBody.string()), null);
         ErrorObject errorObject=gsmaError.getErrorBody();
 
         assertNotNull(errorObject);
@@ -213,6 +222,10 @@ public class APIUnitTest {
 
 
     }
+
+
+
+
 
     @Test
     public void initiatePaymentApiSuccess() throws IOException {
@@ -231,10 +244,6 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getObjectReference());
 
     }
-
-
-
-
 
     @Test
     public void reversalApiSuccess() throws IOException {
@@ -749,6 +758,62 @@ public class APIUnitTest {
 
     }
 
+    /***************************************Agent Service********************************/
+
+    @Test
+    public void createAccountApiSuccess() throws IOException {
+        String actualCreateAccount = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualCreateAccount));
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.createAccount(URL_VERSION, getCreateAccountRequestBody(), headers);
+
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
+
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+    @Test
+    public void viewAccountApiSuccess() throws IOException {
+
+        String actualViewAccount = FileReader.readFromFile("Account.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualViewAccount));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<Account> viewAccountCall = apiService.viewAccount(URL_VERSION, getAccountIdentifier(), headers);
+
+        Account viewAccount = viewAccountCall.execute().body();
+
+        assertNotNull(viewAccount);
+        assertNotNull(viewAccount.getAccountStatus());
+
+    }
+
+    @Test
+    public void updateAccountIdentityApiSuccess() throws IOException {
+        String actualUpdateAccountIdentity = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualUpdateAccountIdentity));
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.createAccount(URL_VERSION, getUpdateAccountRequestBody(), headers);
+
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
+
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+
+
+
 
     /*****************************Util functions************************************/
 
@@ -1051,9 +1116,7 @@ public class APIUnitTest {
         return RequestBody.create(new Gson().toJson(transactionRequest), mediaType);
     }
 
-
-
-    public ErrorObject parseError(String response) {
+    public ErrorObject parseError (String response){
         JSONObject jsonObject;
         ErrorObject errorObject = new ErrorObject();
         String category;
@@ -1063,11 +1126,11 @@ public class APIUnitTest {
         String message;
         final String CATEGORY = "errorCategory";
         final String CODE = "errorCode";
-        final String DESCRIPTION = "errorDescription";
+        final String DESCRIPTION = "errordescription";
         final String DATETIME = "errorDateTime";
         final String MESSAGE = "message";
 
-        if(response==null){
+        if (response == null) {
             errorObject.setErrorDescription("Invalid Json Format");
             return errorObject;
         }
@@ -1108,5 +1171,150 @@ public class APIUnitTest {
         }
         return errorObject;
     }
+
+    private RequestBody getUpdateAccountRequestBody() {
+        PatchData patchObject = new PatchData();
+        patchObject.setOp("replace");
+        patchObject.setPath("/kycVerificationStatus");
+        patchObject.setValue("verified");
+        patchDataArrayList = new ArrayList<>();
+        patchDataArrayList.add(patchObject);
+        return RequestBody.create(new Gson().toJson(patchDataArrayList), mediaType);
+    }
+
+    private RequestBody getCreateAccountRequestBody() {
+        Random r = new Random();
+        int keyValue = r.nextInt(45 - 28) + 28;
+        accountRequest = new Account();
+
+        ArrayList<AccountIdentifier> accountIdentifiers = new ArrayList<>();
+
+        //account identifiers
+        AccountIdentifier accountIdentifier = new AccountIdentifier();
+        accountIdentifier.setKey("msisdn");
+        accountIdentifier.setValue(String.valueOf(keyValue));
+        accountIdentifiers.add(accountIdentifier);
+
+        //add account identifier to account object
+        accountRequest.setAccountIdentifiers(accountIdentifiers);
+
+        //identity array
+        ArrayList<Identity> identityArrayList = new ArrayList<>();
+        //identity object
+        Identity identity = new Identity();
+
+        //kyc information
+        KYCInformation kycInformation = new KYCInformation();
+
+        kycInformation.setBirthCountry("AD");
+        kycInformation.setContactPhone("+447777777777");
+        kycInformation.setDateOfBirth("2000-11-20");
+        kycInformation.setEmailAddress("xyz@xyz.com");
+        kycInformation.setEmployerName("String");
+        kycInformation.setGender("m");
+
+        //create  id document object
+
+        ArrayList<IdDocument> idDocumentArrayList = new ArrayList<>();
+        IdDocument idDocument = new IdDocument();
+        idDocument.setIdType("passport");
+        idDocument.setIdNumber("111111");
+        idDocument.setIssueDate("2018-11-20");
+        idDocument.setExpiryDate("2018-11-20");
+        idDocument.setIssuer("ABC");
+        idDocument.setIssuerPlace("DEF");
+        idDocument.setIssuerCountry("AD");
+
+        idDocumentArrayList.add(idDocument);
+
+        kycInformation.setIdDocument(idDocumentArrayList);
+
+
+        kycInformation.setNationality("AD");
+        kycInformation.setOccupation("Miner");
+
+        //Postal Address
+        Address address = new Address();
+        address.setAddressLine1("37");
+        address.setAddressLine2("ABC Drive");
+        address.setAddressLine3("string");
+        address.setCity("Berlin");
+        address.setStateProvince("string");
+        address.setPostalCode("AF1234");
+        address.setCountry("AD");
+
+        kycInformation.setPostalAddress(address);
+
+        //subject information
+        SubjectName subjectName = new SubjectName();
+        subjectName.setTitle("Mr");
+        subjectName.setFirstName("H");
+        subjectName.setMiddleName("I");
+        subjectName.setLastName("J");
+        subjectName.setFullName("H I J ");
+        subjectName.setNativeName("string");
+
+
+        kycInformation.setSubjectName(subjectName);
+
+        identity.setIdentityKyc(kycInformation);
+        identity.setAccountRelationship("accountHolder");
+        identity.setKycVerificationStatus("verified");
+        identity.setKycVerificationEntity("ABC Agent");
+
+        //kyc level
+        identity.setKycLevel(1);
+
+        //custom data for identity
+        ArrayList<CustomDataItem> customDataItemArrayList = new ArrayList<>();
+        CustomDataItem customDataItem = new CustomDataItem();
+        customDataItem.setKey("test");
+        customDataItem.setValue("custom");
+
+        customDataItemArrayList.add(customDataItem);
+
+        identity.setCustomData(customDataItemArrayList);
+
+        //add identity to array
+        identityArrayList.add(identity);
+
+        //add indentity array into account object
+        accountRequest.setIdentity(identityArrayList);
+
+
+        //account type
+        accountRequest.setAccountType("string");
+
+        //custom data for account
+
+
+        ArrayList<CustomDataItem> customDataItemAccountArrayList = new ArrayList<>();
+        CustomDataItem customDataAccountItem = new CustomDataItem();
+        customDataAccountItem.setKey("test");
+        customDataAccountItem.setValue("custom1");
+
+        customDataItemAccountArrayList.add(customDataAccountItem);
+
+        accountRequest.setCustomData(customDataItemAccountArrayList);
+
+        //Fees array
+
+        ArrayList<Fees> feesArrayList = new ArrayList<>();
+
+        Fees fees = new Fees();
+        fees.setFeeType("string");
+        fees.setFeeAmount("5.46");
+        fees.setFeeCurrency("AED");
+
+        feesArrayList.add(fees);
+
+        accountRequest.setFees(feesArrayList);
+
+
+        accountRequest.setRegisteringEntity("ABC Agent");
+        accountRequest.setRequestDate("2021-02-17T15:41:45.194Z");
+        return RequestBody.create(new Gson().toJson(accountRequest), mediaType);
+    }
+
 
 }
