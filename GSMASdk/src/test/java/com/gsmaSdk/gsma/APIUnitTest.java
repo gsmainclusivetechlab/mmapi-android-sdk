@@ -973,8 +973,9 @@ public class APIUnitTest {
         assertNotNull(accountHolderName);
 
         assertNotNull(accountHolderName.getName());
-
     }
+
+
 
 
     /*****************************Recurring Payment**********************/
@@ -998,6 +999,34 @@ public class APIUnitTest {
 
     }
 
+
+    @Test
+    public void createAccountDebitMandateApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<RequestStateObject>  requestQuotationCall = apiService.createAccountDebitMandate(URL_VERSION,getAccountIdentifier(),getDebitMandateBody(),headers);
+
+
+        Response<RequestStateObject> requestStateObjectResponse=requestQuotationCall.execute();
+
+        ResponseBody errorBody = requestStateObjectResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(requestStateObjectResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+    }
     @Test
     public void viewAccountDebitMandateApiSuccess() throws IOException {
         String actualViewDebitMandateSuccess = FileReader.readFromFile("DebitMandate.json");
@@ -1012,11 +1041,35 @@ public class APIUnitTest {
         assertNotNull(debitMandate.getMandateReference());
         assertNotNull(debitMandate.getStartDate());
 
-
     }
 
+    @Test
+    public void viewAccountDebitMandateApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<DebitMandate> debitMandateCall=apiService.viewAccountDebitMandate(URL_VERSION,getAccountIdentifier(),"1015",headers);
 
 
+        Response<DebitMandate> debitMandateResponse=debitMandateCall.execute();
+
+        ResponseBody errorBody = debitMandateResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(debitMandateResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+    }
 
 
 
