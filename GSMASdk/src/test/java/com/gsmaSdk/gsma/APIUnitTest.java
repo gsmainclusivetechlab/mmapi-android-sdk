@@ -224,9 +224,6 @@ public class APIUnitTest {
     }
 
 
-
-
-
     @Test
     public void initiatePaymentApiSuccess() throws IOException {
         String actualRequestState = FileReader.readFromFile("RequestState.json");
@@ -234,7 +231,7 @@ public class APIUnitTest {
         mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
 
         headers.put(X_CORRELATION_ID, generateUUID());
-        Call<RequestStateObject> requestStateObjectCall = apiService.viewRequestState(URL_VERSION, "b0b17e14-c937-4363-a131-f0d83c054f96", headers);
+        Call<RequestStateObject> requestStateObjectCall = apiService.initiatePayment("merchantpay", URL_VERSION,getTransactionRequestBody(), headers);
 
         RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
 
@@ -242,6 +239,34 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getStatus());
         assertNotNull(requestStateObject.getNotificationMethod());
         assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+
+    @Test
+    public void  initiatePaymentApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.initiatePayment("merchantpay", URL_VERSION,getTransactionRequestBody(), headers);
+
+
+        Response<RequestStateObject> requestStateResponse=requestStateObjectCall.execute();
+        ResponseBody errorBody = requestStateResponse.errorBody();
+
+        GSMAError gsmaError=new GSMAError(requestStateResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
 
     }
 
@@ -264,6 +289,34 @@ public class APIUnitTest {
 
 
     @Test
+    public void  reversalApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.reversal(URL_VERSION, "REF-1633580365289",getReversalBody(), headers);
+
+        Response<RequestStateObject> requestStateResponse=requestStateObjectCall.execute();
+
+        ResponseBody errorBody = requestStateResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(requestStateResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+
+    }
+
+
+    @Test
     public void balanceApiSuccess() throws IOException {
         String actualBalance = FileReader.readFromFile("Balance.json");
 
@@ -275,6 +328,34 @@ public class APIUnitTest {
         Balance balance = balanceCall.execute().body();
 
         assertNotNull(balance);
+
+    }
+
+    @Test
+    public void balanceApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<Balance> balanceCall = apiService.retrieveBalance(URL_VERSION, getAccountIdentifier(), headers);
+
+        Response<Balance> balanceResponse=balanceCall.execute();
+
+        ResponseBody errorBody =  balanceResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(balanceResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
 
     }
 
@@ -300,6 +381,34 @@ public class APIUnitTest {
 
 
     @Test
+    public void viewTransactionApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<Transaction> transactionCall = apiService.viewTransaction(URL_VERSION, "1684", headers);
+
+        Response<Transaction> transactionResponse=transactionCall.execute();
+
+        ResponseBody errorBody =   transactionResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(transactionResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+
+    }
+
+    @Test
     public void viewRequestStateApiSuccess() throws IOException {
         String actualRequestState = FileReader.readFromFile("RequestState.json");
 
@@ -313,6 +422,33 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getStatus());
         assertNotNull(requestStateObject.getNotificationMethod());
         assertNotNull(requestStateObject.getObjectReference());
+    }
+
+    @Test
+    public void viewRequestStateApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.viewRequestState(URL_VERSION, "b0b17e14-c937-4363-a131-f0d83c054f96", headers);
+
+        Response<RequestStateObject> requestStateResponse=requestStateObjectCall.execute();
+
+        ResponseBody errorBody = requestStateResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(requestStateResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+
     }
 
 
@@ -337,6 +473,42 @@ public class APIUnitTest {
 
     }
 
+
+    @Test
+    public void  retrieveTransactionApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        HashMap<String, String> params = getHashMapFromObject(transactionFilter);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<Transactions> transactionsCall = apiService.retrieveTransaction(URL_VERSION, getAccountIdentifier(), headers, params);
+
+        Response<Transactions> transactionsResponse=transactionsCall.execute();
+
+        ResponseBody errorBody = transactionsResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(transactionsResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+
+    }
+
+
     @Test
     public void retrieveMissingLinkApiSuccess() throws IOException {
 
@@ -351,8 +523,39 @@ public class APIUnitTest {
 
         assertNotNull(link);
         assertNotNull(link.getLink());
+    }
+
+    @Test
+    public void retrieveMissingLinkApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<GetLink> linkCall = apiService.retrieveMissingLink("b0b17e14-c937-4363-a131-f0d83c054f96", URL_VERSION, headers);
+
+        Response<GetLink> transactionsResponse=linkCall.execute();
+
+        ResponseBody errorBody = transactionsResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(transactionsResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
 
     }
+
+
+
+
 
     @Test
     public void getMissingResponsesApiSuccess() throws IOException {
@@ -367,6 +570,34 @@ public class APIUnitTest {
 
         assertNotNull(missingResponse);
         assertNotNull(missingResponse.getJsonObject());
+
+    }
+
+    @Test
+    public void getMissingResponsesFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<MissingResponse> missingResponseCall = apiService.getMissingResponses("/transactions/REF-1636956879897", URL_VERSION, headers);
+
+        Response<MissingResponse> missingResponse= missingResponseCall.execute();
+
+        ResponseBody errorBody = missingResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(missingResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
 
     }
 
@@ -436,7 +667,6 @@ public class APIUnitTest {
         String actualRefundSuccess = FileReader.readFromFile("RequestState.json");
 
         mockWebServer.enqueue(new MockResponse().setBody(actualRefundSuccess));
-
         headers.put(X_CORRELATION_ID, generateUUID());
 
         Call<RequestStateObject> refundCall = apiService.refund(URL_VERSION, getTransactionRequestBody(), headers);
@@ -470,6 +700,34 @@ public class APIUnitTest {
 
     }
 
+    @Test
+    public void bulkTransactionApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<RequestStateObject> requestStateObjectCall = apiService.bulkTransaction(URL_VERSION, getBulkTransactionBody(), headers);
+
+        Response<RequestStateObject> requestStateObjectResponse=requestStateObjectCall.execute();
+        ResponseBody errorBody = requestStateObjectResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(requestStateObjectResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+
+    }
+
+
 
     @Test
     public void retrieveBatchRejectionsApiSuccess() throws IOException {
@@ -487,6 +745,35 @@ public class APIUnitTest {
 
 
     }
+
+
+    @Test
+    public void retrieveBatchRejectionsApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<BatchRejections> batchRejectionsCall = apiService.retrieveBatchRejections("REF-1635765084301", URL_VERSION, headers);
+
+        Response<BatchRejections>  batchRejectionsResponse=batchRejectionsCall.execute();
+        ResponseBody errorBody =  batchRejectionsResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError( batchRejectionsResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+
+    }
+
 
     @Test
     public void retrieveBatchCompletionsApiSuccess() throws IOException {
@@ -506,6 +793,34 @@ public class APIUnitTest {
 
     }
 
+
+    @Test
+    public void retrieveBatchCompletionsApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<BatchCompletions> batchCompletionsCall = apiService.retrieveBatchCompletions("REF-1635765084301", URL_VERSION, headers);
+
+        Response<BatchCompletions>  batchCompletionsResponse=batchCompletionsCall.execute();
+        ResponseBody errorBody =  batchCompletionsResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError( batchCompletionsResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+
+    }
+
     @Test
     public void updateBatchTransactionApiSuccess() throws IOException {
 
@@ -521,6 +836,34 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getStatus());
         assertNotNull(requestStateObject.getNotificationMethod());
         assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+
+    @Test
+    public void updateBatchTransactionApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<RequestStateObject> requestStateObjectCall = apiService.updateBatchTransaction(URL_VERSION, "REF-1635765084301", getPatchDataBody(), headers);
+
+        Response<RequestStateObject> requestStateResponse=requestStateObjectCall.execute();
+
+        ResponseBody errorBody = requestStateResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(requestStateResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
 
 
     }
@@ -541,9 +884,36 @@ public class APIUnitTest {
         assertNotNull(batchTransaction.getBatchStatus());
         assertNotNull(batchTransaction.getApprovalDate());
         assertNotNull(batchTransaction.getCompletionDate());
+    }
+
+    @Test
+    public void retrieveBatchTransactionApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<BatchTransaction> batchTransactionCall = apiService.retrieveBatchTransaction(URL_VERSION, "REF-1635765084301", headers);
+
+        Response<BatchTransaction> batchTransactionResponse=batchTransactionCall.execute();
+
+        ResponseBody errorBody = batchTransactionResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(batchTransactionResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
 
 
     }
+
 
     /*********************************International Transfers************************/
 
