@@ -13,7 +13,7 @@ public class ErrorObject implements Serializable {
 
     @SerializedName("errorCode")
     private String errorCode;
-    @SerializedName("errorDescription")
+    @SerializedName("errordescription")
     private String errorDescription;
     @SerializedName("errorCategory")
     private String errorCategory;

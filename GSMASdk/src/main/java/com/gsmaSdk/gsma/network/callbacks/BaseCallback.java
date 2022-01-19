@@ -51,6 +51,7 @@ public final class BaseCallback<K extends BaseResponse> implements Callback<K> {
             requestCallback.onSuccess(response.code(), response.body());
         } else {
             ResponseBody errorBody = response.errorBody();
+
             if (errorBody != null) {
                 try {
                     requestCallback.onFailure(new GSMAError(response.code(), Utils.parseError(errorBody.string()), null));

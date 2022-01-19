@@ -82,7 +82,7 @@ public class Utils {
         String message;
         final String CATEGORY = "errorCategory";
         final String CODE = "errorCode";
-        final String DESCRIPTION = "errorDescription";
+        final String DESCRIPTION = "errordescription";
         final String DATETIME = "errorDateTime";
         final String MESSAGE = "message";
 

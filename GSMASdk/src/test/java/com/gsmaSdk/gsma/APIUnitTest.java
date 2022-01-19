@@ -20,6 +20,8 @@ import com.gsmaSdk.gsma.models.bills.Bills;
 import com.gsmaSdk.gsma.models.common.Address;
 
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
+import com.gsmaSdk.gsma.models.common.ErrorObject;
+import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.IdDocument;
 import com.gsmaSdk.gsma.models.common.KYCInformation;
@@ -53,6 +55,8 @@ import com.gsmaSdk.gsma.network.retrofit.APIService;
 import com.gsmaSdk.gsma.utils.Utils;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,9 +70,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -135,6 +141,33 @@ public class APIUnitTest {
         assertNotNull(expectedToken);
         assertNotNull(expectedToken.getAccessToken());
 
+    }
+
+    @Test
+    public void createTokenApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+
+        Call<Token> tokenCall = apiService.
+                createToken(null, "client_credentials");
+
+        Response<Token> tokenResponse=tokenCall.execute();
+
+        ResponseBody errorBody = tokenResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(tokenResponse.code(),Utils.parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
 
     }
 
@@ -149,6 +182,35 @@ public class APIUnitTest {
 
         assertNotNull(serviceAvailability);
         assertNotNull(serviceAvailability.getServiceStatus());
+
+    }
+
+    @Test
+    public void checkServiceAvailabilityApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<ServiceAvailability> serviceAvailabilityCall = apiService.checkServiceAvailability(URL_VERSION, headers);
+
+
+        Response<ServiceAvailability> serviceAvailabilityResponse=serviceAvailabilityCall.execute();
+
+        ResponseBody errorBody = serviceAvailabilityResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(serviceAvailabilityResponse.code(),Utils.parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
 
     }
 
@@ -169,6 +231,10 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getObjectReference());
 
     }
+
+
+
+
 
     @Test
     public void reversalApiSuccess() throws IOException {
@@ -985,5 +1051,62 @@ public class APIUnitTest {
         return RequestBody.create(new Gson().toJson(transactionRequest), mediaType);
     }
 
+
+
+    public ErrorObject parseError(String response) {
+        JSONObject jsonObject;
+        ErrorObject errorObject = new ErrorObject();
+        String category;
+        String description;
+        String code;
+        String dateTime;
+        String message;
+        final String CATEGORY = "errorCategory";
+        final String CODE = "errorCode";
+        final String DESCRIPTION = "errorDescription";
+        final String DATETIME = "errorDateTime";
+        final String MESSAGE = "message";
+
+        if(response==null){
+            errorObject.setErrorDescription("Invalid Json Format");
+            return errorObject;
+        }
+        if (response.isEmpty()) {
+            errorObject.setErrorDescription("Invalid Json Format");
+            return errorObject;
+        }
+        try {
+            jsonObject = new JSONObject(response);
+
+            if (jsonObject.has(DESCRIPTION)) {
+                description = jsonObject.getString(DESCRIPTION);
+                errorObject.setErrorDescription(description);
+            }
+            if (jsonObject.has(CATEGORY)) {
+                category = jsonObject.getString(CATEGORY);
+                errorObject.setErrorCategory(category);
+            }
+            if (jsonObject.has(CODE)) {
+                code = jsonObject.getString(CODE);
+                errorObject.setErrorCode(code);
+            }
+            if (jsonObject.has(DATETIME)) {
+                dateTime = jsonObject.getString(DATETIME);
+                errorObject.setErrorDateTime(dateTime);
+            }
+            if (jsonObject.has(MESSAGE)) {
+                message = jsonObject.getString(MESSAGE);
+                errorObject.setMessage(message);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (NullPointerException nullPointerException) {
+            nullPointerException.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("errors" + e.getMessage());
+        }
+        return errorObject;
+    }
 
 }
