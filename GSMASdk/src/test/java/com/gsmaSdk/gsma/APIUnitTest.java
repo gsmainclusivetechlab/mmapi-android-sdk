@@ -1082,9 +1082,9 @@ public class APIUnitTest {
 
         mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
         headers.put(X_CORRELATION_ID, generateUUID());
-        Call<RequestStateObject> requestStateObjectCall = apiService.createAccountLinking(URL_VERSION, getAccountIdentifier(), getDebitMandateBody(), headers);
+        Call<RequestStateObject> requestStateAccountLinkCall = apiService.createAccountLinking(URL_VERSION, getAccountIdentifier(), getDebitMandateBody(), headers);
 
-        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
+        RequestStateObject requestStateObject =  requestStateAccountLinkCall.execute().body();
 
         assertNotNull(requestStateObject);
         assertNotNull(requestStateObject.getStatus());
@@ -1092,6 +1092,36 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getObjectReference());
 
     }
+
+    @Test
+    public void createAccountLinkingApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<RequestStateObject> requestStateAccountLinkCall = apiService.createAccountLinking(URL_VERSION, getAccountIdentifier(), getDebitMandateBody(), headers);
+
+
+        Response<RequestStateObject> requestStateObjectResponse=requestStateAccountLinkCall.execute();
+
+        ResponseBody errorBody = requestStateObjectResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(requestStateObjectResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+    }
+
+
 
     @Test
     public void viewAccountLinkApiSuccess() throws IOException {
@@ -1107,6 +1137,34 @@ public class APIUnitTest {
 
         assertNotNull(link);
         assertNotNull(link.getLinkReference());
+
+    }
+
+    @Test
+    public void viewAccountLinkApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<Link> linkCall = apiService.viewAccountLink(URL_VERSION, getAccountIdentifier(), "1684", headers);
+
+
+        Response<Link> requestStateObjectResponse=linkCall.execute();
+
+        ResponseBody errorBody = requestStateObjectResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(requestStateObjectResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
 
     }
 
@@ -1137,6 +1195,39 @@ public class APIUnitTest {
 
 
     @Test
+    public void viewAccountBillsApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        HashMap<String, String> params = getHashMapFromObject(transactionFilter);
+        Call<Bills> billsCall = apiService.viewAccountBills(URL_VERSION, getAccountIdentifier(), headers, params);
+
+
+        Response<Bills> billsCallResponse=billsCall.execute();
+        ResponseBody errorBody = billsCallResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(billsCallResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+    }
+
+    @Test
     public void createBillPaymentApiSuccess() throws IOException {
 
         String actualCreateBillPayment = FileReader.readFromFile("RequestState.json");
@@ -1153,6 +1244,32 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getStatus());
         assertNotNull(requestStateObject.getNotificationMethod());
         assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+    @Test
+    public void createBillPaymentApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<RequestStateObject> requestStateBillCall = apiService.createBillPayment(URL_VERSION, getAccountIdentifier(), "REF-000001", getBillPayBody(), headers);
+
+        Response<RequestStateObject> requestStateObjectResponse=requestStateBillCall.execute();
+        ResponseBody errorBody = requestStateObjectResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(requestStateObjectResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
 
     }
 
@@ -1181,6 +1298,42 @@ public class APIUnitTest {
 
     }
 
+
+    @Test
+    public void  viewBillPaymentApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse=new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        HashMap<String, String> params = getHashMapFromObject(transactionFilter);
+
+        Call<BillPayments> billPaymentsCall = apiService.viewBillPayment(URL_VERSION, getAccountIdentifier(),"REF-000001", headers,params);
+
+        Response<BillPayments> billPaymentsResponse= billPaymentsCall.execute();
+        ResponseBody errorBody = billPaymentsResponse.errorBody();
+
+
+        GSMAError gsmaError=new GSMAError(billPaymentsResponse.code(),parseError(errorBody.string()), null);
+        ErrorObject errorObject=gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+    }
+
+
+
+
     /***************************************Agent Service********************************/
 
     @Test
@@ -1199,6 +1352,7 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getObjectReference());
 
     }
+
 
     @Test
     public void viewAccountApiSuccess() throws IOException {
@@ -1233,8 +1387,6 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getObjectReference());
 
     }
-
-
 
 
 
