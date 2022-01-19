@@ -2,23 +2,20 @@ package com.gsmaSdk.gsma;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-
+import com.gsmaSdk.gsma.models.account.Account;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
-
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Balance;
+import com.gsmaSdk.gsma.models.account.Identity;
 import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
 import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.bills.Bills;
-
-
 import com.gsmaSdk.gsma.models.common.Address;
-
 import com.gsmaSdk.gsma.models.common.CustomDataItem;
+import com.gsmaSdk.gsma.models.common.Fees;
 import com.gsmaSdk.gsma.models.common.GetLink;
 import com.gsmaSdk.gsma.models.common.IdDocument;
 import com.gsmaSdk.gsma.models.common.KYCInformation;
@@ -30,13 +27,9 @@ import com.gsmaSdk.gsma.models.common.SubjectName;
 import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.models.transaction.PatchData;
 import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletions;
-import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
 import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejections;
-
 import com.gsmaSdk.gsma.models.transaction.batchtransaction.BatchTransaction;
-
 import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
-
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
@@ -48,9 +41,6 @@ import com.gsmaSdk.gsma.network.deserializers.MissingCodeDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.MissingResponseDeserializer;
 import com.gsmaSdk.gsma.network.deserializers.TransactionResponseDeserializer;
 import com.gsmaSdk.gsma.network.retrofit.APIService;
-import com.gsmaSdk.gsma.utils.Utils;
-
-
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,6 +49,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.UUID;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -85,13 +76,14 @@ public class APIUnitTest {
     private static HashMap<String, String> headers;
 
 
-
     Reversal reversalObject;
 
 
     private AuthorisationCode authorisationCodeRequest;
     private Transaction transactionRequest;
     private Quotation quotationRequest;
+    private Account accountRequest;
+    private ArrayList<PatchData> patchDataArrayList;
 
     private final MediaType mediaType = MediaType.parse("application/json");
 
@@ -322,7 +314,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<AuthorisationCode> viewAuthorisationCodeCall = apiService.viewAuthorizationCode(URL_VERSION,getAccountIdentifier(),"b0b17e14-c937-4363-a131-f0d83c054f96", headers);
+        Call<AuthorisationCode> viewAuthorisationCodeCall = apiService.viewAuthorizationCode(URL_VERSION, getAccountIdentifier(), "b0b17e14-c937-4363-a131-f0d83c054f96", headers);
 
         AuthorisationCode authorisationCode = viewAuthorisationCodeCall.execute().body();
 
@@ -341,7 +333,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<AuthorisationCodes> getMissingCodesSuccessCall = apiService.getMissingCodes("/transactions/REF-1636956879897",URL_VERSION, headers);
+        Call<AuthorisationCodes> getMissingCodesSuccessCall = apiService.getMissingCodes("/transactions/REF-1636956879897", URL_VERSION, headers);
 
         AuthorisationCodes authorisationCodes = getMissingCodesSuccessCall.execute().body();
 
@@ -360,7 +352,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<RequestStateObject> refundCall = apiService.refund( URL_VERSION, getTransactionRequestBody(), headers);
+        Call<RequestStateObject> refundCall = apiService.refund(URL_VERSION, getTransactionRequestBody(), headers);
 
         RequestStateObject requestStateObject = refundCall.execute().body();
 
@@ -370,7 +362,7 @@ public class APIUnitTest {
 
     }
 
-    /*****************************Disbursment************************************/
+    /*****************************Disbursement************************************/
 
 
     @Test
@@ -453,16 +445,15 @@ public class APIUnitTest {
         mockWebServer.enqueue(new MockResponse().setBody(actualBatchTransaction));
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<BatchTransaction> batchTransactionCall=apiService.retrieveBatchTransaction(URL_VERSION,"REF-1635765084301",  headers);
+        Call<BatchTransaction> batchTransactionCall = apiService.retrieveBatchTransaction(URL_VERSION, "REF-1635765084301", headers);
 
-        BatchTransaction batchTransaction=batchTransactionCall.execute().body();
+        BatchTransaction batchTransaction = batchTransactionCall.execute().body();
 
         assertNotNull(batchTransaction);
         assertNotNull(batchTransaction.getBatchId());
         assertNotNull(batchTransaction.getBatchStatus());
         assertNotNull(batchTransaction.getApprovalDate());
         assertNotNull(batchTransaction.getCompletionDate());
-
 
 
     }
@@ -478,7 +469,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<RequestStateObject> requestQuotationCall = apiService.requestQuotation( URL_VERSION, getQuotationRequestBody(), headers);
+        Call<RequestStateObject> requestQuotationCall = apiService.requestQuotation(URL_VERSION, getQuotationRequestBody(), headers);
 
         RequestStateObject requestStateObject = requestQuotationCall.execute().body();
 
@@ -518,7 +509,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<AccountHolderName> viewAccountNameSuccessCall = apiService.viewAccountName(URL_VERSION,getAccountIdentifier(), headers);
+        Call<AccountHolderName> viewAccountNameSuccessCall = apiService.viewAccountName(URL_VERSION, getAccountIdentifier(), headers);
 
         AccountHolderName accountHolderName = viewAccountNameSuccessCall.execute().body();
 
@@ -529,6 +520,7 @@ public class APIUnitTest {
     }
 
 
+    /***************************************Account Linking********************************/
 
     @Test
     public void createAccountLinkingApiSuccess() throws IOException {
@@ -536,7 +528,7 @@ public class APIUnitTest {
 
         mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
         headers.put(X_CORRELATION_ID, generateUUID());
-        Call<RequestStateObject> requestStateObjectCall = apiService.createAccountLinking(URL_VERSION, getAccountIdentifier(),getDebitMandateBody(),headers);
+        Call<RequestStateObject> requestStateObjectCall = apiService.createAccountLinking(URL_VERSION, getAccountIdentifier(), getDebitMandateBody(), headers);
 
         RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
 
@@ -555,23 +547,68 @@ public class APIUnitTest {
         mockWebServer.enqueue(new MockResponse().setBody(actualLink));
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<Link> linkCall=apiService.viewAccountLink(URL_VERSION,getAccountIdentifier(),"1684",headers);
+        Call<Link> linkCall = apiService.viewAccountLink(URL_VERSION, getAccountIdentifier(), "1684", headers);
 
-        Link link=linkCall.execute().body();
+        Link link = linkCall.execute().body();
 
         assertNotNull(link);
         assertNotNull(link.getLinkReference());
 
-
-
     }
 
 
+    /***************************************Agent Service********************************/
 
+    @Test
+    public void createAccountApiSuccess() throws IOException {
+        String actualCreateAccount = FileReader.readFromFile("RequestState.json");
 
+        mockWebServer.enqueue(new MockResponse().setBody(actualCreateAccount));
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.createAccount(URL_VERSION, getCreateAccountRequestBody(), headers);
 
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
 
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
 
+    }
+
+    @Test
+    public void viewAccountApiSuccess() throws IOException {
+
+        String actualViewAccount = FileReader.readFromFile("Account.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualViewAccount));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<Account> viewAccountCall = apiService.viewAccount(URL_VERSION, getAccountIdentifier(), headers);
+
+        Account viewAccount = viewAccountCall.execute().body();
+
+        assertNotNull(viewAccount);
+        assertNotNull(viewAccount.getAccountStatus());
+
+    }
+
+    @Test
+    public void updateAccountIdentityApiSuccess() throws IOException {
+        String actualUpdateAccountIdentity = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualUpdateAccountIdentity));
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.createAccount(URL_VERSION, getUpdateAccountRequestBody(), headers);
+
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
+
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
+
+    }
 
 
     /*****************************Util functions************************************/
@@ -736,7 +773,7 @@ public class APIUnitTest {
 
     }
 
-    private RequestBody getTransactionRequestBody(){
+    private RequestBody getTransactionRequestBody() {
         transactionRequest = new Transaction();
         ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
         ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
@@ -759,7 +796,7 @@ public class APIUnitTest {
         return RequestBody.create(new Gson().toJson(transactionRequest), mediaType);
     }
 
-    private RequestBody getQuotationRequestBody(){
+    private RequestBody getQuotationRequestBody() {
         quotationRequest = new Quotation();
 
         //create debit party and credit party for internal transfer quotation
@@ -866,5 +903,147 @@ public class APIUnitTest {
         return RequestBody.create(new Gson().toJson(transactionRequest), mediaType);
     }
 
+    private RequestBody getUpdateAccountRequestBody() {
+        PatchData patchObject = new PatchData();
+        patchObject.setOp("replace");
+        patchObject.setPath("/kycVerificationStatus");
+        patchObject.setValue("verified");
+        patchDataArrayList = new ArrayList<>();
+        patchDataArrayList.add(patchObject);
+        return RequestBody.create(new Gson().toJson(patchDataArrayList), mediaType);
+    }
 
+    private RequestBody getCreateAccountRequestBody() {
+        Random r = new Random();
+        int keyValue = r.nextInt(45 - 28) + 28;
+        accountRequest = new Account();
+
+        ArrayList<AccountIdentifier> accountIdentifiers = new ArrayList<>();
+
+        //account identifiers
+        AccountIdentifier accountIdentifier = new AccountIdentifier();
+        accountIdentifier.setKey("msisdn");
+        accountIdentifier.setValue(String.valueOf(keyValue));
+        accountIdentifiers.add(accountIdentifier);
+
+        //add account identifier to account object
+        accountRequest.setAccountIdentifiers(accountIdentifiers);
+
+        //identity array
+        ArrayList<Identity> identityArrayList = new ArrayList<>();
+        //identity object
+        Identity identity = new Identity();
+
+        //kyc information
+        KYCInformation kycInformation = new KYCInformation();
+
+        kycInformation.setBirthCountry("AD");
+        kycInformation.setContactPhone("+447777777777");
+        kycInformation.setDateOfBirth("2000-11-20");
+        kycInformation.setEmailAddress("xyz@xyz.com");
+        kycInformation.setEmployerName("String");
+        kycInformation.setGender("m");
+
+        //create  id document object
+
+        ArrayList<IdDocument> idDocumentArrayList = new ArrayList<>();
+        IdDocument idDocument = new IdDocument();
+        idDocument.setIdType("passport");
+        idDocument.setIdNumber("111111");
+        idDocument.setIssueDate("2018-11-20");
+        idDocument.setExpiryDate("2018-11-20");
+        idDocument.setIssuer("ABC");
+        idDocument.setIssuerPlace("DEF");
+        idDocument.setIssuerCountry("AD");
+
+        idDocumentArrayList.add(idDocument);
+
+        kycInformation.setIdDocument(idDocumentArrayList);
+
+
+        kycInformation.setNationality("AD");
+        kycInformation.setOccupation("Miner");
+
+        //Postal Address
+        Address address = new Address();
+        address.setAddressLine1("37");
+        address.setAddressLine2("ABC Drive");
+        address.setAddressLine3("string");
+        address.setCity("Berlin");
+        address.setStateProvince("string");
+        address.setPostalCode("AF1234");
+        address.setCountry("AD");
+
+        kycInformation.setPostalAddress(address);
+
+        //subject information
+        SubjectName subjectName = new SubjectName();
+        subjectName.setTitle("Mr");
+        subjectName.setFirstName("H");
+        subjectName.setMiddleName("I");
+        subjectName.setLastName("J");
+        subjectName.setFullName("H I J ");
+        subjectName.setNativeName("string");
+
+
+        kycInformation.setSubjectName(subjectName);
+
+        identity.setIdentityKyc(kycInformation);
+        identity.setAccountRelationship("accountHolder");
+        identity.setKycVerificationStatus("verified");
+        identity.setKycVerificationEntity("ABC Agent");
+
+        //kyc level
+        identity.setKycLevel(1);
+
+        //custom data for identity
+        ArrayList<CustomDataItem> customDataItemArrayList = new ArrayList<>();
+        CustomDataItem customDataItem = new CustomDataItem();
+        customDataItem.setKey("test");
+        customDataItem.setValue("custom");
+
+        customDataItemArrayList.add(customDataItem);
+
+        identity.setCustomData(customDataItemArrayList);
+
+        //add identity to array
+        identityArrayList.add(identity);
+
+        //add indentity array into account object
+        accountRequest.setIdentity(identityArrayList);
+
+
+        //account type
+        accountRequest.setAccountType("string");
+
+        //custom data for account
+
+
+        ArrayList<CustomDataItem> customDataItemAccountArrayList = new ArrayList<>();
+        CustomDataItem customDataAccountItem = new CustomDataItem();
+        customDataAccountItem.setKey("test");
+        customDataAccountItem.setValue("custom1");
+
+        customDataItemAccountArrayList.add(customDataAccountItem);
+
+        accountRequest.setCustomData(customDataItemAccountArrayList);
+
+        //Fees array
+
+        ArrayList<Fees> feesArrayList = new ArrayList<>();
+
+        Fees fees = new Fees();
+        fees.setFeeType("string");
+        fees.setFeeAmount("5.46");
+        fees.setFeeCurrency("AED");
+
+        feesArrayList.add(fees);
+
+        accountRequest.setFees(feesArrayList);
+
+
+        accountRequest.setRegisteringEntity("ABC Agent");
+        accountRequest.setRequestDate("2021-02-17T15:41:45.194Z");
+        return RequestBody.create(new Gson().toJson(accountRequest), mediaType);
+    }
 }
