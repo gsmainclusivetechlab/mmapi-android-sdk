@@ -1,0 +1,33 @@
+[{
+  "serviceProviderPaymentReference": "string",
+  "requestingOrganisationTransactionReference": "string",
+  "customerReference": "string",
+  "paymentType": "partialpayment",
+  "billPaymentStatus": "string",
+  "amountPaid": "15.00",
+  "currency": "AED",
+  "requestingOrganisation": "string",
+  "supplementaryBillReferenceDetails": [
+    {
+      "paymentReferenceType": "string",
+      "paymentReferenceValue": "string"
+    }
+  ],
+  "serviceProviderComment": "string",
+  "serviceProviderNotification": "string",
+  "requestDate": "2022-01-04T11:50:19.757Z",
+  "creationDate": "2022-01-04T11:50:19.757Z",
+  "modificationDate": "2022-01-04T11:50:19.758Z",
+  "customData": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ],
+  "metadata": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ]
+}]

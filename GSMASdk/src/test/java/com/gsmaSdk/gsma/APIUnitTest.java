@@ -12,6 +12,7 @@ import com.gsmaSdk.gsma.models.account.Link;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
+import com.gsmaSdk.gsma.models.bills.BillPay;
 import com.gsmaSdk.gsma.models.bills.BillPayments;
 import com.gsmaSdk.gsma.models.bills.Bills;
 
@@ -28,6 +29,7 @@ import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.SubjectName;
 import com.gsmaSdk.gsma.models.common.Token;
+import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.transaction.PatchData;
 import com.gsmaSdk.gsma.models.transaction.batchcompletion.BatchCompletions;
 import com.gsmaSdk.gsma.models.transaction.batchrejection.BatchRejection;
@@ -51,7 +53,6 @@ import com.gsmaSdk.gsma.network.retrofit.APIService;
 import com.gsmaSdk.gsma.utils.Utils;
 
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,6 +63,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.mockwebserver.MockResponse;
@@ -85,6 +87,7 @@ public class APIUnitTest {
     private static HashMap<String, String> headers;
 
 
+    private BillPay billPay;
 
     Reversal reversalObject;
 
@@ -154,6 +157,7 @@ public class APIUnitTest {
         String actualRequestState = FileReader.readFromFile("RequestState.json");
 
         mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
+
         headers.put(X_CORRELATION_ID, generateUUID());
         Call<RequestStateObject> requestStateObjectCall = apiService.viewRequestState(URL_VERSION, "b0b17e14-c937-4363-a131-f0d83c054f96", headers);
 
@@ -322,7 +326,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<AuthorisationCode> viewAuthorisationCodeCall = apiService.viewAuthorizationCode(URL_VERSION,getAccountIdentifier(),"b0b17e14-c937-4363-a131-f0d83c054f96", headers);
+        Call<AuthorisationCode> viewAuthorisationCodeCall = apiService.viewAuthorizationCode(URL_VERSION, getAccountIdentifier(), "b0b17e14-c937-4363-a131-f0d83c054f96", headers);
 
         AuthorisationCode authorisationCode = viewAuthorisationCodeCall.execute().body();
 
@@ -341,7 +345,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<AuthorisationCodes> getMissingCodesSuccessCall = apiService.getMissingCodes("/transactions/REF-1636956879897",URL_VERSION, headers);
+        Call<AuthorisationCodes> getMissingCodesSuccessCall = apiService.getMissingCodes("/transactions/REF-1636956879897", URL_VERSION, headers);
 
         AuthorisationCodes authorisationCodes = getMissingCodesSuccessCall.execute().body();
 
@@ -360,7 +364,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<RequestStateObject> refundCall = apiService.refund( URL_VERSION, getTransactionRequestBody(), headers);
+        Call<RequestStateObject> refundCall = apiService.refund(URL_VERSION, getTransactionRequestBody(), headers);
 
         RequestStateObject requestStateObject = refundCall.execute().body();
 
@@ -453,16 +457,15 @@ public class APIUnitTest {
         mockWebServer.enqueue(new MockResponse().setBody(actualBatchTransaction));
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<BatchTransaction> batchTransactionCall=apiService.retrieveBatchTransaction(URL_VERSION,"REF-1635765084301",  headers);
+        Call<BatchTransaction> batchTransactionCall = apiService.retrieveBatchTransaction(URL_VERSION, "REF-1635765084301", headers);
 
-        BatchTransaction batchTransaction=batchTransactionCall.execute().body();
+        BatchTransaction batchTransaction = batchTransactionCall.execute().body();
 
         assertNotNull(batchTransaction);
         assertNotNull(batchTransaction.getBatchId());
         assertNotNull(batchTransaction.getBatchStatus());
         assertNotNull(batchTransaction.getApprovalDate());
         assertNotNull(batchTransaction.getCompletionDate());
-
 
 
     }
@@ -478,7 +481,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<RequestStateObject> requestQuotationCall = apiService.requestQuotation( URL_VERSION, getQuotationRequestBody(), headers);
+        Call<RequestStateObject> requestQuotationCall = apiService.requestQuotation(URL_VERSION, getQuotationRequestBody(), headers);
 
         RequestStateObject requestStateObject = requestQuotationCall.execute().body();
 
@@ -518,7 +521,7 @@ public class APIUnitTest {
 
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<AccountHolderName> viewAccountNameSuccessCall = apiService.viewAccountName(URL_VERSION,getAccountIdentifier(), headers);
+        Call<AccountHolderName> viewAccountNameSuccessCall = apiService.viewAccountName(URL_VERSION, getAccountIdentifier(), headers);
 
         AccountHolderName accountHolderName = viewAccountNameSuccessCall.execute().body();
 
@@ -529,6 +532,51 @@ public class APIUnitTest {
     }
 
 
+    /*****************************Recurring Payment**********************/
+
+
+
+    @Test
+    public void createAccountDebitMandateApiSuccess() throws IOException {
+
+        String actualDebitMandateSuccess = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualDebitMandateSuccess));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<RequestStateObject> requestQuotationCall = apiService.createAccountDebitMandate(URL_VERSION,getAccountIdentifier(),getDebitMandateBody(),headers);
+        RequestStateObject requestStateObject = requestQuotationCall.execute().body();
+
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+
+
+    }
+
+    @Test
+    public void viewAccountDebitMandateApiSuccess() throws IOException {
+        String actualViewDebitMandateSuccess = FileReader.readFromFile("DebitMandate.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualViewDebitMandateSuccess));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        Call<DebitMandate> debitMandateCall=apiService.viewAccountDebitMandate(URL_VERSION,getAccountIdentifier(),"1015",headers);
+
+        DebitMandate debitMandate=debitMandateCall.execute().body();
+
+        assertNotNull(debitMandate.getMandateReference());
+        assertNotNull(debitMandate.getStartDate());
+
+
+    }
+
+
+
+
+
+
+    /*****************************Account Link************************************/
+
 
     @Test
     public void createAccountLinkingApiSuccess() throws IOException {
@@ -536,7 +584,7 @@ public class APIUnitTest {
 
         mockWebServer.enqueue(new MockResponse().setBody(actualRequestState));
         headers.put(X_CORRELATION_ID, generateUUID());
-        Call<RequestStateObject> requestStateObjectCall = apiService.createAccountLinking(URL_VERSION, getAccountIdentifier(),getDebitMandateBody(),headers);
+        Call<RequestStateObject> requestStateObjectCall = apiService.createAccountLinking(URL_VERSION, getAccountIdentifier(), getDebitMandateBody(), headers);
 
         RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
 
@@ -555,23 +603,85 @@ public class APIUnitTest {
         mockWebServer.enqueue(new MockResponse().setBody(actualLink));
         headers.put(X_CORRELATION_ID, generateUUID());
 
-        Call<Link> linkCall=apiService.viewAccountLink(URL_VERSION,getAccountIdentifier(),"1684",headers);
+        Call<Link> linkCall = apiService.viewAccountLink(URL_VERSION, getAccountIdentifier(), "1684", headers);
 
-        Link link=linkCall.execute().body();
+        Link link = linkCall.execute().body();
 
         assertNotNull(link);
         assertNotNull(link.getLinkReference());
 
+    }
 
+
+    /*****************************Bill Payment**********************/
+
+    @Test
+    public void viewAccountBillsApiSuccess() throws IOException {
+
+        String actualBills = FileReader.readFromFile("Bills.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualBills));
+        headers.put(X_CORRELATION_ID, generateUUID());
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        HashMap<String, String> params = getHashMapFromObject(transactionFilter);
+
+        Call<Bills> billsCall = apiService.viewAccountBills(URL_VERSION, getAccountIdentifier(), headers, params);
+
+        Bills bills = billsCall.execute().body();
+
+        assertNotNull(bills);
 
     }
 
 
+    @Test
+    public void createBillPaymentApiSuccess() throws IOException {
+
+        String actualCreateBillPayment = FileReader.readFromFile("RequestState.json");
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualCreateBillPayment));
 
 
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<RequestStateObject> requestStateObjectCall = apiService.createBillPayment(URL_VERSION, getAccountIdentifier(), "REF-000001", getBillPayBody(), headers);
 
+        RequestStateObject requestStateObject = requestStateObjectCall.execute().body();
 
+        assertNotNull(requestStateObject);
+        assertNotNull(requestStateObject.getStatus());
+        assertNotNull(requestStateObject.getNotificationMethod());
+        assertNotNull(requestStateObject.getObjectReference());
 
+    }
+
+    @Test
+    public void viewBillPaymentApiSuccess() throws IOException {
+        String actualViewBillPayment = FileReader.readFromFile("BillPayments.json");
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        HashMap<String, String> params = getHashMapFromObject(transactionFilter);
+
+        mockWebServer.enqueue(new MockResponse().setBody(actualViewBillPayment));
+
+        headers.put(X_CORRELATION_ID, generateUUID());
+        Call<BillPayments> billPaymentsCall = apiService.viewBillPayment(URL_VERSION, getAccountIdentifier(),"REF-000001", headers,params);
+
+        BillPayments billPayments=billPaymentsCall.execute().body();
+
+        assertNotNull(billPayments);
+        assertNotNull(billPayments.getBillPayments().get(0).getBillPaymentStatus());
+        assertNotNull(billPayments.getBillPayments().get(0).getAmountPaid());
+        assertNotNull(billPayments.getBillPayments().get(0).getAmountPaid());
+        assertNotNull(billPayments.getBillPayments().get(0).getCurrency());
+
+    }
 
 
     /*****************************Util functions************************************/
@@ -587,6 +697,15 @@ public class APIUnitTest {
         reversalObject = new Reversal();
         reversalObject.setType("reversal");
         return RequestBody.create(new Gson().toJson(reversalObject), mediaType);
+
+    }
+
+    private RequestBody getBillPayBody() {
+
+        billPay = new BillPay();
+        billPay.setCurrency("GBP");
+        billPay.setAmountPaid("5.30");
+        return RequestBody.create(new Gson().toJson(billPay), mediaType);
 
     }
 
@@ -736,7 +855,7 @@ public class APIUnitTest {
 
     }
 
-    private RequestBody getTransactionRequestBody(){
+    private RequestBody getTransactionRequestBody() {
         transactionRequest = new Transaction();
         ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
         ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
@@ -759,7 +878,7 @@ public class APIUnitTest {
         return RequestBody.create(new Gson().toJson(transactionRequest), mediaType);
     }
 
-    private RequestBody getQuotationRequestBody(){
+    private RequestBody getQuotationRequestBody() {
         quotationRequest = new Quotation();
 
         //create debit party and credit party for internal transfer quotation
