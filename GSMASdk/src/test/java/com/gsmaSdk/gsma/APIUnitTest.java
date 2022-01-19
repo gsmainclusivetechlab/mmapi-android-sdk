@@ -935,6 +935,31 @@ public class APIUnitTest {
     }
 
     @Test
+    public void createAccountApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse = new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+
+        Call<RequestStateObject> createAccountCall = apiService.createAccount(URL_VERSION, getCreateAccountRequestBody(), headers);
+
+        Response<RequestStateObject> createAccountResponse = createAccountCall.execute();
+
+        ResponseBody errorBody = createAccountResponse.errorBody();
+
+        GSMAError gsmaError = new GSMAError(createAccountResponse.code(), parseError(errorBody.string()), null);
+        ErrorObject errorObject = gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+    }
+
+    @Test
     public void viewAccountApiSuccess() throws IOException {
 
         String actualViewAccount = FileReader.readFromFile("Account.json");
@@ -952,6 +977,31 @@ public class APIUnitTest {
     }
 
     @Test
+    public void viewAccountApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse = new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+
+        Call<Account> viewAccountCall = apiService.viewAccount(URL_VERSION, getAccountIdentifier(), headers);
+
+        Response<Account> viewAccountResponse = viewAccountCall.execute();
+
+        ResponseBody errorBody = viewAccountResponse.errorBody();
+
+        GSMAError gsmaError = new GSMAError(viewAccountResponse.code(), parseError(errorBody.string()), null);
+        ErrorObject errorObject = gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
+
+    }
+
+    @Test
     public void updateAccountIdentityApiSuccess() throws IOException {
         String actualUpdateAccountIdentity = FileReader.readFromFile("RequestState.json");
 
@@ -965,6 +1015,31 @@ public class APIUnitTest {
         assertNotNull(requestStateObject.getStatus());
         assertNotNull(requestStateObject.getNotificationMethod());
         assertNotNull(requestStateObject.getObjectReference());
+
+    }
+
+    @Test
+    public void updateAccountIdentityApiFailure() throws IOException {
+        String actualErrorObject = FileReader.readFromFile("Error.json");
+
+        MockResponse mockResponse = new MockResponse();
+        mockResponse.setResponseCode(400);
+        mockResponse.setBody(actualErrorObject);
+
+        mockWebServer.enqueue(mockResponse);
+
+        Call<RequestStateObject> updateAccountIdentityCall = apiService.createAccount(URL_VERSION, getUpdateAccountRequestBody(), headers);
+
+        Response<RequestStateObject> updateAccountIdentityResponse = updateAccountIdentityCall.execute();
+
+        ResponseBody errorBody = updateAccountIdentityResponse.errorBody();
+
+        GSMAError gsmaError = new GSMAError(updateAccountIdentityResponse.code(), parseError(errorBody.string()), null);
+        ErrorObject errorObject = gsmaError.getErrorBody();
+
+        assertNotNull(errorObject);
+        assertNotNull(errorObject.getErrorCode());
+        assertNotNull(errorObject.getErrorDescription());
 
     }
 
