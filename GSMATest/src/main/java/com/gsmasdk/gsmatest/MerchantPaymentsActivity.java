@@ -5,55 +5,56 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
-import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
-import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
-import com.gsmaSdk.gsma.models.account.Balance;
-import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
+import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Activity for testing APIs
  */
 @SuppressWarnings("ALL")
-public class MerchantPaymentsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MerchantPaymentsActivity extends AppCompatActivity implements CustomUseCaseRecyclerAdapter.ItemClickListener {
 
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
+    private CustomUseCaseAdapter customListAdapter;
+    private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
     private TextView txtResponse;
     private Transaction transactionRequest;
     private AuthorisationCode authorisationCodeRequest;
     private String transactionRef = "";
-    private String serverCorrelationId="";
+    private String serverCorrelationId = "";
     private String correlationId = "";
     private Reversal reversalObject;
     private ProgressDialog progressdialog;
@@ -76,10 +77,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_payments);
         setTitle("Merchant Payments");
-        ListView listUseCases = findViewById(R.id.merchantPaymentsList);
-        CustomUseCaseAdapter customListAdapter = new CustomUseCaseAdapter(MerchantPaymentsActivity.this, new ArrayList(Arrays.asList(merchantPaymentsArray)));
-        listUseCases.setAdapter(customListAdapter);
-        listUseCases.setOnItemClickListener(this);
+        RecyclerView recyclerView = findViewById(R.id.merchantPaymentsList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,0, merchantPaymentsArray);
+        customRecyclerAdapter.setClickListener(this);
+        recyclerView.setAdapter(customRecyclerAdapter);
         txtResponse = findViewById(R.id.txtResponse);
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
 
@@ -92,13 +94,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
         createAccountIdentifier();
 
     }
+
     /*
      * Account identitifers for transaction
      *
      */
-    private void createAccountIdentifier(){
+    private void createAccountIdentifier() {
 
-        identifierArrayList=new ArrayList<>();
+        identifierArrayList = new ArrayList<>();
         identifierArrayList.clear();
 
         //account id
@@ -208,11 +211,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        switch (i) {
+    public void onItemClick(View view, int position) {
+        switch (position) {
             case 0:
                 //balance check
-                balanceCheck();
+                balanceCheck(position);
                 break;
             case 1:
                 //Payee Initiated
@@ -258,13 +261,63 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             default:
                 break;
         }
-
     }
-
+//    @Override
+//    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        switch (i) {
+//            case 0:
+//                //balance check
+//                balanceCheck();
+//                break;
+//            case 1:
+//                //Payee Initiated
+//                payeeInitiated();
+//                break;
+//            case 2:
+//                //Request State
+//                requestState();
+//                break;
+//            case 3:
+//                //View Transaction
+//                viewTransasction();
+//                break;
+//            case 4:
+//                //Payment Refund
+//                paymentRefund();
+//                break;
+//            case 5:
+//                //Payment reversal
+//                paymentReversal();
+//                break;
+//            case 6:
+//                //Retrieve Transaction
+//                retrieveTransaction();
+//                break;
+//            case 7:
+//                //Authorization Code
+//                obtainAuthorizationCode();
+//                break;
+//            case 8:
+//                //Missing Transaction
+//                getMissingTransaction();
+//                break;
+//            case 9:
+//                // Missing Code Response
+//                retriveMissingCodeResponse();
+//                break;
+//            case 10:
+//                //View an authorization Code
+//                viewAuthorizationCode();
+//
+//                break;
+//            default:
+//                break;
+//        }
+//
+//    }
 
     /**
      * View Authorization Code
-     *
      */
 
     private void viewAuthorizationCode() {
@@ -289,7 +342,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, ""+errorObject.getErrorDescription());
+                Utils.showToast(MerchantPaymentsActivity.this, "" + errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
@@ -299,7 +352,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
     /**
      * Checking Balance.
      */
-    private void balanceCheck() {
+    private void balanceCheck(int position) {
         showLoading();
         SDKManager.merchantPayment.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
@@ -307,7 +360,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-
+                customRecyclerAdapter.setStatus(2,position);
             }
 
             @Override
@@ -316,6 +369,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(balance).toString());
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+                customRecyclerAdapter.setStatus(1,position);
+
             }
 
             @Override
@@ -324,6 +379,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2,position);
             }
         });
     }
@@ -333,7 +389,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void payeeInitiated() {
         showLoading();
-        SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -443,7 +499,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void paymentRefund() {
         showLoading();
-        SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.POLLING,"",transactionRequest, new RequestStateInterface() {
+        SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -482,7 +538,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void paymentReversal() {
         showLoading();
-        SDKManager.merchantPayment.createReversal(NotificationMethod.POLLING,"","REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.merchantPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -523,7 +579,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
     private void retrieveTransaction() {
         showLoading();
 
-        TransactionFilter transactionFilter=new TransactionFilter();
+        TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
 
@@ -558,7 +614,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
      */
     private void obtainAuthorizationCode() {
         showLoading();
-        SDKManager.merchantPayment.createAuthorisationCode(identifierArrayList,NotificationMethod.POLLING,"", authorisationCodeRequest, new RequestStateInterface() {
+        SDKManager.merchantPayment.createAuthorisationCode(identifierArrayList, NotificationMethod.POLLING, "", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -624,8 +680,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Adapt
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
         });
-
-
 
 
     }
