@@ -7,18 +7,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 
 public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUseCaseRecyclerAdapter.ViewHolder> {
     private Context context;
-    private int status = 0;
+    private int status;
+    private ArrayList<String> mSelectedPosition = new ArrayList<>();
     private String[] useCaseArray;
     private ItemClickListener mClickListener;
 
-    CustomUseCaseRecyclerAdapter(Context context, int status, String[] useCaseArray) {
+    CustomUseCaseRecyclerAdapter(Context context, String[] useCaseArray) {
         this.context = context;
-        this.status = status;
         this.useCaseArray = useCaseArray;
     }
 
@@ -31,12 +33,16 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.useCase.setText(useCaseArray[position]);
-        if (status == 0) {
+        if (mSelectedPosition.contains(String.valueOf(position))) {
+            if (status == 0) {
+                holder.ivStatus.setImageResource(R.drawable.ic_pending);
+            } else if (status == 1) {
+                holder.ivStatus.setImageResource(R.drawable.ic_check);
+            } else {
+                holder.ivStatus.setImageResource(R.drawable.ic_fail);
+            }
+        }else{
             holder.ivStatus.setImageResource(R.drawable.ic_pending);
-        } else if (status == 1) {
-            holder.ivStatus.setImageResource(R.drawable.ic_check);
-        } else {
-            holder.ivStatus.setImageResource(R.drawable.ic_fail);
         }
     }
 
@@ -62,6 +68,7 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
         @Override
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            mSelectedPosition.add(String.valueOf(getAdapterPosition()));
         }
     }
 
