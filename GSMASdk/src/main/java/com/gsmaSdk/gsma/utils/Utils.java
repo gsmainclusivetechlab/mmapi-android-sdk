@@ -11,8 +11,10 @@ import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
+import com.gsmaSdk.gsma.models.common.ErrorParameter;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,13 +82,15 @@ public class Utils {
         String code;
         String dateTime;
         String message;
+        JSONArray params;
         final String CATEGORY = "errorCategory";
         final String CODE = "errorCode";
-        final String DESCRIPTION = "errordescription";
+        final String DESCRIPTION = "errorDescription";
         final String DATETIME = "errorDateTime";
         final String MESSAGE = "message";
+        final String PARAMS = "errorParameters";
 
-        if(response==null){
+        if (response == null) {
             errorObject.setErrorDescription("Invalid Json Format");
             return errorObject;
         }
@@ -116,6 +120,18 @@ public class Utils {
             if (jsonObject.has(MESSAGE)) {
                 message = jsonObject.getString(MESSAGE);
                 errorObject.setMessage(message);
+            }
+            if (jsonObject.has(PARAMS)) {
+                params = jsonObject.getJSONArray(PARAMS);
+                ArrayList<ErrorParameter> errorParameters = new ArrayList<>();
+                for (int i = 0; i < params.length(); i++) {
+                        ErrorParameter errorParameter = new ErrorParameter();
+                        JSONObject param = params.getJSONObject(i);
+                        errorParameter.setKey(param.getString("key"));
+                        errorParameter.setValue(param.getString("value"));
+                        errorParameters.add(errorParameter);
+                }
+                errorObject.setErrorParameterList(errorParameters);
             }
 
         } catch (JSONException e) {
@@ -268,7 +284,7 @@ public class Utils {
                     return callBackUrl;
                 }
             } else {
-                if(PaymentConfiguration.getCallBackURL()==null){
+                if (PaymentConfiguration.getCallBackURL() == null) {
                     return "";
                 }
                 if (PaymentConfiguration.getCallBackURL().isEmpty()) {

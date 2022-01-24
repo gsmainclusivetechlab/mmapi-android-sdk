@@ -10,12 +10,6 @@ public class ErrorParameter {
     private String value;
 
     @SuppressWarnings("unused")
-    public ErrorParameter(String key, String value) {
-        this.key = key;
-        this.value = value;
-    }
-
-    @SuppressWarnings("unused")
     public String getKey() {
         return key;
     }
