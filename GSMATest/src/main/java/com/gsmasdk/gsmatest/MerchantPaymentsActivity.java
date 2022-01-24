@@ -107,7 +107,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("2999");
+        identifierAccount.setValue("0");
         identifierArrayList.add(identifierAccount);
 
 //        //msisdn
