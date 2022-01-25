@@ -259,6 +259,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -312,6 +313,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -359,6 +361,8 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -428,6 +432,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -452,6 +457,8 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -496,6 +503,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -542,6 +550,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -580,6 +589,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -617,6 +627,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
 
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -656,7 +667,9 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
+
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -702,8 +715,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(batchTransactionItem));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(batchTransactionItem));
-
-                if (batchTransactionItem == null || batchTransactionItem.getBatchId() == null
+                 if (batchTransactionItem == null || batchTransactionItem.getBatchId() == null
                 ) {
                     customRecyclerAdapter.setStatus(2, position);
                 } else {
@@ -724,6 +736,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
 
@@ -754,6 +767,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(DisbursementActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override

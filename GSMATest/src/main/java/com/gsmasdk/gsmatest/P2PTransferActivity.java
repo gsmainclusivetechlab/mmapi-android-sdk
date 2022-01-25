@@ -51,8 +51,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class P2PTransferActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class P2PTransferActivity extends AppCompatActivity implements CustomUseCaseRecyclerAdapter.ItemClickListener {
 
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
@@ -69,6 +71,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     private Transaction transactionRequest;
 
     ArrayList<Identifier> identifierArrayList;
+
+    private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
 
 
     private final String[] p2pTransfersArray = {
@@ -92,11 +96,13 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
         setTitle("P2P Transfers");
 
 
-        ListView listUseCases = findViewById(R.id.p2pTransferList);
+        RecyclerView recyclerView = findViewById(R.id.p2pTransferList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, p2pTransfersArray);
+        customRecyclerAdapter.setClickListener(this);
+        recyclerView.setAdapter(customRecyclerAdapter);
 
-        CustomUseCaseAdapter customListAdapter = new CustomUseCaseAdapter(P2PTransferActivity.this, new ArrayList(Arrays.asList(p2pTransfersArray)));
-        listUseCases.setAdapter(customListAdapter);
-        listUseCases.setOnItemClickListener(this);
+
         txtResponse = findViewById(R.id.txtP2PResponse);
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
 
@@ -108,65 +114,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     }
 
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        switch (i) {
-            case 0:
-                //Retrieve the Name of the Recipient;
-                viewAccountName();
-                break;
-
-            case 1:
-                //Request a P2P Quotation;
-                createP2PQuotationObject();
-                break;
-
-            case 2:
-                //Perform a P2P Transfer
-                createP2PTransferObject();
-                break;
-
-            case 3:
-                //P2P Transfer Reversal
-                reversal();
-                break;
-            case 4:
-                //Obtain an FSP Balance
-                balanceCheck();
-                break;
-
-            case 5:
-                retrieveTransactionFSP();
-
-                break;
-
-            case 6:
-                //Missing Transaction
-
-                getMissingTransaction();
-                break;
-
-            case 7:
-
-                viewQuotation();
-                break;
-
-            case 8:
-                //view request State
-                requestState();
-                break;
-
-            case 9:
-                //view Transaction
-                viewTransaction();
-                break;
-            default:
-                break;
-        }
-    }
-
     //Retrieve a missing Transaction
-    private void getMissingTransaction() {
+    private void getMissingTransaction(int position) {
         showLoading();
 
         SDKManager.p2PTransfer.viewResponse(correlationId, new MissingResponseInterface() {
@@ -176,6 +125,11 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(missingResponse));
                 Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
+                if (missingResponse==null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -184,6 +138,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(P2PTransferActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -191,6 +147,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
         });
 
@@ -198,7 +156,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     }
 
     //Retrieve Transaction for an FSP
-    private void retrieveTransactionFSP() {
+    private void retrieveTransactionFSP(int position) {
         showLoading();
         TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(5);
@@ -218,6 +176,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -226,6 +186,20 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+                Transaction transactionRequest = transaction.getTransaction().get(0);
+                if (transactionRequest == null
+                        || transactionRequest.getTransactionReference() == null
+                        || transactionRequest.getTransactionStatus() == null
+                        || transactionRequest.getCurrency() == null
+                        || transactionRequest.getCreditParty() == null
+                        || transactionRequest.getDebitParty() == null
+                ){
+                    customRecyclerAdapter.setStatus(2, position);
+                }else{
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -233,6 +207,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
         });
     }
@@ -240,7 +216,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     /**
      * create a transaction object for P2P Quotation request
      */
-    private void createP2PQuotationObject() {
+    private void createP2PQuotationObject(int position) {
 
         quotationRequest = new Quotation();
 
@@ -257,7 +233,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
         //credit party
         creditPartyItem.setKey("accountid");
-        creditPartyItem.setValue("2000");
+        creditPartyItem.setValue("1");
         creditPartyList.add(creditPartyItem);
 
         //add debit and credit party to transaction object
@@ -349,7 +325,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
 
         //request for quotation
-        requestQuotation();
+        requestQuotation(position);
 
     }
 
@@ -357,7 +333,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
      * create a transaction object for P2P transfer request
      */
     @SuppressWarnings("ConstantConditions")
-    private void createP2PTransferObject() {
+    private void createP2PTransferObject(int position) {
 
         transactionRequest = new Transaction();
         if (transactionRequest == null) {
@@ -482,7 +458,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             //add requesting organisation object into transaction request
             transactionRequest.setRequestingOrganisation(requestingOrganisation);
 
-            performTransfer();
+            performTransfer(position);
         }
 
     }
@@ -490,7 +466,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     /**
      * View Account Name
      */
-    private void viewAccountName() {
+    private void viewAccountName(int position) {
         showLoading();
         SDKManager.p2PTransfer.viewAccountName(identifierArrayList, new AccountHolderInterface() {
             @Override
@@ -499,6 +475,13 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 txtResponse.setText(new Gson().toJson(accountHolderObject));
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 Log.d(SUCCESS, "onRetrieveAccountInfoSuccess: " + new Gson().toJson(accountHolderObject));
+                if (accountHolderObject == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -506,6 +489,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRetrieveAccountInfoFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
 
@@ -513,8 +497,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
-
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
         });
@@ -523,7 +507,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     /**
      * Perform P2P Transfer
      */
-    private void performTransfer() {
+    private void performTransfer(int position) {
 
         showLoading();
         SDKManager.p2PTransfer.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
@@ -534,6 +518,12 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -541,6 +531,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Log.d(FAILURE, "onRequestFailure " + new Gson().toJson(gsmaError));
                 txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
 
             }
 
@@ -549,12 +540,15 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
             public void getCorrelationId(String correlationID) {
                 correlationId = correlationID;
                 Log.d("getCorrelationId", "correlationId: " + correlationID);
+
             }
 
         });
@@ -562,7 +556,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
 
     //Check Balance
-    private void balanceCheck() {
+    private void balanceCheck(int position) {
         showLoading();
         SDKManager.p2PTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
@@ -570,6 +564,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @SuppressWarnings("unused")
@@ -579,6 +574,12 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(balance));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+                if (balance == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @SuppressWarnings("unused")
@@ -587,13 +588,14 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
     }
 
 
     //Reversal
-    private void reversal() {
+    private void reversal(int position) {
         showLoading();
         SDKManager.p2PTransfer.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
@@ -603,6 +605,12 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -610,6 +618,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -617,6 +627,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -632,7 +644,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     /**
      * Method for fetching a particular transaction.
      */
-    private void viewTransaction() {
+    private void viewTransaction(int position) {
         showLoading();
         SDKManager.p2PTransfer.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
@@ -640,6 +652,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -648,6 +661,19 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
+                if (transactionObject == null
+                        || transactionObject.getTransactionReference() == null
+                        || transactionObject.getTransactionStatus() == null
+                        || transactionObject.getCurrency() == null
+                        || transactionObject.getCreditParty() == null
+                        || transactionObject.getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -655,6 +681,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
         });
@@ -662,7 +689,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
 
     //get the request state of a transaction
-    private void requestState() {
+    private void requestState(int position) {
         showLoading();
         SDKManager.p2PTransfer.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
@@ -670,6 +697,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -679,6 +708,11 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -686,6 +720,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -698,7 +734,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     }
 
 
-    public void viewQuotation() {
+    public void viewQuotation(int position) {
         showLoading();
         SDKManager.p2PTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override
@@ -707,6 +743,20 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess " + new Gson().toJson(transactionObject));
+
+                if (transactionObject == null
+                        || transactionObject.getTransactionReference() == null
+                        || transactionObject.getTransactionStatus() == null
+                        || transactionObject.getCurrency() == null
+                        || transactionObject.getCreditParty() == null
+                        || transactionObject.getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -714,6 +764,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Log.d(FAILURE, "onTransactionFailure " + new Gson().toJson(gsmaError));
                 txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -721,6 +773,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
         });
 
@@ -792,7 +846,7 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
     }
 
     //Request the quotation to perform P2P transfer
-    private void requestQuotation() {
+    private void requestQuotation(int position) {
         showLoading();
         SDKManager.p2PTransfer.createQuotation(NotificationMethod.POLLING, "", quotationRequest, new RequestStateInterface() {
             @Override
@@ -802,6 +856,12 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -809,6 +869,8 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
                 hideLoading();
                 Log.d(FAILURE, "onRequestFailure " + new Gson().toJson(gsmaError));
                 txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
 
             }
 
@@ -816,8 +878,9 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
-
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -836,5 +899,64 @@ public class P2PTransferActivity extends AppCompatActivity implements AdapterVie
 
     public void hideLoading() {
         progressdialog.dismiss();
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
+        switch (position) {
+            case 0:
+                //Retrieve the Name of the Recipient;
+                viewAccountName(position);
+                break;
+
+            case 1:
+                //Request a P2P Quotation;
+                createP2PQuotationObject(position);
+                break;
+
+            case 2:
+                //Perform a P2P Transfer
+                createP2PTransferObject(position);
+                break;
+
+            case 3:
+                //P2P Transfer Reversal
+                reversal(position);
+                break;
+            case 4:
+                //Obtain an FSP Balance
+                balanceCheck(position);
+                break;
+
+            case 5:
+                retrieveTransactionFSP(position);
+
+                break;
+
+            case 6:
+                //Missing Transaction
+
+                getMissingTransaction(position);
+                break;
+
+            case 7:
+
+                viewQuotation(position);
+                break;
+
+            case 8:
+                //view request State
+                requestState(position);
+                break;
+
+            case 9:
+                //view Transaction
+                viewTransaction(position);
+                break;
+            default:
+                break;
+        }
+
     }
 }
