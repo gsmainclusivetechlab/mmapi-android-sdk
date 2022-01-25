@@ -77,11 +77,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_payments);
         setTitle("Merchant Payments");
+
         RecyclerView recyclerView = findViewById(R.id.merchantPaymentsList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, merchantPaymentsArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);
+
+
         txtResponse = findViewById(R.id.txtResponse);
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
 
@@ -107,7 +110,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("0");
+        identifierAccount.setValue("2999");
         identifierArrayList.add(identifierAccount);
 
 //        //msisdn
@@ -277,7 +280,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(authorisationCodeItem));
                 Log.d(SUCCESS, "onAuthorizationCodeItem: " + new Gson().toJson(authorisationCodeItem));
-                customRecyclerAdapter.setStatus(1, position);
+
+                if (authorisationCodeItem.getAuthorisationCode() == null || authorisationCodeItem.getCodeState() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+
+                }
+
             }
 
             @Override
@@ -589,6 +599,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
+
             @Override
             public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
@@ -602,9 +613,9 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                         || transactionRequest.getCurrency() == null
                         || transactionRequest.getCreditParty() == null
                         || transactionRequest.getDebitParty() == null
-                ){
+                ) {
                     customRecyclerAdapter.setStatus(2, position);
-                }else{
+                } else {
                     customRecyclerAdapter.setStatus(1, position);
                 }
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
@@ -683,7 +694,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(missingResponse));
                 Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
-                if (missingResponse==null) {
+                if (missingResponse == null) {
                     customRecyclerAdapter.setStatus(2, position);
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
@@ -725,12 +736,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 txtResponse.setText(new Gson().toJson(authorisationCode));
                 Log.d(SUCCESS, "onAuthorisationCodeSuccess: " + new Gson().toJson(authorisationCode, AuthorisationCodes.class));
 
-                if(authorisationCode==null
-                        ||authorisationCode.getAuthCode().get(0).getAuthorisationCode()==null
-                        ||authorisationCode.getAuthCode().get(0).getCodeState()==null){
+                if (authorisationCode == null
+                        || authorisationCode.getAuthCode().get(0).getAuthorisationCode() == null
+                        || authorisationCode.getAuthCode().get(0).getCodeState() == null) {
                     customRecyclerAdapter.setStatus(2, position);
 
-                }else{
+                } else {
                     customRecyclerAdapter.setStatus(1, position);
                 }
             }
