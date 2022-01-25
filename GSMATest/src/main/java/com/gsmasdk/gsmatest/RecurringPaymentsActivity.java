@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -20,27 +18,28 @@ import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
-import com.gsmaSdk.gsma.models.account.TransactionFilter;
-import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
-import com.gsmaSdk.gsma.models.account.Identifier;
-import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.account.Balance;
+import com.gsmaSdk.gsma.models.account.Identifier;
+import com.gsmaSdk.gsma.models.account.TransactionFilter;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.common.CustomDataItem;
+import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("ALL")
-public class RecurringPaymentsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class RecurringPaymentsActivity extends AppCompatActivity implements CustomUseCaseRecyclerAdapter.ItemClickListener {
 
 
     private static final String SUCCESS = "success";
@@ -57,7 +56,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
 
     private Transaction transactionRequest;
     ArrayList<Identifier> identifierArrayList;
-
+    private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
     private String debitMandateReference;
 
 
@@ -82,11 +81,12 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         setContentView(R.layout.activity_recurring_payments);
         setTitle("Recurring Payments");
 
-        ListView listUseCases = findViewById(R.id.recurringPaymentList);
+        RecyclerView recyclerView = findViewById(R.id.disbursementList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, recurringPaymentArray);
+        customRecyclerAdapter.setClickListener(this);
+        recyclerView.setAdapter(customRecyclerAdapter);
 
-        CustomUseCaseAdapter customListAdapter = new CustomUseCaseAdapter(RecurringPaymentsActivity.this, new ArrayList(Arrays.asList(recurringPaymentArray)));
-        listUseCases.setAdapter(customListAdapter);
-        listUseCases.setOnItemClickListener(this);
         txtResponse = findViewById(R.id.txtRecurringResponse);
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
         progressdialog = Utils.initProgress(RecurringPaymentsActivity.this);
@@ -206,54 +206,53 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
      * @param id       The row id of the item that was clicked.
      */
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+    public void onItemClick(View view, int position) {
         switch (position) {
             case 0:
                 //Create Debit Mandate;
-                createDebitMandateRequest();
+                createDebitMandateRequest(position);
                 break;
             case 1:
                 //Request State;
-                requestState();
+                requestState(position);
                 break;
             case 2:
                 //Read a Debit Mandate
-                viewDebitMandate();
+                viewDebitMandate(position);
                 break;
             case 3:
                 //Merchant Payment using Debit Mandate
-                createTransactionObject();
+                createTransactionObject(position);
                 break;
             case 4:
                 //View Transaction
-                viewTransaction();
+                viewTransaction(position);
                 break;
             case 5:
                 //Recurring Payment Refund
-                paymentRefund();
+                paymentRefund(position);
                 break;
             case 6:
                 //Recurring Payment Reversal
-                paymentReversal();
+                paymentReversal(position);
                 break;
             case 7:
                 // Service Provide Balance
-                balanceCheck();
+                balanceCheck(position);
                 break;
             case 8:
                 //Retrieve Payments for a Service provider
-                retrieveTransaction();
+                retrieveTransaction(position);
                 break;
             case 9:
                 //Missing Transaction
-                getMissingTransaction();
+                getMissingTransaction(position);
             default:
                 break;
         }
     }
 
-    private void createDebitMandateRequest() {
+    private void createDebitMandateRequest(int position) {
         showLoading();
         SDKManager.recurringPayment.createAccountDebitMandate(NotificationMethod.POLLING, "", identifierArrayList, debitMandateRequest, new RequestStateInterface() {
             @Override
@@ -263,6 +262,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRecurringPaymentSuccess: " + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -271,6 +275,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRecurringPaymentFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -278,6 +283,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -290,7 +296,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
 
     }
 
-    private void createTransactionObject() {
+    private void createTransactionObject(int position) {
         transactionRequest = new Transaction();
         transactionRequest.setAmount("200");
         transactionRequest = new Transaction();
@@ -313,11 +319,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         transactionRequest.setAmount("200.00");
         transactionRequest.setCurrency("RWF");
 
-        initiateMerchantPayment();
+        initiateMerchantPayment(position);
 
     }
 
-    private void initiateMerchantPayment() {
+    private void initiateMerchantPayment(int position) {
         showLoading();
         SDKManager.recurringPayment.createMerchantTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
@@ -325,6 +331,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -334,6 +341,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -342,6 +354,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -355,7 +368,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
 
 
     //get the request state of a transaction
-    private void requestState() {
+    private void requestState(int position) {
         showLoading();
         SDKManager.recurringPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
@@ -363,6 +376,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -372,6 +386,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -379,6 +398,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -390,7 +410,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
         });
     }
 
-    private void viewDebitMandate() {
+    private void viewDebitMandate(int position) {
         showLoading();
         SDKManager.recurringPayment.viewAccountDebitMandate(identifierArrayList, transactionRef, new DebitMandateInterface() {
             @Override
@@ -400,6 +420,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 debitMandateReference = debitMandate.getMandateReference();
                 txtResponse.setText(new Gson().toJson(debitMandate));
                 Log.d(SUCCESS, "onDebitMandateSuccess: " + new Gson().toJson(debitMandate));
+                if (debitMandate == null || debitMandate.getMandateReference() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -407,6 +432,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onDebitMandateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -414,6 +440,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
     }
@@ -421,7 +448,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
     /**
      * Method for fetching a particular transaction.
      */
-    private void viewTransaction() {
+    private void viewTransaction(int position) {
         showLoading();
         SDKManager.recurringPayment.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
@@ -429,6 +456,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -437,6 +465,17 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
+                if (transactionObject == null
+                        || transactionObject.getTransactionReference() == null
+                        || transactionObject.getTransactionStatus() == null
+                        || transactionObject.getCurrency() == null
+                        || transactionObject.getCreditParty() == null
+                        || transactionObject.getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -444,6 +483,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
         });
@@ -462,7 +502,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
     /**
      * Payment Refund
      */
-    private void paymentRefund() {
+    private void paymentRefund(int position) {
         showLoading();
 
         SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
@@ -473,6 +513,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
                 txtResponse.setText(new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -481,6 +526,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRefundFailure: " + new Gson().toJson(gsmaError));
                 txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -488,6 +534,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -502,7 +549,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
     /**
      * Payment Reversal
      */
-    private void paymentReversal() {
+    private void paymentReversal(int position) {
         showLoading();
         SDKManager.recurringPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
@@ -512,6 +559,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -521,6 +573,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 hideLoading();
                 Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -528,6 +581,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -542,7 +596,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
     /**
      * Checking Balance.
      */
-    private void balanceCheck() {
+    private void balanceCheck(int position) {
         showLoading();
         SDKManager.recurringPayment.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
@@ -550,7 +604,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -559,6 +613,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(balance).toString());
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+                if (balance == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -567,6 +626,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
     }
@@ -574,7 +634,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
     /**
      * Retrieve Transaction
      */
-    private void retrieveTransaction() {
+    private void retrieveTransaction(int position) {
         showLoading();
 
         TransactionFilter transactionFilter = new TransactionFilter();
@@ -593,6 +653,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -601,6 +662,18 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+                Transaction transactionRequest = transaction.getTransaction().get(0);
+                if (transactionRequest == null
+                        || transactionRequest.getTransactionReference() == null
+                        || transactionRequest.getTransactionStatus() == null
+                        || transactionRequest.getCurrency() == null
+                        || transactionRequest.getCreditParty() == null
+                        || transactionRequest.getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -609,6 +682,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
     }
@@ -616,7 +690,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
     /**
      * Missing Transaction
      */
-    private void getMissingTransaction() {
+    private void getMissingTransaction(int position) {
         showLoading();
         SDKManager.recurringPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
@@ -625,6 +699,11 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(missingResponse));
                 Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
+                if (missingResponse == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -633,6 +712,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -640,6 +720,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Adap
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
     }
