@@ -13,8 +13,9 @@ Obtain the balance of requested account,Pass the account identifier list  to the
 
 ```java
    
-        identifierArrayList=new ArrayList<>();
+        ArrayList<Identifier> identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
+        
         Identifier identifierAccount=new Identifier();
         identifierAccount.setKey("accountid");
         identifierAccount.setValue("2000");
