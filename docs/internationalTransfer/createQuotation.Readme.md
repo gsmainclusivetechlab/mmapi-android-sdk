@@ -11,7 +11,7 @@
 ```java
     private String correlationId = "";
     private String serverCorrelationId;
-
+    Quotation quotationRequest;
 ```
 
 ```java
