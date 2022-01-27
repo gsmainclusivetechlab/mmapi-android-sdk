@@ -7,8 +7,8 @@
 
 
 ```java
-        reversalObject = new ReversalObject();
-        reversalObject.setReversal("reversal");
+         Reversal reversalObject = new Reversal();
+         reversalObject.setReversal("reversal");
 
 ```
 Call the reversal function with reference Id of the transaction obtained.
