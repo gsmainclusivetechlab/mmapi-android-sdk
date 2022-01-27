@@ -40,6 +40,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressWarnings("ALL")
 public class AccountLinkingActivity extends AppCompatActivity implements CustomUseCaseRecyclerAdapter.ItemClickListener {
 
     private static final String SUCCESS = "success";
@@ -85,6 +86,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, accountLinkingArray);
         customRecyclerAdapter.setClickListener(this);
+
         recyclerView.setAdapter(customRecyclerAdapter);
 
         txtResponse = findViewById(R.id.txtAccountLinkResponse);

@@ -23,15 +23,12 @@ public class AccountBalanceController {
     public  void viewAccountBalance(ArrayList<Identifier> identifierArrayList, @NonNull BalanceInterface balanceInterface) {
         if (identifierArrayList == null) {
             balanceInterface.onValidationError(Utils.setError(1));
-            return;
         }
         else if(identifierArrayList.size()==0){
             balanceInterface.onValidationError(Utils.setError(1));
-            return;
         }
         else if (!Utils.isOnline()) {
             balanceInterface.onValidationError(Utils.setError(0));
-            return;
         }else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().checkBalance(uuid, Utils.getIdentifiers(identifierArrayList), new APIRequestCallback<Balance>() {

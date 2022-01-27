@@ -27,7 +27,6 @@ public class TransferTransaction {
         }
         else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
-            return;
         }
         else {
             String uuid = Utils.generateUUID();

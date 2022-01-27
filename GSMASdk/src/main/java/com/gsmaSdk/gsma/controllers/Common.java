@@ -58,11 +58,9 @@ public class Common {
         }
         if (transactionReference.isEmpty()) {
             transactionInterface.onValidationError(Utils.setError(3));
-            return;
         }
         else if (!Utils.isOnline()) {
             transactionInterface.onValidationError(Utils.setError(0));
-            return;
         }
         else {
             String uuid = Utils.generateUUID();
@@ -95,11 +93,9 @@ public class Common {
         }
         if (serverCorrelationId.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(2));
-            return;
         }
         else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
-            return;
         }
         else {
             String uuid = Utils.generateUUID();

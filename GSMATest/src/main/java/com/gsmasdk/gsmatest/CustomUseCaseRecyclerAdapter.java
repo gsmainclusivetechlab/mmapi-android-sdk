@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+@SuppressWarnings("ALL")
 public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUseCaseRecyclerAdapter.ViewHolder> {
     private Context context;
     private int status;
@@ -54,7 +55,6 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
         }
 
     }
-
 
     @Override
     public int getItemCount() {

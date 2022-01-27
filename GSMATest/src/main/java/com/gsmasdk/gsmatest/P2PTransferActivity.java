@@ -80,7 +80,6 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
             "View Transaction"
     };
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -504,6 +503,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
 
         showLoading();
         SDKManager.p2PTransfer.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @SuppressWarnings("ConstantConditions")
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -694,6 +694,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
 
             }
 
+            @SuppressWarnings("ConstantConditions")
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -842,6 +843,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
     private void requestQuotation(int position) {
         showLoading();
         SDKManager.p2PTransfer.createQuotation(NotificationMethod.POLLING, "", quotationRequest, new RequestStateInterface() {
+            @SuppressWarnings("ConstantConditions")
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();

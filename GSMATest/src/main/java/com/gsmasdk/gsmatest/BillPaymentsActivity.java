@@ -36,7 +36,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("ALL")
 public class BillPaymentsActivity extends AppCompatActivity implements CustomUseCaseRecyclerAdapter.ItemClickListener {
 
 
@@ -141,6 +141,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(BillPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+                //noinspection ConstantConditions
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
                 } else {

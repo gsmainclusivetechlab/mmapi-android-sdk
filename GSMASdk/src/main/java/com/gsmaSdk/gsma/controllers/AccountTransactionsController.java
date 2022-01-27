@@ -27,7 +27,6 @@ public class AccountTransactionsController {
     public void viewAccountTransactions(ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
         if (identifierArrayList == null) {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
-            return;
         }  else if (identifierArrayList.size() == 0) {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
         }

@@ -36,7 +36,6 @@ public class AuthorisationCodeController {
 
         } else if (!Utils.isOnline()) {
             requestStateInterface.onValidationError(Utils.setError(0));
-            return;
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
@@ -113,13 +112,11 @@ public class AuthorisationCodeController {
 
         if (identifierArrayList == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(1));
-            return;
         } else if (identifierArrayList.size() == 0) {
             authorisationCodeInterface.onValidationError(Utils.setError(1));
         }
         else if (authorisationCode==null) {
             authorisationCodeInterface.onValidationError(Utils.setError(9));
-           return;
         }
         else if (authorisationCode.isEmpty()) {
             authorisationCodeInterface.onValidationError(Utils.setError(9));
