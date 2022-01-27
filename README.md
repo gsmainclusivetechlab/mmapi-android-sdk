@@ -19,10 +19,8 @@ This document contains the following sections:
 
 -  [Requirements](#requirements)
 -  [Getting Started](#getting-started)
-     -  [Installation](#installation)
-     -  [Development and Testing](#development-and-testing)
--  [Setting Up](#setting-up)
--  [Handling Errors](#handling-errors)
+     -  [How to include GSMA SDK in your android application](#Setup)
+     -  [Configure the SDK](#Configure)
 -  [Use Cases](#use-cases)
     -   [Merchant Payments](#merchant-payments)
     -   [Disbursements](#disbursements)
@@ -35,6 +33,7 @@ This document contains the following sections:
 -  [Testing](#testing)
 -  [Samples](#samples)
 
+<a name="#requirement"></a>
 
 # Requirements
 
