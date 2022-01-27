@@ -13,7 +13,6 @@
 ```
 
 ```java
-    private void createAccountIdentifier(){
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
 
@@ -21,7 +20,7 @@
         identifierAccount.setKey("accountid");
         identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
-    }
+    
 
 ```
 
