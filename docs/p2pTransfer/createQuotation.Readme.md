@@ -18,7 +18,7 @@
 
     //create a transaction object for international transfer request
  
-        quotationRequest = new Quotation();
+        Quotation quotationRequest = new Quotation();
 
 
         //create debit party and credit party for internal transfer quotation
