@@ -9,11 +9,6 @@
 ### Usage/Examples
 
 ```java
-    private String transactionRef = "";
-
-```
-
-```java
 
         SDKManager.internationalTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override
