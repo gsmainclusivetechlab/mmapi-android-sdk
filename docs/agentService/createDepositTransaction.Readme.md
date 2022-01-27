@@ -7,7 +7,7 @@
 
 ```java
 
-        transactionRequest = new Transaction();
+        Transaction  transactionRequest = new Transaction();
         ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
         ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
 
