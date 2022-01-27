@@ -10,6 +10,7 @@
 Create a batch array with following object
 
 ```java
+          private ArrayList<PatchData> patchDataArrayList;
 
         //create a batch object
              PatchData batchObject = new PatchData();
