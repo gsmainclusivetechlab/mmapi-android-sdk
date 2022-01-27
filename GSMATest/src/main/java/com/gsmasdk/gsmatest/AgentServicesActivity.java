@@ -1,16 +1,10 @@
 package com.gsmasdk.gsmatest;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -50,8 +44,12 @@ import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("ALL")
 public class AgentServicesActivity extends AppCompatActivity implements CustomUseCaseRecyclerAdapter.ItemClickListener {
@@ -107,7 +105,8 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
 
         RecyclerView recyclerView = findViewById(R.id.agentServiceList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, agentServiceArray);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, agentServiceArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);
 

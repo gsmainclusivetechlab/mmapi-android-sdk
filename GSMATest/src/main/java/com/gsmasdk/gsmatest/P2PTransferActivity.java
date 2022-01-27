@@ -5,52 +5,44 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
-import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
-
-import com.gsmaSdk.gsma.interfaces.BalanceInterface;
-
 import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
-
+import com.gsmaSdk.gsma.interfaces.BalanceInterface;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.Address;
-import com.gsmaSdk.gsma.models.common.IdDocument;
-import com.gsmaSdk.gsma.models.common.KYCInformation;
-import com.gsmaSdk.gsma.models.common.MissingResponse;
-import com.gsmaSdk.gsma.models.account.Balance;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-import com.gsmaSdk.gsma.models.common.CustomDataItem;
+import com.gsmaSdk.gsma.models.common.IdDocument;
 import com.gsmaSdk.gsma.models.common.InternationalTransferInformation;
+import com.gsmaSdk.gsma.models.common.KYCInformation;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
 import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
+import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.SubjectName;
 import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
-
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
-
-import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -98,7 +90,8 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
 
         RecyclerView recyclerView = findViewById(R.id.p2pTransferList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, p2pTransfersArray);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, true, p2pTransfersArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);
 
@@ -125,7 +118,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(missingResponse));
                 Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
-                if (missingResponse==null) {
+                if (missingResponse == null) {
                     customRecyclerAdapter.setStatus(2, position);
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
@@ -193,9 +186,9 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
                         || transactionRequest.getCurrency() == null
                         || transactionRequest.getCreditParty() == null
                         || transactionRequest.getDebitParty() == null
-                ){
+                ) {
                     customRecyclerAdapter.setStatus(2, position);
-                }else{
+                } else {
                     customRecyclerAdapter.setStatus(1, position);
                 }
 

@@ -15,13 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUseCaseRecyclerAdapter.ViewHolder> {
     private Context context;
     private int status;
+    private boolean statusVisibility;
     private ArrayList<String> mSelectedPosition = new ArrayList<>();
     private String[] useCaseArray;
     private ItemClickListener mClickListener;
 
-    CustomUseCaseRecyclerAdapter(Context context, String[] useCaseArray) {
+    CustomUseCaseRecyclerAdapter(Context context, boolean statusVisibility, String[] useCaseArray) {
         this.context = context;
         this.useCaseArray = useCaseArray;
+        this.statusVisibility = statusVisibility;
     }
 
     @Override
@@ -33,6 +35,9 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.useCase.setText(useCaseArray[position]);
+        if(!statusVisibility){
+            holder.ivStatus.setVisibility(View.INVISIBLE);
+        }
         if (mSelectedPosition.contains(String.valueOf(position))) {
             if (status == 0) {
                 holder.ivStatus.setImageResource(R.drawable.ic_pending);
@@ -41,7 +46,7 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
             } else {
                 holder.ivStatus.setImageResource(R.drawable.ic_fail);
             }
-        }else{
+        } else {
             holder.ivStatus.setImageResource(R.drawable.ic_pending);
         }
     }
@@ -53,7 +58,7 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView useCase;
         private ImageView ivStatus;
 
@@ -72,7 +77,7 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
         }
     }
 
-    public void setStatus(int status,int position) {
+    public void setStatus(int status, int position) {
         this.status = status;
         notifyItemChanged(position);
     }

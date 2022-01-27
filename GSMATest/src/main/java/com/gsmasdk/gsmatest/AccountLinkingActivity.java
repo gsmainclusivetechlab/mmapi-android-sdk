@@ -36,6 +36,7 @@ import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,9 +80,10 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
 
         setTitle("Account Linking");
 
-        RecyclerView recyclerView = findViewById(R.id.disbursementList);
+        RecyclerView recyclerView = findViewById(R.id.accountLinkingList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, accountLinkingArray);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, accountLinkingArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);
 

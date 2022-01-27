@@ -36,6 +36,7 @@ import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,7 +49,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
     private static final String SUCCESS = "success";
     private static final String FAILURE = "failure";
     private static final String VALIDATION = "validation";
-    private CustomUseCaseAdapter customListAdapter;
     private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
     private TextView txtResponse;
     private Transaction transactionRequest;
@@ -80,7 +80,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
 
         RecyclerView recyclerView = findViewById(R.id.merchantPaymentsList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, merchantPaymentsArray);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, merchantPaymentsArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);
 
