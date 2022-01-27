@@ -15,7 +15,7 @@ Call the reversal function with reference Id of the transaction obtained.
 
 ```java
 
-  SDKManager.merchantPayment.createReversal(NotificationMethod,"CALLBACK URL","PLACE YOUR REFERENCE ID HERE", reversalObject, new RequestStateInterface() {
+  SDKManager.agentService.createReversal(NotificationMethod,"CALLBACK URL","PLACE YOUR REFERENCE ID HERE", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                       serverCorrelationId = requestStateObject.getServerCorrelationId();
