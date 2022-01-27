@@ -8,7 +8,7 @@
 ```java
 
 
-        accountRequest = new Account();
+        Account accountRequest = new Account();
 
         ArrayList<AccountIdentifier> accountIdentifiers = new ArrayList<>();
 
