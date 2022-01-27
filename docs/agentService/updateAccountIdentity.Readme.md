@@ -6,10 +6,28 @@
 ### Usage/Examples
 
 ```java
+
+        ArrayList<Identifier>  identifierArrayList = new ArrayList<>();
+
+        //account id
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2999");
+
+        identifierArrayList.add(identifierAccount);
+
+
+```
+
+
+```java
+        private ArrayList<PatchData> patchDataArrayList;
+
         PatchData patchObject = new PatchData();
         patchObject.setOp("replace");
         patchObject.setPath("/kycVerificationStatus");
         patchObject.setValue("verified");
+        
         patchDataArrayList = new ArrayList<>();
         patchDataArrayList.add(patchObject);
 ```
