@@ -13,6 +13,29 @@ Please refer to the following documentation for installation instructions and us
 -   [API Documentation](https://developer.mobilemoneyapi.io/1.2)
 -   [How to use the test Application](GSMATest/README.md)
 
+# Index 
+
+This document contains the following sections:
+
+-  [Requirements](#requirements)
+-  [Getting Started](#getting-started)
+     -  [Installation](#installation)
+     -  [Development and Testing](#development-and-testing)
+-  [Setting Up](#setting-up)
+-  [Handling Errors](#handling-errors)
+-  [Use Cases](#use-cases)
+    -   [Merchant Payments](#merchant-payments)
+    -   [Disbursements](#disbursements)
+    -   [International Transfers](#international-transfers)
+    -   [P2P Transfers](#p2p-transfers)
+    -   [Recurring Payments](#recurring-payments)
+    -   [Account Linking](#account-linking)
+    -   [Bill Payments](#bill-payments)
+    -   [Agent Services](#agent-services)
+-  [Testing](#testing)
+-  [Samples](#samples)
+
+
 # Requirements
 
 Optimum requirements to use this SDK are -
