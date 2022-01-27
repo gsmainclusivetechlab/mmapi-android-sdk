@@ -13,15 +13,15 @@ Transaction Reference and Identifier list must be provided.
 
 ```java
 
-    private void createAccountIdentifier(){
-        identifierArrayList=new ArrayList<>();
+
+        ArrayList<Identifier> identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
 
         Identifier identifierAccount=new Identifier();
         identifierAccount.setKey("accountid");
         identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
-    }
+    
 
 ```
 
