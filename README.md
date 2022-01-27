@@ -13,6 +13,28 @@ Please refer to the following documentation for installation instructions and us
 -   [API Documentation](https://developer.mobilemoneyapi.io/1.2)
 -   [How to use the test Application](GSMATest/README.md)
 
+# Index 
+
+This document contains the following sections:
+
+-  [Requirements](#requirements)
+-  [Getting Started](#getting-started)
+     -  [How to include GSMA SDK in your android application](#Setup)
+     -  [Configure the SDK](#Configure)
+-  [Use Cases](#use-cases)
+    -   [Merchant Payments](#merchant-payments)
+    -   [Disbursements](#disbursements)
+    -   [International Transfers](#international-transfers)
+    -   [P2P Transfers](#p2p-transfers)
+    -   [Recurring Payments](#recurring-payments)
+    -   [Account Linking](#account-linking)
+    -   [Bill Payments](#bill-payments)
+    -   [Agent Services](#agent-services)
+-  [Testing](#testing)
+
+
+<a name="#requirement"></a>
+
 # Requirements
 
 Optimum requirements to use this SDK are -
@@ -855,36 +877,32 @@ Contains functions for all the use case scenarios within Recurring Payments.
  
 # Test
          
-* Unit Testing     
-     
-Follow the steps to perform unit testing     
-     
+## Testing
 
-     
- Clone The project using Https or SSH
-       
-HTTPS
+The `test` package contains the test cases. These are logically divided into unit and integration tests. 
 
-```
-https://github.com/gsmainclusivetechlab/mmapi-android-sdk.git
+### Unit tests
+         
+Those tests are located in test directory of GSMASdk Module  com.gsmaSdk.gsma(test) and are responsible for ensuring each class is behaving as expected, 
+without considering the rest of the system. Unit tests heavily leverage `mocking` and are an essential part of our testing harness.Clone the repository and open in androud studio to run integration and unit tests
+            
+                              
+### Integration tests
 
-```
+Those tests are located in Test app under  GSMATest Module and are responsible for ensuring a proper communication with server/simulator. 
+With the integration tests, we ensure all communications between the SDK and the server/simulator are behaving accordingly.
 
-SSH  
+For integration test:
 
-```
-git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
+- Run the test application in real device or emulator
+- Select a module and click on a function,if the function passes a tick mark is shown near to the fields otherwise a cross sign to the correspondibg fields
+- Madntory fields are compared with response from the API to ensure that whether the test succeed or not         
+         
 
-```  
-     
- 1.Import the project in android studio<br/>
- 2.Got to test directory under project directory <br/>
- 3.Test directory contains test classes for each module and for static classes<br/>
- 4.Run a class or a specific function and verify the test cases<br/>  
-     
-     
-     
-     
+
+
+         
+         
      
      
  
