@@ -7,11 +7,12 @@
 
 ```java
  
-        identifierArrayList=new ArrayList<>();
+        ArrayList<Identifier> identifierArrayList=new ArrayList<>();
+        
         identifierArrayList.clear();
         Identifier identifierAccount=new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("2000");
+        identifierAccount.setValue("1");
         identifierArrayList.add(identifierAccount);
    
 ```
