@@ -6,7 +6,7 @@
 ### Usage/Examples
 
 ```java
-        identifierArrayList=new ArrayList<>();
+         ArrayList<Identifier> identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
         Identifier identifierAccount=new Identifier();
         identifierAccount.setKey("accountid");
