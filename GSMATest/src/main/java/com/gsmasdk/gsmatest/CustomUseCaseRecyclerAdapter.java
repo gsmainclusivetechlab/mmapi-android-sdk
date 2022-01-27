@@ -16,14 +16,20 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
     private Context context;
     private int status;
     private boolean statusVisibility;
-    private ArrayList<String> mSelectedPosition = new ArrayList<>();
     private String[] useCaseArray;
     private ItemClickListener mClickListener;
+    ArrayList<Status> mStatusList;
 
     CustomUseCaseRecyclerAdapter(Context context, boolean statusVisibility, String[] useCaseArray) {
         this.context = context;
         this.useCaseArray = useCaseArray;
         this.statusVisibility = statusVisibility;
+        mStatusList = new ArrayList<>();
+        for (int i = 0; i < useCaseArray.length; i++) {
+            Status status = new Status();
+            status.setStatus(0);
+            mStatusList.add(status);
+        }
     }
 
     @Override
@@ -35,20 +41,18 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.useCase.setText(useCaseArray[position]);
-        if(!statusVisibility){
+        if (!statusVisibility) {
             holder.ivStatus.setVisibility(View.INVISIBLE);
         }
-        if (mSelectedPosition.contains(String.valueOf(position))) {
-            if (status == 0) {
-                holder.ivStatus.setImageResource(R.drawable.ic_pending);
-            } else if (status == 1) {
-                holder.ivStatus.setImageResource(R.drawable.ic_check);
-            } else {
-                holder.ivStatus.setImageResource(R.drawable.ic_fail);
-            }
-        } else {
+        int status = mStatusList.get(position).getStatus();
+        if (status == 0) {
             holder.ivStatus.setImageResource(R.drawable.ic_pending);
+        } else if (status == 1) {
+            holder.ivStatus.setImageResource(R.drawable.ic_check);
+        } else {
+            holder.ivStatus.setImageResource(R.drawable.ic_fail);
         }
+
     }
 
 
@@ -64,8 +68,8 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            useCase = (TextView) itemView.findViewById(R.id.useCaseItem);
-            ivStatus = (ImageView) itemView.findViewById(R.id.ivTestStatus);
+            useCase = itemView.findViewById(R.id.useCaseItem);
+            ivStatus = itemView.findViewById(R.id.ivTestStatus);
             ivStatus.setVisibility(View.VISIBLE);
             itemView.setOnClickListener(this);
         }
@@ -73,12 +77,15 @@ public class CustomUseCaseRecyclerAdapter extends RecyclerView.Adapter<CustomUse
         @Override
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-            mSelectedPosition.add(String.valueOf(getAdapterPosition()));
         }
     }
 
     public void setStatus(int status, int position) {
         this.status = status;
+        Status statusModel = mStatusList.get(position);
+        statusModel.setStatus(status);
+        mStatusList.remove(position);
+        mStatusList.add(position, statusModel);
         notifyItemChanged(position);
     }
 
