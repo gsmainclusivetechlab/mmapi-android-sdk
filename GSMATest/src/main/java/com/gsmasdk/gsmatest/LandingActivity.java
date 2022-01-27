@@ -50,7 +50,7 @@ public class LandingActivity extends AppCompatActivity implements CustomUseCaseR
         RecyclerView recyclerView = findViewById(R.id.usesCasesList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, usecasesArray);
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,false, usecasesArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);
 
