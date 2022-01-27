@@ -6,7 +6,7 @@
 ### Usage/Examples
 
 ```java
-        transactionRequest = new Transaction();
+        Transaction  transactionRequest = new Transaction();
         //set amount and currency
         transactionRequest.setAmount("200");
         transactionRequest.setCurrency("RWF");

@@ -5,10 +5,25 @@
 > `This endpoint allows allows a mobile money payer or payee to generate a code which when presented to the other party, can be redeemed for an amount set by the payer or payee, depending upon the use case.`
 ### Usage/Examples
 
+
+```java
+
+        ArrayList<Identifier> identifierArrayList= new ArrayList<>();
+
+        //account id
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey("accountid");
+        identifierAccount.setValue("2999");
+
+        identifierArrayList.add(identifierAccount);
+
+```
+
+
 ```java
 
 
-     authorisationCodeRequest = new AuthorisationCode();
+     AuthorisationCode  authorisationCodeRequest = new AuthorisationCode();
      authorisationCodeRequest.setAmount("200.00");
      authorisationCodeRequest.setRequestDate("2021-10-18T10:43:27.405Z");
      authorisationCodeRequest.setCurrency("RWF");

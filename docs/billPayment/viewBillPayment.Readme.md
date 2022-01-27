@@ -8,7 +8,7 @@
 
 ```java
 
-       identifierArrayList = new ArrayList<>();
+        ArrayList<Identifier>  identifierArrayList = new ArrayList<>();
 
         //account id
         Identifier identifierAccount = new Identifier();

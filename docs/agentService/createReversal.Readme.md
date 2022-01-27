@@ -7,7 +7,7 @@
 
 
 ```java
-        reversalObject = new ReversalObject();
+        Reversal reversalObject = new Reversal();
         reversalObject.setReversal("reversal");
 
 ```
