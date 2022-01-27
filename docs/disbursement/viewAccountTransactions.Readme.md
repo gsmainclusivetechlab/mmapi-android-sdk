@@ -15,7 +15,6 @@ ArrayList<Identifier> identifierArrayList;
 ```
 
 ```java
-   private void createAccountIdentifier(){
         identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
 
@@ -23,8 +22,7 @@ ArrayList<Identifier> identifierArrayList;
         identifierAccount.setKey("accountid");
         identifierAccount.setValue("2000");
         identifierArrayList.add(identifierAccount);
-    }
-
+  
 ```
 
 ```java
