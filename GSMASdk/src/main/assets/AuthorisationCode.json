@@ -1,0 +1,45 @@
+{
+  "authorisationCode": "string",
+  "codeState": "active",
+  "amount": "15.00",
+  "currency": "AED",
+  "amountType": "exact",
+  "codeLifetime": "600",
+  "holdFundsIndicator": true,
+  "redemptionAccountIdentifiers": [
+    {
+      "key": "msisdn",
+      "value": "+33555123456"
+    }
+  ],
+  "redemptionChannels": [
+    {
+      "channelType": "string"
+    }
+  ],
+  "redemptionTransactionTypes": [
+    {
+      "transactionType": "billpay",
+      "transactionSubtype": "string"
+    }
+  ],
+  "requestingOrganisation": {
+    "requestingOrganisationIdentifierType": "lei",
+    "requestingOrganisationIdentifier": "string"
+  },
+  "creationDate": "2022-01-04T12:19:17.266Z",
+  "modificationDate": "2022-01-04T12:19:17.266Z",
+  "requestDate": "2022-01-04T12:19:17.266Z",
+  "customData": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ],
+  "metadata": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ]
+}

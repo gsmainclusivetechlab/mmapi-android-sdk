@@ -51,17 +51,18 @@ public class Common {
      */
 
     public void viewTransaction(@NonNull String transactionReference, @NonNull TransactionInterface transactionInterface) {
-        if (!Utils.isOnline()) {
-            transactionInterface.onValidationError(Utils.setError(0));
-            return;
-        }
+
         if (transactionReference == null) {
             transactionInterface.onValidationError(Utils.setError(3));
             return;
         }
         if (transactionReference.isEmpty()) {
             transactionInterface.onValidationError(Utils.setError(3));
-        } else {
+        }
+        else if (!Utils.isOnline()) {
+            transactionInterface.onValidationError(Utils.setError(0));
+        }
+        else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewTransaction(uuid, transactionReference, new APIRequestCallback<Transaction>() {
                         @Override
@@ -86,17 +87,17 @@ public class Common {
      */
 
     public void viewRequestState(@NonNull String serverCorrelationId, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (serverCorrelationId == null) {
             requestStateInterface.onValidationError(Utils.setError(2));
             return;
         }
         if (serverCorrelationId.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(2));
-        } else {
+        }
+        else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        }
+        else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().viewRequestState(uuid, serverCorrelationId, new APIRequestCallback<RequestStateObject>() {
@@ -123,17 +124,16 @@ public class Common {
      */
 
     public void viewResponse(String correlationId, @NonNull MissingResponseInterface missingTransactionInterface) {
-        if (!Utils.isOnline()) {
-            missingTransactionInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (correlationId == null) {
             missingTransactionInterface.onValidationError(Utils.setError(6));
-            return;
         }
-        if (correlationId.isEmpty()) {
+        else if (correlationId.isEmpty()) {
             missingTransactionInterface.onValidationError(Utils.setError(6));
-        } else {
+        }
+        else if (!Utils.isOnline()) {
+            missingTransactionInterface.onValidationError(Utils.setError(0));
+        }
+        else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveMissingResponse(uuid, correlationId, new APIRequestCallback<GetLink>() {
                         @Override

@@ -29,16 +29,17 @@ public class AuthorisationCodeController {
      */
     @SuppressWarnings("rawtypes")
     public void createAuthorisationCode(ArrayList<Identifier> identifierArrayList, @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull AuthorisationCode codeRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (identifierArrayList == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
-        } else if (identifierArrayList.size() != 0) {
+        } else if (identifierArrayList.size() == 0) {
+            requestStateInterface.onValidationError(Utils.setError(1));
+
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
-            GSMAApi.getInstance().obtainAuthorisationCode(uuid, notificationMethod, callbackUrl, Utils.getIdentifiers(identifierArrayList), codeRequest  , new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().obtainAuthorisationCode(uuid, notificationMethod, callbackUrl, Utils.getIdentifiers(identifierArrayList), codeRequest, new APIRequestCallback<RequestStateObject>() {
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse);
@@ -51,11 +52,8 @@ public class AuthorisationCodeController {
                     }
             );
 
-        } else {
-            requestStateInterface.onValidationError(Utils.setError(1));
         }
     }
-
 
 
     /**
@@ -65,17 +63,14 @@ public class AuthorisationCodeController {
      */
 
     public void viewAuthorisationCodeResponse(String correlationId, @NonNull AuthorisationCodeInterface authorisationCodeInterface) {
-        if (!Utils.isOnline()) {
-            authorisationCodeInterface.onValidationError(Utils.setError(0));
-            return;
-        }
+
 
         if (correlationId == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(6));
-            return;
-        }
-        if (correlationId.isEmpty()) {
+        } else if (correlationId.isEmpty()) {
             authorisationCodeInterface.onValidationError(Utils.setError(6));
+        } else if (!Utils.isOnline()) {
+            authorisationCodeInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveMissingResponse(uuid, correlationId, new APIRequestCallback<GetLink>() {
@@ -110,22 +105,25 @@ public class AuthorisationCodeController {
      * View Authorization Code
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param authorisationCode Created Authorisation Code
-     *
+     * @param authorisationCode   Created Authorisation Code
      */
 
     public void viewAuthorisationCode(@NonNull ArrayList<Identifier> identifierArrayList, String authorisationCode, AuthorisationCodeItemInterface authorisationCodeInterface) {
-        if (!Utils.isOnline()) {
-            authorisationCodeInterface.onValidationError(Utils.setError(0));
-            return;
-        }
+
         if (identifierArrayList == null) {
             authorisationCodeInterface.onValidationError(Utils.setError(1));
-            return;
+        } else if (identifierArrayList.size() == 0) {
+            authorisationCodeInterface.onValidationError(Utils.setError(1));
         }
-        if (authorisationCode == null) {
+        else if (authorisationCode==null) {
             authorisationCodeInterface.onValidationError(Utils.setError(9));
-        } else if (identifierArrayList.size() != 0) {
+        }
+        else if (authorisationCode.isEmpty()) {
+            authorisationCodeInterface.onValidationError(Utils.setError(9));
+        }
+        else if (!Utils.isOnline()) {
+            authorisationCodeInterface.onValidationError(Utils.setError(0));
+        } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewAuthorizationCode(uuid, Utils.getIdentifiers(identifierArrayList), authorisationCode, new APIRequestCallback<com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode>() {
                         @Override
@@ -140,8 +138,6 @@ public class AuthorisationCodeController {
                     }
             );
 
-        } else {
-            authorisationCodeInterface.onValidationError(Utils.setError(1));
         }
 
     }

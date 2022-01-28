@@ -82,7 +82,7 @@ public interface APIService {
      * @return the call
      */
     @POST("{version}/transactions/{referenceId}/reversals")
-    Call<RequestStateObject> reversal(@Path(value = "version", encoded = true) String version, @Path("referenceId") String referenceId, @Body RequestBody transaction, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> reversal(@Path(value = "version", encoded = true) String version, @Path("referenceId") String referenceId, @Body RequestBody reversal, @HeaderMap Map<String, String> headers);
 
 
     /**
@@ -130,7 +130,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/responses/{correlationId}")
-    Call<GetLink> retrieveMissingResponse(@Path("correlationId") String correlationId, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<GetLink> retrieveMissingLink(@Path("correlationId") String correlationId, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
     /**
      * Check for Retrieve Missing Transaction
@@ -138,7 +138,7 @@ public interface APIService {
      * @return the call
      */
     @GET("{version}/{url}")
-    Call<MissingResponse> getMissingTransactions(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
+    Call<MissingResponse> getMissingResponses(@Path(value = "url", encoded = true) String url, @Path(value = "version", encoded = true) String version, @HeaderMap Map<String, String> headers);
 
 
     /*************************************Merchant Payments API Interfaces********************************/
@@ -221,7 +221,7 @@ public interface APIService {
      * Update a batch transaction
      */
     @PATCH("{version}/batchtransactions/{batchId}")
-    Call<RequestStateObject> updateBatchTransaction(@Path(value = "version", encoded = true) String version, @Path("batchId") String batchId, @Body RequestBody batchTransactionObject, @HeaderMap Map<String, String> headers);
+    Call<RequestStateObject> updateBatchTransaction(@Path(value = "version", encoded = true) String version, @Path("batchId") String batchId, @Body RequestBody patchObject, @HeaderMap Map<String, String> headers);
 
 
     /**
@@ -242,7 +242,7 @@ public interface APIService {
     Call<Transaction> viewQuotation(@Path(value = "version", encoded = true) String version, @Path("quotationReference") String quotationReference, @HeaderMap Map<String, String> headers);
 
 
-    /***************************************P2P Transefer API Interfaces********************************/
+    /***************************************P2P Transfer API Interfaces********************************/
 
     /**
      * View Account Name.

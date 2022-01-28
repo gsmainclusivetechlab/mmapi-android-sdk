@@ -21,15 +21,23 @@ public class AccountTransactionsController {
      * View Account Transaction - Retrieve a set of transactions
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param transactionFilter Filter for transaction
+     * @param transactionFilter   Filter for transaction
      */
 
     public void viewAccountTransactions(ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        if (!Utils.isOnline()) {
-            retrieveTransactionInterface.onValidationError(Utils.setError(0));
-        } else if (identifierArrayList == null) {
+        if (identifierArrayList == null) {
             retrieveTransactionInterface.onValidationError(Utils.setError(1));
-        } else if (identifierArrayList.size() != 0) {
+        }  else if (identifierArrayList.size() == 0) {
+            retrieveTransactionInterface.onValidationError(Utils.setError(1));
+        }
+        else if(transactionFilter==null){
+            retrieveTransactionInterface.onValidationError(Utils.setError(5));
+        }
+
+        else if (!Utils.isOnline()) {
+            retrieveTransactionInterface.onValidationError(Utils.setError(0));
+        }
+        else {
             String uuid = Utils.generateUUID();
             HashMap<String, String> params = Utils.getHashMapFromObject(transactionFilter);
             GSMAApi.getInstance().retrieveTransaction(uuid, Utils.getIdentifiers(identifierArrayList), params, new APIRequestCallback<Transactions>() {
@@ -44,10 +52,7 @@ public class AccountTransactionsController {
                         }
                     }
             );
-        } else {
-            retrieveTransactionInterface.onValidationError(Utils.setError(1));
         }
-
 
     }
 

@@ -13,6 +13,28 @@ Please refer to the following documentation for installation instructions and us
 -   [API Documentation](https://developer.mobilemoneyapi.io/1.2)
 -   [How to use the test Application](GSMATest/README.md)
 
+# Index 
+
+This document contains the following sections:
+
+-  [Requirements](#requirements)
+-  [Getting Started](#getting-started)
+     -  [How to include GSMA SDK in your android application](#Setup)
+     -  [Configure the SDK](#Configure)
+-  [Use Cases](#use-cases)
+    -   [Merchant Payments](#merchant-payments)
+    -   [Disbursements](#disbursements)
+    -   [International Transfers](#international-transfers)
+    -   [P2P Transfers](#p2p-transfers)
+    -   [Recurring Payments](#recurring-payments)
+    -   [Account Linking](#account-linking)
+    -   [Bill Payments](#bill-payments)
+    -   [Agent Services](#agent-services)
+-  [Testing](#testing)
+
+
+<a name="#requirement"></a>
+
 # Requirements
 
 Optimum requirements to use this SDK are -
@@ -25,13 +47,13 @@ Optimum requirements to use this SDK are -
 
 # How to include GSMA SDK in your android application
 
-Copy the GSMASdk-v1.0.7.aar [Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/aar/GSMASdk-v1.0.7.aar)
+Copy the GSMASdk-v1.0.8.aar [Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/aar/GSMASdk-v1.0.7.aar)
  file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
 
 Add the below line in dependencies of your `build.gradle` file in your application.
 
 ```groovy
-implementation files('libs/GSMASdk-v1.0.7.aar')
+implementation files('libs/GSMASdk-v1.0.8.aar')
 ```
 <a name="Configure"></a>
 
@@ -853,6 +875,39 @@ Contains functions for all the use case scenarios within Recurring Payments.
 </tbody>
 </table>
  
+# Test
+         
+## Testing
+
+The `test` package contains the test cases. These are logically divided into unit and integration tests. 
+
+### Unit tests
+         
+Those tests are located in test directory of GSMASdk Module  com.gsmaSdk.gsma(test) and are responsible for ensuring each class is behaving as expected, 
+without considering the rest of the system. Unit tests heavily leverage `mocking` and are an essential part of our testing harness.Clone the repository and open in androud studio to run integration and unit tests
+            
+                              
+### Integration tests
+
+Those tests are located in Test app under  GSMATest Module and are responsible for ensuring a proper communication with server/simulator. 
+With the integration tests, we ensure all communications between the SDK and the server/simulator are behaving accordingly.
+
+For integration test:
+
+- Run the test application in real device or emulator
+- Select a module and click on a function,if the function passes a tick mark is shown near to the fields otherwise a cross sign to the correspondibg fields
+- Madntory fields are compared with response from the API to ensure that whether the test succeed or not         
+         
+
+
+
+         
+         
+     
+     
+ 
+     
+     
      
      
  

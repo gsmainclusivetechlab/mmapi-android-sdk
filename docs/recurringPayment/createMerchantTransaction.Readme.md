@@ -8,7 +8,7 @@
 
 ```java
 
-        transactionRequest = new Transaction();
+        Transaction  transactionRequest = new Transaction();
         transactionRequest.setAmount("200");
         transactionRequest = new Transaction();
 

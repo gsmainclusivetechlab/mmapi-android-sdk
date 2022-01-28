@@ -220,7 +220,7 @@ public final class GSMAApi {
      */
     public void retrieveMissingResponse(String uuid, String correlationId, APIRequestCallback<GetLink> apiRequestCallback) {
         headers.put(APIConstants.X_CORRELATION_ID, uuid);
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveMissingResponse(correlationId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.retrieveMissingLink(correlationId, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
 
     /**
@@ -230,7 +230,7 @@ public final class GSMAApi {
      * @param apiRequestCallback Listener for api operation
      */
     public void getMissingTransactions(String link, APIRequestCallback<MissingResponse> apiRequestCallback) {
-        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingTransactions(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
+        requestManager.request(new RequestManager.DelayedRequest<>(apiHelper.getMissingResponses(link, PaymentConfiguration.getUrlVersion(), headers), apiRequestCallback));
     }
 
 
@@ -514,7 +514,6 @@ public final class GSMAApi {
     }
 
 
-    /****************************************Bill Payments********************************************/
 
 
     /**

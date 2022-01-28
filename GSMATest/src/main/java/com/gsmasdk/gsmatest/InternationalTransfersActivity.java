@@ -1,58 +1,52 @@
 package com.gsmasdk.gsmatest;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
-import com.gsmaSdk.gsma.manager.SDKManager;
-
 import com.gsmaSdk.gsma.enums.NotificationMethod;
-import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
-
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
+import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
+import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
-
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
+import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
+import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
-import com.gsmaSdk.gsma.models.common.MissingResponse;
-import com.gsmaSdk.gsma.models.account.Balance;
+import com.gsmaSdk.gsma.models.common.Address;
+import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
-import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.common.ServiceAvailability;
-
-import com.gsmaSdk.gsma.models.common.CustomDataItem;
 import com.gsmaSdk.gsma.models.common.IdDocument;
 import com.gsmaSdk.gsma.models.common.InternationalTransferInformation;
-import com.gsmaSdk.gsma.models.common.Address;
-import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
 import com.gsmaSdk.gsma.models.common.KYCInformation;
+import com.gsmaSdk.gsma.models.common.MissingResponse;
+import com.gsmaSdk.gsma.models.common.RequestStateObject;
+import com.gsmaSdk.gsma.models.common.RequestingOrganisation;
+import com.gsmaSdk.gsma.models.common.ServiceAvailability;
 import com.gsmaSdk.gsma.models.common.SubjectName;
 import com.gsmaSdk.gsma.models.transaction.quotation.Quotation;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
+import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
-
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 @SuppressWarnings("ALL")
-public class InternationalTransfersActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class InternationalTransfersActivity extends AppCompatActivity implements CustomUseCaseRecyclerAdapter.ItemClickListener {
 
 
     private static final String SUCCESS = "success";
@@ -70,6 +64,9 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     private Transaction transactionRequest;
     ArrayList<Identifier> identifierArrayList;
 
+    private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
+
+
     private final String[] internationalTransfersArray = {
             "Request a International Transfer Quotation",
             "Perform an International Transfer",
@@ -86,16 +83,17 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
         setContentView(R.layout.activity_international_transfers);
         setTitle("International Transfers");
 
-        ListView listUseCases = findViewById(R.id.internationalTransferList);
-        CustomUseCaseAdapter customListAdapter = new CustomUseCaseAdapter(InternationalTransfersActivity.this, new ArrayList(Arrays.asList(internationalTransfersArray)));
-        listUseCases.setAdapter(customListAdapter);
-        listUseCases.setOnItemClickListener(this);
+
+        RecyclerView recyclerView = findViewById(R.id.internationalTransferList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, internationalTransfersArray);
+        customRecyclerAdapter.setClickListener(this);
+        recyclerView.setAdapter(customRecyclerAdapter);
+
         txtResponse = findViewById(R.id.txtResponseInternational);
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
 
@@ -138,59 +136,11 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        switch (i) {
-            case 0:
-                //request for quotation;
-                createInternationalQuotationObject();
-                break;
-            case 1:
-                //Request a International Transfer Quotation;
-                createInternationalTransferObject();
-                break;
-            case 2:
-                //Reversal
-                reversal();
-                break;
-            case 3:
-                //Obtain an FSP Balance
-                balanceCheck();
-                break;
-            case 4:
-                //Retrieve Transaction for FSP
-                retrieveTransactionFSP();
-                break;
-            case 5:
-                //Missing Transaction
-                getMissingTransaction();
-
-                break;
-            case 6:
-                //View Quotation
-                viewQuotation();
-                break;
-            case 7:
-                //view request State
-                requestState();
-                break;
-
-            case 8:
-                //view Transaction
-                viewTransaction();
-                break;
-            default:
-                break;
-        }
-
-
-    }
-
 
     /**
      * Method for fetching a particular transaction.
      */
-    private void viewTransaction() {
+    private void viewTransaction(int position) {
         showLoading();
         SDKManager.internationalTransfer.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
@@ -198,6 +148,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -206,6 +157,19 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
+
+                if (transactionObject == null
+                        || transactionObject.getTransactionReference() == null
+                        || transactionObject.getTransactionStatus() == null
+                        || transactionObject.getCurrency() == null
+                        || transactionObject.getCreditParty() == null
+                        || transactionObject.getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -213,6 +177,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
         });
@@ -221,7 +186,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     //get the request state of a transaction
-    private void requestState() {
+    private void requestState(int position) {
         showLoading();
         SDKManager.internationalTransfer.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
@@ -229,6 +194,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -238,6 +204,13 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -245,6 +218,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -258,7 +232,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
 
-    public void viewQuotation() {
+    public void viewQuotation(int position) {
         showLoading();
         SDKManager.internationalTransfer.viewQuotation(transactionRef, new TransactionInterface() {
             @Override
@@ -267,6 +241,20 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transactionObject));
                 Log.d(SUCCESS, "onTransactionSuccess " + new Gson().toJson(transactionObject));
+
+                if (transactionObject == null
+                        || transactionObject.getTransactionReference() == null
+                        || transactionObject.getTransactionStatus() == null
+                        || transactionObject.getCurrency() == null
+                        || transactionObject.getCreditParty() == null
+                        || transactionObject.getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -274,6 +262,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Log.d(FAILURE, "onTransactionFailure " + new Gson().toJson(gsmaError));
                 txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -281,13 +270,15 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
+
         });
 
     }
 
 
-    private void createInternationalTransferObject() {
+    private void createInternationalTransferObject(int position) {
         transactionRequest = new Transaction();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
@@ -409,13 +400,13 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             //add requesting organisation object into transaction request
             transactionRequest.setRequestingOrganisation(requestingOrganisation);
 
-            performInternationalTransfer();
+            performInternationalTransfer(position);
         }
     }
 
 
     //perform international transfer
-    private void performInternationalTransfer() {
+    private void performInternationalTransfer(int position) {
         showLoading();
         SDKManager.internationalTransfer.createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
@@ -425,6 +416,13 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -433,6 +431,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Log.d(FAILURE, "onRequestFailure " + new Gson().toJson(gsmaError));
                 txtResponse.setText(new Gson().toJson(gsmaError));
 
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -440,6 +440,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -452,8 +454,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     //Request the quotation to perform international transfer
-    private void requestQuotation() {
-      showLoading();
+    private void requestQuotation(int position) {
+        showLoading();
         SDKManager.internationalTransfer.createQuotation(NotificationMethod.POLLING, "", quotationRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -462,6 +464,13 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -469,6 +478,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Log.d(FAILURE, "onRequestFailure " + new Gson().toJson(gsmaError));
                 txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
 
             }
 
@@ -477,6 +487,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -530,7 +541,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     //create a transaction object for international transfer request
-    private void createInternationalQuotationObject() {
+    private void createInternationalQuotationObject(int position) {
         quotationRequest = new Quotation();
 
 
@@ -638,12 +649,12 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         quotationRequest.setReceivingCountry("AD");
 
         //request for quotation
-        requestQuotation();
+        requestQuotation(position);
 
     }
 
     //Check Balance
-    private void balanceCheck() {
+    private void balanceCheck(int position) {
         showLoading();
         SDKManager.internationalTransfer.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
@@ -651,6 +662,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -659,6 +672,13 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(balance));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+                if (balance == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -666,12 +686,15 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
+
         });
     }
 
     //Reversal
-    private void reversal() {
+    private void reversal(int position) {
         showLoading();
         SDKManager.internationalTransfer.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
@@ -680,6 +703,13 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -687,6 +717,9 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
+
             }
 
             @Override
@@ -694,6 +727,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -706,7 +740,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     //Retrieve Transaction for an FSP
-    private void retrieveTransactionFSP() {
+    private void retrieveTransactionFSP(int position) {
         showLoading();
         TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(5);
@@ -719,6 +753,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -727,6 +763,19 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+                Transaction transactionRequest = transaction.getTransaction().get(0);
+                if (transactionRequest == null
+                        || transactionRequest.getTransactionReference() == null
+                        || transactionRequest.getTransactionStatus() == null
+                        || transactionRequest.getCurrency() == null
+                        || transactionRequest.getCreditParty() == null
+                        || transactionRequest.getDebitParty() == null
+                ){
+                    customRecyclerAdapter.setStatus(2, position);
+                }else{
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -734,12 +783,14 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
         });
     }
 
     //Retrieve a missing Transaction
-    private void getMissingTransaction() {
+    private void getMissingTransaction(int position) {
         showLoading();
         SDKManager.internationalTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
@@ -748,6 +799,11 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(missingResponse));
                 Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
+                if (missingResponse==null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -756,6 +812,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(InternationalTransfersActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -763,6 +821,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
         });
     }
@@ -773,4 +833,51 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         reversalObject.setType("reversal");
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+
+        switch (position) {
+            case 0:
+                //request for quotation;
+                createInternationalQuotationObject(position);
+                break;
+            case 1:
+                //Request a International Transfer Quotation;
+                createInternationalTransferObject(position);
+                break;
+            case 2:
+                //Reversal
+                reversal(position);
+                break;
+            case 3:
+                //Obtain an FSP Balance
+                balanceCheck(position);
+                break;
+            case 4:
+                //Retrieve Transaction for FSP
+                retrieveTransactionFSP(position);
+                break;
+            case 5:
+                //Missing Transaction
+                getMissingTransaction(position);
+
+                break;
+            case 6:
+                //View Quotation
+                viewQuotation(position);
+                break;
+            case 7:
+                //view request State
+                requestState(position);
+                break;
+
+            case 8:
+                //view Transaction
+                viewTransaction(position);
+                break;
+            default:
+                break;
+        }
+
+    }
 }

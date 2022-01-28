@@ -22,13 +22,13 @@ public class TransferTransaction {
      */
 
     public void createTransferTransaction(@SuppressWarnings("rawtypes") @NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Transaction transactionRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (transactionRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
-        } else {
+        }
+        else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+        }
+        else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().initiatePayment(uuid, notificationMethod, callbackUrl, "transfer", transactionRequest, new APIRequestCallback<RequestStateObject>() {

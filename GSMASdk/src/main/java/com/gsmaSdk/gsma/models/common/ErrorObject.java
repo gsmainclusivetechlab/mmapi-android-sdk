@@ -3,7 +3,7 @@ package com.gsmaSdk.gsma.models.common;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Model class for Error Object
@@ -13,22 +13,22 @@ public class ErrorObject implements Serializable {
 
     @SerializedName("errorCode")
     private String errorCode;
-    @SerializedName("errorDescription")
+    @SerializedName("errordescription")
     private String errorDescription;
     @SerializedName("errorCategory")
     private String errorCategory;
     @SerializedName("errorDateTime")
     private String errorDateTime;
     @SerializedName("errorParameters")
-    private List<ErrorParameter> errorParameterList;
+    private ArrayList<ErrorParameter> errorParameterList;
     @SerializedName("message")
     private String message;
 
-    public List<ErrorParameter> getErrorParameterList() {
+    public ArrayList<ErrorParameter> getErrorParameterList() {
         return errorParameterList;
     }
 
-    public void setErrorParameterList(List<ErrorParameter> errorParameterList) {
+    public void setErrorParameterList(ArrayList<ErrorParameter> errorParameterList) {
         this.errorParameterList = errorParameterList;
     }
 
@@ -71,4 +71,6 @@ public class ErrorObject implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
 }

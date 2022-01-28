@@ -1,14 +1,10 @@
 package com.gsmasdk.gsmatest;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -48,11 +44,15 @@ import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 @SuppressWarnings("ALL")
-public class AgentServicesActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class AgentServicesActivity extends AppCompatActivity implements CustomUseCaseRecyclerAdapter.ItemClickListener {
 
 
     private static final String SUCCESS = "success";
@@ -73,6 +73,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     private Reversal reversalObject;
     private ArrayList<PatchData> patchDataArrayList;
     private String identityId = "";
+
+    private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
 
 
     private final String[] agentServiceArray = {
@@ -101,11 +103,13 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
 
         setTitle("Agent Services");
 
-        ListView listUseCases = findViewById(R.id.agentServiceList);
+        RecyclerView recyclerView = findViewById(R.id.agentServiceList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, agentServiceArray);
+        customRecyclerAdapter.setClickListener(this);
+        recyclerView.setAdapter(customRecyclerAdapter);
 
-        CustomUseCaseAdapter customListAdapter = new CustomUseCaseAdapter(AgentServicesActivity.this, new ArrayList(Arrays.asList(agentServiceArray)));
-        listUseCases.setAdapter(customListAdapter);
-        listUseCases.setOnItemClickListener(this);
         txtResponse = findViewById(R.id.txtAgentServiceResponse);
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
         progressdialog = Utils.initProgress(AgentServicesActivity.this);
@@ -153,7 +157,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     /**
      * Payment Reversal
      */
-    private void paymentReversal() {
+    private void paymentReversal(int position) {
         showLoading();
         SDKManager.agentService.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
@@ -163,6 +167,13 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -172,6 +183,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 hideLoading();
                 Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -179,6 +191,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -190,10 +203,10 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         });
     }
 
-    private void createAccountObject() {
+    private void createAccountObject(int position) {
 
         Random r = new Random();
-        int keyValue = r.nextInt(45 - 28) + 28;
+        int keyValue = r.nextInt(4599 - 28) + 28;
         accountRequest = new Account();
 
         ArrayList<AccountIdentifier> accountIdentifiers = new ArrayList<>();
@@ -325,10 +338,10 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
 
         //create account using accout object
 
-        createAccount();
+        createAccount(position);
     }
 
-    private void createAccount() {
+    private void createAccount(int position) {
         showLoading();
         SDKManager.agentService.createAccount(NotificationMethod.CALLBACK, "", accountRequest, new RequestStateInterface() {
             @Override
@@ -337,6 +350,13 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -345,6 +365,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -359,6 +381,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
 
             }
         });
@@ -372,7 +395,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         //account id
         Identifier identifierAccount = new Identifier();
         identifierAccount.setKey("accountid");
-        identifierAccount.setValue("1");
+        identifierAccount.setValue("2999");
 
         identifierArrayList.add(identifierAccount);
 
@@ -386,103 +409,11 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
         progressdialog.dismiss();
     }
 
-    /**
-     * Callback method to be invoked when an item in this AdapterView has
-     * been clicked.
-     * <p>
-     * Implementers can call getItemAtPosition(position) if they need
-     * to access the data associated with the selected item.
-     *
-     * @param parent   The AdapterView where the click happened.
-     * @param view     The view within the AdapterView that was clicked (this
-     *                 will be a view provided by the adapter)
-     * @param position The position of the view in the adapter.
-     * @param id       The row id of the item that was clicked.
-     */
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        switch (position) {
-            case 0:
-                //Agent Initiated Cash-Out ;
-                createWithdrawalTransaction();
-                break;
-            case 1:
-                //View Request State
-                requestState();
-                break;
-            case 2:
-                //View Transaction
-                viewTransaction();
-                break;
-
-            case 3:
-                //Create Authorization Code
-                obtainAuthorizationCode();
-
-                break;
-            case 4:
-                //View Authorization Code
-                viewAuthorizationCode();
-                break;
-            case 5:
-                //Retrieve the Name of the Depositing Customer
-                viewAccountName();
-
-                break;
-            case 6:
-                //Agent Initiated Cash-in
-                createDepositTransaction();
-
-                break;
-            case 7:
-                // Perform a Transaction Reversal
-                paymentReversal();
-
-                break;
-
-            case 8:
-                // Create a Mobile Money Account
-                createAccountObject();
-
-                break;
-            case 9:
-                // Retrieve Account Information
-                viewAccount();
-
-                break;
-            case 10:
-                // Update KYC Verification Status
-
-                updateKYCStatus();
-
-                break;
-            case 11:
-                // Obtain an Agent Balance
-
-                 balanceCheck();
-
-                break;
-            case 12:
-                //Retrieve a Set of Transactions for an Account
-                retrieveTransaction();
-
-                break;
-            case 13:
-                //Retrieve a Missing API Response
-                 getMissingTransaction();
-                break;
-
-            default:
-                break;
-        }
-    }
-
 
     /**
      * Retrieve a missing Transaction
      */
-    private void getMissingTransaction() {
+    private void getMissingTransaction(int position) {
         showLoading();
         SDKManager.agentService.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
@@ -491,6 +422,11 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(missingResponse));
                 Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
+                if (missingResponse == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -499,6 +435,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 Log.d(FAILURE, "onMissingResponseFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -506,6 +444,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
         });
 
@@ -514,7 +454,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     /**
      * Retrieve Transaction
      */
-    private void retrieveTransaction() {
+    private void retrieveTransaction(int position) {
         showLoading();
 
         TransactionFilter transactionFilter = new TransactionFilter();
@@ -527,6 +467,9 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
+
             }
 
             @Override
@@ -535,6 +478,19 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(transaction));
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+
+                if (transaction.getTransaction().get(0) == null
+                        || transaction.getTransaction().get(0).getTransactionReference() == null
+                        || transaction.getTransaction().get(0).getTransactionStatus() == null
+                        || transaction.getTransaction().get(0).getCurrency() == null
+                        || transaction.getTransaction().get(0).getCreditParty() == null
+                        || transaction.getTransaction().get(0).getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -543,6 +499,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
         });
     }
@@ -550,7 +508,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     /**
      * Checking Balance.
      */
-    private void balanceCheck() {
+    private void balanceCheck(int position) {
         showLoading();
         SDKManager.agentService.viewAccountBalance(identifierArrayList, new BalanceInterface() {
             @Override
@@ -558,7 +516,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -567,6 +525,11 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(balance).toString());
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+                if (balance == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -575,12 +538,13 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
     }
 
 
-    private void updateKYCStatus() {
+    private void updateKYCStatus(int position) {
         PatchData patchObject = new PatchData();
         patchObject.setOp("replace");
         patchObject.setPath("/kycVerificationStatus");
@@ -595,6 +559,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -604,6 +569,11 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -612,6 +582,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -640,7 +611,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
      * View Account-View Account details
      */
 
-    private void viewAccount() {
+    private void viewAccount(int position) {
         showLoading();
         SDKManager.agentService.viewAccount(identifierArrayList, new AccountInterface() {
             @Override
@@ -650,6 +621,17 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 identityId = account.getIdentity().get(0).getIdentityId();
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 Log.d(SUCCESS, "onAccountSuccess: " + new Gson().toJson(account));
+
+                if (account.getAccountIdentifiers() == null
+                        || account.getIdentity() == null
+                        || account.getAccountStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+
+                }
+
             }
 
             @Override
@@ -658,6 +640,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onAccountFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -665,6 +648,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
 
@@ -674,7 +658,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     /**
      * View Account Name
      */
-    private void viewAccountName() {
+    private void viewAccountName(int position) {
         showLoading();
         SDKManager.agentService.viewAccountName(identifierArrayList, new AccountHolderInterface() {
             @Override
@@ -683,7 +667,15 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(accountHolderObject));
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 Log.d(SUCCESS, "onRetrieveAccountInfoSuccess: " + new Gson().toJson(accountHolderObject));
+                if (accountHolderObject == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
+
 
             @Override
             public void onRetrieveAccountInfoFailure(GSMAError gsmaError) {
@@ -691,6 +683,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onAuthorizationCodeFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
 
@@ -699,6 +693,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
         });
@@ -708,7 +704,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
      * View Authorization Code
      */
 
-    private void viewAuthorizationCode() {
+    private void viewAuthorizationCode(int position) {
         showLoading();
         SDKManager.agentService.viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
             @Override
@@ -717,6 +713,14 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(authorisationCodeItem));
                 Log.d(SUCCESS, "onAuthorizationCodeItem: " + new Gson().toJson(authorisationCodeItem));
+
+                if (authorisationCodeItem.getAuthorisationCode() == null || authorisationCodeItem.getCodeState() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+
+                }
+
             }
 
             @Override
@@ -725,6 +729,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onAuthorizationCodeFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -732,6 +738,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, "" + errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
         });
 
@@ -741,7 +749,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     /**
      * Authorization Code
      */
-    private void obtainAuthorizationCode() {
+    private void obtainAuthorizationCode(int position) {
         showLoading();
         SDKManager.agentService.createAuthorisationCode(identifierArrayList, NotificationMethod.POLLING, "", authorisationCodeRequest, new RequestStateInterface() {
             @Override
@@ -749,6 +757,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -758,6 +768,11 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -766,6 +781,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -779,7 +796,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     }
 
 
-    private void createWithdrawalTransaction() {
+    private void createWithdrawalTransaction(int position) {
         showLoading();
         SDKManager.agentService.createWithdrawalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
@@ -787,6 +804,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -796,6 +815,13 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
+
             }
 
             @Override
@@ -804,6 +830,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -816,7 +844,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
 
     }
 
-    private void createDepositTransaction() {
+    private void createDepositTransaction(int position) {
         showLoading();
         SDKManager.agentService.createDepositTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
@@ -824,6 +852,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -833,6 +862,11 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -841,6 +875,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
@@ -882,7 +917,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     /**
      * Get the request state of a transaction
      */
-    private void requestState() {
+    private void requestState(int position) {
         showLoading();
         SDKManager.agentService.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
@@ -890,6 +925,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -899,6 +936,11 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 transactionRef = requestStateObject.getObjectReference();
                 Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
             }
 
             @Override
@@ -906,6 +948,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -921,7 +965,7 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
     /**
      * View Transaction-View the transaction Details
      */
-    private void viewTransaction() {
+    private void viewTransaction(int position) {
         showLoading();
         SDKManager.agentService.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
@@ -929,6 +973,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 hideLoading();
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -937,6 +983,18 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 txtResponse.setText(new Gson().toJson(transactionRequest));
                 Utils.showToast(AgentServicesActivity.this, "Success");
                 Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
+                if (transactionRequest == null
+                        || transactionRequest.getTransactionReference() == null
+                        || transactionRequest.getTransactionStatus() == null
+                        || transactionRequest.getCurrency() == null
+                        || transactionRequest.getCreditParty() == null
+                        || transactionRequest.getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+
             }
 
             @Override
@@ -945,6 +1003,8 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
         });
@@ -960,5 +1020,82 @@ public class AgentServicesActivity extends AppCompatActivity implements AdapterV
 
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        switch (position) {
+            case 0:
+                //Agent Initiated Cash-Out ;
+                createWithdrawalTransaction(position);
+                break;
+            case 1:
+                //View Request State
+                requestState(position);
+                break;
+            case 2:
+                //View Transaction
+                viewTransaction(position);
+                break;
+
+            case 3:
+                //Create Authorization Code
+                obtainAuthorizationCode(position);
+
+                break;
+            case 4:
+                //View Authorization Code
+                viewAuthorizationCode(position);
+                break;
+            case 5:
+                //Retrieve the Name of the Depositing Customer
+                viewAccountName(position);
+
+                break;
+            case 6:
+                //Agent Initiated Cash-in
+                createDepositTransaction(position);
+
+                break;
+            case 7:
+                // Perform a Transaction Reversal
+                paymentReversal(position);
+
+                break;
+
+            case 8:
+                // Create a Mobile Money Account
+                createAccountObject(position);
+
+                break;
+            case 9:
+                // Retrieve Account Information
+                viewAccount(position);
+
+                break;
+            case 10:
+                // Update KYC Verification Status
+
+                updateKYCStatus(position);
+
+                break;
+            case 11:
+                // Obtain an Agent Balance
+
+                balanceCheck(position);
+
+                break;
+            case 12:
+                //Retrieve a Set of Transactions for an Account
+                retrieveTransaction(position);
+
+                break;
+            case 13:
+                //Retrieve a Missing API Response
+                getMissingTransaction(position);
+                break;
+
+            default:
+                break;
+        }
+    }
 }
 

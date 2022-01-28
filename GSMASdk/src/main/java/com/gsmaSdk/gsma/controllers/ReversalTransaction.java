@@ -24,23 +24,20 @@ public class ReversalTransaction {
      */
 
     public void createReversal(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull String referenceId, @NonNull Reversal reversal, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
+
         if (referenceId == null) {
             requestStateInterface.onValidationError(Utils.setError(4));
             return;
-        }
-        if (referenceId.isEmpty()) {
+        } else if (referenceId.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(4));
             return;
-        }
-        if (reversal == null) {
+        } else if (reversal == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
             return;
-        }
-        if (Utils.isOnline()) {
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+            return;
+        }else{
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().reversal(uuid, notificationMethod, callbackUrl, referenceId, reversal, new APIRequestCallback<RequestStateObject>() {
@@ -54,8 +51,6 @@ public class ReversalTransaction {
                     requestStateInterface.onRequestStateFailure(errorDetails);
                 }
             });
-        } else {
-            requestStateInterface.onValidationError(Utils.setError(0));
         }
     }
 

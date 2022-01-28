@@ -1,0 +1,26 @@
+{
+  "batchId": "string",
+  "batchStatus": "created",
+  "approvalDate": "2022-01-04T11:30:01.202Z",
+  "completionDate": "2022-01-04T11:30:01.202Z",
+  "batchTitle": "string",
+  "batchdescription": "string",
+  "processingFlag": true,
+  "completedCount": 0,
+  "rejectionCount": 0,
+  "parsingSuccessCount": 0,
+  "requestingOrganisation": {
+    "requestingOrganisationIdentifierType": "lei",
+    "requestingOrganisationIdentifier": "string"
+  },
+  "scheduledStartDate": "2022-01-04T11:30:01.202Z",
+  "creationDate": "2022-01-04T11:30:01.202Z",
+  "modificationDate": "2022-01-04T11:30:01.202Z",
+  "requestDate": "2022-01-04T11:30:01.202Z",
+  "customData": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ]
+}

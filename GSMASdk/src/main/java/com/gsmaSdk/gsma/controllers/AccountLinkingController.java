@@ -20,7 +20,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 import java.util.ArrayList;
 
 @SuppressWarnings("ALL")
-public class AccountLinkingController extends  Common {
+public class AccountLinkingController extends Common {
 
     /**
      * Reversal - provides transaction reversal
@@ -50,10 +50,10 @@ public class AccountLinkingController extends  Common {
      * Retrieve a transaction
      *
      * @param identifierArrayList List of account identifiers of a user
-     * @param transactionFilter  transactionFilter Filter object for transaction
+     * @param transactionFilter   transactionFilter Filter object for transaction
      */
     public void viewAccountTransactions(@NonNull ArrayList<Identifier> identifierArrayList, TransactionFilter transactionFilter, @NonNull RetrieveTransactionInterface retrieveTransactionInterface) {
-        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList,transactionFilter, retrieveTransactionInterface);
+        AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList, transactionFilter, retrieveTransactionInterface);
 
     }
 
@@ -66,12 +66,14 @@ public class AccountLinkingController extends  Common {
      * @param accountLinkingObject Account Linking Object containing details required for initiating the account linking
      */
     public void createAccountLinking(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull ArrayList<Identifier> identifierArrayList, Link accountLinkingObject, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
-        if (accountLinkingObject == null) {
+        if (identifierArrayList == null) {
+            requestStateInterface.onValidationError(Utils.setError(1));
+        } else if (identifierArrayList.size() == 0) {
+            requestStateInterface.onValidationError(Utils.setError(1));
+        } else if (accountLinkingObject == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
@@ -94,27 +96,24 @@ public class AccountLinkingController extends  Common {
     /**
      * Create Debit Mandate-Create Debit Mandate for recurring Payment
      *
-     * @param identifierArrayList  account identifiers of the user
-     * @param linkReference Link Reference
+     * @param identifierArrayList account identifiers of the user
+     * @param linkReference       Link Reference
      */
     @SuppressWarnings({"ConstantConditions", "UnnecessaryReturnStatement"})
     public void viewAccountLink(@NonNull ArrayList<Identifier> identifierArrayList, @NonNull String linkReference, @NonNull AccountLinkInterface accountLinkInterface) {
-        if (!Utils.isOnline()) {
-            accountLinkInterface.onValidationError(Utils.setError(0));
-            return;
-        }
-        if (linkReference == null) {
-            accountLinkInterface.onValidationError(Utils.setError(3));
-            return;
-        }
         //noinspection ConstantConditions
         if (identifierArrayList == null) {
             accountLinkInterface.onValidationError(Utils.setError(1));
-            return;
-
+        } else if (identifierArrayList.size() == 0) {
+            accountLinkInterface.onValidationError(Utils.setError(1));
+        } else if (linkReference == null) {
+            accountLinkInterface.onValidationError(Utils.setError(3));
         } else if (linkReference.isEmpty()) {
             accountLinkInterface.onValidationError(Utils.setError(3));
-        } else if (identifierArrayList.size() != 0) {
+        } else if (!Utils.isOnline()) {
+            accountLinkInterface.onValidationError(Utils.setError(0));
+            return;
+        } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewAccountLink(uuid, Utils.getIdentifiers(identifierArrayList), linkReference, new APIRequestCallback<Link>() {
                 @Override
@@ -128,8 +127,6 @@ public class AccountLinkingController extends  Common {
                 }
             });
 
-        } else {
-            accountLinkInterface.onValidationError(Utils.setError(1));
         }
     }
 

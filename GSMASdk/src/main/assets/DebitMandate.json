@@ -1,0 +1,29 @@
+{
+  "mandateReference": "string",
+  "payee": [
+    {
+      "key": "msisdn",
+      "value": "+33555123456"
+    }
+  ],
+  "mandateStatus": "active",
+  "startDate": "2018-11-20",
+  "amountLimit": "15.00",
+  "currency": "AED",
+  "endDate": "2018-11-20",
+  "frequencyType": "weekly",
+  "numberOfPayments": 0,
+  "requestingOrganisation": {
+    "requestingOrganisationIdentifierType": "lei",
+    "requestingOrganisationIdentifier": "string"
+  },
+  "creationDate": "2022-01-04T11:38:14.461Z",
+  "modificationDate": "2022-01-04T11:38:14.461Z",
+  "requestDate": "2022-01-04T11:38:14.461Z",
+  "customData": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ]
+}

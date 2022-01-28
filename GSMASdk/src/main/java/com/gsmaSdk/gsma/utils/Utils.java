@@ -11,8 +11,10 @@ import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
+import com.gsmaSdk.gsma.models.common.ErrorParameter;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,16 +54,12 @@ public class Utils {
 
         if (object instanceof TransactionFilter) {
             TransactionFilter transactionFilter = (TransactionFilter) object;
-            if (transactionFilter.getLimit() != 0) {
-                params.put("limit", String.valueOf(transactionFilter.getLimit()));
-            }
-            if (transactionFilter.getOffset() != 0) {
-                params.put("offset", String.valueOf(transactionFilter.getOffset()));
-            }
+            params.put("limit", String.valueOf(transactionFilter.getLimit()));
+            params.put("offset", String.valueOf(transactionFilter.getOffset()));
             if (transactionFilter.getFromDateTime() != null) {
                 params.put("fromDateTime", transactionFilter.getFromDateTime());
             }
-            if (transactionFilter.getTransactionStatus() != null) {
+            if (transactionFilter.getToDateTime() != null) {
                 params.put("toDateTime", transactionFilter.getToDateTime());
             }
             if (transactionFilter.getTransactionStatus() != null) {
@@ -84,14 +82,25 @@ public class Utils {
         String code;
         String dateTime;
         String message;
+        JSONArray params;
         final String CATEGORY = "errorCategory";
         final String CODE = "errorCode";
         final String DESCRIPTION = "errorDescription";
         final String DATETIME = "errorDateTime";
         final String MESSAGE = "message";
+        final String PARAMS = "errorParameters";
 
+        if (response == null) {
+            errorObject.setErrorDescription("Invalid Json Format");
+            return errorObject;
+        }
+        if (response.isEmpty()) {
+            errorObject.setErrorDescription("Invalid Json Format");
+            return errorObject;
+        }
         try {
             jsonObject = new JSONObject(response);
+
             if (jsonObject.has(DESCRIPTION)) {
                 description = jsonObject.getString(DESCRIPTION);
                 errorObject.setErrorDescription(description);
@@ -112,9 +121,25 @@ public class Utils {
                 message = jsonObject.getString(MESSAGE);
                 errorObject.setMessage(message);
             }
+            if (jsonObject.has(PARAMS)) {
+                params = jsonObject.getJSONArray(PARAMS);
+                ArrayList<ErrorParameter> errorParameters = new ArrayList<>();
+                for (int i = 0; i < params.length(); i++) {
+                        ErrorParameter errorParameter = new ErrorParameter();
+                        JSONObject param = params.getJSONObject(i);
+                        errorParameter.setKey(param.getString("key"));
+                        errorParameter.setValue(param.getString("value"));
+                        errorParameters.add(errorParameter);
+                }
+                errorObject.setErrorParameterList(errorParameters);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (NullPointerException nullPointerException) {
+            nullPointerException.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("errors" + e.getMessage());
         }
         return errorObject;
     }
@@ -130,7 +155,7 @@ public class Utils {
         if (identifierArrayList.size() == 1) {
             Identifier identifier = identifierArrayList.get(0);
             identifierValue = identifierValue + identifier.getKey() + "/" + identifier.getValue();
-        } else if (identifierArrayList.size() <= 3) {
+        } else {
             for (int i = 0; i < identifierArrayList.size(); i++) {
                 Identifier identifier = identifierArrayList.get(i);
                 if (identifierArrayList.size() - 1 == i) {
@@ -226,6 +251,11 @@ public class Utils {
                 errorObject.setErrorCode("GenericError");
                 errorObject.setErrorDescription("Invalid Identity Id");
                 break;
+            case 15:
+                errorObject.setErrorCategory("validation");
+                errorObject.setErrorCode("GenericError");
+                errorObject.setErrorDescription("Invalid Batch Id");
+                break;
 
             default:
                 errorObject.setErrorCategory("");
@@ -254,6 +284,9 @@ public class Utils {
                     return callBackUrl;
                 }
             } else {
+                if (PaymentConfiguration.getCallBackURL() == null) {
+                    return "";
+                }
                 if (PaymentConfiguration.getCallBackURL().isEmpty()) {
                     return "";
                 } else {

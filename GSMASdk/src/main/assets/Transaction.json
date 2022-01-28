@@ -1,0 +1,53 @@
+{
+  "transactionReference": "string",
+  "originalTransactionReference": "string",
+  "requestingOrganisationTransactionReference": "string",
+  "creditParty": [
+    {
+      "key": "msisdn",
+      "value": "+33555123456"
+    }
+  ],
+  "debitParty": [
+    {
+      "key": "msisdn",
+      "value": "+33555123456"
+    }
+  ],
+  "type": "billpay",
+  "subType": "string",
+  "transactionStatus": "string",
+  "amount": "15.23",
+  "currency": "RWF",
+  "descriptionText": "string",
+  "fees": [
+    {
+      "feeType": "string",
+      "feeAmount": "5.46",
+      "feeCurrency": "AED"
+    }
+  ],
+  "geoCode": "37.423825,-122.082900",
+  "oneTimeCode": "string",
+  "requestingOrganisation": {
+    "requestingOrganisationIdentifierType": "lei",
+    "requestingOrganisationIdentifier": "string"
+  },
+  "servicingIdentity": "string",
+  "transactionReceipt": "string",
+  "creationDate": "2022-01-04T09:27:16.409Z",
+  "modificationDate": "2022-01-04T09:27:16.409Z",
+  "requestDate": "2022-01-04T09:27:16.409Z",
+  "customData": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ],
+  "metadata": [
+    {
+      "key": "string",
+      "value": "string"
+    }
+  ]
+}

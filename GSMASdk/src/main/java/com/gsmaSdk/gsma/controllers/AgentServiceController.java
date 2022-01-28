@@ -57,12 +57,12 @@ public class AgentServiceController extends Common {
      * @param accountRequest     Model class of create account Request
      */
     public void createAccount(@NonNull Enum notificationMethod, @NonNull String callbackUrl, @NonNull Account accountRequest, @NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
+
         if (accountRequest == null) {
             requestStateInterface.onValidationError(Utils.setError(5));
+        } else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+
         } else {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
@@ -136,12 +136,13 @@ public class AgentServiceController extends Common {
      */
 
     public void viewAccount(ArrayList<Identifier> identifierArrayList, @NonNull AccountInterface accountInterface) {
-        if (!Utils.isOnline()) {
-            accountInterface.onValidationError(Utils.setError(0));
-            return;
-        }
         if (identifierArrayList == null) {
             accountInterface.onValidationError(Utils.setError(1));
+        } else if (identifierArrayList.size() == 0) {
+            accountInterface.onValidationError(Utils.setError(1));
+        } else if (!Utils.isOnline()) {
+            accountInterface.onValidationError(Utils.setError(0));
+            return;
         } else if (identifierArrayList.size() != 0) {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewAccount(uuid, Utils.getIdentifiers(identifierArrayList), new APIRequestCallback<Account>() {
@@ -164,34 +165,39 @@ public class AgentServiceController extends Common {
     /**
      * Update Account Identity - Update the KYC of a customer
      *
-     * @param notificationMethod The enumerated datatype to determine polling or callback
-     * @param callbackUrl   The server URl for receiving response of transaction
-     * @param identityId    The id used to identify an account
-     * @param patchDataArrayList List contains required details for updating the kyc of a customer
+     * @param notificationMethod  The enumerated datatype to determine polling or callback
+     * @param callbackUrl         The server URl for receiving response of transaction
+     * @param identityId          The id used to identify an account
+     * @param patchDataArrayList  List contains required details for updating the kyc of a customer
      * @param identifierArrayList List of account identifiers of a user
      */
-    public void updateAccountIdentity(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String identityId, @NonNull ArrayList<PatchData> patchDataArrayList,ArrayList<Identifier> identifierArrayList,@NonNull RequestStateInterface requestStateInterface) {
-        if (!Utils.isOnline()) {
-            requestStateInterface.onValidationError(Utils.setError(0));
-            return;
-        }
-        if(patchDataArrayList==null){
+    public void updateAccountIdentity(@NonNull Enum notificationMethod, @NonNull String callbackUrl, String identityId, @NonNull ArrayList<PatchData> patchDataArrayList, ArrayList<Identifier> identifierArrayList, @NonNull RequestStateInterface requestStateInterface) {
+
+        if (patchDataArrayList == null) {
             requestStateInterface.onValidationError(Utils.setError(13));
-            return;
         }
-        if(identityId==null){
+        else if(patchDataArrayList.size()==0){
+            requestStateInterface.onValidationError(Utils.setError(13));
+        }
+        else if (identityId == null) {
             requestStateInterface.onValidationError(Utils.setError(14));
-            return;
-        }
-        if(identityId.isEmpty()){
+
+        }  else if (identityId.isEmpty()) {
             requestStateInterface.onValidationError(Utils.setError(14));
-            return;
-        }
-        if (identifierArrayList == null) {
+
+        } else if (identifierArrayList == null) {
             requestStateInterface.onValidationError(Utils.setError(1));
-        } else if (identifierArrayList.size() != 0) {
+        }
+        else if(identifierArrayList.size()==0){
+            requestStateInterface.onValidationError(Utils.setError(1));
+        }
+        else if (!Utils.isOnline()) {
+            requestStateInterface.onValidationError(Utils.setError(0));
+
+        }
+        else {
             String uuid = Utils.generateUUID();
-            GSMAApi.getInstance().updateAccountIdentity(uuid, notificationMethod,callbackUrl,identityId,Utils.getIdentifiers(identifierArrayList),patchDataArrayList, new APIRequestCallback<RequestStateObject>() {
+            GSMAApi.getInstance().updateAccountIdentity(uuid, notificationMethod, callbackUrl, identityId, Utils.getIdentifiers(identifierArrayList), patchDataArrayList, new APIRequestCallback<RequestStateObject>() {
                 @Override
                 public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                     requestStateInterface.onRequestStateSuccess(serializedResponse);
@@ -203,8 +209,6 @@ public class AgentServiceController extends Common {
                 }
             });
 
-        } else {
-            requestStateInterface.onValidationError(Utils.setError(1));
         }
 
     }
@@ -229,7 +233,6 @@ public class AgentServiceController extends Common {
         AccountTransactionsController.getInstance().viewAccountTransactions(identifierArrayList, transactionFilter, retrieveTransactionInterface);
 
     }
-
 
 
 }

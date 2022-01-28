@@ -10,7 +10,7 @@
 
 ```java
    
-        identifierArrayList=new ArrayList<>();
+        ArrayList<Identifier> identifierArrayList=new ArrayList<>();
         identifierArrayList.clear();
         Identifier identifierAccount=new Identifier();
         identifierAccount.setKey("accountid");
@@ -20,7 +20,13 @@
 ```
 
 ```java
- SDKManager.recurringPayment.viewAccountTransactions(identifierArrayList, 0, 2, new RetrieveTransactionInterface() {
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+
+ SDKManager.recurringPayment.viewAccountTransactions(identifierArrayList,transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
             
