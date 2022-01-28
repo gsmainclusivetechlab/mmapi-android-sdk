@@ -26,8 +26,8 @@ android {
 //        applicationId "com.gsmaSdk.gsma"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 7
-        versionName "1.0.7"
+        versionCode 8
+        versionName "1.0.8"
         packagingOptions {
             exclude 'META-INF/DEPENDENCIES'
             exclude 'META-INF/LICENSE.md'
