@@ -47,7 +47,7 @@ Optimum requirements to use this SDK are -
 
 # How to include GSMA SDK in your android application
 
-Copy the GSMASdk-v1.0.8.aar [Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/aar/GSMASdk-v1.0.7.aar)
+Copy the GSMASdk-v1.0.8.aar [Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/aar/GSMASdk-v1.0.8.aar)
  file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
 
 Add the below line in dependencies of your `build.gradle` file in your application.
