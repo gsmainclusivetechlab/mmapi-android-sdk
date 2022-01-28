@@ -896,7 +896,7 @@ For integration test:
 
 - Run the test application in real device or emulator
 - Select a module and click on a function,if the function passes a tick mark is shown near to the fields otherwise a cross sign to the correspondibg fields
-- Madntory fields are compared with response from the API to ensure that whether the test succeed or not         
+- Mandatory fields are compared with response from the API to ensure that whether the test succeed or not         
          
 
 
