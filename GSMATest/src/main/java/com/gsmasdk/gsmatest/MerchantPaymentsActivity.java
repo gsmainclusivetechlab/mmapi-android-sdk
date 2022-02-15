@@ -61,15 +61,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
     private String[] merchantPaymentsArray = {
             "Payee-Initiated Merchant Payment",
             "Payee-Initiated Merchant Payment using Polling Method",
-            "Request State",
-            "View Transaction",
-            "Payment Refund",
-            "Payment Reversal",
-            "Retrieve Transaction",
-            "Auth Code",
-            "Missing Transaction",
-            "Missing Code",
-            "View Auth Code"
+            "Payer-Initiated Merchant Payment",
+            "Payee-Initiated Merchant Payment using a Pre-authorised Payment Code",
+            "Merchant Payment Refund",
+            "Merchant Payment Reversal",
+            "Obtain a Merchant Balance",
+            "Retrieve Payments for a Merchant",
+            "Check for Service Availability",
+            "Retrieve a Missing API Response",
     };
     ArrayList<Identifier> identifierArrayList;
 
@@ -233,40 +232,45 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
 
                 break;
             case 2:
-                //Request State
-              //  requestState(position);
+                //Payer-Initiated Merchant Payment"
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Payee-Initiated Merchant Payment Polling -Output\n\n");
+                payeeInitiatedMerchantPayPolling(position);
+
                 break;
             case 3:
-                //View Transaction
-                //viewTransasction(position);
+                //Payee-Initiated Merchant Payment using a Pre-authorised Payment Code"
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Create and Authorisation Code\n\n");
+                payeeInitiatedPreAuthoirised(position);
                 break;
             case 4:
                 //Payment Refund
-                paymentRefund(position);
+
                 break;
             case 5:
                 //Payment reversal
-                paymentReversal(position);
+
                 break;
             case 6:
                 //Retrieve Transaction
-                retrieveTransaction(position);
+
                 break;
             case 7:
                 //Authorization Code
-                obtainAuthorizationCode(position);
+
                 break;
             case 8:
                 //Missing Transaction
-                getMissingTransaction(position);
+
                 break;
             case 9:
                 // Missing Code Response
-                retriveMissingCodeResponse(position);
+
                 break;
             case 10:
                 //View an authorization Code
-                viewAuthorizationCode(position);
+
 
                 break;
             default:
@@ -280,39 +284,39 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
      */
 
     private void viewAuthorizationCode(int position) {
-        showLoading();
+        sbOutPut.append("\n\nView Authorization Code \n\n");
         SDKManager.merchantPayment.viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(authorisationCodeItem));
-                Log.d(SUCCESS, "onAuthorizationCodeItem: " + new Gson().toJson(authorisationCodeItem));
-
                 if (authorisationCodeItem.getAuthorisationCode() == null || authorisationCodeItem.getCodeState() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty\n\n");
+                    txtResponse.setText(sbOutPut.toString());hideLoading();
+                    hideLoading();
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
-
+                    sbOutPut.append(new Gson().toJson(authorisationCodeItem).toString()+"\n\n");
+                    txtResponse.setText(sbOutPut.toString());
+                    payeeInitiatedMerchantPayAuthCode(position);
                 }
 
             }
 
             @Override
             public void onAuthorisationCodeFailure(GSMAError gsmaError) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onAuthorizationCodeFailure: " + new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
+                   hideLoading();
+                   sbOutPut.append(new Gson().toJson(gsmaError).toString()+"\n\n");
+                   txtResponse.setText(sbOutPut.toString());
+                   customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "" + errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                customRecyclerAdapter.setStatus(2, position);
+                   hideLoading();
+                   sbOutPut.append(new Gson().toJson(errorObject).toString()+"\n\n");
+                   customRecyclerAdapter.setStatus(2, position);
+                   txtResponse.setText(sbOutPut.toString());
+
             }
         });
 
@@ -366,10 +370,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 sbOutPut.append(new Gson().toJson(errorObject).toString());
-
                 txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
@@ -379,24 +381,25 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 hideLoading();
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
-                }
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    txtResponse.setText(sbOutPut.toString());
 
-                sbOutPut.append(new Gson().toJson(requestStateObject).toString());
-                txtResponse.setText(sbOutPut.toString());
+                }
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
                 sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
             }
 
@@ -417,15 +420,25 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 sbOutPut.append(new Gson().toJson(errorObject).toString()+"\n\n");
-                customRecyclerAdapter.setStatus(2, position);
                 txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                sbOutPut.append(new Gson().toJson(requestStateObject).toString());
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                requestStatePolling(position);
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    hideLoading();
+
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString()+"\n\n");
+                    requestStatePolling(position);
+                }
+
             }
 
             @Override
@@ -454,9 +467,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
      * Request State
      */
     private void requestStatePolling(int position) {
-
-        sbOutPut.append("\n\nview Request state-Output\n\n");
-
+        sbOutPut.append("\n\nView Request state-Output\n\n");
         SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -469,11 +480,17 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                sbOutPut.append(new Gson().toJson(requestStateObject)+"\n\n");
                 transactionRef = requestStateObject.getObjectReference();
-                viewTransasctionPolling(position);
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    hideLoading();
 
-
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString()+"\n\n");
+                    viewTransasctionPolling(position);
+                }
             }
 
             @Override
@@ -498,8 +515,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
      * View Transaction-View the transaction Details
      */
     private void viewTransasctionPolling(int position) {
-        sbOutPut.append("view Transaction-Output\n\n");
-
+        sbOutPut.append("View Transaction-Output\n\n");
         SDKManager.merchantPayment.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -512,6 +528,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             @Override
             public void onTransactionSuccess(Transaction transactionRequest) {
                 hideLoading();
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
                 sbOutPut.append(new Gson().toJson(transactionRequest)+"\n\n");
                 txtResponse.setText(sbOutPut.toString());
                 if (transactionRequest == null
@@ -522,12 +539,12 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                         || transactionRequest.getDebitParty() == null
                 ) {
                     customRecyclerAdapter.setStatus(2, position);
+
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+
                 }
 
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
             }
 
             @Override
@@ -689,30 +706,30 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
     /**
      * Authorization Code
      */
-    private void obtainAuthorizationCode(int position) {
+    private void payeeInitiatedPreAuthoirised(int position) {
         showLoading();
         SDKManager.merchantPayment.createAuthorisationCode(identifierArrayList, NotificationMethod.POLLING, "", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
+                sbOutPut.append(new Gson().toJson(errorObject)+"\n\n");
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
+                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
                 txtResponse.setText(new Gson().toJson(requestStateObject));
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
+                sbOutPut.append(new Gson().toJson(requestStateObject)+"\n\n");
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    hideLoading();
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    requestStateAuthCode(position);
                 }
 
-                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
             }
 
             @Override
@@ -733,6 +750,55 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
         });
 
     }
+
+
+    /**
+     * Request State
+     */
+    private void requestStateAuthCode(int position) {
+        sbOutPut.append("\n\nView Request state-Output\n\n");
+        SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(errorObject)+"\n\n");
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());
+            }
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                transactionRef = requestStateObject.getObjectReference();
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                    hideLoading();
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    txtResponse.setText(sbOutPut.toString());
+                    viewAuthorizationCode(position);
+                }
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(gsmaError)+"\n\n");
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());
+
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
 
     /**
      * Missing Transaction
@@ -773,9 +839,62 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 customRecyclerAdapter.setStatus(2, position);
             }
         });
-
-
     }
+
+    /**
+     * Payee/payer  initiated payment
+     */
+    private void payeeInitiatedMerchantPayAuthCode(int position) {
+
+        transactionRequest.setOneTimeCode(authorisationCodeRequest.getAuthorisationCode());
+        sbOutPut.append(new Gson().toJson("Payee Initiated Merchant Payment\n\n").toString());
+        SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    txtResponse.setText(sbOutPut.toString());
+
+                }
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
+
 
     /**
      * Retrieve Missing Code
