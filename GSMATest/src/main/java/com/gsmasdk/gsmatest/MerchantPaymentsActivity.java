@@ -93,7 +93,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
         progressdialog = Utils.initProgress(MerchantPaymentsActivity.this);
 
         createTransactionObject();
-        checkServiceAvailability();
         createCodeRequestObject();
         createPaymentReversalObject();
         createAccountIdentifier();
@@ -129,37 +128,44 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
 
     }
 
-
     /**
      * Method for checking Service Availability.
      */
-    private void checkServiceAvailability() {
+    private void checkServiceAvailability(int position) {
         showLoading();
         SDKManager.merchantPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
             public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(serviceAvailability));
+                sbOutPut.append(new Gson().toJson(serviceAvailability).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
+                customRecyclerAdapter.setStatus(1, position);
             }
 
             @Override
             public void onServiceAvailabilityFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
     }
+
 
     /**
      * Create Payment Reversal Object.
@@ -246,32 +252,39 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 break;
             case 4:
                 //Payment Refund
-
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Payment Refund -Output\n\n");
+                paymentRefund(position);
                 break;
             case 5:
-                //Payment reversal
-
+                //Payment Reversal
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Payment Reversal -Output\n\n");
+                paymentReversal(position);
                 break;
             case 6:
-                //Retrieve Transaction
-
+                //Retrieve Balance
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Balance -Output\n\n");
+                balanceCheck(position);
                 break;
             case 7:
-                //Authorization Code
-
+                //View Transaction
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Retrieve Transaction -Output\n\n");
+                retrieveTransaction(position);
                 break;
             case 8:
-                //Missing Transaction
-
+                //Check Service Availability
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Check Service Availability -Output\n\n");
+                checkServiceAvailability(position);
                 break;
             case 9:
                 // Missing Code Response
-
-                break;
-            case 10:
-                //View an authorization Code
-
-
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Missing API Response -Output\n\n");
+                getMissingTransaction(position);
                 break;
             default:
                 break;
@@ -321,7 +334,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
         });
 
     }
-
     /**
      * Checking Balance.
      */
@@ -333,6 +345,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
 
@@ -340,26 +354,30 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             public void onBalanceSuccess(Balance balance) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(balance).toString());
-                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
                 if (balance == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(balance).toString());
                 }
-
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
 
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
             }
         });
     }
+
+
 
     /**
      * Payee/payer  initiated payment
@@ -559,149 +577,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
         });
     }
 
-    /**
-     * Payment Refund
-     */
-    private void paymentRefund(int position) {
-        showLoading();
-        SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                hideLoading();
-                serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                if (requestStateObject == null || requestStateObject.getStatus() == null) {
-                    customRecyclerAdapter.setStatus(2, position);
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                }
-                Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-            }
 
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
-                Log.d(FAILURE, "onRefundFailure: " + new Gson().toJson(gsmaError));
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-            }
 
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @Override
-            public void getCorrelationId(String correlationID) {
-                correlationId = correlationID;
-                Log.d("getCorrelationId", "correlationId: " + correlationID);
-            }
-
-        });
-    }
-
-    /**
-     * Payment Reversal
-     */
-    private void paymentReversal(int position) {
-        showLoading();
-        SDKManager.merchantPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                serverCorrelationId = requestStateObject.getServerCorrelationId();
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
-                if (requestStateObject == null || requestStateObject.getStatus() == null) {
-                    customRecyclerAdapter.setStatus(2, position);
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                }
-
-            }
-
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                hideLoading();
-                Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @Override
-            public void getCorrelationId(String correlationID) {
-                correlationId = correlationID;
-                Log.d("getCorrelationId", "correlationId: " + correlationID);
-            }
-
-        });
-    }
-
-    /**
-     * Retrieve Transaction
-     */
-    private void retrieveTransaction(int position) {
-        showLoading();
-
-        TransactionFilter transactionFilter = new TransactionFilter();
-        transactionFilter.setLimit(5);
-        transactionFilter.setOffset(0);
-
-        SDKManager.merchantPayment.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-            }
-
-            @Override
-            public void onRetrieveTransactionSuccess(Transactions transaction) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(transaction));
-
-                Transaction transactionRequest = transaction.getTransaction().get(0);
-                if (transactionRequest == null
-                        || transactionRequest.getTransactionReference() == null
-                        || transactionRequest.getTransactionStatus() == null
-                        || transactionRequest.getCurrency() == null
-                        || transactionRequest.getCreditParty() == null
-                        || transactionRequest.getDebitParty() == null
-                ) {
-                    customRecyclerAdapter.setStatus(2, position);
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                }
-                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
-            }
-
-            @Override
-            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-        });
-    }
 
     /**
      * Authorization Code
@@ -752,6 +629,9 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
     }
 
 
+
+
+
     /**
      * Request State
      */
@@ -800,46 +680,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
     }
 
 
-    /**
-     * Missing Transaction
-     */
-    private void getMissingTransaction(int position) {
 
-        showLoading();
-
-        SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
-            @Override
-            public void onMissingResponseSuccess(MissingResponse missingResponse) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(missingResponse));
-                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
-                if (missingResponse == null) {
-                    customRecyclerAdapter.setStatus(2, position);
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                }
-
-            }
-
-            @Override
-            public void onMissingResponseFailure(GSMAError gsmaError) {
-                hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
-                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-        });
-    }
 
     /**
      * Payee/payer  initiated payment
@@ -896,47 +737,207 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
 
 
 
-    /**
-     * Retrieve Missing Code
-     */
-    private void retriveMissingCodeResponse(int position) {
+    private void paymentRefund(int position) {
         showLoading();
-        SDKManager.merchantPayment.viewAuthorisationCodeResponse(correlationId, new AuthorisationCodeInterface() {
+        SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
-            public void onAuthorisationCodeSuccess(AuthorisationCodes authorisationCode) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Utils.showToast(MerchantPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(authorisationCode));
-                Log.d(SUCCESS, "onAuthorisationCodeSuccess: " + new Gson().toJson(authorisationCode, AuthorisationCodes.class));
-
-                if (authorisationCode == null
-                        || authorisationCode.getAuthCode().get(0).getAuthorisationCode() == null
-                        || authorisationCode.getAuthCode().get(0).getCodeState() == null) {
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
-
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
                 }
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
             }
 
             @Override
-            public void onAuthorisationCodeFailure(GSMAError gsmaError) {
+            public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onAuthorisationCodeFailure: " + new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRefundFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
-
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
             }
 
         });
     }
+
+    /**
+     * Payment Reversal
+     */
+    private void paymentReversal(int position) {
+        showLoading();
+        SDKManager.merchantPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                }
+                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+                txtResponse.setText(sbOutPut.toString());
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
+    /**
+     * Retrieve Transaction
+     */
+    private void retrieveTransaction(int position) {
+        showLoading();
+
+        TransactionFilter transactionFilter = new TransactionFilter();
+        transactionFilter.setLimit(5);
+        transactionFilter.setOffset(0);
+
+        SDKManager.merchantPayment.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+            }
+
+            @Override
+            public void onRetrieveTransactionSuccess(Transactions transaction) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, "Success");
+
+                Transaction transactionRequest = transaction.getTransaction().get(0);
+                if (transactionRequest == null
+                        || transactionRequest.getTransactionReference() == null
+                        || transactionRequest.getTransactionStatus() == null
+                        || transactionRequest.getCurrency() == null
+                        || transactionRequest.getCreditParty() == null
+                        || transactionRequest.getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                } else {
+                    sbOutPut.append(new Gson().toJson(transaction).toString());
+                    customRecyclerAdapter.setStatus(1, position);
+                }
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+            }
+
+            @Override
+            public void onRetrieveTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+        });
+    }
+
+    /**
+     * Missing Transaction
+     */
+    private void getMissingTransaction(int position) {
+        showLoading();
+        SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
+            @Override
+            public void onMissingResponseSuccess(MissingResponse missingResponse) {
+                hideLoading();
+                if (missingResponse == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(missingResponse).toString());
+                    Utils.showToast(MerchantPaymentsActivity.this, "Success");
+                }
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
+            }
+
+            @Override
+            public void onMissingResponseFailure(GSMAError gsmaError) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
+                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+        });
+
+
+    }
+
+
+
+
 }
