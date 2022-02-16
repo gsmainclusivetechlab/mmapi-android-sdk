@@ -75,7 +75,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             "Obtain an FSP Balance",
             "Retrieve Transaction for FSP",
             "Check for Service Availability",
-            "Retrieve a Missing API Response",
+            "Retrieve a Missing API Response"
     };
 
     @Override
@@ -97,9 +97,12 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
 
         progressdialog = Utils.initProgress(InternationalTransfersActivity.this);
-        checkServiceAvailability();
-        createPaymentReversalObject();
+
         createAccountIdentifier();
+        createPaymentReversalObject();
+        createInternationalTransferObject();
+        createInternationalQuotationObject();
+
 
 
     }
@@ -136,148 +139,9 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
 
-    /**
-     * Method for fetching a particular transaction.
-     */
-    private void viewTransaction(int position) {
-        showLoading();
-        SDKManager.internationalTransfer.viewTransaction(transactionRef, new TransactionInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @Override
-            public void onTransactionSuccess(Transaction transactionObject) {
-                Utils.showToast(InternationalTransfersActivity.this, "Success");
-                hideLoading();
-                txtResponse.setText(new Gson().toJson(transactionObject));
-                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionObject));
-
-                if (transactionObject == null
-                        || transactionObject.getTransactionReference() == null
-                        || transactionObject.getTransactionStatus() == null
-                        || transactionObject.getCurrency() == null
-                        || transactionObject.getCreditParty() == null
-                        || transactionObject.getDebitParty() == null
-                ) {
-                    customRecyclerAdapter.setStatus(2, position);
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                }
-
-            }
-
-            @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-                hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-        });
 
 
-    }
-
-    //get the request state of a transaction
-    private void requestState(int position) {
-        showLoading();
-        SDKManager.internationalTransfer.viewRequestState(serverCorrelationId, new RequestStateInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                transactionRef = requestStateObject.getObjectReference();
-                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
-
-                if (requestStateObject == null || requestStateObject.getStatus() == null) {
-                    customRecyclerAdapter.setStatus(2, position);
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                }
-
-            }
-
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @Override
-            public void getCorrelationId(String correlationID) {
-                correlationId = correlationID;
-                Log.d("getCorrelationId", "correlationId: " + correlationID);
-            }
-        });
-
-
-    }
-
-
-    public void viewQuotation(int position) {
-        showLoading();
-        SDKManager.internationalTransfer.viewQuotation(transactionRef, new TransactionInterface() {
-            @Override
-            public void onTransactionSuccess(Transaction transactionObject) {
-                hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(transactionObject));
-                Log.d(SUCCESS, "onTransactionSuccess " + new Gson().toJson(transactionObject));
-
-                if (transactionObject == null
-                        || transactionObject.getTransactionReference() == null
-                        || transactionObject.getTransactionStatus() == null
-                        || transactionObject.getCurrency() == null
-                        || transactionObject.getCreditParty() == null
-                        || transactionObject.getDebitParty() == null
-                ) {
-                    customRecyclerAdapter.setStatus(2, position);
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                }
-
-
-            }
-
-            @Override
-            public void onTransactionFailure(GSMAError gsmaError) {
-                hideLoading();
-                Log.d(FAILURE, "onTransactionFailure " + new Gson().toJson(gsmaError));
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-        });
-
-    }
-
-
-    private void createInternationalTransferObject(int position) {
+    private void createInternationalTransferObject() {
         transactionRequest = new Transaction();
         if (transactionRequest == null) {
             Utils.showToast(this, "Please request Quotation before performing this request");
@@ -399,7 +263,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             //add requesting organisation object into transaction request
             transactionRequest.setRequestingOrganisation(requestingOrganisation);
 
-            performInternationalTransfer(position);
         }
     }
 
@@ -470,7 +333,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                     txtResponse.setText(sbOutPut.toString());
                 } else {
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
-                    createInternationalTransferObject(position);
+                    performInternationalTransfer(position);
                 }
 
 
@@ -516,30 +379,37 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     /**
      * Method for checking Service Availability.
      */
-    private void checkServiceAvailability() {
+    private void checkServiceAvailability(int position) {
         showLoading();
         SDKManager.internationalTransfer.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
             public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(serviceAvailability));
+                sbOutPut.append(new Gson().toJson(serviceAvailability).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
+                customRecyclerAdapter.setStatus(1, position);
             }
 
             @Override
             public void onServiceAvailabilityFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Utils.showToast(InternationalTransfersActivity.this, "Failure");
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
 
@@ -547,7 +417,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     //create a transaction object for international transfer request
-    private void createInternationalQuotationObject(int position) {
+    private void createInternationalQuotationObject() {
         quotationRequest = new Quotation();
 
 
@@ -654,8 +524,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         quotationRequest.setOriginCountry("AD");
         quotationRequest.setReceivingCountry("AD");
 
-        //request for quotation
-        requestQuotation(position);
+
 
     }
 
@@ -668,6 +537,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
 
             }
@@ -675,22 +546,23 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onBalanceSuccess(Balance balance) {
                 hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(balance));
-                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
                 if (balance == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(balance).toString());
+                    Utils.showToast(InternationalTransfersActivity.this, "Success");
                 }
-
-
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
 
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
 
@@ -761,6 +633,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
 
@@ -769,9 +643,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(transaction));
-                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+
                 Transaction transactionRequest = transaction.getTransaction().get(0);
                 if (transactionRequest == null
                         || transactionRequest.getTransactionReference() == null
@@ -781,16 +653,22 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                         || transactionRequest.getDebitParty() == null
                 ) {
                     customRecyclerAdapter.setStatus(2, position);
+              sbOutPut.append("Data is either null or empty");
                 } else {
+                    sbOutPut.append(new Gson().toJson(transaction).toString());
                     customRecyclerAdapter.setStatus(1, position);
-                }
-
+                    Utils.showToast(InternationalTransfersActivity.this, "Success");
+                 }
+                 txtResponse.setText(sbOutPut.toString());
+                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
             @Override
             public void onRetrieveTransactionFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(InternationalTransfersActivity.this, "Failure");
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
 
@@ -800,25 +678,34 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     //Retrieve a missing Transaction
     private void getMissingTransaction(int position) {
-        showLoading();
+        sbOutPut.append("\n\n Missing Response\n\n");
+
         SDKManager.internationalTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, "Success");
+
                 txtResponse.setText(new Gson().toJson(missingResponse));
                 Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
-                if (missingResponse == null) {
+
+                if (missingResponse==null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(missingResponse).toString());
+                    Utils.showToast(InternationalTransfersActivity.this, "Success");
                 }
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
             }
 
             @Override
             public void onMissingResponseFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Utils.showToast(InternationalTransfersActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
@@ -829,10 +716,65 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(InternationalTransfersActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
 
             }
+        });
+    }
+
+    /**
+     * International trasnsfer missing transaction
+     */
+    private void internationalMissingResponse(int position) {
+        showLoading();
+        sbOutPut.append("\n\nCreate Disbursmenent Transaction\n\n");
+
+        SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                    hideLoading();
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    getMissingTransaction(position);
+
+                }
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 
@@ -852,19 +794,49 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 //Payee-Initiated Merchant Payment
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create Quotation Request \n\n");
-                createInternationalQuotationObject(position);
+                requestQuotation(position);
 
                 break;
             case 1:
                 //Payee-Initiated Merchant Payment
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create Quotation Request \n\n");
-                createInternationalQuotationObject(position);
+                requestQuotation(position);
 
                 break;
             case 2:
                 //Reversal
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Reverals -Output\n\n");
                 reversal(position);
+              break;
+            case 3:
+                //check balance
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Balance -Output\n\n");
+                balanceCheck(position);
+                break;
+            case 4:
+                //Retrieve transaction FSP
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Retrieve Transaction -Output\n\n");
+                retrieveTransactionFSP(position);
+                break;
+            case 5:
+                //check service availability
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Check Service Availability -Output\n\n");
+                checkServiceAvailability(position);
+
+                break;
+            case 6:
+                //missing response
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Missing API Response -Output\n\n");
+                internationalMissingResponse(position);
+                break;
+
+            default:
                 break;
 
         }
