@@ -62,21 +62,18 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
     ArrayList<Identifier> identifierArrayList;
 
     private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
-
+    StringBuilder sbOutPut;
 
     private final String[] disbursementArray = {
             "Individual Disbursement",
-            "Request State",
-            "View Transaction",
-            "Reversal",
-            "Retrieve Transaction",
-            "Disbursement Organisation Balance",
-            "Bulk Transaction",
-            "Batch Rejection",
-            "Batch Completions",
-            "Update Batch",
-            "Get batch Details",
-            "Missing Transaction Disbursement",
+            "Bulk Disbursement",
+            "Bulk Disbursement with Maker / Checker",
+            "Individual Disbursement Using the Polling Method",
+            "Disbursement Reversal",
+            "Obtain a Disbursement Organisation Balance",
+            "Retrieve Transactions for a Disbursement Organisation",
+            "Check for Service Availability",
+            "Retrieve a Missing API Response"
 
     };
 
@@ -90,7 +87,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
         RecyclerView recyclerView = findViewById(R.id.disbursementList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, disbursementArray);
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, true, disbursementArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);
 
@@ -99,7 +96,6 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
 
         progressdialog = Utils.initProgress(DisbursementActivity.this);
 
-        checkServiceAvailability();
         createTransactionObject();
         createPaymentReversalObject();
         createBulkTransactionObject();
@@ -215,30 +211,37 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
     /**
      * Method for checking Service Availability.
      */
-    private void checkServiceAvailability() {
+    private void checkServiceAvailability(int position) {
         showLoading();
         SDKManager.disbursement.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
             public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(serviceAvailability));
+                sbOutPut.append(new Gson().toJson(serviceAvailability).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Utils.showToast(DisbursementActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
+                customRecyclerAdapter.setStatus(1, position);
             }
 
             @Override
             public void onServiceAvailabilityFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Utils.showToast(DisbursementActivity.this, "Failure");
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
             }
         });
     }
@@ -404,19 +407,22 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
                 }
+                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+                txtResponse.setText(sbOutPut.toString());
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
 
@@ -427,6 +433,8 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
 
@@ -451,8 +459,10 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
 
             }
 
@@ -460,8 +470,6 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(transaction));
-                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
 
                 Transaction transactionRequest = transaction.getTransaction().get(0);
                 if (transactionRequest == null
@@ -472,19 +480,23 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                         || transactionRequest.getDebitParty() == null
                 ) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
+                    sbOutPut.append(new Gson().toJson(transaction).toString());
                     customRecyclerAdapter.setStatus(1, position);
                 }
-
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
             @Override
             public void onRetrieveTransactionFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                Utils.showToast(DisbursementActivity.this, "Failure");
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
-
             }
         });
     }
@@ -584,6 +596,8 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
 
@@ -591,20 +605,22 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             public void onBalanceSuccess(Balance balance) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(balance));
-                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
                 if (balance == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(balance).toString());
                 }
-
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
 
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
 
@@ -710,7 +726,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(batchTransactionItem));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(batchTransactionItem));
-                 if (batchTransactionItem == null || batchTransactionItem.getBatchId() == null
+                if (batchTransactionItem == null || batchTransactionItem.getBatchId() == null
                 ) {
                     customRecyclerAdapter.setStatus(2, position);
                 } else {
@@ -745,21 +761,23 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(missingResponse));
-                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
                 if (missingResponse == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(missingResponse).toString());
+                    Utils.showToast(DisbursementActivity.this, "Success");
                 }
-
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
             }
 
             @Override
             public void onMissingResponseFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Utils.showToast(DisbursementActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
@@ -769,11 +787,64 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
             }
         });
 
+    }
+
+    /**
+     * Disbursement missing transaction
+     */
+    private void disbursementMissingResponse(int position) {
+        showLoading();
+        SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                    hideLoading();
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    getMissingTransaction(position);
+
+                }
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
     }
 
     @Override
@@ -796,31 +867,36 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 reversal(position);
                 break;
             case 4:
-                retrieveTransactionDisbursement(position);
+                //reversal
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Disbursement Reversal -Output\n\n");
+                reversal(position);
                 break;
             case 5:
+                //check balance
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Balance -Output\n\n");
                 balanceCheck(position);
                 break;
             case 6:
-                bulkDisbursement(position);
+                //retrieve transaction
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Retrieve Transaction -Output\n\n");
+                retrieveTransactionDisbursement(position);
                 break;
 
             case 7:
-                batchRejections(position);
+                //check service availability
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Check Service Availability -Output\n\n");
+                checkServiceAvailability(position);
                 break;
 
             case 8:
-                batchCompletion(position);
-                break;
-            case 9:
-                updateBatch(position);
-                break;
-            case 10:
-                getBatchDetails(position);
-                break;
-
-            case 11:
-                getMissingTransaction(position);
+                //missing response
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Missing API Response -Output\n\n");
+                disbursementMissingResponse(position);
                 break;
 
             default:
