@@ -284,7 +284,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 // Missing Code Response
                 sbOutPut=new StringBuilder();
                 sbOutPut.append("Missing API Response -Output\n\n");
-                getMissingTransaction(position);
+                payeeInitiatedMissingResponse(position);
                 break;
             default:
                 break;
@@ -686,9 +686,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
      * Payee/payer  initiated payment
      */
     private void payeeInitiatedMerchantPayAuthCode(int position) {
-
         transactionRequest.setOneTimeCode(authorisationCodeRequest.getAuthorisationCode());
-        sbOutPut.append(new Gson().toJson("Payee Initiated Merchant Payment\n\n").toString());
+        sbOutPut.append("Payee Initiated Merchant Payment \n\n");
         SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
