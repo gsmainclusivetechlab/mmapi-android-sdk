@@ -352,13 +352,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             @Override
             public void onBalanceSuccess(Balance balance) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
+
                 if (balance == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(balance).toString());
+                    Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 }
                 txtResponse.setText(sbOutPut.toString());
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
@@ -743,13 +744,14 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
+
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 }
                 txtResponse.setText(sbOutPut.toString());
                 Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
@@ -793,7 +795,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
+
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
@@ -801,6 +803,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 }
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
                 txtResponse.setText(sbOutPut.toString());
@@ -859,7 +862,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             @Override
             public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
-                Utils.showToast(MerchantPaymentsActivity.this, "Success");
 
                 Transaction transactionRequest = transaction.getTransaction().get(0);
                 if (transactionRequest == null
@@ -874,6 +876,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                 } else {
                     sbOutPut.append(new Gson().toJson(transaction).toString());
                     customRecyclerAdapter.setStatus(1, position);
+                    Utils.showToast(MerchantPaymentsActivity.this, "Success");
                 }
                 txtResponse.setText(sbOutPut.toString());
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));

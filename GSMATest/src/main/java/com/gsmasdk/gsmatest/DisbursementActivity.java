@@ -369,7 +369,6 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
@@ -377,6 +376,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    Utils.showToast(DisbursementActivity.this, "Success");
                 }
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
                 txtResponse.setText(sbOutPut.toString());
@@ -433,7 +433,6 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             @Override
             public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Success");
 
                 Transaction transactionRequest = transaction.getTransaction().get(0);
                 if (transactionRequest == null
@@ -448,6 +447,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 } else {
                     sbOutPut.append(new Gson().toJson(transaction).toString());
                     customRecyclerAdapter.setStatus(1, position);
+                    Utils.showToast(DisbursementActivity.this, "Success");
                 }
                 txtResponse.setText(sbOutPut.toString());
                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
@@ -867,13 +867,13 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             @Override
             public void onBalanceSuccess(Balance balance) {
                 hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Success");
                 if (balance == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(balance).toString());
+                    Utils.showToast(DisbursementActivity.this, "Success");
                 }
                 txtResponse.setText(sbOutPut.toString());
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
