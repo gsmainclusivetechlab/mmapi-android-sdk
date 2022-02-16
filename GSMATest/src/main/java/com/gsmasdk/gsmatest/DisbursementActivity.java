@@ -63,21 +63,19 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
 
     private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
 
+    StringBuilder sbOutPut;
 
     private final String[] disbursementArray = {
             "Individual Disbursement",
-            "Request State",
-            "View Transaction",
-            "Reversal",
-            "Retrieve Transaction",
+            "Bulk Disbursement",
+            "Bulk Disbursement with Maker / Checker",
+            "Individual Disbursement Using the Polling Method",
+            "Disbursement Reversal",
             "Disbursement Organisation Balance",
-            "Bulk Transaction",
-            "Batch Rejection",
-            "Batch Completions",
-            "Update Batch",
-            "Get batch Details",
-            "Missing Transaction Disbursement",
-
+            "Obtain a Disbursement Organisation Balance",
+            "Retrieve Transactions for a Disbursement Organisation",
+            "Check for Service Availability",
+            "Retrieve a Missing API Response"
     };
 
     @Override
@@ -90,7 +88,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
         RecyclerView recyclerView = findViewById(R.id.disbursementList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, disbursementArray);
+        customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, true, disbursementArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);
 
@@ -99,7 +97,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
 
         progressdialog = Utils.initProgress(DisbursementActivity.this);
 
-        checkServiceAvailability();
+
         createTransactionObject();
         createPaymentReversalObject();
         createBulkTransactionObject();
@@ -348,15 +346,17 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
 
     //individual disbursement
     private void individualDisbursement(int position) {
-
         showLoading();
-        SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.CALLBACK, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
+
 
             }
 
@@ -364,25 +364,28 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                serverCorrelationId = requestStateObject.getServerCorrelationId();
-
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
-                }
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    txtResponse.setText(sbOutPut.toString());
 
+                }
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
                 Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
                 txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
-
 
             }
 
@@ -394,6 +397,57 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
 
         });
     }
+
+
+    //individual disbursement
+    private void individualDisbursementPolling(int position) {
+        showLoading();
+        SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+
+            }
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                } else {
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                     requestStateDisbursement(position);
+                }
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
+
+
 
     //Reversal
     private void reversal(int position) {
@@ -498,22 +552,25 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    hideLoading();
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
                 } else {
-                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    requestStateBulk(position);
                 }
 
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
             }
 
             @Override
@@ -522,6 +579,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
+
 
             }
 
@@ -534,41 +592,336 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
         });
     }
 
-    //Rejected Disbursements
-    private void batchRejections(int position) {
+
+    //Bulk Disbursement
+    public void bulkDisbursementMaker(int position) {
         showLoading();
-
-
-        SDKManager.disbursement.viewBatchRejections("REF-1635765084301", new BatchRejectionInterface() {
+        SDKManager.disbursement.createBatchTransaction(NotificationMethod.POLLING, "", bulkTransactionObject, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
-            public void batchTransactionRejections(BatchRejections batchTransactionRejection) {
-                hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(batchTransactionRejection));
-                Log.d(SUCCESS, "batchTransactionRejections: " + new Gson().toJson(batchTransactionRejection));
-                if (batchTransactionRejection == null) {
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    hideLoading();
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
                 } else {
-                    customRecyclerAdapter.setStatus(1, position);
-
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    requestStateMaker(position);
                 }
 
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
+
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
+
+    /**
+     * Request State
+     */
+    private void requestStateBulk(int position) {
+        sbOutPut.append("\n\nView Request state-Output\n\n");
+        SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(errorObject) + "\n\n");
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());
+
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                transactionRef = requestStateObject.getObjectReference();
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                    hideLoading();
+                } else {
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString() + "\n\n");
+                    batchTransactionBulk(position);
+                }
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(gsmaError) + "\n\n");
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());
+
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
+
+    /**
+     * Request State
+     */
+    private void requestStateDisbursement(int position) {
+        sbOutPut.append("\n\nView Request state-Output\n\n");
+        SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(errorObject) + "\n\n");
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());
+
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                transactionRef = requestStateObject.getObjectReference();
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                    hideLoading();
+                } else {
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString() + "\n\n");
+                    viewTransasctionPolling(position);
+                }
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(gsmaError) + "\n\n");
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());
+
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
+    /**
+     * Request State
+     */
+    private void requestStateMaker(int position) {
+        sbOutPut.append("\n\nView Request state-Output\n\n");
+        SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(errorObject) + "\n\n");
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());
+
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                transactionRef = requestStateObject.getObjectReference();
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                    hideLoading();
+                } else {
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString() + "\n\n");
+                    batchTransactionMaker(position);
+                }
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(gsmaError) + "\n\n");
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());
+
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
+        });
+    }
+
+
+    /**
+     * View Transaction-View the transaction Details
+     */
+    private void viewTransasctionPolling(int position) {
+        sbOutPut.append("View Transaction-Output\n\n");
+        SDKManager.merchantPayment.viewTransaction(transactionRef, new TransactionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(errorObject)+"\n\n");
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());
+            }
+
+            @Override
+            public void onTransactionSuccess(Transaction transactionRequest) {
+                hideLoading();
+                Log.d(SUCCESS, "onTransactionSuccess: " + new Gson().toJson(transactionRequest));
+
+                if (transactionRequest == null
+                        || transactionRequest.getTransactionReference() == null
+                        || transactionRequest.getTransactionStatus() == null
+                        || transactionRequest.getCurrency() == null
+                        || transactionRequest.getCreditParty() == null
+                        || transactionRequest.getDebitParty() == null
+                ) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+
+
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(transactionRequest)+"\n\n");
+                    txtResponse.setText(sbOutPut.toString());
+                }
 
             }
 
             @Override
             public void onTransactionFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError)+"\n\n");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+        });
+    }
+
+
+    //Rejected Disbursements
+    private void viewBatchRejectionsMaker(int position, String batchId) {
+        sbOutPut.append("\n\nBatch Rejection\n\n");
+
+        SDKManager.disbursement.viewBatchRejections(batchId, new BatchRejectionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void batchTransactionRejections(BatchRejections batchTransactionRejection) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(batchTransactionRejection));
+                Log.d(SUCCESS, "batchTransactionRejections: " + new Gson().toJson(batchTransactionRejection));
+                if (batchTransactionRejection == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                } else {
+                    Utils.showToast(DisbursementActivity.this, "Success");
+                    sbOutPut.append(new Gson().toJson(batchTransactionRejection).toString());
+                    txtResponse.setText(sbOutPut.toString());
+
+                }
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+
+            }
+        });
+    }
+
+
+    //Rejected Disbursements
+    private void viewBatchRejectionsBulk(int position, String batchId) {
+        sbOutPut.append("\n\nBatch Rejection\n\n");
+
+        SDKManager.disbursement.viewBatchRejections(batchId, new BatchRejectionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void batchTransactionRejections(BatchRejections batchTransactionRejection) {
+                hideLoading();
+                txtResponse.setText(new Gson().toJson(batchTransactionRejection));
+                Log.d(SUCCESS, "batchTransactionRejections: " + new Gson().toJson(batchTransactionRejection));
+                if (batchTransactionRejection == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                } else {
+                    Utils.showToast(DisbursementActivity.this, "Success");
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(batchTransactionRejection).toString());
+                    txtResponse.setText(sbOutPut.toString());
+
+                }
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
 
             }
@@ -613,30 +966,32 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
     }
 
     //Completed Batch Transactions
-    private void batchCompletion(int position) {
-        showLoading();
-        SDKManager.disbursement.viewBatchCompletions("REF-1635765084301", new BatchCompletionInterface() {
+    private void viewBatchCompletionsBulk(int position, String batchId) {
+        sbOutPut.append("\n\nBatch Completions\n\n");
+        SDKManager.disbursement.viewBatchCompletions(batchId, new BatchCompletionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
-
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
             public void batchTransactionCompleted(BatchCompletions batchTransactionCompletion) {
-                hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(batchTransactionCompletion));
                 Log.d(SUCCESS, "batchTransactionCompleted: " + new Gson().toJson(batchTransactionCompletion));
-
                 if (batchTransactionCompletion == null) {
+                    hideLoading();
                     customRecyclerAdapter.setStatus(2, position);
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
 
+                } else {
+                    sbOutPut.append(new Gson().toJson(batchTransactionCompletion).toString());
+                    viewBatchRejectionsBulk(position, batchId);
                 }
 
             }
@@ -644,9 +999,52 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             @Override
             public void onTransactionFailure(GSMAError gsmaError) {
                 hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
                 txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
 
+            }
+        });
+    }
+
+    //Completed Batch Transactions
+    private void viewBatchCompletionsMaker(int position, String batchId) {
+        sbOutPut.append("\n\nBatch Completions\n\n");
+        SDKManager.disbursement.viewBatchCompletions(batchId, new BatchCompletionInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void batchTransactionCompleted(BatchCompletions batchTransactionCompletion) {
+                txtResponse.setText(new Gson().toJson(batchTransactionCompletion));
+                Log.d(SUCCESS, "batchTransactionCompleted: " + new Gson().toJson(batchTransactionCompletion));
+                if (batchTransactionCompletion == null) {
+                    hideLoading();
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+
+                } else {
+                    sbOutPut.append(new Gson().toJson(batchTransactionCompletion).toString());
+                    viewBatchRejectionsBulk(position, batchId);
+                }
+
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
 
             }
@@ -654,38 +1052,42 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
     }
 
     //Update Batch Transaction
-    private void updateBatch(int position) {
-        showLoading();
-        SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING, "", "REF-1635765084301", patchDataArrayList, new RequestStateInterface() {
+    private void updateBatch(int position, String batchId) {
+        sbOutPut.append("\n\nUpdate a batch transaction\n\n");
+        SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING, "","REF-1635765084301", patchDataArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
 
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                    hideLoading();
                 } else {
-                    customRecyclerAdapter.setStatus(1, position);
 
-                }
+                    Utils.showToast(DisbursementActivity.this, "Success");
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    viewBatchCompletionsBulk(position,batchId);
+                 }
 
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
             }
@@ -701,20 +1103,22 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
     }
 
     //Get Batch Transaction Details
-    private void getBatchDetails(int position) {
-        showLoading();
+    private void batchTransactionBulk(int position) {
+        sbOutPut.append("\nBatch Transaction\n\n");
         SDKManager.disbursement.viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
             @Override
             public void batchTransactionSuccess(BatchTransaction batchTransactionItem) {
-                hideLoading();
-                Utils.showToast(DisbursementActivity.this, "Success");
                 txtResponse.setText(new Gson().toJson(batchTransactionItem));
                 Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(batchTransactionItem));
-                 if (batchTransactionItem == null || batchTransactionItem.getBatchId() == null
-                ) {
+                if (batchTransactionItem == null || batchTransactionItem.getBatchId() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    hideLoading();
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
                 } else {
-                    customRecyclerAdapter.setStatus(1, position);
+                    Utils.showToast(DisbursementActivity.this, "Success");
+                    sbOutPut.append(new Gson().toJson(batchTransactionItem));
+                    viewBatchCompletionsBulk(position, batchTransactionItem.getBatchId());
                 }
             }
 
@@ -730,6 +1134,49 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+        });
+
+    }
+
+    //Get Batch Transaction Details
+    private void batchTransactionMaker(int position) {
+        sbOutPut.append("\nBatch Transaction\n\n");
+        SDKManager.disbursement.viewBatchTransaction(transactionRef, new BatchTransactionItemInterface() {
+            @Override
+            public void batchTransactionSuccess(BatchTransaction batchTransactionItem) {
+                txtResponse.setText(new Gson().toJson(batchTransactionItem));
+                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(batchTransactionItem));
+                if (batchTransactionItem == null || batchTransactionItem.getBatchId() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    hideLoading();
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                } else {
+                    Utils.showToast(DisbursementActivity.this, "Success");
+                    sbOutPut.append(new Gson().toJson(batchTransactionItem));
+                    updateBatch(position, batchTransactionItem.getBatchId());
+                }
+            }
+
+            @Override
+            public void onTransactionFailure(GSMAError gsmaError) {
+                hideLoading();
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(DisbursementActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
             }
@@ -781,19 +1228,30 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
         switch (position) {
             case 0:
                 //individual disbursement;
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Individual disbursement - Output  \n\n");
                 individualDisbursement(position);
+
                 break;
             case 1:
-                //request state
-                requestState(position);
+                //bulkDisbursement
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Create Batch Transaction - Output  \n\n");
+                bulkDisbursement(position);
+
                 break;
             case 2:
-                //view Transaction
-                viewTransaction(position);
+                //Bulk Disbursement with Maker / Checker
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Create Batch Transaction - Output  \n\n");
+                bulkDisbursementMaker(position);
                 break;
             case 3:
-                //reversal
-                reversal(position);
+                //individual disbursement;
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Individual disbursement - Output  \n\n");
+                individualDisbursementPolling(position);
+
                 break;
             case 4:
                 retrieveTransactionDisbursement(position);
@@ -806,17 +1264,15 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 break;
 
             case 7:
-                batchRejections(position);
+                //batchRejections(position);
                 break;
 
             case 8:
-                batchCompletion(position);
+                // batchCompletion(position);
                 break;
-            case 9:
-                updateBatch(position);
-                break;
+
             case 10:
-                getBatchDetails(position);
+                //getBatchDetails(position);
                 break;
 
             case 11:
