@@ -33,7 +33,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:textColor="@android:color/darker_gray"
-        android:textSize="16sp"
+        android:textSize="12sp"
         tools:ignore="HardcodedText" />
 
 
