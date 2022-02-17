@@ -60,6 +60,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
     private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
     private String debitMandateReference;
 
+
     private StringBuilder sbOutPut;
 
     private DebitMandate debitMandateRequest;
@@ -69,11 +70,10 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             "Take a Recurring Payment",
             "Take a Recurring Payment using the Polling Method",
             "Recurring Payment Refund",
-            "View Transaction",
             "Recurring Payment Reversal",
             "Payer sets up a Recurring Payment using MMP Channel",
             "Obtain a Service Provider Balance",
-            "Retrieve Payments for a Service provider",
+            "Retrieve Payments for a Service Provider",
             "Check for Service Availability",
             "Retrieve a Missing API Response"
     };
@@ -96,12 +96,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
         progressdialog = Utils.initProgress(RecurringPaymentsActivity.this);
 
         //service availability check
-
         createAccountIdentifier();
         createDebitMandateObject();
         createPaymentReversalObject();
-
-
     }
 
 
@@ -159,20 +156,25 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
     /**
      * Method for checking Service Availability.
      */
-    private void checkServiceAvailability() {
+    private void checkServiceAvailability(int position) {
         showLoading();
         SDKManager.recurringPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(serviceAvailability));
+                sbOutPut.append(new Gson().toJson(serviceAvailability).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(1, position);
                 Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
@@ -180,7 +182,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             @Override
             public void onServiceAvailabilityFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
             }
@@ -222,42 +226,57 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             case 1:
                 //Take a recurring Payment
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Create Debit Mandate \n\n");
+                sbOutPut.append("Create Debit Mandate-Output \n\n");
                 takeDebitMandateRequest(position);
                 break;
             case 2:
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Create Debit Mandate \n\n");
+                sbOutPut.append("Create Debit Mandate-Output \n\n");
                 takeDebitMandateRequest(position);
 
                 break;
             case 3:
-                //Merchant Payment using Debit Mandate
-
-                break;
-            case 4:
-                //View Transaction
-                viewTransaction(position);
-                break;
-            case 5:
-                //Recurring Payment Refund
+                //Refund Transaction
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Refund -Output\n\n");
                 paymentRefund(position);
                 break;
-            case 6:
-                //Recurring Payment Reversal
+            case 4:
+                //Transfer Reversal
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Reversal -Output\n\n");
                 paymentReversal(position);
                 break;
-            case 7:
-                // Service Provide Balance
+            case 5:
+                //Set up recurring payment
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Set Up Recurring Payment -Output\n\n");
+                createDebitMandateRequest(position);
+                break;
+            case 6:
+                //Obtain an FSP Balance
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Balance -Output\n\n");
                 balanceCheck(position);
                 break;
-            case 8:
-                //Retrieve Payments for a Service provider
+            case 7:
+                //Retrieve payment
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Retrieve Payment -Output\n\n");
                 retrieveTransaction(position);
                 break;
+            case 8:
+                //check service availability
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Check Service Availability -Output\n\n");
+                checkServiceAvailability(position);
+                break;
             case 9:
-                //Missing Transaction
-                getMissingTransaction(position);
+                //missing response
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Missing Response -Output\n\n");
+                recurringMissingResponse(position);
+                break;
             default:
                 break;
         }
@@ -407,8 +426,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
-                sbOutPut.append(new Gson().toJson(errorObject)+"\n\n");
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
+                sbOutPut.append(new Gson().toJson(errorObject)+"\n\n");
                 txtResponse.setText(sbOutPut.toString());
             }
 
@@ -416,15 +436,19 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 transactionRef = requestStateObject.getObjectReference();
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                 } else {
+                    txtResponse.setText(sbOutPut.toString());
+                    Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
                     Utils.showToast(RecurringPaymentsActivity.this, "Success");
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString()+"\n\n");
                 }
-                txtResponse.setText(sbOutPut);
+
+
             }
 
             @Override
@@ -625,27 +649,28 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
      */
     private void paymentRefund(int position) {
         showLoading();
-
         SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                Log.d(SUCCESS, "onRefundSuccess" + new Gson().toJson(requestStateObject));
-                txtResponse.setText(new Gson().toJson(requestStateObject));
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 }
+                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+                txtResponse.setText(sbOutPut.toString());
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(RecurringPaymentsActivity.this, "Failure");
-                Log.d(FAILURE, "onRefundFailure: " + new Gson().toJson(gsmaError));
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
                 txtResponse.setText(new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
             }
@@ -653,8 +678,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
 
@@ -676,23 +702,26 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
-                Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
+
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 }
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                hideLoading();
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onReversalFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
             }
@@ -701,6 +730,8 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
             }
@@ -725,27 +756,33 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 customRecyclerAdapter.setStatus(2, position);
             }
 
             @Override
             public void onBalanceSuccess(Balance balance) {
                 hideLoading();
-                Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(balance).toString());
-                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
+
                 if (balance == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(balance).toString());
+                    Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 }
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onBalanceSuccess: " + new Gson().toJson(balance));
             }
 
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
             }
@@ -773,6 +810,8 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
             }
@@ -780,9 +819,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             @Override
             public void onRetrieveTransactionSuccess(Transactions transaction) {
                 hideLoading();
-                Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(transaction));
-                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+
                 Transaction transactionRequest = transaction.getTransaction().get(0);
                 if (transactionRequest == null
                         || transactionRequest.getTransactionReference() == null
@@ -792,16 +829,22 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
                         || transactionRequest.getDebitParty() == null
                 ) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
+                    sbOutPut.append(new Gson().toJson(transaction).toString());
                     customRecyclerAdapter.setStatus(1, position);
+                    Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 }
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
             @Override
             public void onRetrieveTransactionFailure(GSMAError gsmaError) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
             }
@@ -817,20 +860,24 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
-                Utils.showToast(RecurringPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(missingResponse));
-                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
+
                 if (missingResponse == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(missingResponse).toString());
+                    Utils.showToast(RecurringPaymentsActivity.this, "Success");
                 }
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
             }
 
             @Override
             public void onMissingResponseFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Utils.showToast(RecurringPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
@@ -840,9 +887,60 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(RecurringPaymentsActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
             }
+        });
+    }
+
+    /**
+     * Recurring payments missing transaction
+     */
+    private void recurringMissingResponse(int position) {
+        showLoading();
+        SDKManager.recurringPayment.createMerchantTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
+                if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+                } else {
+                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject));
+                    getMissingTransaction(position);
+                }
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+            }
+
+            @Override
+            public void onRequestStateFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(new Gson().toJson(gsmaError));
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+            @Override
+            public void getCorrelationId(String correlationID) {
+                correlationId = correlationID;
+                Log.d("getCorrelationId", "correlationId: " + correlationID);
+            }
+
         });
     }
 }

@@ -974,7 +974,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
      */
     private void p2pMissingResponse(int position) {
         showLoading();
-        SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.p2PTransfer.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
