@@ -723,7 +723,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         showLoading();
         sbOutPut.append("\n\nCreate International Transaction\n\n");
 
-        SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.internationalTransfer.createInternationalTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
