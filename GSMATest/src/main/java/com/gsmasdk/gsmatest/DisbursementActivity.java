@@ -1172,12 +1172,12 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
 
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                     txtResponse.setText(sbOutPut.toString());
-                    hideLoading();
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
