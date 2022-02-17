@@ -14,7 +14,6 @@ import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.ServiceAvailabilityInterface;
-import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.AccountIdentifier;
 import com.gsmaSdk.gsma.models.account.Balance;
@@ -136,8 +135,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
 
     }
-
-
 
 
     private void createInternationalTransferObject() {
@@ -524,7 +521,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         quotationRequest.setReceivingCountry("AD");
 
 
-
     }
 
     //Check Balance
@@ -577,7 +573,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, "Success");
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
@@ -585,6 +580,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    Utils.showToast(InternationalTransfersActivity.this, "Success");
                 }
                 Log.d(SUCCESS, "onReversalSuccess:" + new Gson().toJson(requestStateObject));
                 txtResponse.setText(sbOutPut.toString());
@@ -652,14 +648,14 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
                         || transactionRequest.getDebitParty() == null
                 ) {
                     customRecyclerAdapter.setStatus(2, position);
-              sbOutPut.append("Data is either null or empty");
+                    sbOutPut.append("Data is either null or empty");
                 } else {
                     sbOutPut.append(new Gson().toJson(transaction).toString());
                     customRecyclerAdapter.setStatus(1, position);
                     Utils.showToast(InternationalTransfersActivity.this, "Success");
-                 }
-                 txtResponse.setText(sbOutPut.toString());
-                 Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
+                }
+                txtResponse.setText(sbOutPut.toString());
+                Log.d(SUCCESS, "onRetrieveTransactionSuccess: " + new Gson().toJson(transaction));
             }
 
             @Override
@@ -683,12 +679,8 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
-                Utils.showToast(InternationalTransfersActivity.this, "Success");
-
-                txtResponse.setText(new Gson().toJson(missingResponse));
                 Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
-
-                if (missingResponse==null) {
+                if (missingResponse == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                 } else {
@@ -725,11 +717,11 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
     }
 
     /**
-     * International trasnsfer missing transaction
+     * International transfer missing transaction
      */
     private void internationalMissingResponse(int position) {
         showLoading();
-        sbOutPut.append("\n\nCreate Disbursmenent Transaction\n\n");
+        sbOutPut.append("\n\nCreate International Transaction\n\n");
 
         SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
@@ -743,12 +735,12 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
+                hideLoading();
 
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                     txtResponse.setText(sbOutPut.toString());
-                    hideLoading();
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
@@ -806,9 +798,9 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             case 2:
                 //Reversal
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Reverals -Output\n\n");
+                sbOutPut.append("Reversal -Output\n\n");
                 reversal(position);
-              break;
+                break;
             case 3:
                 //check balance
                 sbOutPut = new StringBuilder();
