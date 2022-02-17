@@ -397,6 +397,8 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
+                serverCorrelationId = requestStateObject.getServerCorrelationId();
+                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
@@ -408,8 +410,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
                     txtResponse.setText(sbOutPut.toString());
 
                 }
-                serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+;
             }
 
             @Override
