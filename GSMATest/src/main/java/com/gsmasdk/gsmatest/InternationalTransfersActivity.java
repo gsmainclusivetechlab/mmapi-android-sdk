@@ -104,7 +104,6 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         createInternationalQuotationObject();
 
 
-
     }
 
     /*

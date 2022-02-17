@@ -65,19 +65,18 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
     ArrayList<Identifier> identifierArrayList;
 
     private CustomUseCaseRecyclerAdapter customRecyclerAdapter;
+    StringBuilder sbOutPut;
 
 
     private final String[] p2pTransfersArray = {
-            "Retrieve the Name of the Recipient",
-            "Request a P2P Quotation",
-            "Perform a P2P Transfer",
+            "P2P Transfer via Switch",
+            "Bilateral P2P Transfer",
+            "‘On-us’ P2P Transfer Initiated by a Third Party Provider",
             "P2P Transfer Reversal",
             "Obtain an FSP Balance",
             "Retrieve Transactions for an FSP",
-            "Missing Transaction",
-            "view Quotation",
-            "View Request State",
-            "View Transaction"
+            "Check for Service Availability",
+            "Retrieve a Missing API Response"
     };
 
     @Override
@@ -99,9 +98,12 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
 
         progressdialog = Utils.initProgress(P2PTransferActivity.this);
-        checkServiceAvailability();
+
         createPaymentReversalObject();
         createAccountIdentifier();
+        createP2PTransferObject();
+        createP2PQuotationObject();
+
 
     }
 
@@ -109,7 +111,6 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
     //Retrieve a missing Transaction
     private void getMissingTransaction(int position) {
         showLoading();
-
         SDKManager.p2PTransfer.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
@@ -208,7 +209,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
     /**
      * create a transaction object for P2P Quotation request
      */
-    private void createP2PQuotationObject(int position) {
+    private void createP2PQuotationObject() {
 
         quotationRequest = new Quotation();
 
@@ -316,8 +317,6 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
         quotationRequest.setReceivingCountry("AD");
 
 
-        //request for quotation
-        requestQuotation(position);
 
     }
 
@@ -325,7 +324,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
      * create a transaction object for P2P transfer request
      */
     @SuppressWarnings("ConstantConditions")
-    private void createP2PTransferObject(int position) {
+    private void createP2PTransferObject() {
 
         transactionRequest = new Transaction();
         if (transactionRequest == null) {
@@ -450,7 +449,6 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
             //add requesting organisation object into transaction request
             transactionRequest.setRequestingOrganisation(requestingOrganisation);
 
-            performTransfer(position);
         }
 
     }
@@ -463,25 +461,27 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
         SDKManager.p2PTransfer.viewAccountName(identifierArrayList, new AccountHolderInterface() {
             @Override
             public void onRetrieveAccountInfoSuccess(AccountHolderName accountHolderObject) {
-                hideLoading();
-                txtResponse.setText(new Gson().toJson(accountHolderObject));
                 Utils.showToast(P2PTransferActivity.this, "Success");
                 Log.d(SUCCESS, "onRetrieveAccountInfoSuccess: " + new Gson().toJson(accountHolderObject));
                 if (accountHolderObject == null) {
+                    hideLoading();
+                    sbOutPut.append("Data is either null or empty");
                     customRecyclerAdapter.setStatus(2, position);
+                    txtResponse.setText(sbOutPut);
                 } else {
-                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(accountHolderObject));
+                    requestQuotation(position);
                 }
-
-
             }
 
             @Override
             public void onRetrieveAccountInfoFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
                 Log.d(FAILURE, "onRetrieveAccountInfoFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
                 customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut);
+
             }
 
 
@@ -490,32 +490,84 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject));
+                txtResponse.setText(sbOutPut);
                 customRecyclerAdapter.setStatus(2, position);
             }
 
         });
     }
 
+
+    /**
+     * View Account Name
+     */
+    private void viewAccountNameBilateral(int position) {
+        showLoading();
+        SDKManager.p2PTransfer.viewAccountName(identifierArrayList, new AccountHolderInterface() {
+            @Override
+            public void onRetrieveAccountInfoSuccess(AccountHolderName accountHolderObject) {
+                Utils.showToast(P2PTransferActivity.this, "Success");
+                Log.d(SUCCESS, "onRetrieveAccountInfoSuccess: " + new Gson().toJson(accountHolderObject));
+                if (accountHolderObject == null) {
+                    hideLoading();
+                    sbOutPut.append("Data is either null or empty");
+                    customRecyclerAdapter.setStatus(2, position);
+                    txtResponse.setText(sbOutPut);
+                } else {
+                    sbOutPut.append(new Gson().toJson(accountHolderObject));
+                    performTransfer(position);
+                }
+            }
+
+            @Override
+            public void onRetrieveAccountInfoFailure(GSMAError gsmaError) {
+                hideLoading();
+                Log.d(FAILURE, "onRetrieveAccountInfoFailure: " + new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut);
+
+            }
+
+
+            @Override
+            public void onValidationError(ErrorObject errorObject) {
+                hideLoading();
+                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
+                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject));
+                txtResponse.setText(sbOutPut);
+                customRecyclerAdapter.setStatus(2, position);
+            }
+
+        });
+    }
+
+
     /**
      * Perform P2P Transfer
      */
     private void performTransfer(int position) {
 
-        showLoading();
+        sbOutPut.append("\n\n Perform p2p transfer\n\n");
+
         SDKManager.p2PTransfer.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @SuppressWarnings("ConstantConditions")
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Utils.showToast(P2PTransferActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
+                    Utils.showToast(P2PTransferActivity.this, "Success");
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject)).append("\n\n");
                 }
+                txtResponse.setText(sbOutPut);
 
             }
 
@@ -523,8 +575,9 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
                 Log.d(FAILURE, "onRequestFailure " + new Gson().toJson(gsmaError));
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut);
 
             }
 
@@ -533,6 +586,8 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject));
+                txtResponse.setText(sbOutPut);
                 customRecyclerAdapter.setStatus(2, position);
 
             }
@@ -841,20 +896,21 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
 
     //Request the quotation to perform P2P transfer
     private void requestQuotation(int position) {
-        showLoading();
+        sbOutPut.append("\n\n Request Quotation\n\n");
         SDKManager.p2PTransfer.createQuotation(NotificationMethod.POLLING, "", quotationRequest, new RequestStateInterface() {
             @SuppressWarnings("ConstantConditions")
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                hideLoading();
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Utils.showToast(P2PTransferActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(requestStateObject));
                 Log.d(SUCCESS, "onRequestSuccess " + new Gson().toJson(requestStateObject));
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
+                    hideLoading();
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut);
                 } else {
-                    customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject)).append("\n\n");
+                    performTransfer(position);
                 }
 
             }
@@ -863,8 +919,9 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
                 Log.d(FAILURE, "onRequestFailure " + new Gson().toJson(gsmaError));
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut);
 
 
             }
@@ -874,9 +931,10 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
                 hideLoading();
                 Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                sbOutPut.append(new Gson().toJson(errorObject));
+                txtResponse.setText(sbOutPut);
                 customRecyclerAdapter.setStatus(2, position);
-
-            }
+              }
 
             @Override
             public void getCorrelationId(String correlationID) {
@@ -901,18 +959,21 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
 
         switch (position) {
             case 0:
-                //Retrieve the Name of the Recipient;
+                //P2P Transfer via Switch
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Retrieve the Name of the Recipient \n\n");
                 viewAccountName(position);
+
                 break;
 
             case 1:
-                //Request a P2P Quotation;
-                createP2PQuotationObject(position);
-                break;
 
             case 2:
-                //Perform a P2P Transfer
-                createP2PTransferObject(position);
+                //‘On-us’ P2P Transfer Initiated by a Third Party Provider
+                //Bilateral P2P Transfer
+                sbOutPut=new StringBuilder();
+                sbOutPut.append("Retrieve the Name of the Recipient \n\n");
+                viewAccountNameBilateral(position);
                 break;
 
             case 3:
