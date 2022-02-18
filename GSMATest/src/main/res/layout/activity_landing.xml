@@ -13,7 +13,7 @@
 		android:layout_alignParentTop="true"
 		android:padding="16dp"
 		android:text="Use Cases"
-		android:textColor="@color/purple_500"
+		android:textColor="@color/light_red"
 		android:textSize="18sp"
 		android:textStyle="bold"
         tools:ignore="HardcodedText" />
