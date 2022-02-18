@@ -591,6 +591,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
+                Utils.showToast(MerchantPaymentsActivity.this, "Failure");
                 customRecyclerAdapter.setStatus(2, position);
                 sbOutPut.append(new Gson().toJson(errorObject)+"\n\n");
             }
@@ -615,9 +616,11 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
                 Utils.showToast(MerchantPaymentsActivity.this, "Failure");
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError));
+                txtResponse.setText(sbOutPut);
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
+
             }
 
             @Override
@@ -796,7 +799,6 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
-
                 serverCorrelationId = requestStateObject.getServerCorrelationId();
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
