@@ -60,7 +60,6 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
 
     private final String[] billPaymentArray = {
             "Successful Retrieval of Bills",
-            "Unsuccessful Retrieval of Bills",
             "Make a Successful Bill Payment with Callback",
             "Make a Bill Payment with Polling",
             "Retrieval of Bill Payments",
@@ -87,7 +86,6 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
         progressdialog = Utils.initProgress(BillPaymentsActivity.this);
 
-        checkServiceAvailability();
         createAccountIdentifier();
         createTransactionObject();
 
@@ -219,20 +217,25 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
     /**
      * Method for checking Service Availability.
      */
-    private void checkServiceAvailability() {
+    private void checkServiceAvailability(int position) {
         showLoading();
         SDKManager.billPayment.viewServiceAvailability(new ServiceAvailabilityInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
                 Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
+                sbOutPut.append(new Gson().toJson(errorObject).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
             }
 
             @Override
             public void onServiceAvailabilitySuccess(ServiceAvailability serviceAvailability) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(serviceAvailability));
+                sbOutPut.append(new Gson().toJson(serviceAvailability).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(1, position);
                 Utils.showToast(BillPaymentsActivity.this, "Success");
                 Log.d(SUCCESS, "onServiceAvailabilitySuccess: " + new Gson().toJson(serviceAvailability));
             }
@@ -240,7 +243,9 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
             @Override
             public void onServiceAvailabilityFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError).toString());
+                txtResponse.setText(sbOutPut.toString());
+                customRecyclerAdapter.setStatus(2, position);
                 Utils.showToast(BillPaymentsActivity.this, "Failure");
                 Log.d(FAILURE, "onServiceAvailabilityFailure: " + new Gson().toJson(gsmaError));
             }
@@ -254,7 +259,6 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
      */
     private void viewBillPayment(int position) {
         showLoading();
-
         TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
@@ -263,39 +267,41 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
             @Override
             public void onBillPaymentSuccess(BillPayments billPayments) {
                 hideLoading();
-                Utils.showToast(BillPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(billPayments));
                 Log.d(SUCCESS, "onBillPaymentSuccess: " + new Gson().toJson(billPayments));
-
-
                 if (billPayments.getBillPayments().get(0).getBillPaymentStatus() == null
                         || billPayments.getBillPayments().get(0).getAmountPaid() == null
                         || billPayments.getBillPayments().get(0).getCurrency() == null
                 ) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty\n\n");
 
                 } else {
+                    Utils.showToast(BillPaymentsActivity.this, "Success");
+                    sbOutPut.append(new Gson().toJson(billPayments));
                     customRecyclerAdapter.setStatus(1, position);
                 }
+                txtResponse.setText(sbOutPut);
+
 
             }
 
             @Override
             public void onBillPaymentFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Log.d(FAILURE, "onBillPaymentFailure: " + new Gson().toJson(gsmaError));
+                Utils.showToast(BillPaymentsActivity.this, "Failure");
+                sbOutPut.append(new Gson().toJson(gsmaError)+"\n\n");
                 customRecyclerAdapter.setStatus(2, position);
+                txtResponse.setText(sbOutPut.toString());;
 
             }
 
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
-                Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
+                Utils.showToast(BillPaymentsActivity.this, "Failure");
+                sbOutPut.append(new Gson().toJson(errorObject)+"\n\n");
                 customRecyclerAdapter.setStatus(2, position);
-
+                txtResponse.setText(sbOutPut.toString());
             }
         });
     }
@@ -347,48 +353,6 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
         });
     }
 
-    /**
-     * Retrieve a missing Transaction
-     */
-    private void getMissingTransaction(int position) {
-        showLoading();
-
-        SDKManager.billPayment.viewResponse(correlationId, new MissingResponseInterface() {
-            @Override
-            public void onMissingResponseSuccess(MissingResponse missingResponse) {
-                hideLoading();
-                Utils.showToast(BillPaymentsActivity.this, "Success");
-                txtResponse.setText(new Gson().toJson(missingResponse));
-                Log.d(SUCCESS, "onMissingTransactionSuccess: " + new Gson().toJson(missingResponse));
-                if (missingResponse == null) {
-                    customRecyclerAdapter.setStatus(2, position);
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                }
-
-            }
-
-            @Override
-            public void onMissingResponseFailure(GSMAError gsmaError) {
-                hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                Utils.showToast(BillPaymentsActivity.this, "Failure");
-                Log.d(FAILURE, "onMissingResponseFailure: " + new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-
-            }
-
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(BillPaymentsActivity.this, errorObject.getErrorDescription());
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                customRecyclerAdapter.setStatus(2, position);
-
-            }
-        });
-
-    }
 
     public void showLoading() {
         progressdialog.show();
@@ -428,14 +392,15 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
                     sbOutPut.append("Data is either null or empty");
                     txtResponse.setText(sbOutPut.toString());
                 } else {
-                    if(notificationMethod==NotificationMethod.POLLING){
+                    if (notificationMethod == NotificationMethod.POLLING) {
                         sbOutPut.append(new Gson().toJson(requestStateObject).toString());
                         requestState(position);
-                    }else{
+                    } else {
                         hideLoading();
                         customRecyclerAdapter.setStatus(1, position);
                         sbOutPut.append(new Gson().toJson(requestStateObject).toString());
                         txtResponse.setText(sbOutPut.toString());
+
                     }
                 }
             }
@@ -493,8 +458,8 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
                     txtResponse.setText(sbOutPut.toString());
                 } else {
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
-                    sbOutPut.append("\n\nView Bill Payment-Output\n\n");
-                    viewAccountBillPayment(position);
+                    sbOutPut.append("\n\n View Bill Payment\n\n");
+                    viewBillPayment(position);
                 }
 
             }
@@ -523,44 +488,40 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
 
         switch (position) {
             case 0:
-                //View Account Bills;
+                //Successful Retrieval of Bills
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("View Account Bill-Ouput \n\n");
                 viewAccountBillPayment(position);
                 break;
-            case 1:
-                //View Account Bills;
-                sbOutPut = new StringBuilder();
-                sbOutPut.append("View Account Bill-Ouput \n\n");
-                viewAccountBillPayment(position);
 
-                break;
-            case 2:
-                //Create Bill Payment
+
+            case 1:
+                //Make a Successful Bill Payment with Callback
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create Bill Payment-Output \n\n");
                 createBillPayments(position,NotificationMethod.CALLBACK);
 
                 break;
-            case 3:
-                //View Request State
+            case 2:
+                //Make a Bill Payment with Polling
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create Bill Payment Polling-Output \n\n");
                 createBillPayments(position,NotificationMethod.POLLING);
 
                 break;
-            case 4:
-                //View Bill Payment
+            case 3:
+                //Retrieval of Bill Payments
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("View bill payment-Output \n\n");
                 viewBillPayment(position);
                 break;
-            case 5:
-                //  Retrieve a Missing API Response
-                getMissingTransaction(position);
+            case 4:
+                //check service availability
+                sbOutPut = new StringBuilder();
+                sbOutPut.append("Check Service Availability -Output\n\n");
+                checkServiceAvailability(position);
                 break;
-            case 6:
-                //view transaction
-                viewTransaction(position);
-                break;
+
             default:
                 break;
 

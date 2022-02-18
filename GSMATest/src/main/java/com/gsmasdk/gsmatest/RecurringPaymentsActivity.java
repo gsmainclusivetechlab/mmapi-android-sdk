@@ -860,7 +860,6 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             @Override
             public void onMissingResponseSuccess(MissingResponse missingResponse) {
                 hideLoading();
-
                 if (missingResponse == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
