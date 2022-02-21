@@ -74,15 +74,18 @@ public class AuthorisationCodeController {
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().retrieveMissingResponse(uuid, correlationId, new APIRequestCallback<GetLink>() {
+                        @SuppressWarnings("unused")
                         @Override
                         public void onSuccess(int responseCode, GetLink serializedResponse) {
 
                             GSMAApi.getInstance().getMissingCodes(serializedResponse.getLink(), new APIRequestCallback<AuthorisationCodes>() {
+                                @SuppressWarnings("unused")
                                 @Override
                                 public void onSuccess(int responseCode, AuthorisationCodes serializedResponse) {
                                     authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse);
                                 }
 
+                                @SuppressWarnings("unused")
                                 @Override
                                 public void onFailure(GSMAError errorDetails) {
                                     authorisationCodeInterface.onAuthorisationCodeFailure(errorDetails);
@@ -91,6 +94,7 @@ public class AuthorisationCodeController {
                             });
                         }
 
+                        @SuppressWarnings("unused")
                         @Override
                         public void onFailure(GSMAError errorDetails) {
                             authorisationCodeInterface.onAuthorisationCodeFailure(errorDetails);

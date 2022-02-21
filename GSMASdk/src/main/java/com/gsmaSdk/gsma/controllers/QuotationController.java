@@ -12,7 +12,7 @@ import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "unused"})
 public class QuotationController {
 
 
@@ -73,6 +73,7 @@ public class QuotationController {
         }
         else {
             String uuid = Utils.generateUUID();
+            //noinspection unused,unused,unused,unused
             GSMAApi.getInstance().viewQuotation(uuid, quotationReference, new APIRequestCallback<Transaction>() {
                         @Override
                         public void onSuccess(int responseCode, Transaction serializedResponse) {
