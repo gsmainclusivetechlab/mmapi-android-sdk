@@ -10,7 +10,7 @@ public class Utils {
 
     // helper method for showing toast.
     public static void showToast(Context context, String message) {
-        Toast toast = Toast.makeText(context, Html.fromHtml("<font color='#3700B3' ><b>" + message + "</b></font>"), Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context, Html.fromHtml("<font color='#DE002B' ><b>" + message + "</b></font>"), Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.TOP, 0, 0);
         toast.show();
     }
