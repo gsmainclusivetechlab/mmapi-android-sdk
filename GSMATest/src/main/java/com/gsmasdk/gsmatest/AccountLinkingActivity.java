@@ -94,7 +94,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
 
         createAccountLinkingObject();
         createPaymentReversalObject();
-        createAccountIdentifier();
+
 
     }
 
@@ -104,22 +104,23 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
         switch (position) {
             case 0:
                 //Set Up a Account Link ;
-                sbOutPut = new StringBuilder();
-                sbOutPut.append("Setup an Account Link -Output\n\n");
-                createAccountLinkingCallBack(position);
+                 sbOutPut = new StringBuilder();
+                 sbOutPut.append("Setup an Account Link - Output\n\n");
+                 createAccountLinking(position,NotificationMethod.CALLBACK);
                  break;
             case 1:
                 //Perform a Transfer for a Linked Account;
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Perform a Transfer for a Linked Account - Output\n\n");
-                createAccountLinkingPolling(position);
+                createAccountLinking(position,NotificationMethod.CALLBACK);
+
 
                 break;
             case 2:
                 //Perform a Transfer for a Linked Account Polling;
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Perform a Transfer for a Linked Account via the polling method - Output\n\n");
-                createAccountLinkingPolling(position);
+                createAccountLinking(position,NotificationMethod.POLLING);
 
 
                 break;
@@ -127,13 +128,16 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
                 //Obtain an FSP Balance
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Balance -Output\n\n");
+
                 balanceCheck(position);
+
                 break;
             case 4:
                 //Retrieve payment
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Retrieve Payment -Output\n\n");
                 retrieveTransactionFSP(position);
+
                 break;
             case 5:
                 //check service availability
@@ -145,7 +149,8 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
                 //missing response
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Set Up an account Link -Output\n\n");
-                createAccountLinkingPolling(position);
+                createAccountLinking(position,NotificationMethod.CALLBACK);
+
                 break;
             default:
                 break;
@@ -208,17 +213,23 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
     }
 
 
-    private void createAccountIdentifier() {
+    /**
+     * Return account Identifier
+     */
+
+    private ArrayList<Identifier> createAccountIdentifier(String accountIdentifierKey, String accountIdentifierValue){
         identifierArrayList = new ArrayList<>();
+        identifierArrayList.clear();
 
         //account id
         Identifier identifierAccount = new Identifier();
-        identifierAccount.setKey("accountid");
-        identifierAccount.setValue("1");
-
+        identifierAccount.setKey(accountIdentifierKey);
+        identifierAccount.setValue(accountIdentifierValue);
         identifierArrayList.add(identifierAccount);
-
+        return identifierArrayList;
     }
+
+
 
 
     /**
@@ -262,7 +273,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
     /**
      * Get the request state of a transaction
      */
-    private void requestStatePolling(int position) {
+    private void requestState(int position) {
         sbOutPut.append("\n\nRequest State-Output\n\n");
         SDKManager.accountLinking.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
@@ -281,6 +292,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                     hideLoading();
+                    txtResponse.setText(sbOutPut);
                 } else {
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString()+"\n\n");
                     viewAccountLink(position);
@@ -290,6 +302,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
+                Utils.showToast(AccountLinkingActivity.this, "Failure");
                 sbOutPut.append(new Gson().toJson(gsmaError)+"\n\n");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
                 txtResponse.setText(sbOutPut.toString());
@@ -441,9 +454,9 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
     /**
      * Create Account Linking
      */
-    private void createAccountLinkingCallBack(int position) {
+    private void createAccountLinking(int position,NotificationMethod notificationMethod) {
         showLoading();
-        SDKManager.accountLinking.createAccountLinking(NotificationMethod.CALLBACK, "", identifierArrayList, accountLinkingObject, new RequestStateInterface() {
+        SDKManager.accountLinking.createAccountLinking(notificationMethod, "", createAccountIdentifier("accountid","2999"), accountLinkingObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -451,16 +464,25 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
+                    txtResponse.setText(sbOutPut.toString());
+
                 } else {
-                    Utils.showToast(AccountLinkingActivity.this, "Success");
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString() + "\n\n");
-                    customRecyclerAdapter.setStatus(1, position);
+                    if(position==1||position==2){
+                        requestState(position);
+                    }
+                    else{
+                        Utils.showToast(AccountLinkingActivity.this, "Success");
+                        customRecyclerAdapter.setStatus(1, position);
+                        txtResponse.setText(sbOutPut.toString());
+                    }
+
                 }
-                txtResponse.setText(sbOutPut.toString());
             }
 
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
+                Utils.showToast(AccountLinkingActivity.this, "Failure");
                 hideLoading();
                 sbOutPut.append(new Gson().toJson(gsmaError)+"\n\n");
                 customRecyclerAdapter.setStatus(2, position);
@@ -470,6 +492,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
+                Utils.showToast(AccountLinkingActivity.this, errorObject.getErrorDescription());
                 sbOutPut.append(new Gson().toJson(errorObject)+"\n\n");
                 customRecyclerAdapter.setStatus(2, position);
                 txtResponse.setText(sbOutPut.toString());
@@ -499,10 +522,11 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                     hideLoading();
+                    txtResponse.setText(sbOutPut);
                 } else {
                     Utils.showToast(AccountLinkingActivity.this, "Success");
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString() + "\n\n");
-                    requestStatePolling(position);
+                    requestState(position);
                 }
             }
 
@@ -538,8 +562,8 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
      * View Account Link
      */
     private void viewAccountLink(int position) {
-        sbOutPut.append("\n\nView Account link - Output\n\n");
-        SDKManager.accountLinking.viewAccountLink(identifierArrayList, transactionRef, new AccountLinkInterface() {
+        sbOutPut.append("\n\n View Account link - Output\n\n");
+        SDKManager.accountLinking.viewAccountLink(createAccountIdentifier("accountid","2999"), transactionRef, new AccountLinkInterface() {
             @Override
             public void onAccountLinkSuccess(Link accountLinks) {
                 Log.d(SUCCESS, "onAccountLinkSuccess: " + new Gson().toJson(accountLinks));
@@ -556,7 +580,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
                     }else if(position==2){
                         performTransfer(position,NotificationMethod.POLLING);
                     }else if(position==6){
-                        performTransfer(position,NotificationMethod.POLLING);
+                        performTransfer(position,NotificationMethod.CALLBACK);
 
                     }
 
@@ -566,6 +590,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
             @Override
             public void onAccountLinkFailure(GSMAError gsmaError) {
                 hideLoading();
+                Utils.showToast(AccountLinkingActivity.this, "Failure");
                 sbOutPut.append(new Gson().toJson(gsmaError)+"\n\n");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(gsmaError));
                 txtResponse.setText(sbOutPut.toString());
@@ -575,6 +600,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
+                Utils.showToast(AccountLinkingActivity.this, "Failure");
                 sbOutPut.append(new Gson().toJson(errorObject)+"\n\n");
                 Log.d(FAILURE, "onTransactionFailure: " + new Gson().toJson(errorObject));
                 txtResponse.setText(sbOutPut.toString());
@@ -637,18 +663,11 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
     private void retrieveTransactionFSP(int position) {
         showLoading();
 
-        identifierArrayList.clear();
-        Identifier identifierAccount = new Identifier();
-        identifierAccount.setKey("accountid");
-        identifierAccount.setValue("2999");
-        identifierArrayList.add(identifierAccount);
-
-
         TransactionFilter transactionFilter = new TransactionFilter();
         transactionFilter.setLimit(2);
         transactionFilter.setOffset(0);
 
-        SDKManager.accountLinking.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
+        SDKManager.accountLinking.viewAccountTransactions(createAccountIdentifier("accountid","2999"), transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -685,6 +704,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
             @Override
             public void onRetrieveTransactionFailure(GSMAError gsmaError) {
                 hideLoading();
+                Utils.showToast(AccountLinkingActivity.this, "Failure");
                 sbOutPut.append(new Gson().toJson(gsmaError).toString());
                 txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onRetrieveTransactionFailure: " + new Gson().toJson(gsmaError));
@@ -745,7 +765,8 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
     //Check Balance
     private void balanceCheck(int position) {
         showLoading();
-        SDKManager.accountLinking.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+
+        SDKManager.accountLinking.viewAccountBalance(createAccountIdentifier("accountid","1"), new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -760,7 +781,6 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
             @Override
             public void onBalanceSuccess(Balance balance) {
                 hideLoading();
-
                 if (balance == null) {
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
@@ -777,6 +797,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
                 hideLoading();
+                Utils.showToast(AccountLinkingActivity.this, "Failure");
                 sbOutPut.append(new Gson().toJson(gsmaError).toString());
                 txtResponse.setText(sbOutPut.toString());
                 Log.d(FAILURE, "onBalanceFailure: " + new Gson().toJson(gsmaError));
@@ -827,54 +848,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
 
     }
 
-    /**
-     * Account link missing transaction
-     */
-    private void accountLinkMissingResponse(int position) {
-        showLoading();
-        SDKManager.accountLinking.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                sbOutPut.append(new Gson().toJson(errorObject).toString());
-                txtResponse.setText(sbOutPut.toString());
-                customRecyclerAdapter.setStatus(2, position);
-            }
 
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                hideLoading();
-                if (requestStateObject == null || requestStateObject.getStatus() == null) {
-                    customRecyclerAdapter.setStatus(2, position);
-                    sbOutPut.append("Data is either null or empty");
-                    txtResponse.setText(sbOutPut.toString());
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                    sbOutPut.append(new Gson().toJson(requestStateObject));
-                    getMissingTransaction(position);
-                }
-                serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
-            }
-
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                hideLoading();
-                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
-                sbOutPut.append(new Gson().toJson(gsmaError).toString());
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @Override
-            public void getCorrelationId(String correlationID) {
-                correlationId = correlationID;
-                Log.d("getCorrelationId", "correlationId: " + correlationID);
-            }
-
-        });
-    }
 
     public void showLoading() {
         progressdialog.show();
