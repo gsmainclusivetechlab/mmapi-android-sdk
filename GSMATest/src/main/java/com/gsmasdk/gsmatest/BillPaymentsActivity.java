@@ -271,7 +271,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
 
-        SDKManager.billPayment.viewBillPayment(createAccountIdentifier("accountid","2999"), transactionFilter, "REF-000001", new BillPaymentInterface() {
+        SDKManager.billPayment.viewBillPayment(createAccountIdentifier("accountid","1"), transactionFilter, "REF-000001", new BillPaymentInterface() {
             @Override
             public void onBillPaymentSuccess(BillPayments billPayments) {
                 hideLoading();
@@ -348,7 +348,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(transactionRequest)+"\n\n");
                     txtResponse.setText(sbOutPut.toString());
-                    sbOutPut.append("\n\n Create Bill Payment\n\n");
+                    sbOutPut.append("\n\n Create Bill Payment - Output\n");
                     createBillPayments(position,NotificationMethod.CALLBACK);
 
                 }
@@ -479,7 +479,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
                     sbOutPut.append("Data is either null or empty\n\n");
                     txtResponse.setText(sbOutPut.toString());
                 } else {
-                    transactionRef= requestStateObject.getObjectReference();
+                    //transactionRef= requestStateObject.getObjectReference();
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
                     sbOutPut.append("\n\n View Bill Payment\n\n");
                     viewBillPayment(position);

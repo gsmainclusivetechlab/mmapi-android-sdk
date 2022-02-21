@@ -113,12 +113,31 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
         txtResponse.setMovementMethod(new ScrollingMovementMethod());
         progressdialog = Utils.initProgress(AgentServicesActivity.this);
 
-        createAccountIdentifier();
+
         createTransactionObject();
         createCodeRequestObject();
         createPaymentReversalObject();
 
     }
+
+    /**
+     * Return account Identifier
+     */
+
+    private ArrayList<Identifier> createAccountIdentifier(String accountIdentifierKey, String accountIdentifierValue){
+        identifierArrayList = new ArrayList<>();
+        identifierArrayList.clear();
+
+        //account id
+        Identifier identifierAccount = new Identifier();
+        identifierAccount.setKey(accountIdentifierKey);
+        identifierAccount.setValue(accountIdentifierValue);
+        identifierArrayList.add(identifierAccount);
+        return identifierArrayList;
+    }
+
+
+
 
     /**
      * Method for checking Service Availability.
@@ -471,7 +490,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
         transactionFilter.setLimit(5);
         transactionFilter.setOffset(0);
 
-        SDKManager.agentService.viewAccountTransactions(identifierArrayList, transactionFilter, new RetrieveTransactionInterface() {
+        SDKManager.agentService.viewAccountTransactions(createAccountIdentifier("accountid","2999"), transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -522,7 +541,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
      */
     private void balanceCheck(int position) {
         showLoading();
-        SDKManager.agentService.viewAccountBalance(identifierArrayList, new BalanceInterface() {
+        SDKManager.agentService.viewAccountBalance(createAccountIdentifier("accountid","1"), new BalanceInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -688,7 +707,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
      */
     private void viewAccountName(int position) {
         showLoading();
-        SDKManager.agentService.viewAccountName(identifierArrayList, new AccountHolderInterface() {
+        SDKManager.agentService.viewAccountName(createAccountIdentifier("accountid","1"), new AccountHolderInterface() {
             @Override
             public void onRetrieveAccountInfoSuccess(AccountHolderName accountHolderObject) {
                 Log.d(SUCCESS, "onRetrieveAccountInfoSuccess: " + new Gson().toJson(accountHolderObject));
@@ -744,11 +763,11 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
                     sbOutPut.append("Data is either null or empty\n\n");
                     txtResponse.setText(sbOutPut.toString());
                     hideLoading();
-                    hideLoading();
                 } else {
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(authorisationCodeItem).toString() + "\n\n");
                     txtResponse.setText(sbOutPut.toString());
+                    sbOutPut.append("\n\nCreate withdrawal transaction -Output\n\n");
                     createWithdrawalTransaction(position, NotificationMethod.CALLBACK);
                 }
             }
@@ -783,7 +802,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
      */
     private void obtainAuthorizationCode(int position) {
         showLoading();
-        SDKManager.agentService.createAuthorisationCode(identifierArrayList, NotificationMethod.POLLING, "", authorisationCodeRequest, new RequestStateInterface() {
+        SDKManager.agentService.createAuthorisationCode(createAccountIdentifier("accountid","2999"), NotificationMethod.POLLING, "", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -853,13 +872,17 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
                     txtResponse.setText(sbOutPut.toString());
 
                 } else {
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
+                    if(position==11){
+                        getMissingTransaction(position);
+                        return;
+                    }
+
                     if (notificationMethod == NotificationMethod.POLLING) {
-                        sbOutPut.append(new Gson().toJson(requestStateObject).toString());
                         requestState(position);
                     } else {
                         hideLoading();
                         customRecyclerAdapter.setStatus(1, position);
-                        sbOutPut.append(new Gson().toJson(requestStateObject).toString());
                         txtResponse.setText(sbOutPut.toString());
                     }
 
@@ -870,8 +893,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
-                Utils.showToast(AgentServicesActivity.this, gsmaError.getErrorBody().getErrorDescription());
-                sbOutPut.append(new Gson().toJson(gsmaError) + "\n\n");
+                Utils.showToast(AgentServicesActivity.this, "Failure");                sbOutPut.append(new Gson().toJson(gsmaError) + "\n\n");
                 customRecyclerAdapter.setStatus(2, position);
                 txtResponse.setText(sbOutPut.toString());
 
@@ -887,59 +909,6 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
 
     }
 
-    /**
-     * Missing Withdrawal Missing Transaction
-     */
-    private void createWithdrawalMissingTransaction(int position) {
-        showLoading();
-        SDKManager.agentService.createWithdrawalTransaction(NotificationMethod.CALLBACK, "", transactionRequest, new RequestStateInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
-                sbOutPut.append(new Gson().toJson(errorObject) + "\n\n");
-                customRecyclerAdapter.setStatus(2, position);
-                txtResponse.setText(sbOutPut.toString());
-
-            }
-
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                serverCorrelationId = requestStateObject.getServerCorrelationId();
-                if (requestStateObject == null || requestStateObject.getStatus() == null) {
-                    hideLoading();
-                    customRecyclerAdapter.setStatus(2, position);
-                    sbOutPut.append("Data is either null or empty\n\n");
-                    txtResponse.setText(sbOutPut.toString());
-
-                } else {
-                    hideLoading();
-                    sbOutPut.append(new Gson().toJson(requestStateObject).toString());
-                    txtResponse.setText(sbOutPut.toString());
-                    getMissingTransaction(position);
-                }
-
-            }
-
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                hideLoading();
-                Utils.showToast(AgentServicesActivity.this, gsmaError.getErrorBody().getErrorDescription());
-                sbOutPut.append(new Gson().toJson(gsmaError) + "\n\n");
-                customRecyclerAdapter.setStatus(2, position);
-                txtResponse.setText(sbOutPut.toString());
-
-            }
-
-            @Override
-            public void getCorrelationId(String correlationID) {
-                correlationId = correlationID;
-                Log.d("getCorrelationId", "correlationId: " + correlationID);
-            }
-
-        });
-
-    }
 
     /**
      * Create Deposit Transaction
@@ -1046,7 +1015,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
                     if (position == 3) {
                         viewAuthorizationCode(position);
                     } else {
-                        sbOutPut.append("\n\n View Transaction\n\n");
+                        sbOutPut.append("\n\n View Transaction - Output\n\n");
                         viewTransaction(position);
                     }
 
@@ -1142,34 +1111,34 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
             case 0:
                 //Agent Initiated Cash-Out ;
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Create withdrawal transaction -Output\n\n");
+                sbOutPut.append("Create withdrawal transaction - Output\n\n");
                 createWithdrawalTransaction(position, NotificationMethod.CALLBACK);
                 break;
             case 1:
                 //Agent-initiated Cash-out using the Polling Method
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Create withdrawal transaction -Output\n\n");
+                sbOutPut.append("Create withdrawal transaction - Output\n\n");
                 createWithdrawalTransaction(position, NotificationMethod.POLLING);
                 ;
                 break;
             case 2:
                 //Agent Initiated Cash-Out ;
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Create withdrawal transaction -Output\n\n");
+                sbOutPut.append("Create withdrawal transaction - Output\n\n");
                 createWithdrawalTransaction(position, NotificationMethod.CALLBACK);
                 break;
 
             case 3:
                 //Customer Cash-out at an ATM using an Authorisation Code
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Create an authorisation code-Output \n\n");
+                sbOutPut.append("Create an authorisation code - Output \n\n");
                 obtainAuthorizationCode(position);
 
                 break;
             case 4:
                 //Agent-initiated Customer Cash-in
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("View Account Name-Output \n\n");
+                sbOutPut.append("View Account Name - Output \n\n");
                 viewAccountName(position);
 
                 break;
@@ -1216,7 +1185,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
                 //missing response
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create Withdrawal Transaction -Output\n\n");
-                createWithdrawalMissingTransaction(position);
+                createWithdrawalTransaction(position,NotificationMethod.CALLBACK);
                 break;
 
             default:

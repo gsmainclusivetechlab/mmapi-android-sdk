@@ -613,7 +613,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
         transactionFilter.setOffset(0);
 
 
-        SDKManager.internationalTransfer.viewAccountTransactions(createAccountIdentifier("accoudid","2999"), transactionFilter, new RetrieveTransactionInterface() {
+        SDKManager.internationalTransfer.viewAccountTransactions(createAccountIdentifier("accountid","2999"), transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

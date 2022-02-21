@@ -472,7 +472,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
      */
     private void viewAccountName(int position) {
         showLoading();
-        SDKManager.p2PTransfer.viewAccountName(identifierArrayList, new AccountHolderInterface() {
+        SDKManager.p2PTransfer.viewAccountName(createAccountIdentifier("accountid","1"), new AccountHolderInterface() {
             @Override
             public void onRetrieveAccountInfoSuccess(AccountHolderName accountHolderObject) {
                 Log.d(SUCCESS, "onRetrieveAccountInfoSuccess: " + new Gson().toJson(accountHolderObject));
