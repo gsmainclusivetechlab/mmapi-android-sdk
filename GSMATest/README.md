@@ -117,7 +117,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 # International Transfers
 
 * [International Transfer via Hub](#international-transfer-hub)
-* [Bilateral International Transfer](#international-transfer-hub)
+* [Bilateral International Transfer](#bilateral-transfer-hub)
 * [International Transfer Reversal](#reversal)
 * [Obtain an FSP Balance](#balances)
 * [Retrieve Transactions for an FSP](#retrieve-payments)
@@ -128,7 +128,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 * [P2P Transfer via Switch](#p2p-transfer-switch)
 * [Bilateral P2P Transfer](#p2p-transfer-bilateral)
-* [‘On-us’ P2P Transfer Initiated by a Third Party Provider](#p2p-transfer-switch)
+* [‘On-us’ P2P Transfer Initiated by a Third Party Provider](onus-transfer-switch)
 * [P2P Transfer Reversal](#reversal)
 * [Obtain an FSP Balance](#balances)
 * [Retrieve Transactions for an FSP](#retrieve-payments)
@@ -848,7 +848,7 @@ This use case can be completed by clicking following button
  }
 ```
 
-<a name="international-transfer-hub"></a>
+<a name="bilateral-transfer-hub"></a>
 
 # Bilateral International Transfer
 
@@ -889,16 +889,13 @@ Use polling or callback scenario to get the complete status for a transaction
 
 <a name="p2p-transfer-switch"></a>
 
-# P2P Transfer via Switch/On-us’ P2P Transfer Initiated by a Third Party Provider
+# P2P Transfer via Switch
 
-The p2 transfer via switch can be completed by clicking the following buttons
-
-* Retrieve the Name of the Recipient
-* Request a P2P Quotation
-* Perform a  p2p Transfer
-
-
- ### Example Output - Retrieve the Name of the Recipient
+ The p2 transfer via switch can be completed by clicking the following buttons
+ 
+ * P2P Transfer via Switch
+ 
+ ### Retrieve the Name of the Recipient - Output 
  
  ```json
 {
@@ -912,7 +909,7 @@ The p2 transfer via switch can be completed by clicking the following buttons
  	}
  }
 ```
- ### Example Output - Request a P2P Quotation
+ ### Request Quotation - Output
  
  ```json
  {
@@ -924,7 +921,56 @@ The p2 transfer via switch can be completed by clicking the following buttons
 }
 
 ```
- ### Example Output - Perform a  p2p Transfer
+ ###  Perform p2p transfer - Output
+
+
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "15681",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
+ 	"status": "pending"
+ }
+
+```
+
+
+<a name="onus-transfer-switch"></a>
+
+# ‘On-us’ P2P Transfer Initiated by a Third Party Provider
+
+ The p2 transfer via switch can be completed by clicking the following buttons
+ 
+ * ‘On-us’ P2P Transfer Initiated by a Third Party Provider
+ 
+ ### Retrieve the Name of the Recipient - Output 
+ 
+ ```json
+{
+ 	"lei": "AAAA0012345678901299",
+ 	"name": {
+ 		"firstName": "Jeff",
+ 		"fullName": "Jeff Jimmer",
+ 		"lastName": "Jimmer",
+ 		"middleName": "James",
+ 		"title": "Mr"
+ 	}
+ }
+```
+ ### Request Quotation - Output
+ 
+ ```json
+ {
+	"notificationMethod": "polling",
+	"objectReference": "1306",
+	"pollLimit": 100,
+	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
+	"status": "pending"
+}
+
+```
+ ###  Perform p2p transfer - Output
 
 
  ```json
