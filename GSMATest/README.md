@@ -1042,9 +1042,9 @@ Use polling or callback scenario to get the complete status for a transaction
 
 Set up a recurring payment can be completed by clicking the following buttons
 
-* Create a debit Mandate 
+* Setup a Recurring Payment
 
- ### Example Output - Create a debit Mandate
+ ### Create Debit Mandate - Output
 
 
  ```json
@@ -1064,13 +1064,10 @@ Set up a recurring payment can be completed by clicking the following buttons
 
  Take a recurring payment can be completed by passing debit mandate reference to merchant payment functions
 
+ * Take a Recurring Payment
 
-* Create a Debit Mandate
-* Request State
-* Read a Debit Mandate
-* Merchant Payment using Debit Mandate
 
- ### Example Output - Create a Debit Mandate
+ ### Create Debit Mandate - Output 
  
 
  ```json
@@ -1086,7 +1083,7 @@ Set up a recurring payment can be completed by clicking the following buttons
  
  ```
 
- ### Example Output - Request State
+ ### View Request state - Output
  
  ```json
 {
@@ -1099,7 +1096,7 @@ Set up a recurring payment can be completed by clicking the following buttons
 ```
 
 
- ### Example Output - Read a Debit Mandate
+ ### View Debit Mandate - Output
  
  ```json
  {
@@ -1148,7 +1145,7 @@ Set up a recurring payment can be completed by clicking the following buttons
 ```
 
 
- ### Example Output -  Merchant Payment using Debit Mandate
+ ### Create Merchant payment -Output
  
  ```json
 
