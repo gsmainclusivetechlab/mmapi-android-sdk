@@ -155,20 +155,19 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
         AccountIdentifier debitPartyItem = new AccountIdentifier();
         AccountIdentifier creditPartyItem = new AccountIdentifier();
 
-        debitPartyItem.setKey("accountid");
-        debitPartyItem.setValue("1");
+        debitPartyItem.setKey("msisdn");
+        debitPartyItem.setValue("+44012345678");
         debitPartyList.add(debitPartyItem);
 
-        creditPartyItem.setKey("accountid");
-        creditPartyItem.setValue("2999");
+        creditPartyItem.setKey("walletid");
+        creditPartyItem.setValue("1");
         creditPartyList.add(creditPartyItem);
 
-        transactionItem.setAmount("200");
+        transactionItem.setAmount("16.00");
         transactionItem.setType("transfer");
-        transactionItem.setCurrency("RWF");
+        transactionItem.setCurrency("USD");
         transactionItem.setCreditParty(creditPartyList);
         transactionItem.setDebitParty(debitPartyList);
-        transactionItems.add(transactionItem);
         transactionItems.add(transactionItem);
 
         bulkTransactionObject.setBatchDescription("Testing a Batch transaction");
