@@ -574,7 +574,7 @@ The individual disbursement can be completed by clicking following buttons
 * Individual Disbursement
 
 
-### Example Output - Individual Disbursement
+### Individual disbursement - Output
 
 ```json
 {
@@ -593,14 +593,9 @@ The individual disbursement can be completed by clicking following buttons
 
 The bulk Disbursement can be completed by clicking following button in sequential order
 
-* Bulk Transaction
-* Request State
-* Get Batch Details
-* Batch Completion
-* Batch Rejection
+* Bulk Disbursement
 
-
-### Example Output - Bulk Transaction
+### Create Batch Transaction - Output
 
 ```json
  {
@@ -613,7 +608,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
  
 ```
 
-### Example Output - Request State
+### View Request state - Output
 
 ```json
  {
@@ -626,7 +621,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```
 
- ### Example Output - Get Batch Details
+ ### Batch Transaction - Output
 
 ```json
  
@@ -648,7 +643,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```
 
- ### Example Output - Batch Completion
+ ### Batch Completions -  Output
 
 ```json
 {
@@ -658,7 +653,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 ```
 
 
- ### Example Output - Batch Rejection
+ ### Batch Rejection - Output
 
 ```json
 {
@@ -673,15 +668,10 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 The bulk Disbursement can be completed by clicking following button in sequential order
 
-* Bulk Transaction
-* Request State
-* Update Batch 
-* Get Batch Details
-* Batch Completion
-* Batch Rejection
+* Bulk Disbursement using Maker/Checker
 
 
-### Example Output - Bulk Transaction
+###  Create Batch Transaction - Output
 
 ```json
  {
@@ -707,21 +697,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```
 
-### Example Output - Update Batch
-
-```json
- {
- 	"notificationMethod": "polling",
- 	"objectReference": "REF-1638337785175",
- 	"pollLimit": 100,
- 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
- 	"status": "completed"
- }
-
-```
-
-
- ### Example Output - Get Batch Details
+### Batch Transaction - Output
 
 ```json
  
@@ -743,7 +719,21 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```
 
- ### Example Output - Batch Completion
+### Update a batch transaction - Output
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638337785175",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "completed"
+ }
+
+
+```
+
+ ###  Batch Completions -  Output
 
 ```json
 {
@@ -753,7 +743,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 ```
 
 
- ### Example Output - Batch Rejection
+ ### Batch Completions -  Output
 
 ```json
 {
@@ -768,11 +758,9 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 Disbursement using polling method can be completed using clicking following buttons in sequential order
 
-* Individual Disbursement
-* Request State
-* View Transaction
+* Individual Disbursement Using the Polling Method
 
-### Example Output - Individual Disbursement
+### Individual disbursement Polling - Output 
 
 ```json
 {
@@ -787,7 +775,7 @@ Disbursement using polling method can be completed using clicking following butt
 
 ```
 
- ### Example Output - Request State
+ ### View Request state - Output
 
 ```json
  {
@@ -801,7 +789,7 @@ Disbursement using polling method can be completed using clicking following butt
 ```
 The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
 
- ### Example Output - View Transaction
+ ### View Transaction - Output
  
  ```json
  
@@ -828,6 +816,7 @@ The object reference obtained from the request state is passed to view transacti
 }
 ```
 <a name="international-transfer-hub"></a>
+
 # International Transfer via Hub/Bilateral International Transfer
 
 This use case can be completed by clicking following button in sequential order
