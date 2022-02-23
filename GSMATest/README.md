@@ -1471,7 +1471,7 @@ Click the following buttons to perform take a recurring payment
 
 
 
- ### Example Output - Request State
+ ### Request State - Output
 
 ```json
  {
@@ -1485,7 +1485,7 @@ Click the following buttons to perform take a recurring payment
 ```
 The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
 
- ### Example Output - View Transaction
+ ### View Transaction - Output
  
  ```json
  
