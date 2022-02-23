@@ -163,12 +163,11 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
         creditPartyItem.setValue("1");
         creditPartyList.add(creditPartyItem);
 
-        transactionItem.setAmount("200");
+        transactionItem.setAmount("16.00");
         transactionItem.setType("transfer");
         transactionItem.setCurrency("USD");
         transactionItem.setCreditParty(creditPartyList);
         transactionItem.setDebitParty(debitPartyList);
-        transactionItems.add(transactionItem);
         transactionItems.add(transactionItem);
 
         bulkTransactionObject.setBatchDescription("Testing a Batch transaction");
