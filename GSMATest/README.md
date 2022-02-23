@@ -1929,11 +1929,9 @@ Customer Initiated Cash out at atm using Authorisation Code can be achieved by c
 
 Agent-initiated Customer Cash-in  can be achieved by clicking following button
 
-* Retrieve the name of the Depositing Customer
-* Agent Initiated Cash In 
+* Agent-initiated Customer Cash-in
 
-### Example Output - Retrieve the name of the Depositing Customer
-
+### View Account Name - Output
 
 ```json
 {
@@ -1950,7 +1948,7 @@ Agent-initiated Customer Cash-in  can be achieved by clicking following button
 ```
 
 
-### Example Output -Agent Initiated Cash In 
+###  Create Deposit Transaction - Output
 
 ```json
  	"notificationMethod": "callback",
@@ -1970,7 +1968,7 @@ The register a customer in mobile money account can be achieved by clicking the 
 
 * Create a Mobile Money Account
 
-### Example Output -Create a Mobile Money Account
+### Create Account - output
 
 ```json
 {
@@ -1988,13 +1986,11 @@ The register a customer in mobile money account can be achieved by clicking the 
 
 Verify a customer KYC can be achieved by clicking the following buttons
 
-* Retrieve Account information
-* Update KYC verification Status
+* Verify a Customer’s KYC
 
-### Example Output -Retrieve Account information
+### View Account information - Output
 
 ```java
-
 
 {
 	"accountIdentifiers": [{
@@ -2021,7 +2017,7 @@ Verify a customer KYC can be achieved by clicking the following buttons
 	...
 }
 ```
-### Example Output - Update KYC verification Status
+### Update Account Identity -Output
 
 ```json
 {
