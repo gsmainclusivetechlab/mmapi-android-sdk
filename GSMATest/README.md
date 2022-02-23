@@ -1520,7 +1520,7 @@ The successful Retrieval of bills scenarios can be completed by clicking the fol
 
 * View Account Bills
 
- ### Example Output - View Account Bills
+ ### View Account Bill - Output
  
  ```json
    {
@@ -1538,10 +1538,9 @@ The successful Retrieval of bills scenarios can be completed by clicking the fol
 
 The bill payment with callback can be completed by clicking the following methods
 
- * Create Bill Transaction
- * Create Bill Payments
+ * Make a Successful Bill Payment with Callback
 
- ### Example Output - Create Bill Transaction
+ ###  Create Bill Transaction - Output 
  
  ```json
  {
@@ -1552,6 +1551,47 @@ The bill payment with callback can be completed by clicking the following method
  	"status": "pending"
  }
 ```
+
+### Request State - Output
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+
+```
+ ### View Transaction - Output
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
+
 
  ### Example Output - Create Bill Payments
  
@@ -1569,13 +1609,66 @@ The bill payment with callback can be completed by clicking the following method
 
 # Make a Bill Payment with Polling
 
-The Bill Payment with polling can be completed by clicking the following buttons in sequential order
+ Click on the following button to complete following scenario
 
-* Create Bill Payment 
-* Request State
-* View Bill Payment
+* # Make a Bill Payment with Polling
 
-### Example Output - Create Bill Payments
+
+ ###  Create Bill Transaction - Output 
+ 
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "19686",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "0cebe7cf-6268-42b2-b2d3-de0986f7e41c",
+ 	"status": "pending"
+ }
+```
+
+### Request State - Output
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+
+```
+ ### View Transaction - Output
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
+
+
+
+### Create Bill Payment - Output
  
  ```json
  {
@@ -1586,7 +1679,7 @@ The Bill Payment with polling can be completed by clicking the following buttons
  	"status": "pending"
  }
 ```
- ### Example Output - Request State
+ ### Request State - Output
 
 ```json
  {
@@ -1599,7 +1692,7 @@ The Bill Payment with polling can be completed by clicking the following buttons
 
 ```
 
-### Example Output - View Bill Payment
+### View Bill Payment - Output
 
 ```json
 
