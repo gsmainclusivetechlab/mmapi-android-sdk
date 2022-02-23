@@ -848,7 +848,7 @@ This use case can be completed by clicking following button
  }
 ```
 
-<a name="#p2p-transfer-bilateral"></a>
+<a name="p2p-transfer-bilateral"></a>
 
 # Bilateral International Transfer
 
@@ -982,6 +982,56 @@ Use polling or callback scenario to get the complete status for a transaction
  }
 
 ```
+
+
+<a name="p2p-transfer-bilateral"></a>
+
+# Bilateral P2P Transfer
+
+ The p2 transfer via bilateral can be completed by clicking the following buttons
+ 
+ * Bilateral P2P Transfer
+ 
+ ### Retrieve the Name of the Recipient - Output 
+ 
+ ```json
+{
+ 	"lei": "AAAA0012345678901299",
+ 	"name": {
+ 		"firstName": "Jeff",
+ 		"fullName": "Jeff Jimmer",
+ 		"lastName": "Jimmer",
+ 		"middleName": "James",
+ 		"title": "Mr"
+ 	}
+ }
+```
+ ### Request Quotation - Output
+ 
+ ```json
+ {
+	"notificationMethod": "polling",
+	"objectReference": "1306",
+	"pollLimit": 100,
+	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
+	"status": "pending"
+}
+
+```
+ ###  Perform p2p transfer - Output
+
+
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "15681",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
+ 	"status": "pending"
+ }
+
+```
+
 
 
 
