@@ -684,7 +684,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
  
 ```
 
-### Example Output - Request State
+### View Request state - Output
 
 ```json
  {
