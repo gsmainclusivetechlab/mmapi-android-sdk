@@ -274,7 +274,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
      * Get the request state of a transaction
      */
     private void requestState(int position) {
-        sbOutPut.append("\n\nRequest State-Output\n\n");
+        sbOutPut.append("\n\nRequest State - Output\n\n");
         SDKManager.accountLinking.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -614,7 +614,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
      * View Transaction-View the transaction Details
      */
     private void viewTransaction(int position) {
-        sbOutPut.append("\n\nView Transaction-Output\n\n");
+        sbOutPut.append("\n\nView Transaction - Output\n\n");
         SDKManager.accountLinking.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {

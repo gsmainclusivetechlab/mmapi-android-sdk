@@ -487,6 +487,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
                 } else {
                     sbOutPut.append(new Gson().toJson(accountHolderObject));
                     if(position==2||position==3){
+                        sbOutPut.append("\n\n Perform p2p transfer - Output\n\n");
                         performTransfer(position);
                     }else{
                         requestQuotation(position);
@@ -526,7 +527,6 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
      * Perform P2P Transfer
      */
     private void performTransfer(int position) {
-        sbOutPut.append("\n\n Perform p2p transfer - Output\n\n");
         SDKManager.p2PTransfer.createTransferTransaction(NotificationMethod.CALLBACK, "", transactionRequest, new RequestStateInterface() {
             @SuppressWarnings("ConstantConditions")
             @Override
@@ -732,7 +732,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
 
     //Request the quotation to perform P2P transfer
     private void requestQuotation(int position) {
-        sbOutPut.append("\n\n Request Quotation\n\n");
+        sbOutPut.append("\n\nRequest Quotation - Output\n\n");
         SDKManager.p2PTransfer.createQuotation(NotificationMethod.CALLBACK, "", quotationRequest, new RequestStateInterface() {
             @SuppressWarnings("ConstantConditions")
             @Override
@@ -746,6 +746,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
                     txtResponse.setText(sbOutPut);
                 } else {
                     sbOutPut.append(new Gson().toJson(requestStateObject)).append("\n\n");
+                    sbOutPut.append("\n\n Perform p2p transfer - Output\n\n");
                     performTransfer(position);
                 }
 
@@ -781,62 +782,6 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
         });
     }
 
-    /**
-     * P2P transfer missing transaction
-     */
-    @SuppressWarnings("unused")
-    private void p2pMissingResponse(int position) {
-        showLoading();
-        SDKManager.p2PTransfer.createTransferTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
-            @SuppressWarnings("unused")
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-                hideLoading();
-                Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
-                Utils.showToast(P2PTransferActivity.this, errorObject.getErrorDescription());
-                sbOutPut.append(new Gson().toJson(errorObject));
-                txtResponse.setText(sbOutPut.toString());
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @SuppressWarnings("unused")
-            @Override
-            public void onRequestStateSuccess(RequestStateObject requestStateObject) {
-                hideLoading();
-                if (requestStateObject == null || requestStateObject.getStatus() == null) {
-                    customRecyclerAdapter.setStatus(2, position);
-                    sbOutPut.append("Data is either null or empty");
-                    txtResponse.setText(sbOutPut.toString());
-                } else {
-                    customRecyclerAdapter.setStatus(1, position);
-                    sbOutPut.append(new Gson().toJson(requestStateObject));
-                    getMissingTransaction(position);
-                }
-                assert requestStateObject != null;
-                serverCorrelationId = requestStateObject.getServerCorrelationId();
-                Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
-            }
-
-            @SuppressWarnings("unused")
-            @Override
-            public void onRequestStateFailure(GSMAError gsmaError) {
-                hideLoading();
-                Utils.showToast(P2PTransferActivity.this, "Failure");
-                Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
-                sbOutPut.append(new Gson().toJson(gsmaError));
-                txtResponse.setText(new Gson().toJson(gsmaError));
-                customRecyclerAdapter.setStatus(2, position);
-            }
-
-            @SuppressWarnings("unused")
-            @Override
-            public void getCorrelationId(String correlationID) {
-                correlationId = correlationID;
-                Log.d("getCorrelationId", "correlationId: " + correlationID);
-            }
-
-        });
-    }
 
     public void showLoading() {
         progressdialog.show();
@@ -904,6 +849,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
                 //missing response
                 sbOutPut = new StringBuilder();
                 showLoading();
+                sbOutPut.append("Create Missing Transaction - Output\n\n");
                 performTransfer(position);
                 break;
 

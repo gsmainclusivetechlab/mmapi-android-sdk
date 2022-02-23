@@ -479,7 +479,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
                 } else {
                     //transactionRef= requestStateObject.getObjectReference();
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString());
-                    sbOutPut.append("\n\n View Bill Payment\n\n");
+                    sbOutPut.append("\n\n View Bill Payment - Output\n\n");
                     viewBillPayment(position);
 
 
@@ -511,7 +511,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
      * Get the request state of a transaction
      */
     private void requestStateTransaction(int position) {
-        sbOutPut.append("\n\n Request State-Output \n\n");
+        sbOutPut.append("\n\n Request State - Output \n\n");
         SDKManager.billPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -569,7 +569,6 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
                 sbOutPut.append("View Account Bill - Output \n\n");
                 viewAccountBillPayment(position);
                 break;
-
 
             case 1:
                 //Make a Successful Bill Payment with Callback

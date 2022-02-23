@@ -368,18 +368,22 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
 
     private void createAccount(int position) {
         showLoading();
+        sbOutPut.append("\n\nCreate Account - output\n\n");
         SDKManager.agentService.createAccount(NotificationMethod.CALLBACK, "", accountRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(requestStateObject));
-                Utils.showToast(AgentServicesActivity.this, "Success");
-                Log.d(SUCCESS, "onRequestStateSuccess: " + new Gson().toJson(requestStateObject));
 
                 if (requestStateObject == null || requestStateObject.getStatus() == null) {
                     customRecyclerAdapter.setStatus(2, position);
+                    sbOutPut.append("Data is either null or empty");
                 } else {
+                    Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
+                    Utils.showToast(AgentServicesActivity.this, "Success");
                     customRecyclerAdapter.setStatus(1, position);
+                    sbOutPut.append(new Gson().toJson(requestStateObject).toString()+"\n\n");
+                    txtResponse.setText(sbOutPut.toString());
+
                 }
 
             }
@@ -387,7 +391,8 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
                 hideLoading();
-                txtResponse.setText(new Gson().toJson(gsmaError));
+                sbOutPut.append(new Gson().toJson(gsmaError));
+                txtResponse.setText(sbOutPut);
                 Utils.showToast(AgentServicesActivity.this, "Failure");
                 Log.d(FAILURE, "onRequestStateFailure: " + new Gson().toJson(gsmaError));
                 customRecyclerAdapter.setStatus(2, position);
@@ -404,6 +409,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
+
                 Utils.showToast(AgentServicesActivity.this, errorObject.getErrorDescription());
                 Log.d(VALIDATION, "onValidationError: " + new Gson().toJson(errorObject));
                 customRecyclerAdapter.setStatus(2, position);
@@ -718,7 +724,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
                     txtResponse.setText(sbOutPut.toString());
                 } else {
                     sbOutPut.append(new Gson().toJson(accountHolderObject) + "\n\n");
-                    createDepositTransaction(position);
+                    createAccountObject(position);
                 }
             }
 
@@ -754,7 +760,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
      */
 
     private void viewAuthorizationCode(int position) {
-        sbOutPut.append("\n\nView Authorization Code \n\n");
+        sbOutPut.append("\n\nView Authorization Code - Output \n\n");
         SDKManager.agentService.viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
@@ -767,7 +773,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(authorisationCodeItem).toString() + "\n\n");
                     txtResponse.setText(sbOutPut.toString());
-                    sbOutPut.append("\n\nCreate withdrawal transaction -Output\n\n");
+                    sbOutPut.append("\n\nCreate withdrawal transaction - Output\n\n");
                     createWithdrawalTransaction(position, NotificationMethod.CALLBACK);
                 }
             }
@@ -914,7 +920,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
      * Create Deposit Transaction
      */
     private void createDepositTransaction(int position) {
-        sbOutPut.append("\n\n Create Deposit Transaction\n\n");
+        sbOutPut.append("\n\n Create Deposit Transaction - Output\n\n");
         SDKManager.agentService.createDepositTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -991,7 +997,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
      * Get the request state of a transaction
      */
     private void requestState(int position) {
-        sbOutPut.append("\n\n Request State-Output\n\n");
+        sbOutPut.append("\n\n Request State - Output\n\n");
         SDKManager.agentService.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -1045,7 +1051,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
     /**
      * View Transaction-View the transaction Details
      */
-    private void viewTransaction(int position) {
+    private void  viewTransaction(int position) {
         SDKManager.agentService.viewTransaction(transactionRef, new TransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -1119,7 +1125,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create withdrawal transaction - Output\n\n");
                 createWithdrawalTransaction(position, NotificationMethod.POLLING);
-                ;
+
                 break;
             case 2:
                 //Agent Initiated Cash-Out ;
@@ -1159,7 +1165,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
             case 7:
                 // Verify customer KYC
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Verify Customer KYC -Output\n\n");
+                sbOutPut.append("View Account information - Output\n\n");
                 viewAccount(position);
                 break;
 

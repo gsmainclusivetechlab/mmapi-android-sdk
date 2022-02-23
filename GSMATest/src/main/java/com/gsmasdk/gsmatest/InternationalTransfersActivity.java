@@ -252,7 +252,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
     //perform international transfer
     private void performInternationalTransfer(int position) {
-        sbOutPut.append("\n\nCreate International Transfer Transaction\n\n");
+        sbOutPut.append("\n\nCreate International Transfer Transaction - Output\n\n");
         SDKManager.internationalTransfer.createInternationalTransaction(NotificationMethod.CALLBACK, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -723,7 +723,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
                 break;
             case 1:
-                //Payee-Initiated Merchant Payment
+
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create Quotation Request-Output \n\n");
                 requestQuotation(position);
@@ -757,7 +757,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
             case 6:
                 //missing response
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Create Quotation Requesy - Output\n\n");
+                sbOutPut.append("Create Missing Transaction - Output\n\n");
                 requestQuotation(position);
                 break;
 

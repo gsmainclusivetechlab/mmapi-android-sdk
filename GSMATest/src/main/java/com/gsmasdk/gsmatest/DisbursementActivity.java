@@ -155,17 +155,17 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
         AccountIdentifier debitPartyItem = new AccountIdentifier();
         AccountIdentifier creditPartyItem = new AccountIdentifier();
 
-        debitPartyItem.setKey("accountid");
-        debitPartyItem.setValue("1");
+        debitPartyItem.setKey("msisdn");
+        debitPartyItem.setValue("+44012345678");
         debitPartyList.add(debitPartyItem);
 
-        creditPartyItem.setKey("accountid");
-        creditPartyItem.setValue("2999");
+        creditPartyItem.setKey("walletid");
+        creditPartyItem.setValue("1");
         creditPartyList.add(creditPartyItem);
 
         transactionItem.setAmount("200");
         transactionItem.setType("transfer");
-        transactionItem.setCurrency("RWF");
+        transactionItem.setCurrency("USD");
         transactionItem.setCreditParty(creditPartyList);
         transactionItem.setDebitParty(debitPartyList);
         transactionItems.add(transactionItem);
@@ -815,7 +815,6 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
 
     //Retrieve a missing Transaction
     private void getMissingTransaction(int position) {
-
         sbOutPut.append("\n\n Missing Response - Output\n\n");
         SDKManager.disbursement.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
@@ -856,9 +855,6 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
 
     }
 
-
-
-
     @Override
     public void onItemClick(View view, int position) {
         switch (position) {
@@ -883,7 +879,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 bulkDisbursement(position,NotificationMethod.POLLING);
                 break;
             case 3:
-                //individual disbursement;
+                //individual disbursement polling;
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Individual disbursement Polling - Output  \n\n");
                 individualDisbursement(position,NotificationMethod.POLLING);
@@ -892,7 +888,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             case 4:
                 //reversal
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Disbursement Reversal -Output\n\n");
+                sbOutPut.append("Reversal -Output\n\n");
                 reversal(position);
 
                 break;
@@ -920,7 +916,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
             case 8:
                 //missing response
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Individual disbursement - Output\n\n");
+                sbOutPut.append("Create Missing Transaction - Output\n\n");
                 individualDisbursement(position,NotificationMethod.CALLBACK);
 
                 break;

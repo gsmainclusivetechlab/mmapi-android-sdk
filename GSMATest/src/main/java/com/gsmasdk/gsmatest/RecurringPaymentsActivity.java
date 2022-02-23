@@ -283,7 +283,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
             case 9:
                 //missing response
                 sbOutPut = new StringBuilder();
-                sbOutPut.append("Create Debit Mandate - Output\n\n");
+                sbOutPut.append("Create Missing Transaction - Output\n\n");
                 createDebitMandateRequest(position,NotificationMethod.POLLING);
                 break;
             default:
@@ -461,11 +461,12 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
                     customRecyclerAdapter.setStatus(2, position);
                     sbOutPut.append("Data is either null or empty");
                 } else {
-                    txtResponse.setText(sbOutPut.toString());
                     Log.d(SUCCESS, "onRequestStateSuccess:" + new Gson().toJson(requestStateObject));
                     Utils.showToast(RecurringPaymentsActivity.this, "Success");
                     customRecyclerAdapter.setStatus(1, position);
                     sbOutPut.append(new Gson().toJson(requestStateObject).toString()+"\n\n");
+                    txtResponse.setText(sbOutPut.toString());
+
                 }
 
 
@@ -492,7 +493,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
 
     //get the request state of a transaction
     private void requestState(int position) {
-        sbOutPut.append("\n\nView Request state-Output\n\n");
+        sbOutPut.append("\n\nView Request state - Output\n\n");
         SDKManager.recurringPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -575,7 +576,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
 
 
     private void viewDebitMandateTake(int position) {
-        sbOutPut.append("\n\nView Debit Mandate\n\n");
+        sbOutPut.append("\n\nView Debit Mandate - Output\n\n");
         SDKManager.recurringPayment.viewAccountDebitMandate(identifierArrayList, transactionRef, new DebitMandateInterface() {
             @Override
             public void onDebitMandateSuccess(DebitMandate debitMandate) {

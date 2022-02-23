@@ -213,63 +213,63 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
             case 0:
                 //Payee-Initiated Merchant Payment
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Payee-Initiated Merchant Payment-Output\n\n");
+                sbOutPut.append("Payee-Initiated Merchant Payment - Output\n\n");
                 payeeInitiatedMerchantPay(position,NotificationMethod.CALLBACK);
                 break;
             case 1:
                 //Payee-Initiated Merchant Payment using the Polling Method
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Payee-Initiated Merchant Payment Polling -Output\n\n");
+                sbOutPut.append("Payee-Initiated Merchant Payment Polling - Output\n\n");
                 payeeInitiatedMerchantPay(position,NotificationMethod.POLLING);
 
                 break;
             case 2:
                 //Payer-Initiated Merchant Payment
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Payer-Initiated Merchant Payment -Output\n\n");
+                sbOutPut.append("Payer-Initiated Merchant Payment - Output\n\n");
                 payeeInitiatedMerchantPay(position,NotificationMethod.CALLBACK);
 
                 break;
             case 3:
                 //Payee-Initiated Merchant Payment using a Pre-authorised Payment Code"
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Create and Authorisation Code\n\n");
+                sbOutPut.append("Create Authorisation Code - Output\n\n");
                 payeeInitiatedPreAuthoirised(position);
                 break;
             case 4:
                 //Payment Refund
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Payment Refund -Output\n\n");
+                sbOutPut.append("Payment Refund - Output\n\n");
                 paymentRefund(position);
                 break;
             case 5:
                 //Payment Reversal
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Payment Reversal -Output\n\n");
+                sbOutPut.append("Payment Reversal - Output\n\n");
                 paymentReversal(position);
                 break;
             case 6:
                 //Retrieve Balance
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Balance -Output\n\n");
+                sbOutPut.append("Balance - Output\n\n");
                 balanceCheck(position);
                 break;
             case 7:
                 //View Transaction
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Retrieve Transaction -Output\n\n");
+                sbOutPut.append("Retrieve Transaction - Output\n\n");
                 retrieveTransaction(position);
                 break;
             case 8:
                 //Check Service Availability
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Check Service Availability -Output\n\n");
+                sbOutPut.append("Check Service Availability - Output\n\n");
                 checkServiceAvailability(position);
                 break;
             case 9:
                 // Missing Code Response
                 sbOutPut=new StringBuilder();
-                sbOutPut.append("Missing API Response -Output\n\n");
+                sbOutPut.append("Create Missing Transaction - Output\n\n");
                 payeeInitiatedMerchantPay(position,NotificationMethod.CALLBACK);
                 break;
             default:
@@ -283,7 +283,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
      */
 
     private void viewAuthorizationCode(int position) {
-        sbOutPut.append("\n\nView Authorization Code \n\n");
+        sbOutPut.append("\n\nView Authorization Code - Output \n\n");
         SDKManager.merchantPayment.viewAuthorisationCode(createAccountIdentifier("accountid","2999"), transactionRef, new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
@@ -439,7 +439,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
      * Request State
      */
     private void requestState(int position) {
-        sbOutPut.append("\n\nView Request state-Output\n\n");
+        sbOutPut.append("\n\nView Request state - Output\n\n");
         SDKManager.merchantPayment.viewRequestState(serverCorrelationId, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -858,7 +858,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
      * Missing Transaction
      */
     private void getMissingTransaction(int position) {
-        sbOutPut.append("\n\nMissing Response\n\n");
+        sbOutPut.append("\n\nMissing Response - Output\n\n");
         showLoading();
         SDKManager.merchantPayment.viewResponse(correlationId, new MissingResponseInterface() {
             @Override
