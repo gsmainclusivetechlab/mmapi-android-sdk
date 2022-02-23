@@ -171,7 +171,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 * [Agent-initiated Cash-out](#agent-service-cash-out)
 * [Agent-initiated Cash-out using the Polling Method](#agent-service-cash-out-polling)
-* [Customer-initiated Cash-out](#agent-service-cash-out)
+* [Customer-initiated Cash-out](#customer-service-cash-out)
 * [Customer Cash-out at an ATM using an Authorisation Code](#agent-service-cash-out-auth)
 * [Agent-initiated Customer Cash-in](#agent-initiated-cash-in)
 * [Cash-out Reversal](#reversal)
@@ -1749,13 +1749,13 @@ The bill payment with callback can be completed by clicking the following method
 ```
 
 <a name="agent-service-cash-out"></a>
-# Agent Initiated Cash out/Customer-initiated Cash-out
+# Agent Initiated Cash out
 
 The agent initiated Cash out can be scenario can be achieved by clicking the following buttons
 
 * Agent Initiated Cash Out 
 
-### Example Output - Agent Initiated Cash out / Customer-initiated Cash-out
+### Create withdrawal transaction - Output
 
  
  ```json
@@ -1773,17 +1773,14 @@ The agent initiated Cash out can be scenario can be achieved by clicking the fol
 
 The agent Initiated Cash out can be scenario can be achieved by clicking the following buttons
 
-* Agent Initiated Cash Out 
-* Request State
-* View Transaction
+* Agent-initiated Cash-out using the Polling Method
 
-
-### Example Output - Agent Initiated Cash out
+### Create withdrawal transaction - Output
 
  
  ```json
  {
- 	"notificationMethod": "callback",
+ 	"notificationMethod": "polling",
  	"objectReference": "1207",
  	"pollLimit": 100,
  	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
@@ -1791,7 +1788,7 @@ The agent Initiated Cash out can be scenario can be achieved by clicking the fol
  }
 ```
 
- ### Example Output - Request State
+ ### Request State-Output
 
 ```json
  {
@@ -1805,7 +1802,7 @@ The agent Initiated Cash out can be scenario can be achieved by clicking the fol
 ```
 The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
 
- ### Example Output - View Transaction
+ ### View Transaction - Output
  
  ```json
  
@@ -1833,17 +1830,37 @@ The object reference obtained from the request state is passed to view transacti
 ```
 <a name="agent-service-cash-out-auth"></a>
 
+
+<a name="customer-service-cash-out"></a>
+
+# Customer-initiated Cash-out
+
+The agent initiated Cash out can be scenario can be achieved by clicking the following buttons
+
+* Customer-initiated Cash-out
+
+### Create withdrawal transaction - Output
+
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+
+
 # Customer Cash-out at an ATM using an Authorisation Code
 
 Customer Initiated Cash out at atm using Authorisation Code can be achieved by clicking following button
 
-* Create Authorisation Code
-* Request State
-* View Authorisation Code
-* Agent Initiated Cash Out
+* Customer Cash-out at an ATM using an Authorisation Code
 
 
-### Example Output - Create Authorisation Code
+### Create an authorisation code - Output
 
 ```json
  {
@@ -1870,7 +1887,7 @@ Customer Initiated Cash out at atm using Authorisation Code can be achieved by c
  
 
 ```
-### Example Output - View Auth Code
+### View Authorization Code - Output 
 
 ```json
  {
@@ -1894,7 +1911,7 @@ Customer Initiated Cash out at atm using Authorisation Code can be achieved by c
  }
 ```
 
-### Example Output - Agent Initiated Cash out
+### Create withdrawal transaction - Output
 
  
  ```json
