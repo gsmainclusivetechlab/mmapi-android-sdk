@@ -90,7 +90,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 * [Payee-Initiated Merchant Payment](#payee-initiated)
 * [Payee-Initiated Merchant Payment using the Polling Method](#payee-initiated-polling)
-* [Payer-Initiated Merchant Payment](#payee-initiated)
+* [Payer-Initiated Merchant Payment](#payer-initiated)
 * [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#auth-code)
 * [Merchant Payment Refund](#refund)
 * [Merchant Payment Reversal](#reversal)
