@@ -1160,129 +1160,12 @@ Set up a recurring payment can be completed by clicking the following buttons
 
 ```
 
-<a name="p2p-transfer-switch"></a>
 
-# P2P Transfer via Switch/On-us’ P2P Transfer Initiated by a Third Party Provider
+<a name="take-polling"></a>
 
-The p2 transfer via switch can be completed by clicking the following buttons
+# Take a recurring payment using polling method
 
-* Retrieve the Name of the Recipient
-* Request a P2P Quotation
-* Perform a  p2p Transfer
-
-
- ### Example Output - Retrieve the Name of the Recipient
- 
- ```json
-{
- 	"lei": "AAAA0012345678901299",
- 	"name": {
- 		"firstName": "Jeff",
- 		"fullName": "Jeff Jimmer",
- 		"lastName": "Jimmer",
- 		"middleName": "James",
- 		"title": "Mr"
- 	}
- }
-```
- ### Example Output - Request a P2P Quotation
- 
- ```json
- {
-	"notificationMethod": "polling",
-	"objectReference": "1306",
-	"pollLimit": 100,
-	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
-	"status": "pending"
-}
-
-```
- ### Example Output - Perform a  p2p Transfer
-
-
- ```json
- {
- 	"notificationMethod": "polling",
- 	"objectReference": "15681",
- 	"pollLimit": 100,
- 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
- 	"status": "pending"
- }
-
-```
-
-<a name="p2p-transfer-bilateral"></a>
-
-# Bilateral P2P Transfer
-
-The p2 transfer via switch can be completed by clicking the following buttons
-
-* Retrieve the Name of the Recipient
-* Perform a  p2p Transfer
-
-
- ### Example Output - Retrieve the Name of the Recipient
- 
- ```json
-{
- 	"lei": "AAAA0012345678901299",
- 	"name": {
- 		"firstName": "Jeff",
- 		"fullName": "Jeff Jimmer",
- 		"lastName": "Jimmer",
- 		"middleName": "James",
- 		"title": "Mr"
- 	}
- }
-```
- ### Example Output - Perform a  p2p Transfer
-
-
- ```json
- {
- 	"notificationMethod": "polling",
- 	"objectReference": "15681",
- 	"pollLimit": 100,
- 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
- 	"status": "pending"
- }
-
-```
-<a name="setup-recurring"></a>
-
-# Set up a recurring payment
-
-Set up a recurring payment can be completed by clicking the following buttons
-
-* Create a debit Mandate 
-
- ### Example Output - Create a debit Mandate
-
-
- ```json
-
- {
- 	"notificationMethod": "polling",
- 	"objectReference": "428",
- 	"pollLimit": 100,
- 	"serverCorrelationId": "70089e23-35ca-4e29-a166-4668024cb236",
- 	"status": "pending"
- }
-
-```
-<a name="take-recurring"></a>
-
-# Take a Recurring Payment
-
- Take a recurring payment can be completed by passing debit mandate reference to merchant payment functions
-
-
-* Create a Debit Mandate
-* Request State
-* Read a Debit Mandate
-* Merchant Payment using Debit Mandate
-
- ### Example Output - Create a Debit Mandate
+ ### Create Debit Mandate - Output 
  
 
  ```json
@@ -1298,7 +1181,7 @@ Set up a recurring payment can be completed by clicking the following buttons
  
  ```
 
- ### Example Output - Request State
+ ### View Request state - Output
  
  ```json
 {
@@ -1311,7 +1194,7 @@ Set up a recurring payment can be completed by clicking the following buttons
 ```
 
 
- ### Example Output - Read a Debit Mandate
+ ### View Debit Mandate - Output
  
  ```json
  {
@@ -1360,7 +1243,7 @@ Set up a recurring payment can be completed by clicking the following buttons
 ```
 
 
- ### Example Output -  Merchant Payment using Debit Mandate
+ ### Create Merchant payment -Output
  
  ```json
 
@@ -1376,56 +1259,6 @@ Set up a recurring payment can be completed by clicking the following buttons
 ```
 
 
-<a name="take-polling"></a>
-
-# Take a recurring payment using polling method
-
-
-Click the following buttons to perform take a recurring payment using following,Before that make sure that you have completed take a recurring payment scenario
-
-* Request State
-* View Transaction
-
- ### Example Output - Request State
-
-```json
- {
- 	"notificationMethod": "polling",
- 	"objectReference": "REF-1638339051465",
- 	"pollLimit": 100,
- 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
- 	"status": "completed"
- }
-
-```
-The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
-
- ### Example Output - View Transaction
- 
- ```json
- 
- {
-	"transactionReference": "REF-1638274655726",
-	"creditParty": [{
-		"key": "msisdn",
-		"value": "+44012345678"
-	}],
-	"debitParty": [{
-		"key": "msisdn",
-		"value": "+449999999"
-	}, {
-		"key": "linkref",
-		"value": "REF-1614172481727"
-	}],
-	"type": "merchantpay",
-	"transactionStatus": "completed",
-	"amount": "200.00",
-	"currency": "RWF",
-	"creationDate": "2021-11-30T12:37:15",
-	"modificationDate": "2021-11-30T12:37:15",
-	"requestDate": "2021-11-30T12:37:15"
-}
-```
 
 <a name="setup-accountlink"></a>
 
