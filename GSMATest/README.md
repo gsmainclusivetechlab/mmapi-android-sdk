@@ -533,12 +533,11 @@ The service functionality will trigger automatically when we select merchant pay
 
  The missing response of an request can be performed using the correlation id used for the request,Pass the correlationId obtained for a transaction request to get the missing  response of a particular API
  
-For eg:if the transaction response is missing,To retrieve the missing response of transaction click the following button in sequential order
+For eg:if the transaction response is missing,To retrieve the missing response of transaction click the following button 
 
-* Payee Initiated
-* Missing Transaction
+* Retrieve a Missing API Response
 
-### Payee-Initiated Merchant Payment - Output
+### Create Missing Transaction - Output
 
 ```json
 {
