@@ -184,29 +184,17 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
 <a name="payee-initiated"></a>
 
-# Payee/Payer initiated Merchant Payment
+# Payee initiated Merchant Payment
  
  In this scenario the payer/payee can initiate a payment request,Click on the following buttons in test app to perform merchant payment
  
- * Payee Initiated
+ * Payee Initiated Merchant Payment
  
  The expected output of this request is given below
- 
- ### Example Output - Polling
 
-```json
- {
-	"notificationMethod": "polling",
-	"objectReference": "15596",
-	"pollLimit": 100,
-	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
-	"status": "pending"
-}
-```
-
-### Example Output - Callback
+###  Payee initiated Merchant Payment-Output
  
-In the test app default notification method is polling and you can change notification methods from the sample code to callback if needed
+In the test app default notification method is CALLBACK and you can change notification methods from the sample code to POLLING if needed
 
 The sample output if the notification method is callback 
 
@@ -226,13 +214,9 @@ The sample output if the notification method is callback
 
 The polling scenario can be completed by clicking following buttons of sample app in sequential order
 
-* Payee Initiated
-* Request State
-* View Transaction
+* Payee-Initiated Merchant Payment using the Polling Method
 
-
- 
- ### Example Output - Payee Initiated
+ ### Payee initiated Merchant Payment - Output
 
 ```json
  {
@@ -246,7 +230,7 @@ The polling scenario can be completed by clicking following buttons of sample ap
  The serverCorrelationId is obtained from the result of payee initiated request,This serverCorrelationId is passed to request state function to view the request state of a transaction
 
  
- ### Example Output - Request State
+ ### View Request State - Output
 
 ```json
 {
@@ -260,7 +244,7 @@ The polling scenario can be completed by clicking following buttons of sample ap
 ```
 The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
 
- ### Example Output - View Transaction
+ ### View Transaction - Output
  
  ```json
  
@@ -292,17 +276,13 @@ The object reference obtained from the request state is passed to view transacti
 
 # Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
 
-The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be completed by clicking the following buttons in sequential order
+The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be completed by clicking the following buttons
 
-* Auth Code
-* Request State
-* View Auth Code
-* Payee Initiated
-
-
+* Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
 
  ### Example Output - Auth Code
- ```json
+
+```json
  {
 	"notificationMethod": "callback",
 	"objectReference": "1839",
