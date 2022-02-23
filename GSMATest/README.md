@@ -1951,7 +1951,7 @@ Agent-initiated Customer Cash-in  can be achieved by clicking following button
 ###  Create Deposit Transaction - Output
 
 ```json
- 	"notificationMethod": "callback",
+{ "notificationMethod": "callback",
  	"objectReference": "1207",
  	"pollLimit": 100,
  	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
@@ -2017,7 +2017,7 @@ Verify a customer KYC can be achieved by clicking the following buttons
 	...
 }
 ```
-### Update Account Identity -Output
+### Update Account Identity - Output
 
 ```json
 {
