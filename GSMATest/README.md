@@ -1145,7 +1145,7 @@ Set up a recurring payment can be completed by clicking the following buttons
 ```
 
 
- ### Create Merchant payment -Output
+ ### Create Merchant payment - Output
  
  ```json
 
@@ -1286,11 +1286,12 @@ Set up a recurring payment can be completed by clicking the following buttons
 
 The setup an account link scenario can be completed by clicking the following buttons
 
-* Create a Account Link
-* Request State
-* View an account Link
+* Setup an Account Link
 
- ### Example Output - Create a Debit Mandate
+
+
+ ### Setup an Account Link - Output
+ 
  ```json
    {
  	"notificationMethod": "polling",
@@ -1300,19 +1301,43 @@ The setup an account link scenario can be completed by clicking the following bu
  	"status": "pending"
  }
  ```
+
+
+ <a name="perform-transfer"></a>
  
- ### Example Output - Request State
+ # Perform a Transfer for Linked Account
+ 
+  Click the the following button to perform a transfer for a Linked Account
+ 
+ * Perform a Transfer for Linked Account
+ 
+ 
+ ### Setup an Account Link - Output
+ 
+ ```json
+   {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "440",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "pending"
+ }
+ ```
+
+
+
+### Request State - Output
  
  ```json
   {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638425137077",
  	"pollLimit": 100,
  	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
  	"status": "completed"
  }
  ```
-  ### Example Output - View an account Link
+  ### View Account link - Output
  
  ```json
 
@@ -1347,20 +1372,11 @@ The setup an account link scenario can be completed by clicking the following bu
  }
 
  ```
- 
- <a name="perform-transfer"></a>
- 
- # Perform a Transfer for Linked Account
- 
-  Click the the following button to perform a transfer for a Linked Account
- 
- * Perform a Transfer for Linked Account
- 
-  ### Example Output - Transfer
+  ### Perform a Transfer for a Linked Account - Output
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638339051465",
  	"pollLimit": 100,
  	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
@@ -1374,10 +1390,86 @@ The setup an account link scenario can be completed by clicking the following bu
  
 # Perform a Transfer using an Account Link via the Polling Method
 
-Click the following buttons to perform take a recurring payment using following,Before that make sure that you have completed take a recurring payment scenario
+Click the following buttons to perform take a recurring payment
 
-* Request State
-* View Transaction
+* Perform a Transfer using an Account Link via the Polling Method
+
+
+ 
+ ### Setup an Account Link - Output
+ 
+ ```json
+   {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "440",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "pending"
+ }
+ ```
+
+
+
+### Request State - Output
+ 
+ ```json
+  {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638425137077",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "completed"
+ }
+ ```
+  ### View Account link - Output
+ 
+ ```json
+
+
+ {
+ 	"creationDate": "2021-12-02T06:36:52",
+ 	"customData": [{
+ 		"key": "keytest",
+ 		"value": "keyvalue"
+ 	}],
+ 	"linkReference": "REF-1638427012132",
+ 	"mode": "active",
+ 	"modificationDate": "2021-12-02T06:36:52",
+ 	"requestingOrganisation": {},
+ 	"sourceAccountIdentifiers": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907197912"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907232832"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907265888"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907412029"
+ 	}],
+ 	"status": "active"
+ }
+
+ ```
+  ### Perform a Transfer for a Linked Account - Output
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+ ```
+
+
 
  ### Example Output - Request State
 
