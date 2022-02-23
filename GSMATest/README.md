@@ -1258,7 +1258,27 @@ Set up a recurring payment can be completed by clicking the following buttons
 
 ```
 
+<a name="setup-recurring"></a>
 
+# Payer sets up a Recurring Payment using MMP Channel
+
+Set up a recurring payment can be completed by clicking the following buttons
+
+* Payer sets up a Recurring Payment using MMP Channel
+
+ ### Create Debit Mandate - Output
+
+ ```json
+
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "428",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "70089e23-35ca-4e29-a166-4668024cb236",
+ 	"status": "pending"
+ }
+
+```
 
 <a name="setup-accountlink"></a>
 
