@@ -21,7 +21,8 @@ As usual, you get started by
 
 1.Download the file GSMATest-v1.0.8 from the following link into the filemanager of your  device
  
-[Download](https://github.com/gsmainclusivetechlab/mmapi-android-sdk/raw/develop/release/GSMATest-v1.0.8.apk)
+[Download](../release/GSMATest-v1.0.8.apk)
+
 
 2.Click on the file GSMATest-v1.0.8 from your device and system will ask for the installation dialog and continue the installation process
 
@@ -816,15 +817,14 @@ The object reference obtained from the request state is passed to view transacti
 ```
 <a name="international-transfer-hub"></a>
 
-# International Transfer via Hub/Bilateral International Transfer
+# International Transfer via Hub
 
 This use case can be completed by clicking following button
 
-* Request a international Transfer Quotation
-* Perform a international Transfer
+*  International Transfer via Hub
 
 
- ### Example Output - Request a international Transfer Quotation
+ ### Create Quotation Request - Output
  
  ```json
  {
@@ -836,7 +836,7 @@ This use case can be completed by clicking following button
  }
 ```
 
-### Example Output - Perform a international Transfer
+### Create International Transfer Transaction - Output
  
  ```json
 {
@@ -847,6 +847,43 @@ This use case can be completed by clicking following button
  	"status": "pending"
  }
 ```
+
+<a name="international-transfer-hub"></a>
+
+# Bilateral International Transfer
+
+This use case can be completed by clicking following button
+
+*  Bilateral International Transfer
+  
+
+ ### Create Quotation Request - Output
+ 
+ ```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "1295",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
+ 	"status": "pending"
+ }
+```
+
+### Create International Transfer Transaction - Output
+ 
+ ```json
+{
+ 	"notificationMethod": "polling",
+ 	"objectReference": "1295",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
+ 	"status": "pending"
+ }
+```
+
+
+
+
 Use polling or callback scenario to get the complete status for a transaction  
 
 
