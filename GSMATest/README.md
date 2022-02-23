@@ -212,11 +212,11 @@ The sample output if the notification method is callback
 
 # Payee-Initiated Merchant Payment using the Polling Method
 
-The polling scenario can be completed by clicking following buttons of sample app in sequential order
+The Payee-Initiated Merchant Payment using the Polling Method scenario can be completed by clicking following buttons of sample app
 
 * Payee-Initiated Merchant Payment using the Polling Method
 
- ### Payee initiated Merchant Payment - Output
+ ### Payee initiated Merchant Payment Polling - Output
 
 ```json
  {
@@ -269,8 +269,33 @@ The object reference obtained from the request state is passed to view transacti
 	"modificationDate": "2021-11-30T12:37:15",
 	"requestDate": "2021-11-30T12:37:15"
 }
- 
  ```
+
+<a name="payer-initiated"></a>
+
+# Payer initiated Merchant Payment
+ 
+ In this scenario the payer/payee can initiate a payment request,Click on the following buttons in test app to perform merchant payment
+ 
+ * Payer Initiated Merchant Payment
+ 
+ The expected output of this request is given below
+
+###  Payer initiated Merchant Payment-Output
+ 
+In the test app default notification method is CALLBACK and you can change notification methods from the sample code to POLLING if needed
+
+The sample output if the notification method is callback 
+
+```json
+ {
+	"notificationMethod": "callback",
+	"objectReference": "15596",
+	"pollLimit": 100,
+	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
+	"status": "pending"
+}
+```
 
 <a name="auth-code"></a>
 
@@ -280,7 +305,7 @@ The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be 
 
 * Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
 
- ### Example Output - Auth Code
+ ### Create Authorisation Code - Output
 
 ```json
  {
@@ -295,7 +320,7 @@ The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be 
 ```
  The serverCorrelationId is obtained from the result of payee intiated request,This serverCorrelationId is passed to request state function to view the request state of a   transaction 
  
-### Example Output - Request State
+### View Request state - Output
 
 ```json
 {
@@ -309,7 +334,7 @@ The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be 
 ```
 The objectReference is passed as a parameter to view auth code function to retrieve the authorisation code
 
-### Example Output - View Auth Code
+### View Authorization Code - Output
 
 ```json
  {
@@ -333,7 +358,7 @@ The objectReference is passed as a parameter to view auth code function to retri
  }
 ```
 
-### Example Output - Payee Initiated 
+### Payee-Initiated Merchant Payment - Output 
 
 ```json
  {
@@ -354,7 +379,7 @@ The objectReference is passed as a parameter to view auth code function to retri
  
  * Refund
 
-### Example Output - Refund
+### Payment Refund - Output
 
 
 ```json
@@ -376,8 +401,7 @@ The objectReference is passed as a parameter to view auth code function to retri
  
   * Reversal
 
-### Example Output - Reversal
-
+### Payment Reversal -Output
 
 ```json
 
@@ -399,7 +423,7 @@ The balance scenario can be completed by using following methods
 
 * Balance
 
-### Example Output - Balance
+### Balance - Output
 
 
 ```json
@@ -421,7 +445,7 @@ The balance scenario can be completed by using following methods
  
  * Retrieve transaction
 
-### Example Output - Retrieve Transaction
+### Retrieve Transaction - Output
 
 ```json
  {
@@ -494,7 +518,7 @@ The balance scenario can be completed by using following methods
 
 The service functionality will trigger automatically when we select merchant payment use cases
 
-### Example Output - Check for Service
+### Check Service Availability - Output
 
 ```json
 {
@@ -514,7 +538,7 @@ For eg:if the transaction response is missing,To retrieve the missing response o
 * Payee Initiated
 * Missing Transaction
 
-### Example Output - Payee Initiated
+### Payee-Initiated Merchant Payment - Output
 
 ```json
 {
@@ -528,7 +552,7 @@ For eg:if the transaction response is missing,To retrieve the missing response o
 ```
 
 
-### Example Output - Missing Transaction
+### Missing Response - Output
 
 ```json
 {
