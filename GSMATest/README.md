@@ -531,7 +531,7 @@ The service functionality will trigger automatically when we select merchant pay
 
 # Retrieve a Missing API Response
 
- The missing response of an request can be performed using the correlation id used for the request,Pass the correlationId obtained for a transaction request to get the missing  response of a particular API
+ The missing response of an request can be performed using the correlation id used for the request,Pass the correlationId of a transaction request to get the missing  response of a particular API
  
 For eg:if the transaction response is missing,To retrieve the missing response of transaction click the following button 
 
@@ -549,7 +549,6 @@ For eg:if the transaction response is missing,To retrieve the missing response o
 }
 
 ```
-
 
 ### Missing Response - Output
 
@@ -756,7 +755,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 # Individual Disbursement Using the Polling Method
 
-Disbursement using polling method can be completed using clicking following buttons in sequential order
+Disbursement using polling method can be completed using clicking following button
 
 * Individual Disbursement Using the Polling Method
 
@@ -819,7 +818,7 @@ The object reference obtained from the request state is passed to view transacti
 
 # International Transfer via Hub/Bilateral International Transfer
 
-This use case can be completed by clicking following button in sequential order
+This use case can be completed by clicking following button
 
 * Request a international Transfer Quotation
 * Perform a international Transfer
