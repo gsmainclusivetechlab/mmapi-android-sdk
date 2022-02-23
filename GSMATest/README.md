@@ -1873,7 +1873,7 @@ Customer Initiated Cash out at atm using Authorisation Code can be achieved by c
 
 ```
 
-### Example Output - Request State
+###  Request State - Output
 
 ```json
  {
