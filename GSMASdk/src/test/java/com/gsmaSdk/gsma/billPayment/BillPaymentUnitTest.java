@@ -1,16 +1,12 @@
 package com.gsmaSdk.gsma.billPayment;
 
 import com.gsmaSdk.gsma.enums.NotificationMethod;
-import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.BillPaymentInterface;
-import com.gsmaSdk.gsma.interfaces.DebitMandateInterface;
 import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveBillPaymentInterface;
-import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
-import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.bills.BillPay;
@@ -20,10 +16,7 @@ import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-import com.gsmaSdk.gsma.models.debitmandate.DebitMandate;
-import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
-import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import org.junit.Test;
 
@@ -31,6 +24,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings({"EmptyMethod", "unused"})
 public class BillPaymentUnitTest {
 
     /************************************View Account Bills************************************/
@@ -89,9 +83,11 @@ public class BillPaymentUnitTest {
     /************************************View Bill Payment************************************/
 
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void viewBillPaymentEmptyIdentifierSuccess() {
         TransactionFilter transactionFilter = new TransactionFilter();
+        //noinspection unused,unused
         SDKManager.billPayment.viewBillPayment(null, transactionFilter, "REF12345", new BillPaymentInterface() {
 
             @Override
@@ -114,9 +110,11 @@ public class BillPaymentUnitTest {
 
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void viewBillPaymentNullIdentifierSuccess() {
         TransactionFilter transactionFilter = new TransactionFilter();
+        //noinspection unused,unused
         SDKManager.billPayment.viewBillPayment(null, transactionFilter, "REF12345", new BillPaymentInterface() {
 
             @Override
@@ -143,6 +141,7 @@ public class BillPaymentUnitTest {
     public void viewBillPaymentEmptyBillReferenceSuccess() {
         ArrayList<Identifier>identifierArrayList = new ArrayList<>();
         TransactionFilter transactionFilter = new TransactionFilter();
+        //noinspection unused,unused
         SDKManager.billPayment.viewBillPayment(identifierArrayList, transactionFilter, "", new BillPaymentInterface() {
 
             @Override
@@ -165,10 +164,12 @@ public class BillPaymentUnitTest {
 
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void viewBillPaymentNullBillReferenceSuccess() {
         ArrayList<Identifier>identifierArrayList = new ArrayList<>();
         TransactionFilter transactionFilter = new TransactionFilter();
+        //noinspection unused,unused
         SDKManager.billPayment.viewBillPayment(identifierArrayList, transactionFilter, null, new BillPaymentInterface() {
 
             @Override
@@ -196,6 +197,7 @@ public class BillPaymentUnitTest {
     @Test
     public void createBillPaymentNullIdentifierSuccess() {
         BillPay billPayment = new BillPay();
+        //noinspection EmptyMethod,unused,unused,unused
         SDKManager.billPayment.createBillPayment(NotificationMethod.POLLING,"", null,billPayment,"REF1234",  new RequestStateInterface() {
 
             @Override
@@ -224,9 +226,11 @@ public class BillPaymentUnitTest {
 
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void createBillPaymentNullBillPaySuccess() {
         ArrayList<Identifier>identifierArrayList = new ArrayList<>();
+        //noinspection EmptyMethod,unused,unused,unused
         SDKManager.billPayment.createBillPayment(NotificationMethod.POLLING,"", identifierArrayList,null,"REF1234",  new RequestStateInterface() {
 
             @Override
@@ -255,10 +259,12 @@ public class BillPaymentUnitTest {
 
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void createBillPaymentNullReferenceSuccess() {
         ArrayList<Identifier>identifierArrayList = new ArrayList<>();
         BillPay billPayment = new BillPay();
+        //noinspection EmptyMethod,unused,unused,unused
         SDKManager.billPayment.createBillPayment(NotificationMethod.POLLING,"", identifierArrayList,billPayment,null,  new RequestStateInterface() {
 
             @Override
@@ -291,6 +297,7 @@ public class BillPaymentUnitTest {
     public void createBillPaymentEmptyReferenceSuccess() {
         ArrayList<Identifier>identifierArrayList = new ArrayList<>();
         BillPay billPayment = new BillPay();
+        //noinspection EmptyMethod,unused,unused,unused
         SDKManager.billPayment.createBillPayment(NotificationMethod.POLLING,"", identifierArrayList,billPayment,"",  new RequestStateInterface() {
 
             @Override
@@ -321,8 +328,10 @@ public class BillPaymentUnitTest {
 
     /*****************************Create Merchant Transaction************************************/
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void createMerchantTransactionNullTransactionRequestSuccess() {
+        //noinspection EmptyMethod,unused,unused,unused
         SDKManager.billPayment.createBillTransaction(NotificationMethod.POLLING, "", null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -352,9 +361,11 @@ public class BillPaymentUnitTest {
 
     /*********************************Request State**********************************/
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void viewRequestStateNullServerCorrelationIdSuccess() {
 
+        //noinspection EmptyMethod,unused,unused,unused
         SDKManager.billPayment.viewRequestState(null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -381,6 +392,7 @@ public class BillPaymentUnitTest {
     @Test
     public void viewRequestStateEmptyServerCorrelationIdSuccess() {
 
+        //noinspection EmptyMethod,unused,unused,unused
         SDKManager.billPayment.viewRequestState("", new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -406,8 +418,10 @@ public class BillPaymentUnitTest {
 
     /*******************************View transaction******************/
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void viewTransactionNullReferenceSuccess() {
+        //noinspection unused,unused
         SDKManager.billPayment.viewTransaction(null, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(Transaction transactionObject) {
@@ -432,6 +446,7 @@ public class BillPaymentUnitTest {
 
     @Test
     public void viewTransactionEmptyReferenceSuccess() {
+        //noinspection unused,unused
         SDKManager.billPayment.viewTransaction("", new TransactionInterface() {
             @Override
             public void onTransactionSuccess(Transaction transactionObject) {

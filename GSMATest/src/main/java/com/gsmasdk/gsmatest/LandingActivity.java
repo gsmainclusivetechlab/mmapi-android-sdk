@@ -19,6 +19,7 @@ import com.gsmaSdk.gsma.models.common.Token;
 import com.gsmaSdk.gsma.network.retrofit.PaymentConfiguration;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,7 +50,9 @@ public class LandingActivity extends AppCompatActivity implements CustomUseCaseR
 
         RecyclerView recyclerView = findViewById(R.id.usesCasesList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider));
+        recyclerView.addItemDecoration(itemDecorator);
         customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,false, usecasesArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);

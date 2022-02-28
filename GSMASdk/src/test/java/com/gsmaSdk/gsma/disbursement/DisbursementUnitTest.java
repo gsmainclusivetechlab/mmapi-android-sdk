@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("ALL")
 public class DisbursementUnitTest {
 
 
@@ -60,6 +61,7 @@ public class DisbursementUnitTest {
 
     @Test
     public void viewBalanceNullIdentifierSuccess() {
+        //noinspection ConstantConditions
         SDKManager.disbursement.viewAccountBalance(null, new BalanceInterface() {
             @Override
             public void onBalanceSuccess(Balance balance) {
@@ -142,6 +144,7 @@ public class DisbursementUnitTest {
 
     @Test
     public void createDisbursementTransactionNullTransactionRequestSuccess() {
+        //noinspection ConstantConditions
         SDKManager.disbursement.createDisbursementTransaction(NotificationMethod.POLLING, "", null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -174,6 +177,7 @@ public class DisbursementUnitTest {
 
     @Test
     public void createBatchTransactionNullTransactionRequestSuccess() {
+        //noinspection ConstantConditions
         SDKManager.disbursement.createBatchTransaction(NotificationMethod.POLLING, "", null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -206,6 +210,7 @@ public class DisbursementUnitTest {
     @Test
     public void viewRequestStateNullServerCorrelationIdSuccess() {
 
+        //noinspection ConstantConditions
         SDKManager.disbursement.viewRequestState(null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -259,6 +264,7 @@ public class DisbursementUnitTest {
 
     @Test
     public void viewTransactionNullReferenceSuccess() {
+        //noinspection ConstantConditions
         SDKManager.disbursement.viewTransaction(null, new TransactionInterface() {
             @Override
             public void onTransactionSuccess(Transaction transactionObject) {
@@ -460,6 +466,7 @@ public class DisbursementUnitTest {
         Reversal reversalObject = new Reversal();
         reversalObject.setType("reversal");
 
+        //noinspection ConstantConditions
         SDKManager.disbursement.createReversal(NotificationMethod.POLLING, "", null, reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -518,6 +525,7 @@ public class DisbursementUnitTest {
 
     @Test
     public void createReversalNullReversalReferenceSuccess() {
+        //noinspection ConstantConditions
         SDKManager.disbursement.createReversal(NotificationMethod.POLLING, "", "REF-10121", null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -546,6 +554,7 @@ public class DisbursementUnitTest {
 
     @Test
     public void createReversalNullReversalNullReferenceSuccess() {
+        //noinspection ConstantConditions,ConstantConditions
         SDKManager.disbursement.createReversal(NotificationMethod.POLLING, "", null, null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -575,6 +584,7 @@ public class DisbursementUnitTest {
 
     @Test
     public void createReversalNullReversalEmptyReferenceSuccess() {
+        //noinspection ConstantConditions
         SDKManager.disbursement.createReversal(NotificationMethod.POLLING, "", "", null, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
@@ -693,6 +703,7 @@ public class DisbursementUnitTest {
 
         TransactionFilter transactionFilter = new TransactionFilter();
 
+        //noinspection ConstantConditions
         SDKManager.disbursement.viewAccountTransactions(null, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -717,6 +728,7 @@ public class DisbursementUnitTest {
     @Test
     public void viewAccountNullIdentifierNullFilterSuccess() {
 
+        //noinspection ConstantConditions
         SDKManager.disbursement.viewAccountTransactions(null, null, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
@@ -746,6 +758,7 @@ public class DisbursementUnitTest {
         transactionFilter.setOffset(0);
 
 
+        //noinspection ConstantConditions
         SDKManager.disbursement.viewAccountTransactions(null, transactionFilter, new RetrieveTransactionInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {

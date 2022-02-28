@@ -1,23 +1,21 @@
 package com.gsmaSdk.gsma.util;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
 import com.google.gson.Gson;
-import com.google.gson.internal.bind.JsonTreeReader;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.utils.Utils;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
-import retrofit2.http.PUT;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

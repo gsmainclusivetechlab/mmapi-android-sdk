@@ -1,9 +1,5 @@
 package com.gsmaSdk.gsma.agentservice;
 
-import static org.junit.Assert.assertEquals;
-
-import android.widget.ArrayAdapter;
-
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
 import com.gsmaSdk.gsma.interfaces.AccountInterface;
@@ -33,6 +29,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
+@SuppressWarnings("ALL")
 public class AgentServiceUnitTest {
 
 
@@ -47,6 +46,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -57,6 +57,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onValidationError(ErrorObject errorObject) {
 
@@ -76,6 +77,7 @@ public class AgentServiceUnitTest {
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
             }
@@ -102,6 +104,7 @@ public class AgentServiceUnitTest {
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
             }
@@ -186,6 +189,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -221,6 +225,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -500,6 +505,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -535,6 +541,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -566,6 +573,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -593,6 +601,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -621,6 +630,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -653,6 +663,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -741,6 +752,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -769,6 +781,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -811,6 +824,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -853,6 +867,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -887,6 +902,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -924,6 +940,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -962,6 +979,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -997,6 +1015,7 @@ public class AgentServiceUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 

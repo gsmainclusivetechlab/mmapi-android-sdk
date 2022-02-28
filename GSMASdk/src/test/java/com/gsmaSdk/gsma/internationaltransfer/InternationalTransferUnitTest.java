@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class InternationalTransferUnitTest {
 
 
@@ -252,6 +253,7 @@ public class InternationalTransferUnitTest {
 
             }
 
+            @SuppressWarnings("unused")
             @Override
             public void onBalanceFailure(GSMAError gsmaError) {
             }
@@ -269,6 +271,7 @@ public class InternationalTransferUnitTest {
 
     @Test
     public void viewBalanceNullIdentifierSuccess() {
+        //noinspection unused,unused
         SDKManager.internationalTransfer.viewAccountBalance(null, new BalanceInterface() {
             @Override
             public void onBalanceSuccess(Balance balance) {

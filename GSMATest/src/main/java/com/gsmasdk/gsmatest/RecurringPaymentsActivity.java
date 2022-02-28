@@ -35,6 +35,7 @@ import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -86,7 +87,9 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
 
         RecyclerView recyclerView = findViewById(R.id.recurringPaymentList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        itemDecorator.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider));
+        recyclerView.addItemDecoration(itemDecorator);
         customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this,true, recurringPaymentArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);

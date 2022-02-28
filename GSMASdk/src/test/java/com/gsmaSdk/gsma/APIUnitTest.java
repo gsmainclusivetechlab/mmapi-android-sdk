@@ -71,6 +71,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static org.junit.Assert.assertNotNull;
 
+@SuppressWarnings("ALL")
 @RunWith(AndroidJUnit4.class)
 public class APIUnitTest {
 
@@ -78,27 +79,18 @@ public class APIUnitTest {
     MockWebServer mockWebServer;
     APIService apiService;
 
-    private static String URL_VERSION = "simulator/v1.2/passthrough/mm";
+    private static final String URL_VERSION = "simulator/v1.2/passthrough/mm";
 
     private static final String X_CORRELATION_ID = "X-CorrelationID";
     private static HashMap<String, String> headers;
 
-    private Account accountRequest;
-    private ArrayList<PatchData> patchDataArrayList;
-
-
-    private BillPay billPay;
 
     Reversal reversalObject;
 
 
-    private AuthorisationCode authorisationCodeRequest;
     private Transaction transactionRequest;
-    private Quotation quotationRequest;
 
     private final MediaType mediaType = MediaType.parse("application/json");
-
-    private Link accountLinkingObject;
 
 
     BatchTransaction bulkTransactionObject;
@@ -1649,7 +1641,7 @@ public class APIUnitTest {
 
     private RequestBody getBillPayBody() {
 
-        billPay = new BillPay();
+        BillPay billPay = new BillPay();
         billPay.setCurrency("GBP");
         billPay.setAmountPaid("5.30");
         return RequestBody.create(new Gson().toJson(billPay), mediaType);
@@ -1755,7 +1747,7 @@ public class APIUnitTest {
 
 
     private RequestBody getDebitMandateBody() {
-        accountLinkingObject = new Link();
+        Link accountLinkingObject = new Link();
 
         //set amount and currency
 
@@ -1793,7 +1785,7 @@ public class APIUnitTest {
     }
 
     private RequestBody getAuthorisationCodeRequestBody() {
-        authorisationCodeRequest = new AuthorisationCode();
+        AuthorisationCode authorisationCodeRequest = new AuthorisationCode();
         authorisationCodeRequest.setAmount("200.00");
         authorisationCodeRequest.setRequestDate("2021-10-18T10:43:27.405Z");
         authorisationCodeRequest.setCurrency("RWF");
@@ -1826,7 +1818,7 @@ public class APIUnitTest {
     }
 
     private RequestBody getQuotationRequestBody() {
-        quotationRequest = new Quotation();
+        Quotation quotationRequest = new Quotation();
 
         //create debit party and credit party for internal transfer quotation
         ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
@@ -1978,10 +1970,8 @@ public class APIUnitTest {
                 errorObject.setMessage(message);
             }
 
-        } catch (JSONException e) {
+        } catch (JSONException | NullPointerException e) {
             e.printStackTrace();
-        } catch (NullPointerException nullPointerException) {
-            nullPointerException.printStackTrace();
         } catch (Exception e) {
             System.out.println("errors" + e.getMessage());
         }
@@ -1993,7 +1983,7 @@ public class APIUnitTest {
         patchObject.setOp("replace");
         patchObject.setPath("/kycVerificationStatus");
         patchObject.setValue("verified");
-        patchDataArrayList = new ArrayList<>();
+        ArrayList<PatchData> patchDataArrayList = new ArrayList<>();
         patchDataArrayList.add(patchObject);
         return RequestBody.create(new Gson().toJson(patchDataArrayList), mediaType);
     }
@@ -2001,7 +1991,7 @@ public class APIUnitTest {
     private RequestBody getCreateAccountRequestBody() {
         Random r = new Random();
         int keyValue = r.nextInt(45 - 28) + 28;
-        accountRequest = new Account();
+        Account accountRequest = new Account();
 
         ArrayList<AccountIdentifier> accountIdentifiers = new ArrayList<>();
 

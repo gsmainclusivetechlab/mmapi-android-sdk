@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("ALL")
 public class RecurringPaymentUnitTest {
 
     /************************************Balance************************************/

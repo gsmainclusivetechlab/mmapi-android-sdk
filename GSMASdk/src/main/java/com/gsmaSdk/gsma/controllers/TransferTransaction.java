@@ -10,7 +10,7 @@ import com.gsmaSdk.gsma.network.callbacks.APIRequestCallback;
 import com.gsmaSdk.gsma.network.retrofit.GSMAApi;
 import com.gsmaSdk.gsma.utils.Utils;
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("ALL")
 public class TransferTransaction {
 
 

@@ -13,6 +13,7 @@ import com.gsmaSdk.gsma.utils.Utils;
 import java.util.ArrayList;
 
 
+@SuppressWarnings("unused")
 public class AccountNameController {
 
 

@@ -40,11 +40,13 @@ public class AuthorisationCodeController {
             String uuid = Utils.generateUUID();
             requestStateInterface.getCorrelationId(uuid);
             GSMAApi.getInstance().obtainAuthorisationCode(uuid, notificationMethod, callbackUrl, Utils.getIdentifiers(identifierArrayList), codeRequest, new APIRequestCallback<RequestStateObject>() {
+                        @SuppressWarnings("unused")
                         @Override
                         public void onSuccess(int responseCode, RequestStateObject serializedResponse) {
                             requestStateInterface.onRequestStateSuccess(serializedResponse);
                         }
 
+                        @SuppressWarnings("unused")
                         @Override
                         public void onFailure(GSMAError errorDetails) {
                             requestStateInterface.onRequestStateFailure(errorDetails);
@@ -130,11 +132,13 @@ public class AuthorisationCodeController {
         } else {
             String uuid = Utils.generateUUID();
             GSMAApi.getInstance().viewAuthorizationCode(uuid, Utils.getIdentifiers(identifierArrayList), authorisationCode, new APIRequestCallback<com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode>() {
+                        @SuppressWarnings("unused")
                         @Override
                         public void onSuccess(int responseCode, com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode serializedResponse) {
                             authorisationCodeInterface.onAuthorisationCodeSuccess(serializedResponse);
                         }
 
+                        @SuppressWarnings("unused")
                         @Override
                         public void onFailure(GSMAError errorDetails) {
                             authorisationCodeInterface.onAuthorisationCodeFailure(errorDetails);

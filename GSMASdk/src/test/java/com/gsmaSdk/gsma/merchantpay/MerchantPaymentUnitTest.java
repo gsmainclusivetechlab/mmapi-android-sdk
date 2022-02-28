@@ -1,12 +1,5 @@
 package com.gsmaSdk.gsma.merchantpay;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-
-import android.util.Log;
-
-import com.google.gson.Gson;
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeInterface;
 import com.gsmaSdk.gsma.interfaces.AuthorisationCodeItemInterface;
@@ -18,7 +11,6 @@ import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Identifier;
-import com.gsmaSdk.gsma.models.account.Identity;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCode;
 import com.gsmaSdk.gsma.models.authorisationCode.AuthorisationCodes;
@@ -30,13 +22,13 @@ import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
 
+import static org.junit.Assert.assertEquals;
+
+@SuppressWarnings("ALL")
 public class MerchantPaymentUnitTest {
 
     /************************************Balance************************************/

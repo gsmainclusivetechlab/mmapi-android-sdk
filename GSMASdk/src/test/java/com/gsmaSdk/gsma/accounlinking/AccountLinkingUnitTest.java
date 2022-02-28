@@ -1,9 +1,5 @@
 package com.gsmaSdk.gsma.accounlinking;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AccountLinkInterface;
 import com.gsmaSdk.gsma.interfaces.BalanceInterface;
@@ -31,6 +27,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
+@SuppressWarnings({"EmptyMethod", "unused", "ConstantConditions"})
 public class AccountLinkingUnitTest {
 
 

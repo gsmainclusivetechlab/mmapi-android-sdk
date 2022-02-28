@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
+@SuppressWarnings("ALL")
 public class AccountTransactionsController {
 
     /**

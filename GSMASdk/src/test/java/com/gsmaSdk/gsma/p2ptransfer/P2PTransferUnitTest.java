@@ -1,24 +1,19 @@
 package com.gsmaSdk.gsma.p2ptransfer;
 
-import static org.junit.Assert.assertEquals;
-
 import com.gsmaSdk.gsma.enums.NotificationMethod;
 import com.gsmaSdk.gsma.interfaces.AccountHolderInterface;
-import com.gsmaSdk.gsma.interfaces.BalanceInterface;
 import com.gsmaSdk.gsma.interfaces.MissingResponseInterface;
 import com.gsmaSdk.gsma.interfaces.RequestStateInterface;
 import com.gsmaSdk.gsma.interfaces.RetrieveTransactionInterface;
 import com.gsmaSdk.gsma.interfaces.TransactionInterface;
 import com.gsmaSdk.gsma.manager.SDKManager;
 import com.gsmaSdk.gsma.models.account.AccountHolderName;
-import com.gsmaSdk.gsma.models.account.Balance;
 import com.gsmaSdk.gsma.models.account.Identifier;
 import com.gsmaSdk.gsma.models.account.TransactionFilter;
 import com.gsmaSdk.gsma.models.common.ErrorObject;
 import com.gsmaSdk.gsma.models.common.GSMAError;
 import com.gsmaSdk.gsma.models.common.MissingResponse;
 import com.gsmaSdk.gsma.models.common.RequestStateObject;
-
 import com.gsmaSdk.gsma.models.transaction.reversal.Reversal;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
@@ -27,6 +22,9 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
+@SuppressWarnings("ALL")
 public class P2PTransferUnitTest {
 
 
@@ -89,6 +87,7 @@ public class P2PTransferUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -117,6 +116,7 @@ public class P2PTransferUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -151,6 +151,7 @@ public class P2PTransferUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -182,6 +183,7 @@ public class P2PTransferUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -209,6 +211,7 @@ public class P2PTransferUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -237,6 +240,7 @@ public class P2PTransferUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -266,6 +270,7 @@ public class P2PTransferUnitTest {
 
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
 
@@ -595,6 +600,7 @@ public class P2PTransferUnitTest {
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
             }
@@ -621,6 +627,7 @@ public class P2PTransferUnitTest {
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
             }
 
+            @SuppressWarnings("EmptyMethod")
             @Override
             public void onRequestStateFailure(GSMAError gsmaError) {
             }

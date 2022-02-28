@@ -40,8 +40,10 @@ import com.gsmaSdk.gsma.models.transaction.transactions.Transaction;
 import com.gsmaSdk.gsma.models.transaction.transactions.Transactions;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -89,7 +91,9 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
 
         RecyclerView recyclerView = findViewById(R.id.p2pTransferList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        DividerItemDecoration itemDecorator = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        itemDecorator.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.divider)));
+        recyclerView.addItemDecoration(itemDecorator);
         customRecyclerAdapter = new CustomUseCaseRecyclerAdapter(this, true, p2pTransfersArray);
         customRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(customRecyclerAdapter);
