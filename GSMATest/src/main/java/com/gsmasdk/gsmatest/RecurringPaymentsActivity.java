@@ -100,6 +100,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
 
         //service availability check
 
+
         createDebitMandateObject();
         createPaymentReversalObject();
     }
@@ -678,6 +679,27 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
      */
     private void paymentRefund(int position) {
         showLoading();
+
+        transactionRequest = new Transaction();
+        ArrayList<AccountIdentifier> debitPartyList = new ArrayList<>();
+        ArrayList<AccountIdentifier> creditPartyList = new ArrayList<>();
+
+        AccountIdentifier debitPartyItem = new AccountIdentifier();
+        AccountIdentifier creditPartyItem = new AccountIdentifier();
+
+        debitPartyItem.setKey("walletid");
+        debitPartyItem.setValue("1");
+        debitPartyList.add(debitPartyItem);
+
+        creditPartyItem.setKey("msisdn");
+        creditPartyItem.setValue("+44012345678");
+        creditPartyList.add(creditPartyItem);
+
+        transactionRequest.setDebitParty(debitPartyList);
+        transactionRequest.setCreditParty(creditPartyList);
+        transactionRequest.setAmount("200.00");
+        transactionRequest.setCurrency("RWF");
+
         SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.CALLBACK, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
