@@ -543,7 +543,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
     private void payeeInitiatedPreAuthoirised(int position) {
         showLoading();
         SDKManager.merchantPayment.createAuthorisationCode(createAccountIdentifier("accountid","2999")
-                ,NotificationMethod.POLLING, "", authorisationCodeRequest, new RequestStateInterface() {
+                ,NotificationMethod.CALLBACK, "", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -705,7 +705,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
 
     private void paymentRefund(int position) {
         showLoading();
-        SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.merchantPayment.createRefundTransaction(NotificationMethod.CALLBACK, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -756,7 +756,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
      */
     private void paymentReversal(int position) {
         showLoading();
-        SDKManager.merchantPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.merchantPayment.createReversal(NotificationMethod.CALLBACK, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
