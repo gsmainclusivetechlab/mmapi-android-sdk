@@ -317,7 +317,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
     //Reversal
     private void reversal(int position) {
         showLoading();
-        SDKManager.disbursement.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.disbursement.createReversal(NotificationMethod.CALLBACK, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -878,7 +878,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
                 //Bulk Disbursement with Maker / Checker
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create Batch Transaction - Output  \n\n");
-                bulkDisbursement(position,NotificationMethod.POLLING);
+                bulkDisbursement(position,NotificationMethod.CALLBACK);
                 break;
             case 3:
                 //individual disbursement polling;
