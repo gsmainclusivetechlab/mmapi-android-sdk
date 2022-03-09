@@ -652,7 +652,7 @@ public class MerchantPaymentsActivity extends AppCompatActivity implements Custo
     private void payeeInitiatedMerchantPayAuthCode(int position) {
         transactionRequest.setOneTimeCode(authorisationCodeRequest.getAuthorisationCode());
         sbOutPut.append("Payee Initiated Merchant Payment \n\n");
-        SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.merchantPayment.createMerchantTransaction(NotificationMethod.CALLBACK, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();

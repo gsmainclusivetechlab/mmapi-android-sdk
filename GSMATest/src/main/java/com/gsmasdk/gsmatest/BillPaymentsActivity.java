@@ -401,7 +401,7 @@ public class BillPaymentsActivity extends AppCompatActivity implements CustomUse
         billPayment.setCurrency("GBP");
         billPayment.setAmountPaid("5.30");
 
-        SDKManager.billPayment.createBillPayment(NotificationMethod.POLLING, "", createAccountIdentifier("accountid","1"), billPayment, "REF-000001", new RequestStateInterface() {
+        SDKManager.billPayment.createBillPayment(notificationMethod, "", createAccountIdentifier("accountid","1"), billPayment, "REF-000001", new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 serverCorrelationId = requestStateObject.getServerCorrelationId();

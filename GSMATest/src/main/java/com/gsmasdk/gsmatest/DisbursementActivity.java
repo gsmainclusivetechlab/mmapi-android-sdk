@@ -720,7 +720,7 @@ public class DisbursementActivity extends AppCompatActivity implements CustomUse
     //Update Batch Transaction
     private void updateBatch(int position, String batchId) {
         sbOutPut.append("\n\nUpdate a batch transaction - Output\n\n");
-        SDKManager.disbursement.updateBatchTransaction(NotificationMethod.POLLING, "","REF-1635765084301", patchDataArrayList, new RequestStateInterface() {
+        SDKManager.disbursement.updateBatchTransaction(NotificationMethod.CALLBACK, "","REF-1635765084301", patchDataArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
