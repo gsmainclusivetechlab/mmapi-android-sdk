@@ -110,6 +110,7 @@ public class AccountLinkingActivity extends AppCompatActivity implements CustomU
                  sbOutPut = new StringBuilder();
                  sbOutPut.append("Setup an Account Link - Output\n\n");
                  createAccountLinking(position,NotificationMethod.CALLBACK);
+
                  break;
             case 1:
                 //Perform a Transfer for a Linked Account;

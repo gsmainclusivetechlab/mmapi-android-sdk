@@ -728,7 +728,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
      */
     private void paymentReversal(int position) {
         showLoading();
-        SDKManager.recurringPayment.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.recurringPayment.createReversal(NotificationMethod.CALLBACK, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();

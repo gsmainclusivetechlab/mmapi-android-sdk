@@ -19,12 +19,12 @@ As usual, you get started by
 
 ## How  to install the apk in real Device
 
-1.Download the file GSMATest-v1.0.10 from the following link into the filemanager of your  device
+1.Download the file GSMATest-v1.0.11 from the following link into the filemanager of your  device
  
-[Download](../release/GSMATest-v1.0.10.apk)
+[Download](../release/GSMATest-v1.0.11.apk)
 
 
-2.Click on the file GSMATest-v1.0.10 from your device and system will ask for the installation dialog and continue the installation process
+2.Click on the file GSMATest-v1.0.11 from your device and system will ask for the installation dialog and continue the installation process
 
 3.Once the Apk is installed in your device,Open the application from app drawer of your device 
 
