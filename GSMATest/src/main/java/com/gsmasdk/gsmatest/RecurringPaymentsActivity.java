@@ -287,7 +287,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
                 //missing response
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create Missing Transaction - Output\n\n");
-                createDebitMandateRequest(position,NotificationMethod.POLLING);
+                createDebitMandateRequest(position,NotificationMethod.CALLBACK);
                 break;
             default:
                 break;
@@ -678,7 +678,7 @@ public class RecurringPaymentsActivity extends AppCompatActivity implements Cust
      */
     private void paymentRefund(int position) {
         showLoading();
-        SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.recurringPayment.createRefundTransaction(NotificationMethod.CALLBACK, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
