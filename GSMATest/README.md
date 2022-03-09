@@ -325,7 +325,7 @@ The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be 
 
 ```json
 {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
 	"pollLimit": 100,
 	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
@@ -363,7 +363,7 @@ The objectReference is passed as a parameter to view auth code function to retri
 
 ```json
  {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "15596",
 	"pollLimit": 100,
 	"serverCorrelationId":"3fa62436-9935-468c-8911-62263e6272c3",
@@ -385,7 +385,7 @@ The objectReference is passed as a parameter to view auth code function to retri
 
 ```json
 {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "15621",
 	"pollLimit": 100,
 	"serverCorrelationId": "4c9313cf-185a-4335-87ae-feced48f1ee2",
@@ -407,7 +407,7 @@ The objectReference is passed as a parameter to view auth code function to retri
 ```json
 
 {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "4572",
 	"pollLimit": 100,
 	"serverCorrelationId": "ca3eb926-5b8c-4d11-b184-06782408208e",
@@ -542,7 +542,7 @@ For eg:if the transaction response is missing,To retrieve the missing response o
 
 ```json
 {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
 	"pollLimit": 100,
 	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
@@ -555,7 +555,7 @@ For eg:if the transaction response is missing,To retrieve the missing response o
 
 ```json
 {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
 	"pollLimit": 100,
 	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
@@ -578,7 +578,7 @@ The individual disbursement can be completed by clicking following buttons
 
 ```json
 {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
 	"pollLimit": 100,
 	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
@@ -599,7 +599,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "1153",
  	"pollLimit": 100,
  	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
@@ -612,7 +612,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638337785175",
  	"pollLimit": 100,
  	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
@@ -675,7 +675,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "1153",
  	"pollLimit": 100,
  	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
@@ -688,7 +688,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638337785175",
  	"pollLimit": 100,
  	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
@@ -723,7 +723,7 @@ The bulk Disbursement can be completed by clicking following button in sequentia
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638337785175",
  	"pollLimit": 100,
  	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
@@ -828,7 +828,7 @@ This use case can be completed by clicking following button
  
  ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "1295",
  	"pollLimit": 100,
  	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
@@ -840,7 +840,7 @@ This use case can be completed by clicking following button
  
  ```json
 {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "1295",
  	"pollLimit": 100,
  	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
@@ -861,7 +861,7 @@ This use case can be completed by clicking following button
  
  ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "1295",
  	"pollLimit": 100,
  	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
@@ -873,7 +873,7 @@ This use case can be completed by clicking following button
  
  ```json
 {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "1295",
  	"pollLimit": 100,
  	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
@@ -912,7 +912,7 @@ Use polling or callback scenario to get the complete status for a transaction
  
  ```json
  {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "1306",
 	"pollLimit": 100,
 	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
@@ -925,7 +925,7 @@ Use polling or callback scenario to get the complete status for a transaction
 
  ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "15681",
  	"pollLimit": 100,
  	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
@@ -961,7 +961,7 @@ Use polling or callback scenario to get the complete status for a transaction
  
  ```json
  {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "1306",
 	"pollLimit": 100,
 	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
@@ -974,7 +974,7 @@ Use polling or callback scenario to get the complete status for a transaction
 
  ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "15681",
  	"pollLimit": 100,
  	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
@@ -1010,7 +1010,7 @@ Use polling or callback scenario to get the complete status for a transaction
  
  ```json
  {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "1306",
 	"pollLimit": 100,
 	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
@@ -1023,7 +1023,7 @@ Use polling or callback scenario to get the complete status for a transaction
 
  ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "15681",
  	"pollLimit": 100,
  	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
@@ -1050,7 +1050,7 @@ Set up a recurring payment can be completed by clicking the following buttons
  ```json
 
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "428",
  	"pollLimit": 100,
  	"serverCorrelationId": "70089e23-35ca-4e29-a166-4668024cb236",
@@ -1073,7 +1073,7 @@ Set up a recurring payment can be completed by clicking the following buttons
  ```json
 
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "432",
  	"pollLimit": 100,
  	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
@@ -1087,7 +1087,7 @@ Set up a recurring payment can be completed by clicking the following buttons
  
  ```json
 {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "REF-1638343640945",
 	"pollLimit": 100,
 	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
@@ -1150,7 +1150,7 @@ Set up a recurring payment can be completed by clicking the following buttons
  ```json
 
 {
-	"notificationMethod": "polling",
+	"notificationMethod": "callback",
 	"objectReference": "15684",
 	"pollLimit": 100,
 	"serverCorrelationId": "164b0df3-ddf0-4459-96e2-82b4514a8c17",
@@ -1271,7 +1271,7 @@ Set up a recurring payment can be completed by clicking the following buttons
  ```json
 
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "428",
  	"pollLimit": 100,
  	"serverCorrelationId": "70089e23-35ca-4e29-a166-4668024cb236",
@@ -1294,7 +1294,7 @@ The setup an account link scenario can be completed by clicking the following bu
  
  ```json
    {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "440",
  	"pollLimit": 100,
  	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
@@ -1460,7 +1460,7 @@ Click the following buttons to perform take a recurring payment
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638339051465",
  	"pollLimit": 100,
  	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
@@ -1475,7 +1475,7 @@ Click the following buttons to perform take a recurring payment
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638339051465",
  	"pollLimit": 100,
  	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
@@ -1524,7 +1524,7 @@ The successful Retrieval of bills scenarios can be completed by clicking the fol
  
  ```json
    {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "440",
  	"pollLimit": 100,
  	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
@@ -1544,7 +1544,7 @@ The bill payment with callback can be completed by clicking the following method
  
  ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "19686",
  	"pollLimit": 100,
  	"serverCorrelationId": "0cebe7cf-6268-42b2-b2d3-de0986f7e41c",
@@ -1556,7 +1556,7 @@ The bill payment with callback can be completed by clicking the following method
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638339051465",
  	"pollLimit": 100,
  	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
@@ -1618,7 +1618,7 @@ The bill payment with callback can be completed by clicking the following method
  
  ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "19686",
  	"pollLimit": 100,
  	"serverCorrelationId": "0cebe7cf-6268-42b2-b2d3-de0986f7e41c",
@@ -1630,7 +1630,7 @@ The bill payment with callback can be completed by clicking the following method
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638339051465",
  	"pollLimit": 100,
  	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
@@ -1683,10 +1683,10 @@ The bill payment with callback can be completed by clicking the following method
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638339051465",
  	"pollLimit": 100,
- 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"serverCorrelationId": ""57972c80-793f-4b5d-82a7-763bdff7465f",
  	"status": "completed"
  }
 
@@ -1780,7 +1780,7 @@ The agent Initiated Cash out can be scenario can be achieved by clicking the fol
  
  ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "1207",
  	"pollLimit": 100,
  	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
@@ -1792,7 +1792,7 @@ The agent Initiated Cash out can be scenario can be achieved by clicking the fol
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638339051465",
  	"pollLimit": 100,
  	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
@@ -1864,7 +1864,7 @@ Customer Initiated Cash out at atm using Authorisation Code can be achieved by c
 
 ```json
  {
- 	"notificationMethod": "polling",
+ 	"notificationMethod": "callback",
  	"objectReference": "REF-1638339051465",
  	"pollLimit": 100,
  	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
