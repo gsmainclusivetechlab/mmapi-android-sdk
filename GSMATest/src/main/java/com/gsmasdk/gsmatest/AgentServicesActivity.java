@@ -667,7 +667,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
 
     private void viewAccount(int position) {
         showLoading();
-        SDKManager.agentService.viewAccount(identifierArrayList, new AccountInterface() {
+        SDKManager.agentService.viewAccount(createAccountIdentifier("accountid","2999"), new AccountInterface() {
             @Override
             public void onAccountSuccess(Account account) {
                 hideLoading();
@@ -764,7 +764,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
 
     private void viewAuthorizationCode(int position) {
         sbOutPut.append("\n\nView Authorization Code - Output \n\n");
-        SDKManager.agentService.viewAuthorisationCode(identifierArrayList, transactionRef, new AuthorisationCodeItemInterface() {
+        SDKManager.agentService.viewAuthorisationCode(createAccountIdentifier("accountid","2999"),transactionRef, new AuthorisationCodeItemInterface() {
             @Override
             public void onAuthorisationCodeSuccess(AuthorisationCode authorisationCodeItem) {
                 if (authorisationCodeItem.getAuthorisationCode() == null || authorisationCodeItem.getCodeState() == null) {
