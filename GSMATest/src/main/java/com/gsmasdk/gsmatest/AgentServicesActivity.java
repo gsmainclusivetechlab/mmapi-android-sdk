@@ -186,7 +186,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
      */
     private void paymentReversal(int position) {
         showLoading();
-        SDKManager.agentService.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.agentService.createReversal(NotificationMethod.CALLBACK, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();
@@ -601,7 +601,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
         showLoading();
 
         sbOutPut.append("\n\nUpdate Account Identity -Output\n\n");
-        SDKManager.agentService.updateAccountIdentity(NotificationMethod.POLLING, "", identityId, patchDataArrayList, identifierArrayList, new RequestStateInterface() {
+        SDKManager.agentService.updateAccountIdentity(NotificationMethod.CALLBACK, "", identityId, patchDataArrayList, identifierArrayList, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -811,7 +811,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
      */
     private void obtainAuthorizationCode(int position) {
         showLoading();
-        SDKManager.agentService.createAuthorisationCode(createAccountIdentifier("accountid","2999"), NotificationMethod.POLLING, "", authorisationCodeRequest, new RequestStateInterface() {
+        SDKManager.agentService.createAuthorisationCode(createAccountIdentifier("accountid","2999"), NotificationMethod.CALLBACK, "", authorisationCodeRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -924,7 +924,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
      */
     private void createDepositTransaction(int position) {
         sbOutPut.append("\n\n Create Deposit Transaction - Output\n\n");
-        SDKManager.agentService.createDepositTransaction(NotificationMethod.POLLING, "", transactionRequest, new RequestStateInterface() {
+        SDKManager.agentService.createDepositTransaction(NotificationMethod.CALLBACK, "", transactionRequest, new RequestStateInterface() {
             @Override
             public void onValidationError(ErrorObject errorObject) {
                 hideLoading();
@@ -1159,7 +1159,7 @@ public class AgentServicesActivity extends AppCompatActivity implements CustomUs
 
                 break;
             case 6:
-                //Agent Initiated Cash-in
+                //Register a Customer Mobile Money Account
                 sbOutPut = new StringBuilder();
                 showLoading();
                 createDepositTransaction(position);
