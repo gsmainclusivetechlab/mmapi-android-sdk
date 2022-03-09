@@ -638,7 +638,7 @@ public class P2PTransferActivity extends AppCompatActivity implements CustomUseC
     //Reversal
     private void reversal(int position) {
         showLoading();
-        SDKManager.p2PTransfer.createReversal(NotificationMethod.POLLING, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
+        SDKManager.p2PTransfer.createReversal(NotificationMethod.CALLBACK, "", "REF-1633580365289", reversalObject, new RequestStateInterface() {
             @Override
             public void onRequestStateSuccess(RequestStateObject requestStateObject) {
                 hideLoading();

@@ -726,7 +726,7 @@ public class InternationalTransfersActivity extends AppCompatActivity implements
 
                 break;
             case 1:
-
+                //Create Quotation Request-Output
                 sbOutPut = new StringBuilder();
                 sbOutPut.append("Create Quotation Request-Output \n\n");
                 requestQuotation(position);
