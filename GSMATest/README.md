@@ -117,7 +117,7 @@ git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 # International Transfers
 
 * [International Transfer via Hub](#international-transfer-hub)
-* [Bilateral International Transfer](#bilateral-transfer-hub)
+* [Bilateral International Transfer](#International-transfer-hub)
 * [International Transfer Reversal](#reversal)
 * [Obtain an FSP Balance](#balances)
 * [Retrieve Transactions for an FSP](#retrieve-payments)
@@ -986,7 +986,7 @@ Use polling or callback scenario to get the complete status for a transaction
 
 <a name="p2p-transfer-bilateral"></a>
 
-# Bilateral P2P Transfer
+# Bilateral P2P Transfer/International-transfer-hub
 
  The p2 transfer via bilateral can be completed by clicking the following buttons
  
