@@ -1,918 +1,2053 @@
-# MMAPI Android SDK
-Android SDK to use MMAPI.
 
-[![Platform](https://img.shields.io/badge/platform-Android-inactive.svg?style=flat)](https://github.com/gsmainclusivetechlab/mmapi-android-sdk)
-[![SDK Version](https://img.shields.io/badge/minSdkVersion-23-blue.svg)](https://developer.android.com/about/versions/android-4.1)
-[![SDK Version](https://img.shields.io/badge/targetSdkVersion-31-informational.svg)](https://developer.android.com/sdk/api_diff/31/changes)
+# MMAPI-Sample App for Android SDK
 
-A library that fully covers payment process inside your Android application
-
-This SDK provides for an easy way to connect to [GSMA Mobile Money API](https://developer.mobilemoneyapi.io/1.2).
-Please refer to the following documentation for installation instructions and usage information.
-
--   [API Documentation](https://developer.mobilemoneyapi.io/1.2)
--   [How to use the test Application](GSMATest/README.md)
-
-# Index 
-
-This document contains the following sections:
-
--  [Requirements](#requirements)
--  [Getting Started](#getting-started)
-     -  [How to include GSMA SDK in your android application](#Setup)
-     -  [Configure the SDK](#Configure)
--  [Use Cases](#use-cases)
-    -   [Merchant Payments](#merchant-payments)
-    -   [Disbursements](#disbursements)
-    -   [International Transfers](#international-transfers)
-    -   [P2P Transfers](#p2p-transfers)
-    -   [Recurring Payments](#recurring-payments)
-    -   [Account Linking](#account-linking)
-    -   [Bill Payments](#bill-payments)
-    -   [Agent Services](#agent-services)
--  [Testing](#testing)
+This is a sample app provided to demonstrate the working of MMAPI SDK in android
 
 
-<a name="#requirement"></a>
 
-# Requirements
+## Getting started
 
-Optimum requirements to use this SDK are -
 
-1. **Android Studio `4.0`** or newer
-2. **Android Platform Version**: `API 31`
-3. **Build gradle**: `4.2.1`
 
-<a name="Setup"></a>
+As usual, you get started by 
 
-# How to include GSMA SDK in your android application
+* Installing  the apk in real device
 
-Copy the GSMASdk-v1.0.11.aar [Download](/aar/GSMASdk-v1.0.11.aar)
- file, available in the latest version in aar folder in the project directory, into libs folder under your project directory.
+* Cloning the project into local machine
 
-Add the below line in dependencies of your `build.gradle` file in your application.
 
-```groovy
-implementation files('libs/GSMASdk-v1.0.11.aar')
+
+## How  to install the apk in real Device
+
+1.Download the file GSMATest-v1.0.11 from the following link into the filemanager of your  device
+ 
+[Download](../release/GSMATest-v1.0.11.apk)
+
+
+2.Click on the file GSMATest-v1.0.11 from your device and system will ask for the installation dialog and continue the installation process
+
+3.Once the Apk is installed in your device,Open the application from app drawer of your device 
+
+
+## How to clone the project into local machine
+
+
+Clone the project using SSH or HTTPS 
+
+#### HTTPS
+
 ```
-<a name="Configure"></a>
-
-# Configure the SDK
-
-After you install the SDK, make it available to your app and configure SDK. 
-Configuration details include either sandbox for testing or live for production, and your `consumer key`, `consumer secret`, `api key`, security option  and `callback url` for your app.
-
-In the directory where you installed the SDK,  include this code to make the SDK available and configure your environment with your application credentials for sandbox and live environments in the Developer Dashboard.
-
-
-```java
- /**
-   * Initialise payment configuration with the following
-   * consumerKey - provided by Client
-   * consumerSecret - provided by Client
-   * authenticationType - required level of authentication, eg:AuthenticationType.STANDARD_LEVEL,AuthenticationType.NO_AUTH;
-   * callbackUrl - server url to which long running operation responses are delivered
-   * xAPIkey - provided by client 
-   * environment - sandbox or production
-   */
-
-  PaymentConfiguration.init("<Place your consumerKey>","<Place your consumerSecret>","<Place your AuthenticationType>","<Place your callback URL>","<Place your X API Key>",Environment.SANDBOX);
-
+https://github.com/gsmainclusivetechlab/mmapi-android-sdk.git
 
 ```
 
+#### SSH  
 
-  Create a token  if the security option is DEVELOPMENT_LEVEL, STANDARD_LEVEL, ENHANCED_LEVEL,
-```java
-   /**
-     *Initialise the preference object
-    */
- PreferenceManager.getInstance().init(this);
-        /**
-         * Token creation
-         */
- SDKManager.getInstance().init(this, new PaymentInitialiseInterface() {
-            @Override
-            public void onValidationError(ErrorObject errorObject) {
-       
-            }
+```
+git@github.com:gsmainclusivetechlab/mmapi-android-sdk.git
 
-            @Override
-            public void onSuccess(Token token) {
-          
-            }
+```
 
-            @Override
-            public void onFailure(GSMAError gsmaError) {
-    
-            }
-        });
+#### Steps to run test app using android studio
+
+1.Open this repo in Android Studio,
+
+2.Select GSMATest Module and run the test module using android Emulator or Real device and then open the application from the installed device
 
 
-  ```
- ## Use Cases
+#### Prerequisites
 
--   [Merchant Payments](#merchant-payments)
--   [Disbursements](#disbursements)
--   [International Transfers](#international-transfers)
--   [P2P Transfers](#p2p-transfers)
--   [Recurring Payments](#recurring)
--   [Account Linking](#account-linking)
--   [Bill Payments](#bill-payments)
--   [Agent Services](#agent-services)
+1.Android Studio 
 
-<a name="merchant-payments"></a>
+2.JDK 8 (or later)
 
-### Merchant Payments
+3.SDK
 
-<table>
-<thead>
-  <tr>
-    <th>Scenarios</th>
-    <th>API</th>
-    <th>Function</th>
-    <th>Parameters</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>Payee-Initiated Merchant Payment</td>
-    <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Payee Initiated Merchant Payment</a></td>
-    <td>createMerchantTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="3">Payee-Initiated Merchant Payment using the Polling Method</td>
-    <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Payee Initiated Merchant Payment</a></td>
-    <td>createMerchantTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/merchantPayment/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
-    <td>viewRequestState</td>
-    <td>String serverCorrelationId,RequestStateInterface requestStateInterface</td>
+## How to test sample app
 
-  </tr>
-  <tr>
-    <td><a href="/docs/merchantPayment/viewTransaction.Readme.md">Retrieve a Transaction</a></td>
-    <td>viewTransaction</td>
-    <td>String transactionReference</td>
-  </tr>
-  <tr>
-    <td>Payer-Initiated Merchant Payment</td>
-    <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Payer Initiated Merchant Payment</a></td>
-    <td>createMerchantTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="3">Payee-Initiated Merchant Payment using a Pre-authorised Payment Code</td>
-    <td><a href="/docs/merchantPayment/createAuthorisationCode.Readme.md">Obtain an Authorisation Code</a></td>
-    <td>createAuthorisationCode</td>
-     <td>ArrayList<Identifier> identifierList,NotificationMethod, string callBackUrl="",AuthorisationCode authorisationCodeRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/merchantPayment/createMerchantTransaction.Readme.md">Perform a Merchant Payment</a></td>
-    <td>createMerchantTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/merchantPayment/viewAuthorisationCode.Readme.md">View An Authorisation Code</a></td>
-    <td>viewAuthorisationCode</td>
-    <td>ArrayList<Identifier> identifierList,String transactionReference,AuthorisationCodeItemInterface authorisationCodeItemInterface</td>
- </tr>
-  <tr>
-    <td>Merchant Payment Refund</td>
-    <td><a href="/docs/merchantPayment/createRefundTransaction.Readme.md">Perform a Merchant Payment Refund</a></td>
-    <td>createRefundTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Merchant Payment Reversal</td>
-    <td><a href="/docs/merchantPayment/createReversal.Readme.md">Perform a Merchant Payment Reversal</a></td>
-    <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalObject,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Obtain a Merchant Balance</td>
-    <td><a href="docs/merchantPayment/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
-    <td>viewAccountBalance</td>
-       <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
-  </tr>
-  <tr>
-    <td>Retrieve Payments for a Merchant</td>
-    <td><a href="/docs/merchantPayment/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
-    <td>viewAccountTransactions</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
-  </tr>
-  <tr>
-    <td>Check for Service Availability</td>
-    <td><a href="/docs/merchantPayment/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
-    <td>viewServiceAvailability</td>
-    <td>NA</td>
-  </tr>
-  <tr>
-    <td rowspan="2">Retrieve a Missing API Response</td>
-    <td><a href="/docs/merchantPayment/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
-    <td>viewResponse</td>
-    <td>String correlationId</td>
-  </tr>
-  <tr></tr>
-</tbody>
-</table>
+1.Once's the app is deployed in your device,Open the application and it will redirect to the Landing page
 
-<a name="disbursement"></a>
+2.The landing page will have list of all uses cases
 
-### Disbursements
+3.Click on use case link and the app will redirect to corresponding activity
 
-<table>
-<thead>
-  <tr>
-    <th>Scenarios</th>
-    <th>API</th>
-    <th>Function</th>
-    <th>Parameters</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>Individual Disbursement</td>
-    <td><a href="/docs/disbursement/createDisbursementTransaction.Readme.md">Create A Disbursement Transaction</a></td>
-    <td>createDisbursementTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="4">Bulk Disbursement</td>
-    <td><a href="/docs/disbursement/createBatchTransaction.Readme.md">Create A Transaction Batch</a></td>
-    <td>createBatchTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",BatchTransaction bulkTransactionObject,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/disbursement/viewBatchTransaction.Readme.md">View A Transaction Batch</a></td>
-    <td>viewBatchTransaction</td>
-    <td>String transactionReference,BatchTransactionItemInterface batchTransactionItemInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/disbursement/viewBatchCompletions.Readme.md">View Batch Completions</a></td>
-    <td>viewBatchCompletions</td>
-    <td>String batchId,BatchCompletionInterface batchCompletionInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/disbursement/viewBatchRejections.Readme.md">View Batch Rejections</a></td>
-    <td>viewBatchRejections</td>
-    <td>String batchId,BatchRejectionInterface batchRejectionInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="5">Bulk Disbursement with Maker / Checker</td>
-    <td><a href="/docs/disbursement/createBatchTransaction.Readme.md">Create A Transaction Batch</a></td>
-    <td>createBatchTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",BatchTransaction bulkTransactionObject,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/disbursement/updateBatchTransaction.Readme.md">Update A Transaction Batch</a></td>
-    <td>updateBatchTransaction</td>
-     <td>NotificationMethod, string callBackUrl="",String batchId,ArrayList<Batch> batchArrayList,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/disbursement/viewBatchTransaction.Readme.md">View A Transaction Batch</a></td>
-    <td>viewBatchTransaction</td>
-    <td>String transactionReference,BatchTransactionItemInterface batchTransactionItemInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/disbursement/viewBatchCompletions.Readme.md">View Batch Completions</a></td>
-    <td>viewBatchCompletions</td>
-    <td>String batchId,BatchCompletionInterface batchCompletionInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/disbursement/viewBatchRejections.Readme.md">View Batch Rejections</a></td>
-    <td>viewBatchRejections</td>
-    <td>String batchId,BatchRejectionInterface batchRejectionInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="3">Individual Disbursement Using the Polling Method</td>
-    <td><a href="/docs/disbursement/createDisbursementTransaction.Readme.md">Create a Individual Disbursement request </a></td>
-    <td>createDisbursementTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/disbursement/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
-    <td>viewRequestState</td>
-    <td>String serverCorrelationId,RequestStateInterface requestStateInterface</td>
- </tr>
-  <tr>
-    <td><a href="/docs/disbursement/viewTransaction.Readme.md">Retrieve a Transaction</a></td>
-    <td>viewTransaction</td>
-    <td>String transactionReference</td>
-  </tr>
-  <tr>
-    <td>Disbursement Reversal</td>
-    <td><a href="/docs/disbursement/createReversal.Readme.md">Perform a Disbursement Reversal</a></td>
-    <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Obtain a Disbursement Organisation Balance</td>
-    <td><a href="/docs/disbursement/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
-    <td>viewAccountBalance</td>
-     <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
-  </tr>
-  <tr>
-    <td>Retrieve Transactions for a Disbursement Organisation</td>
-    <td><a href="/docs/disbursement/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
-    <td>viewAccountTransactions</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
-  </tr>
-  <tr>
-    <td>Check for Service Availability</td>
-    <td><a href="/docs/disbursement/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
-    <td>viewServiceAvailability</td>
-    <td>NA</td>
-  </tr>
-  <tr>
-    <td rowspan="2">Retrieve a Missing API Response</td>
-    <td><a href="/docs/disbursement/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
-    <td>viewResponse</td>
-    <td>String correlationId</td>
-  </tr>
-   <tr></tr>
-</tbody>
-</table>
+4.The activity contains all scenarios for a particular use case
+
+5.Each uses cases can be tested using the link  provided in the test application
+
+# Use cases
+
+* Merchant Payments
+* Disbursements
+* International Transfers
+* P2P Transfers
+* Recurring Payments
+* Account Linking
+* Bill Payments
+* Agent Services (including Cash-In and Cash-Out)
 
 
+# Merchant Payment
 
- <a name="international-transfers"></a>
-
-### International Transfers
-
-<table>
-<thead>
-  <tr>
-    <th>Scenarios</th>
-    <th>API</th>
-    <th>Function</th>
-    <th>Parameters</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td rowspan="3">International Transfer via Hub</td>
-    <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
-    <td>createQuotation</td>
-    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/internationalTransfer/createInternationalTransaction.Readme.md">Perform an International Transfer</a></td>
-    <td>createInternationalTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Optional <a href="/docs/internationalTransfer/viewQuotation.Readme.md">View A Quotation</a></td>
-    <td>viewQuotation</td>
-    <td>String transactionReference,TransactionInterface transactionInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="3">Bilateral International Transfer</td>
-    <td><a href="/docs/internationalTransfer/createQuotation.Readme.md">Request a International Transfer Quotation</a></td>
-    <td>createQuotation</td>
-    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
-  </tr>
-
- <tr>
-    <td><a href="/docs/internationalTransfer/createInternationalTransaction.Readme.md">Perform an International Transfer</a></td>
-    <td>createInternationalTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Optional <a href="/docs/internationalTransfer/viewQuotation.Readme.md">View A Quotation</a></td>
-    <td>viewQuotation</td>
-    <td>String transactionReference,TransactionInterface transactionInterface</td>
-  </tr>
-  <tr>
-  <tr>
-    <td>International Transfer Reversal</td>
-    <td><a href="/docs/internationalTransfer/createReversal.Readme.md">Perform a Transaction Reversal</a></td>
-    <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String referenceId,Reversal reversal,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Obtain an FSP Balance</td>
-    <td><a href="/docs/internationalTransfer/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
-    <td>viewAccountBalance</td>
-    <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
-  </tr>
-  <tr>
-    <td>Retrieve Transactions for an FSP</td>
-    <td><a href="/docs/internationalTransfer/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
-    <td>viewAccountTransactions</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
-  </tr>
-  <tr>
-    <td>Check for Service Availability</td>
-    <td><a href="/docs/internationalTransfer/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
-    <td>viewServiceAvailability</td>
-    <td>NA</td>
-  </tr>
-  <tr>
-    <td>Retrieve a Missing API Response</td>
-    <td><a href="/docs/internationalTransfer/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
-    <td>viewResponse</td>
-    <td>String correlationId</td>
-  </tr>
-</tbody>
-</table>
+* [Payee-Initiated Merchant Payment](#payee-initiated)
+* [Payee-Initiated Merchant Payment using the Polling Method](#payee-initiated-polling)
+* [Payer-Initiated Merchant Payment](#payer-initiated)
+* [Payee-Initiated Merchant Payment using a Pre-authorised Payment Code](#auth-code)
+* [Merchant Payment Refund](#refund)
+* [Merchant Payment Reversal](#reversal)
+* [Obtain a Merchant Balance](#balances)
+* [Retrieve Payments for a Merchant](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
 
 
-<a name="p2p-transfers"></a>
-### P2P Transfers
+# Disbursement
 
-<table>
-<thead>
-  <tr>
-    <th>Scenarios</th>
-    <th>API</th>
-    <th>Function</th>
-    <th>Parameters</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td rowspan="3">P2P Transfer via Switch</td>
-    <td><a href="/docs/p2pTransfer/viewAccountName.Readme.md">Retrieve the Name of the Recipient</a></td>
-    <td>viewAccountName</td>
-    <td>ArrayList<Identifier> identifierArrayList,AccountHolderInterface accountHolderInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/p2pTransfer/createQuotation.Readme.md">Request a P2P Quotation</a></td>
-    <td>createQuotation</td>
-    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Optional <a href="/docs/p2pTransfer/createTransferTransaction.Readme.md">Perform a P2P Transfer</a></td>
-    <td>createTransferTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="2">Bilateral P2P Transfer</td>
-    <td><a href="/docs/p2pTransfer/viewAccountName.Readme.md">Retrieve the Name of the Recipient</a></td>
-    <td>viewAccountName</td>
-    <td>ArrayList<Identifier> identifierArrayList,AccountHolderInterface accountHolderInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/p2pTransfer/createTransferTransaction.Readme.md">Perform a P2P Transfer</a></td>
-    <td>createTransferTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="3">‘On-us’ P2P Transfer Initiated by a Third Party Provider</td>
-    <td><a href="/docs/p2pTransfer/viewAccountName.Readme.md">Retrieve the Name of the Recipient</a></td>
-    <td>viewAccountName</td>
-    <td>ArrayList<Identifier> identifierArrayList,AccountHolderInterface accountHolderInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/p2pTransfer/createQuotation.Readme.md">Request a P2P Quotation</a></td>
-    <td>createQuotation</td>
-    <td>NotificationMethod, string callBackUrl="",Quotation quotationRequest,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/p2pTransfer/createTransferTransaction.Readme.md">Perform a P2P Transfer</a></td>
-    <td>createTransferTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transactionRequest ,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>P2P Transfer Reversal</td>
-    <td><a href="/docs/p2pTransfer/createReversal.Readme.md">Perform a Transaction Reversal</a></td>
-    <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String referenceId,Reversal reversal,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Obtain an FSP Balance</td>
-    <td><a href="/docs/p2pTransfer/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
-    <td>viewAccountBalance</td>
-       <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
-  </tr>
-   <tr>
-    <td>Retrieve Transactions for an FSP</td>
-    <td><a href="/docs/p2pTransfer/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
-    <td>viewAccountTransactions</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
-  </tr>
-  <tr>
-    <td>Check for Service Availability</td>
-    <td><a href="/docs/p2pTransfer/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
-    <td>viewServiceAvailability</td>
-    <td>NA</td>
-  </tr>
-  <tr>
-    <td rowspan="2">Retrieve a Missing API Response</td>
-    <td><a href="/docs/p2pTransfer/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
-    <td>viewResponse</td>
-    <td>String correlationId</td>
- </tr>
- <tr></tr>
-</tbody>
-</table>
 
-<a name="recurring"></a>
-### Recurring Payments
+* [Individual Disbursement](#individual-disbursement)
+* [Bulk Disbursement](#bulk-disbursement)
+* [Bulk Disbursement with Maker / Checker](#bulk-disbursement-maker)
+* [Individual Disbursement Using the Polling Method](#disbursment-polling)
+* [Disbursement Reversal](#reversal)
+* [Obtain a Disbursement Organisation Balance](#balances)
+* [Retrieve Transactions for a Disbursement Organisation](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
 
-Contains functions for all the use case scenarios within Recurring Payments.
+# International Transfers
 
-<table>
-<thead>
-  <tr>
-    <th>Scenarios</th>
-    <th>API</th>
-    <th>Function</th>
-    <th>Parameters</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>Setup a Recurring Payment</td>
-    <td><a href="/docs/recurringPayment/createAccountDebitMandate.Readme.md">Setup a Recurring Payment</a></td>
-    <td>createAccountDebitMandate</td>
-    <td>NotificationMethod, string callBackUrl="",DebitMandateRequest debitMandateRequest,ArrayList<Identifier> identifierArrayList,RequestStateInterface requestStateInterface
-</td>
-  </tr>
-  
-  <tr>
-    <td>Take a Recurring Payment</td>
-    <td><a href="/docs/recurringPayment/createMerchantTransaction.Readme.md">Take a Recurring Payment</a></td>
-    <td>createMerchantTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  
-  <tr>
-    <td rowspan="3">Take a Recurring Payment using the Polling Method</td>
-    <td><a href="/docs/recurringPayment/createMerchantTransaction.Readme.md">Take a Recurring Payment</a></td>
-    <td>createMerchantTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/recurringPayment/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
-    <td>viewRequestState</td>
-    <td>String serverCorrelationId</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/recurringPayment/viewTransaction.Readme.md">Retrieve a Transaction</a></td>
-    <td>viewTransaction</td>
-    <td>String transactionReference</td>
-  </tr>
-  
-  <tr>
-    <td>Recurring Payment Refund</td>
-    <td><a href="/docs/recurringPayment/createRefundTransaction.Readme.md">Perform a Recurring Payment Refund</a></td>
-    <td>createRefundTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  
-  <tr>
-    <td>Recurring Payment Reversal</td>
-    <td><a href="/docs/recurringPayment/createReversal.Readme.md">Perform a Merchant Payment Reversal</a></td>
-    <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalObject,RequestStateInterface requestStateInterface</td>
-  </tr>
-  
-  <tr>
-    <td>Payer sets up a Recurring Payment using MMP Channel</td>
-    <td><a href="/docs/recurringPayment/createAccountDebitMandate.Readme.md">Setup a Recurring Payment</a></td>
-    <td>createAccountDebitMandate</td>
-    <td>NotificationMethod, string callBackUrl="",DebitMandateRequest debitMandateRequest,ArrayList<Identifier> identifierArrayList,RequestStateInterface requestStateInterface
-  </tr>
-  
-  <tr>
-    <td>Obtain a Service Provider Balance</td>
-    <td><a href="/docs/recurringPayment/viewAccountBalance.Readme.md">Get an Account Balance</a></td>
-    <td>viewAccountBalance</td>
-    <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
-  </tr>
-  
-  <tr>
-    <td>Retrieve Payments for a Service Provider</td>
-    <td><a href="/docs/recurringPayment/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
-    <td>viewAccountTransactions</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
-  </tr>
-  
-  <tr>
-    <td>Check for Service Availability</td>
-    <td><a href="/docs/recurringPayment/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
-    <td>viewServiceAvailability</td>
-    <td>NA</td>
-  </tr>
-  
-  <tr>
-    <td>Retrieve a Missing API Response</td>
-    <td><a href="/docs/recurringPayment/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
-    <td>viewResponse</td>
-    <td>String correlationId</td>
-  </tr>
-  
-</tbody>
-</table>
+* [International Transfer via Hub](#international-transfer-hub)
+* [Bilateral International Transfer](#International-transfer-hub)
+* [International Transfer Reversal](#reversal)
+* [Obtain an FSP Balance](#balances)
+* [Retrieve Transactions for an FSP](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
 
-<a name="account-linking"></a>
-### Account Linking
+# P2P Transfers
 
-<table>
-<thead>
-  <tr>
-    <th>Scenarios</th>
-    <th>API</th>
-    <th>Function</th>
-    <th>Parameters</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td rowspan="3">Common</td>
-    <td><a href="/docs/accountLinking/viewAccountBalance.Readme.md">Obtain a Financial Service Provider Balance</a></td>
-    <td>viewAccountBalance</td>
-    <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/accountLinking/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
-    <td>viewServiceAvailability</td>
-    <td>NA</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/accountLinking/viewResponse.Readme.md">Retrieve a Missing API Response</a></td>
-    <td>viewResponse</td>
-    <td>String correlationId</td>
-  </tr>
-  <tr>
-    <td>Setup an Account Link</td>
-    <td><a href="/docs/accountLinking/createAccountLink.Readme.md">Establish an Account to Account Link</a></td>
-    <td>createAccountLink</td>
-    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierArrayList,Link accountLinkObject,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Perform a Transfer for a Linked Account</td>
-    <td><a href="/docs/accountLinking/createTransferTransaction.Readme.md">Use a Link to make a Transfer</a></td>
-    <td>createTransferTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="3">Perform a Transfer using an Account Link via the Polling Method</td>
-    <td><a href="docs/accountLinking/createTransferTransaction.Readme.md">Use a Link to make a Transfer</a></td>
-    <td>createTransferTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/accountLinking/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
-    <td>viewRequestState</td>
-    <td>String serverCorrelationId</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/accountLinking/viewTransaction.Readme.md">Retrieve a Transaction</a></td>
-    <td>viewTransaction</td>
-    <td>String transactionReference</td>
-  </tr>
-  <tr>
-    <td>Perform a Transfer Reversal</td>
-    <td><a href="docs/accountLinking/createReversal.Readme.md">Perform a Transaction Reversal</a></td>
-    <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalObject,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Retrieve Transfers for a Financial Service Provider</td>
-    <td><a href="/docs/accountLinking/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
-    <td>viewAccountTransactions</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveTransactionInterface retrieveTransactionInterface</td>
-  </tr>
-  <tr>
-    <td>Read a specific link for a given account.</td>
-    <td><a href="/docs/accountLinking/viewAccountLink.Readme.md">Read a specific link for a given account</a></td>
-    <td>viewAccountLink</td>
-    <td>ArrayList<Identifier> identifierList,String transactionReference,AccountLinkInterface accountLinkInterface</td>
-  </tr>
-</tbody>
-</table>
+* [P2P Transfer via Switch](#p2p-transfer-switch)
+* [Bilateral P2P Transfer](#p2p-transfer-bilateral)
+* [‘On-us’ P2P Transfer Initiated by a Third Party Provider](#onus-transfer-switch)
+* [P2P Transfer Reversal](#reversal)
+* [Obtain an FSP Balance](#balances)
+* [Retrieve Transactions for an FSP](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
 
-<a name="bill-payments">
- 
-### Bill Payments
+# Recurring Payments
 
-<table>
-<thead>
-  <tr>
-    <th>Scenarios</th>
-    <th>API</th>
-    <th>Function</th>
-    <th>Parameters</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>Successful Retrieval of Bills</td>
-    <td><a href="/docs/billPayment/viewAccountBills.Readme.md">Retrieve a Set of Bills</a></td>
-    <td>viewAccountBills</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,RetrieveBillPaymentInterface retrieveBillPaymentInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="2">Make a Successful Bill Payment with Callback</td>
-    <td><a href="/docs/billPayment/createBillTransaction.Readme.md">Create a Bill Transaction</a></td>
-    <td>createBillTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="/docs/billPayment/createBillPayment.Readme.md">Make a Bill Payment</a></td>
-    <td>createBillPayment</td>
-    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,BillPayment billPayment,String billReference,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="3">Make a Bill Payment with Polling</td>
-    <td><a href="/docs/billPayment/createBillPayment.Readme.md">Make a Bill Payment</a></td>
-    <td>createBillPayment</td>
-    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,BillPayment billPayment,String billReference,RequestStateInterface requestStateInterface</td>
-  </tr>
-   <tr>
-    <td><a href="/docs/billPayment/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
-    <td>viewRequestState</td>
-    <td>String serverCorrelationId</td>
-   </tr>
-  <tr>
-    <td><a href="/docs/billPayment/viewBillPayment.Readme.md">Retrieve Bill Payments for a Given Bill</a></td>
-    <td>viewBillPayment</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,String billReference,BillPaymentInterface billPaymentInterface</td>
-  </tr>
-   <tr>
-    <td>Retrieval of Bill Payments</td>
-    <td><a href="/docs/billPayment/viewBillPayment.Readme.md">Retrieve a Set of Bill Payments</a></td>
-    <td>viewBillPayment</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,String billReference,BillPaymentInterface billPaymentInterface</td>
-  </tr>
-  <tr>
-    <td>Check for Service Availability</td>
-    <td><a href="/docs/billPayment/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
-    <td>viewServiceAvailability</td>
-    <td>NA</td>
-  </tr>
-  <tr>
-    <td>Retrieve a Missing API Response</td>
-    <td><a href="/docs/billPayment/viewResponse.Readme.md"">Retrieve a Missing Response</a></td>
-    <td>viewResponse</td>
-    <td>String correlationId</td>
-  </tr>
-</tbody>
-</table>
+* [Setup a Recurring Payment](#setup-recurring)
+* [Take a Recurring Payment](#take-recurring)
+* [Take a Recurring Payment using the Polling Method](#take-polling)
+* [Recurring Payment Refund](#refund)
+* [Recurring Payment Reversal](#reversal)
+* [Payer sets up a Recurring Payment using MMP Channel](#setup-recurring)
+* [Obtain a Service Provider Balance](#balances)
+* [Retrieve Payments for a Service Provider](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
 
-<a name="agent-services"></a>
- 
+# Account Linking
+
+* [Setup an Account Link](#setup-accountlink)
+* [Perform a Transfer for a Linked Account](#perform-transfer)
+* [Perform a Transfer using an Account Link via the Polling Method](#transfer-account-link-polling)
+* [Perform a Transfer Reversal](#reversal)
+* [Obtain a Financial Service Provider Balance](#balances)
+* [Retrieve Transfers for a Financial Service Provider](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
+
+# Bill Payment
+
+* [Successful Retrieval of Bills](#retrieval-bills)
+* [Make a Successful Bill Payment with Callback](#make-bill-callback)
+* [Make a Bill Payment with Polling](#make-bill-polling)
+* [Retrieval of Bill Payments](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+
 # Agent Services
 
-<table>
-<thead>
-  <tr>
-    <th>Scenarios</th>
-    <th>API</th>
-    <th>Function</th>
-    <th>Parameters</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>Agent-initiated Cash-out</td>
-    <td><a href="docs/agentService/createWithdrawalTransaction.Readme.md">Agent Initiated Cash-Out</a></td>
-    <td>createWithdrawalTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="3">Agent-initiated Cash-out using the Polling Method</td>
-    <td><a href="docs/agentService/createWithdrawalTransaction.Readme.md">Agent Initiated Cash-out</a></td>
-    <td>createWithdrawalTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="docs/agentService/viewRequestState.Readme.md">Poll to Determine the Request State</a></td>
-    <td>viewRequestState</td>
-    <td>String serverCorrelationId,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="docs/agentService/viewTransaction.Readme.md">Retrieve a Transaction</a></td>
-    <td>viewTransaction</td>
-    <td>String transactionReference,TransactionInterface transactionInterface</td>
-     </tr>  
-  <tr>
-    <td>Customer-initiated Cash-out</td>
-    <td><a href="docs/agentService/createWithdrawalTransaction.Readme.md">Customer Initiated Cash-Out</a></td>
-    <td>createWithdrawalTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="3">Customer Cash-out at an ATM using an Authorisation Code</td>
-    <td><a href="docs/agentService/createAuthorisationCode.Readme.md">Obtain an Authorisation Code</a></td>
-    <td>createAuthorisationCode</td>
-    <td>NotificationMethod, string callBackUrl="",ArrayList<Identifier> identifierList,AuthorizationCode authorizationCode,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="docs/agentService/createWithdrawalTransaction.Readme.md">ATM Initiated Cash-Out</a></td>
-    <td>createWithdrawalTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td><a href="docs/agentService/viewAuthorisationCode.Readme.md">Retrieve Authorisation Code</a></td>
-    <td>viewAuthorisationCode</td>
-    <td>ArrayList<Identifier> identifierList,String transactionReference,AuthorisationCodeItemInterface authorisationCodeItemInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="2">Agent-initiated Customer Cash-in</td>
-    <td><a href="docs/agentService/viewAccountName.Readme.md">Retrieve the Name of the Depositing Customer</a></td>
-    <td>viewAccountName</td>
-    <td>ArrayList<Identifier> identifierList,AccountHolderInterface accountHolderInterface </td>
-  </tr>
-  <tr>
-    <td><a href="docs/agentService/createDepositTransaction.Readme.md">Agent Initiated Cash-in</a></td>
-    <td>createDepositTransaction</td>
-    <td>NotificationMethod, string callBackUrl="",Transaction transaction,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Cash-out Reversal</td>
-    <td><a href="docs/agentService/createReversal.Readme.md">Perform a Transaction Reversal</a></td>
-    <td>createReversal</td>
-    <td>NotificationMethod, string callBackUrl="",String originalTransactionReference,Reversal reversalObject,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Register a Customer Mobile Money Account</td>
-    <td><a href="docs/agentService/createAccount.Readme.md">Create a Mobile Money Account</a></td>
-    <td>createAccount</td>
-    <td>NotificationMethod, string callBackUrl="",Account accountRequest,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td rowspan="2">Verify the KYC of a Customer</td>
-    <td><a href="docs/agentService/viewAccount.Readme.md">Retrieve Account Information</a></td>
-    <td>viewAccount</td>
-    <td>ArrayList<Identifier> identifierList,AccountInterface accountInterface </td>
-  </tr>
-  <tr>
-    <td><a href="docs/agentService/updateAccountIdentity.Readme.md">Update KYC Verification Status</a></td>
-    <td>updateAccountIdentity</td>
-    <td>NotificationMethod, string callBackUrl="",String identityId,ArrayList<PatchData> patchDataArrayList,ArrayList<Identifier> identifierArrayList,RequestStateInterface requestStateInterface</td>
-  </tr>
-  <tr>
-    <td>Obtain an Agent Balance</td>
-    <td><a href="docs/agentService/viewAccountBalance.Readme.md">Obtain an Agent Balance</a></td>
-    <td>viewAccountBalance</td>
-    <td>ArrayList<Identifier> identifierList,BalanceInterface balanceInterface</td>
-  </tr>
-  <tr>
-    <td>Retrieve Transactions for an Agent</td>
-    <td><a href="docs/agentService/viewAccountTransactions.Readme.md">Retrieve a Set of Transactions for an Account</a></td>
-    <td>viewAccountTransactions</td>
-    <td>ArrayList<Identifier> identifierList,TransactionFilter filter,String billReference,BillPaymentInterface billPaymentInterface</td>
-  </tr>
-  <tr>
-    <td>Check for Service Availability</td>
-    <td><a href="docs/agentService/viewServiceAvailability.Readme.md">Check for Service Availability</a></td>
-    <td>viewServiceAvailability</td>
-    <td>NA</td>
-  </tr>
-  <tr>
-    <td>Retrieve a Missing API Response</td>
-    <td><a href="docs/agentService/viewResponse.Readme.md">Retrieve a Missing Response</a></td>
-    <td>viewResponse</td>
-    <td>String correlationId</td>
-  </tr>
-</tbody>
-</table>
+* [Agent-initiated Cash-out](#agent-service-cash-out)
+* [Agent-initiated Cash-out using the Polling Method](#agent-service-cash-out-polling)
+* [Customer-initiated Cash-out](#customer-service-cash-out)
+* [Customer Cash-out at an ATM using an Authorisation Code](#agent-service-cash-out-auth)
+* [Agent-initiated Customer Cash-in](#agent-initiated-cash-in)
+* [Cash-out Reversal](#reversal)
+* [Register a Customer Mobile Money Account](#register-customer)
+* [Verify a Customer’s KYC](#verify-customer)
+* [Obtain an Agent Balance](#balances)
+* [Retrieve Transactions for an Agent](#retrieve-payments)
+* [Check for Service Availability](#check-for-service)
+* [Retrieve a Missing API Response](#missing-response)
+
+
+<a name="payee-initiated"></a>
+
+# Payee initiated Merchant Payment
  
-# Test
-         
-## Testing
-
-The `test` package contains the test cases. These are logically divided into unit and integration tests. 
-
-### Unit tests
-         
-Those tests are located in test directory of GSMASdk Module  com.gsmaSdk.gsma(test) and are responsible for ensuring each class is behaving as expected, 
-without considering the rest of the system. Unit tests heavily leverage `mocking` and are an essential part of our testing harness.Clone the repository and open in androud studio to run integration and unit tests
-            
-                              
-### Integration tests
-
-Those tests are located in Test app under  GSMATest Module and are responsible for ensuring a proper communication with server/simulator. 
-With the integration tests, we ensure all communications between the SDK and the server/simulator are behaving accordingly.
-
-For integration test:
-
-- Run the test application in real device or emulator
-- Select a module and click on a function,if the function passes a tick mark is shown near to the fields otherwise a cross sign to the correspondibg fields
-- Mandatory fields are compared with response from the API to ensure that whether the test succeed or not         
-         
-
-
-
-         
-         
-     
-     
+ In this scenario the payer/payee can initiate a payment request,Click on the following buttons in test app to perform merchant payment
  
-     
-     
-     
-     
+ * Payee Initiated Merchant Payment
  
-     
-     
+ The expected output of this request is given below
+
+###  Payee initiated Merchant Payment-Output
+ 
+In the test app default notification method is CALLBACK and you can change notification methods from the sample code to POLLING if needed
+
+The sample output if the notification method is callback 
+
+```json
+ {
+	"notificationMethod": "callback",
+	"objectReference": "15596",
+	"pollLimit": 100,
+	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
+	"status": "pending"
+}
+```
+
+<a name="payee-initiated-polling"></a>
+
+# Payee-Initiated Merchant Payment using the Polling Method
+
+The Payee-Initiated Merchant Payment using the Polling Method scenario can be completed by clicking following buttons of sample app
+
+* Payee-Initiated Merchant Payment using the Polling Method
+
+ ### Payee initiated Merchant Payment Polling - Output
+
+```json
+ {
+	"notificationMethod": "polling",
+	"objectReference": "15596",
+	"pollLimit": 100,
+	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
+	"status": "pending"
+}
+```
+ The serverCorrelationId is obtained from the result of payee initiated request,This serverCorrelationId is passed to request state function to view the request state of a transaction
+
+ 
+ ### View Request State - Output
+
+```json
+{
+	"notificationMethod": "polling",
+	"objectReference": "REF-1638274655726",
+	"pollLimit": 100,
+	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
+	"status": "completed"
+}
+
+```
+The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
+
+ ### View Transaction - Output
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+ ```
+
+<a name="payer-initiated"></a>
+
+# Payer initiated Merchant Payment
+ 
+ In this scenario the payer/payee can initiate a payment request,Click on the following buttons in test app to perform merchant payment
+ 
+ * Payer Initiated Merchant Payment
+ 
+ The expected output of this request is given below
+
+###  Payer initiated Merchant Payment-Output
+ 
+In the test app default notification method is CALLBACK and you can change notification methods from the sample code to POLLING if needed
+
+The sample output if the notification method is callback 
+
+```json
+ {
+	"notificationMethod": "callback",
+	"objectReference": "15596",
+	"pollLimit": 100,
+	"serverCorrelationId": "d6582f57-f353-45b7-962b-7e35bda38765",
+	"status": "pending"
+}
+```
+
+<a name="auth-code"></a>
+
+# Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
+
+The Payee-Initiated Merchant Payment using a Pre-authorised Payment Code can be completed by clicking the following buttons
+
+* Payee-Initiated Merchant Payment using a Pre-authorised Payment Code
+
+ ### Create Authorisation Code - Output
+
+```json
+ {
+	"notificationMethod": "callback",
+	"objectReference": "1839",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "pending"
+}
+
+ 
+```
+ The serverCorrelationId is obtained from the result of payee intiated request,This serverCorrelationId is passed to request state function to view the request state of a   transaction 
+ 
+### View Request state - Output
+
+```json
+{
+	"notificationMethod": "callback",
+	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "completed"
+}
+
+```
+The objectReference is passed as a parameter to view auth code function to retrieve the authorisation code
+
+### View Authorization Code - Output
+
+```json
+ {
+ 	"amount": "200.00",
+ 	"authorisationCode": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+ 	"codeState": "active",
+ 	"creationDate": "2021-11-30T13:42:09",
+ 	"currency": "RWF",
+ 	"modificationDate": "2021-11-30T13:42:09",
+ 	"redemptionAccountIdentifiers": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	},{
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907483978"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637909732171"
+ 	}],
+ 	"requestDate": "2021-10-18T10:43:27"
+ }
+```
+
+### Payee-Initiated Merchant Payment - Output 
+
+```json
+ {
+	"notificationMethod": "callback",
+	"objectReference": "15596",
+	"pollLimit": 100,
+	"serverCorrelationId":"3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "pending"
+}
+
+```
+
+<a name="refund"></a>
+
+# Payment Refund
+
+ The refund scenario  can be completed by using following buttons
+ 
+ * Refund
+
+### Payment Refund - Output
+
+
+```json
+{
+	"notificationMethod": "callback",
+	"objectReference": "15621",
+	"pollLimit": 100,
+	"serverCorrelationId": "4c9313cf-185a-4335-87ae-feced48f1ee2",
+	"status": "pending"
+}
+
+```
+
+<a name="reversal"></a>
+
+# Payment Reversal
+
+ The reversal scenario  can be completed by using following buttons
+ 
+  * Reversal
+
+### Payment Reversal -Output
+
+```json
+
+{
+	"notificationMethod": "callback",
+	"objectReference": "4572",
+	"pollLimit": 100,
+	"serverCorrelationId": "ca3eb926-5b8c-4d11-b184-06782408208e",
+	"status": "pending"
+}
+
+```
+
+<a name="balances"></a>
+
+# Balance
+
+The balance scenario can be completed by using following methods
+
+* Balance
+
+### Balance - Output
+
+
+```json
+ {
+ 	"accountStatus": "available",
+ 	"availableBalance": "0.00",
+ 	"currentBalance": "0.00",
+ 	"reservedBalance": "0.00",
+ 	"unclearedBalance": "0.00"
+ }
+
+```
+<a name="retrieve-payments"></a>
+
+
+# Retrieve a set of transaction
+ 
+  The retrieve Transaction can be completed by clicking following button
+ 
+ * Retrieve transaction
+
+### Retrieve Transaction - Output
+
+```json
+ {
+ 	"Transaction": [{
+ 		"amount": "200.00",
+ 		"creationDate": "2021-04-10T09:58:12",
+ 		"creditParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"currency": "RWF",
+ 		"debitParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"modificationDate": "2021-04-10T09:58:12",
+ 		"requestDate": "2021-04-10T09:58:12",
+ 		"transactionReference": "REF-1618045092324",
+ 		"transactionStatus": "pending",
+ 		"type": "merchantpay"
+ 	}, {
+ 		"amount": "200.00",
+ 		"creationDate": "2021-04-10T09:58:35",
+ 		"creditParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"currency": "RWF",
+ 		"debitParty": [{
+ 			"key": "accountid",
+ 			"value": "2999"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907197912"
+ 		}, {
+ 			"key": "mandatereference",
+ 			"value": "REF-1637907232832"
+ 		}],
+ 		"modificationDate": "2021-04-10T09:58:35",
+ 		"requestDate": "2021-04-10T09:58:35",
+ 		"transactionReference": "REF-1618045115056",
+ 		"transactionStatus": "pending",
+ 		"type": "merchantpay"
+ 	}]
+ }
+
+```
+
+<a name="check-for-service"></a>
+
+# Check for Service Availability
+
+The service functionality will trigger automatically when we select merchant payment use cases
+
+### Check Service Availability - Output
+
+```json
+{
+	"serviceStatus": "available"
+}
+
+```
+
+<a name="missing-response"></a>
+
+# Retrieve a Missing API Response
+
+ The missing response of an request can be performed using the correlation id used for the request,Pass the correlationId of a transaction request to get the missing  response of a particular API
+ 
+For eg:if the transaction response is missing,To retrieve the missing response of transaction click the following button 
+
+* Retrieve a Missing API Response
+
+### Create Missing Transaction - Output
+
+```json
+{
+	"notificationMethod": "callback",
+	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "completed"
+}
+
+```
+
+### Missing Response - Output
+
+```json
+{
+	"notificationMethod": "callback",
+	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "completed"
+}
+
+```
+
+<a name="individual-disbursement"></a>
+
+
+# Individual Disbursement
+
+The individual disbursement can be completed by clicking following buttons
+
+* Individual Disbursement
+
+
+### Individual disbursement - Output
+
+```json
+{
+	"notificationMethod": "callback",
+	"objectReference": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+	"pollLimit": 100,
+	"serverCorrelationId": "3fa62436-9935-468c-8911-62263e6272c3",
+	"status": "completed"
+}
+
+```
+
+<a name="bulk-disbursement"></a>
+
+# Bulk Disbursement
+
+The bulk Disbursement can be completed by clicking following button in sequential order
+
+* Bulk Disbursement
+
+### Create Batch Transaction - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1153",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "pending"
+ }
+ 
+```
+
+### View Request state - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638337785175",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "completed"
+ }
+
+```
+
+ ### Batch Transaction - Output
+
+```json
+ 
+  {
+ 	"batchDescription": "Testing a Batch transaction",
+ 	"batchId": "REF-1638337785175",
+ 	"batchStatus": "created",
+ 	"batchTitle": "Batch Test",
+ 	"completedCount": 0,
+ 	"creationDate": "2021-12-01T05:49:45",
+ 	"modificationDate": "2021-12-01T05:49:45",
+ 	"parsingSuccessCount": 0,
+ 	"processingFlag": false,
+ 	"rejectionCount": 0,
+ 	"requestDate": "2021-12-01T05:49:45",
+ 	"scheduledStartDate": "2019-12-11T15:08:03"
+ }
+ 
+
+```
+
+ ### Batch Completions -  Output
+
+```json
+{
+	"BatchTransactionCompletion": []
+}
+
+```
+
+
+ ### Batch Rejection - Output
+
+```json
+{
+	"BatchTransactionRejection": []
+}
+
+```
+
+
+<a name="bulk-disbursement-maker"></a>
+# Bulk Disbursement using Maker/Checker
+
+The bulk Disbursement can be completed by clicking following button in sequential order
+
+* Bulk Disbursement using Maker/Checker
+
+
+###  Create Batch Transaction - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1153",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "pending"
+ }
+ 
+```
+
+### View Request state - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638337785175",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "completed"
+ }
+
+```
+
+### Batch Transaction - Output
+
+```json
+ 
+  {
+ 	"batchDescription": "Testing a Batch transaction",
+ 	"batchId": "REF-1638337785175",
+ 	"batchStatus": "created",
+ 	"batchTitle": "Batch Test",
+ 	"completedCount": 0,
+ 	"creationDate": "2021-12-01T05:49:45",
+ 	"modificationDate": "2021-12-01T05:49:45",
+ 	"parsingSuccessCount": 0,
+ 	"processingFlag": false,
+ 	"rejectionCount": 0,
+ 	"requestDate": "2021-12-01T05:49:45",
+ 	"scheduledStartDate": "2019-12-11T15:08:03"
+ }
+ 
+
+```
+
+### Update a batch transaction - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638337785175",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "fa8b8839-7323-45c2-8319-a075395307a7",
+ 	"status": "completed"
+ }
+
+
+```
+
+ ###  Batch Completions -  Output
+
+```json
+{
+	"BatchTransactionCompletion": []
+}
+
+```
+
+
+ ### Batch Completions -  Output
+
+```json
+{
+	"BatchTransactionRejection": []
+}
+
+```
+
+<a name="disbursment-polling"></a>
+
+# Individual Disbursement Using the Polling Method
+
+Disbursement using polling method can be completed using clicking following button
+
+* Individual Disbursement Using the Polling Method
+
+### Individual disbursement Polling - Output 
+
+```json
+{
+	 {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "15673",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+ }
+}
+
+```
+
+ ### View Request state - Output
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+```
+The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
+
+ ### View Transaction - Output
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
+<a name="international-transfer-hub"></a>
+
+# International Transfer via Hub
+
+This use case can be completed by clicking following button
+
+*  International Transfer via Hub
+
+
+ ### Create Quotation Request - Output
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1295",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
+ 	"status": "pending"
+ }
+```
+
+### Create International Transfer Transaction - Output
+ 
+ ```json
+{
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1295",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
+ 	"status": "pending"
+ }
+```
+
+<a name="p2p-transfer-bilateral"></a>
+
+# Bilateral International Transfer
+
+This use case can be completed by clicking following button
+
+*  Bilateral International Transfer
+  
+
+ ### Create Quotation Request - Output
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1295",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
+ 	"status": "pending"
+ }
+```
+
+### Create International Transfer Transaction - Output
+ 
+ ```json
+{
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1295",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "b9b86e55-7b1b-446d-8a2b-ab28894e37bf",
+ 	"status": "pending"
+ }
+```
+
+
+
+Use polling or callback scenario to get the complete status for a transaction  
+
+
+<a name="p2p-transfer-switch"></a>
+
+# P2P Transfer via Switch
+
+ The p2 transfer via switch can be completed by clicking the following buttons
+ 
+ * P2P Transfer via Switch
+ 
+ ### Retrieve the Name of the Recipient - Output 
+ 
+ ```json
+{
+ 	"lei": "AAAA0012345678901299",
+ 	"name": {
+ 		"firstName": "Jeff",
+ 		"fullName": "Jeff Jimmer",
+ 		"lastName": "Jimmer",
+ 		"middleName": "James",
+ 		"title": "Mr"
+ 	}
+ }
+```
+ ### Request Quotation - Output
+ 
+ ```json
+ {
+	"notificationMethod": "callback",
+	"objectReference": "1306",
+	"pollLimit": 100,
+	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
+	"status": "pending"
+}
+
+```
+ ###  Perform p2p transfer - Output
+
+
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "15681",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
+ 	"status": "pending"
+ }
+
+```
+
+
+<a name="onus-transfer-switch"></a>
+
+# ‘On-us’ P2P Transfer Initiated by a Third Party Provider
+
+ The p2 transfer via switch can be completed by clicking the following buttons
+ 
+ * ‘On-us’ P2P Transfer Initiated by a Third Party Provider
+ 
+ ### Retrieve the Name of the Recipient - Output 
+ 
+ ```json
+{
+ 	"lei": "AAAA0012345678901299",
+ 	"name": {
+ 		"firstName": "Jeff",
+ 		"fullName": "Jeff Jimmer",
+ 		"lastName": "Jimmer",
+ 		"middleName": "James",
+ 		"title": "Mr"
+ 	}
+ }
+```
+ ### Request Quotation - Output
+ 
+ ```json
+ {
+	"notificationMethod": "callback",
+	"objectReference": "1306",
+	"pollLimit": 100,
+	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
+	"status": "pending"
+}
+
+```
+ ###  Perform p2p transfer - Output
+
+
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "15681",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
+ 	"status": "pending"
+ }
+
+```
+
+
+<a name="p2p-transfer-bilateral"></a>
+
+# Bilateral P2P Transfer/International-transfer-hub
+
+ The p2 transfer via bilateral can be completed by clicking the following buttons
+ 
+ * Bilateral P2P Transfer
+ 
+ ### Retrieve the Name of the Recipient - Output 
+ 
+ ```json
+{
+ 	"lei": "AAAA0012345678901299",
+ 	"name": {
+ 		"firstName": "Jeff",
+ 		"fullName": "Jeff Jimmer",
+ 		"lastName": "Jimmer",
+ 		"middleName": "James",
+ 		"title": "Mr"
+ 	}
+ }
+```
+ ### Request Quotation - Output
+ 
+ ```json
+ {
+	"notificationMethod": "callback",
+	"objectReference": "1306",
+	"pollLimit": 100,
+	"serverCorrelationId": "e97885d3-2686-48ca-b66d-dfae1cb4ae42",
+	"status": "pending"
+}
+
+```
+ ###  Perform p2p transfer - Output
+
+
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "15681",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "eb3ca49e-3d5d-4050-81b6-ebc0fa6b053e",
+ 	"status": "pending"
+ }
+
+```
+
+
+
+
+
+<a name="setup-recurring"></a>
+
+# Set up a recurring payment
+
+Set up a recurring payment can be completed by clicking the following buttons
+
+* Setup a Recurring Payment
+
+ ### Create Debit Mandate - Output
+
+
+ ```json
+
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "428",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "70089e23-35ca-4e29-a166-4668024cb236",
+ 	"status": "pending"
+ }
+
+```
+<a name="take-recurring"></a>
+
+# Take a Recurring Payment
+
+ Take a recurring payment can be completed by passing debit mandate reference to merchant payment functions
+
+ * Take a Recurring Payment
+
+
+ ### Create Debit Mandate - Output 
+ 
+
+ ```json
+
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "432",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
+ 	"status": "pending"
+ }
+
+ 
+ ```
+
+ ### View Request state - Output
+ 
+ ```json
+{
+	"notificationMethod": "callback",
+	"objectReference": "REF-1638343640945",
+	"pollLimit": 100,
+	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
+	"status": "completed"
+}
+```
+
+
+ ### View Debit Mandate - Output
+ 
+ ```json
+ {
+ 	"amountLimit": "1000.00",
+ 	"creationDate": "2021-12-01T07:27:21",
+ 	"currency": "GBP",
+ 	"customData": [{
+ 		"key": "keytest",
+ 		"value": "keyvalue"
+ 	}],
+ 	"endDate": "2028-07-03",
+ 	"frequencyType": "sixmonths",
+ 	"mandateReference": "REF-1638343640945",
+ 	"mandateStatus": "active",
+ 	"modificationDate": "2021-12-01T07:27:21",
+ 	"numberOfPayments": "2",
+ 	"payee": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907197912"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907232832"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907265888"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907412029"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907483978"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637909732171"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1638330257762"
+ 	}],
+ 	"requestDate": "2018-07-03T10:43:27",
+ 	"startDate": "2018-07-03"
+ }
+
+```
+
+
+ ### Create Merchant payment - Output
+ 
+ ```json
+
+{
+	"notificationMethod": "callback",
+	"objectReference": "15684",
+	"pollLimit": 100,
+	"serverCorrelationId": "164b0df3-ddf0-4459-96e2-82b4514a8c17",
+	"status": "pending"
+}
+
+
+```
+
+
+<a name="take-polling"></a>
+
+# Take a recurring payment using polling method
+
+ ### Create Debit Mandate - Output 
+ 
+
+ ```json
+
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "432",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
+ 	"status": "pending"
+ }
+
+ 
+ ```
+
+ ### View Request state - Output
+ 
+ ```json
+{
+	"notificationMethod": "polling",
+	"objectReference": "REF-1638343640945",
+	"pollLimit": 100,
+	"serverCorrelationId": "82da04e9-05f5-4b1e-96f9-06b21deb7fc4",
+	"status": "completed"
+}
+```
+
+
+ ### View Debit Mandate - Output
+ 
+ ```json
+ {
+ 	"amountLimit": "1000.00",
+ 	"creationDate": "2021-12-01T07:27:21",
+ 	"currency": "GBP",
+ 	"customData": [{
+ 		"key": "keytest",
+ 		"value": "keyvalue"
+ 	}],
+ 	"endDate": "2028-07-03",
+ 	"frequencyType": "sixmonths",
+ 	"mandateReference": "REF-1638343640945",
+ 	"mandateStatus": "active",
+ 	"modificationDate": "2021-12-01T07:27:21",
+ 	"numberOfPayments": "2",
+ 	"payee": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907197912"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907232832"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907265888"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907412029"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907483978"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637909732171"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1638330257762"
+ 	}],
+ 	"requestDate": "2018-07-03T10:43:27",
+ 	"startDate": "2018-07-03"
+ }
+
+```
+
+
+ ### Create Merchant payment -Output
+ 
+ ```json
+
+{
+	"notificationMethod": "polling",
+	"objectReference": "15684",
+	"pollLimit": 100,
+	"serverCorrelationId": "164b0df3-ddf0-4459-96e2-82b4514a8c17",
+	"status": "pending"
+}
+
+
+```
+
+<a name="setup-recurring"></a>
+
+# Payer sets up a Recurring Payment using MMP Channel
+
+Set up a recurring payment can be completed by clicking the following buttons
+
+* Payer sets up a Recurring Payment using MMP Channel
+
+ ### Create Debit Mandate - Output
+
+ ```json
+
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "428",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "70089e23-35ca-4e29-a166-4668024cb236",
+ 	"status": "pending"
+ }
+
+```
+
+<a name="setup-accountlink"></a>
+
+# Setup an Account Link
+
+The setup an account link scenario can be completed by clicking the following buttons
+
+* Setup an Account Link
+
+
+
+ ### Setup an Account Link - Output
+ 
+ ```json
+   {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "440",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "pending"
+ }
+ ```
+
+
+ <a name="perform-transfer"></a>
+ 
+ # Perform a Transfer for Linked Account
+ 
+  Click the the following button to perform a transfer for a Linked Account
+ 
+ * Perform a Transfer for Linked Account
+ 
+ 
+ ### Setup an Account Link - Output
+ 
+ ```json
+   {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "440",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "pending"
+ }
+ ```
+
+
+
+### Request State - Output
+ 
+ ```json
+  {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638425137077",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "completed"
+ }
+ ```
+  ### View Account link - Output
+ 
+ ```json
+
+
+ {
+ 	"creationDate": "2021-12-02T06:36:52",
+ 	"customData": [{
+ 		"key": "keytest",
+ 		"value": "keyvalue"
+ 	}],
+ 	"linkReference": "REF-1638427012132",
+ 	"mode": "active",
+ 	"modificationDate": "2021-12-02T06:36:52",
+ 	"requestingOrganisation": {},
+ 	"sourceAccountIdentifiers": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907197912"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907232832"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907265888"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907412029"
+ 	}],
+ 	"status": "active"
+ }
+
+ ```
+  ### Perform a Transfer for a Linked Account - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+ ```
+ 
+
+ <a name="transfer-account-link-polling"></a>
+ 
+# Perform a Transfer using an Account Link via the Polling Method
+
+Click the following buttons to perform take a recurring payment
+
+* Perform a Transfer using an Account Link via the Polling Method
+
+
+ 
+ ### Setup an Account Link - Output
+ 
+ ```json
+   {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "440",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "pending"
+ }
+ ```
+
+
+
+### Request State - Output
+ 
+ ```json
+  {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638425137077",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "completed"
+ }
+ ```
+  ### View Account link - Output
+ 
+ ```json
+
+
+ {
+ 	"creationDate": "2021-12-02T06:36:52",
+ 	"customData": [{
+ 		"key": "keytest",
+ 		"value": "keyvalue"
+ 	}],
+ 	"linkReference": "REF-1638427012132",
+ 	"mode": "active",
+ 	"modificationDate": "2021-12-02T06:36:52",
+ 	"requestingOrganisation": {},
+ 	"sourceAccountIdentifiers": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907197912"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907232832"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907265888"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907412029"
+ 	}],
+ 	"status": "active"
+ }
+
+ ```
+  ### Perform a Transfer for a Linked Account - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+ ```
+
+
+
+ ### Request State - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+```
+The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
+
+ ### View Transaction - Output
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
+
+<a name="retrieval-bills"></a>
+
+# Successful Retrieval of Bills
+
+The successful Retrieval of bills scenarios can be completed by clicking the following buttons
+
+* View Account Bills
+
+ ### View Account Bill - Output
+ 
+ ```json
+   {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "440",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "3bebab13-8ca6-479e-90dc-05fd134ec80b",
+ 	"status": "pending"
+ }
+```
+
+<a name="make-bill-callback"></a>
+
+# Make a Successful Bill Payment with Callback
+
+The bill payment with callback can be completed by clicking the following methods
+
+ * Make a Successful Bill Payment with Callback
+
+ ###  Create Bill Transaction - Output 
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "19686",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "0cebe7cf-6268-42b2-b2d3-de0986f7e41c",
+ 	"status": "pending"
+ }
+```
+
+### Request State - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+
+```
+ ### View Transaction - Output
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
+
+
+ ### Example Output - Create Bill Payments
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+
+<a name="make-bill-polling"></a>
+
+# Make a Bill Payment with Polling
+
+ Click on the following button to complete following scenario
+
+* # Make a Bill Payment with Polling
+
+
+ ###  Create Bill Transaction - Output 
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "19686",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "0cebe7cf-6268-42b2-b2d3-de0986f7e41c",
+ 	"status": "pending"
+ }
+```
+
+### Request State - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+
+```
+ ### View Transaction - Output
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
+
+
+
+### Create Bill Payment - Output
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+ ### Request State - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": ""57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "completed"
+ }
+
+```
+
+### View Bill Payment - Output
+
+```json
+
+{
+ 	"billPayments": [{
+ 		"amountPaid": "0.99",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "GBP",
+ 		"customerReference": "customer ref 0001",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27",
+ 		"supplementaryBillReferenceDetails": [{
+ 			"paymentReferenceType": "type 1",
+ 			"paymentReferenceValue": "value 1"
+ 		}]
+ 	}, {
+ 		"amountPaid": "0.99",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "GBP",
+ 		"customerReference": "customer ref 0001",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27",
+ 		"supplementaryBillReferenceDetails": [{
+ 			"paymentReferenceType": "type 1",
+ 			"paymentReferenceValue": "value 1"
+ 		}]
+ 	}, {
+ 		"amountPaid": "55.00",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "AED",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27"
+ 	}, {
+ 		"amountPaid": "55.00",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "AED",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27"
+ 	}, {
+ 		"amountPaid": "55.00",
+ 		"billPaymentStatus": "unpaid",
+ 		"creationDate": "2021-02-17T00:00:00",
+ 		"currency": "AED",
+ 		"modificationDate": "2021-02-18T08:20:58",
+ 		"requestDate": "2021-02-18T08:21:27"
+ 	}]
+ }
+
+
+```
+
+<a name="agent-service-cash-out"></a>
+# Agent Initiated Cash out
+
+The agent initiated Cash out can be scenario can be achieved by clicking the following buttons
+
+* Agent Initiated Cash Out 
+
+### Create withdrawal transaction - Output
+
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+<a name="agent-service-cash-out-polling"></a>
+
+# Agent Initiated Cash out using Polling Method
+
+The agent Initiated Cash out can be scenario can be achieved by clicking the following buttons
+
+* Agent-initiated Cash-out using the Polling Method
+
+### Create withdrawal transaction - Output
+
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+
+ ### Request State-Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "completed"
+ }
+
+```
+The object reference obtained from the request state is passed to view transaction function,The view transaction function will retrieve the details of the transaction
+
+ ### View Transaction - Output
+ 
+ ```json
+ 
+ {
+	"transactionReference": "REF-1638274655726",
+	"creditParty": [{
+		"key": "msisdn",
+		"value": "+44012345678"
+	}],
+	"debitParty": [{
+		"key": "msisdn",
+		"value": "+449999999"
+	}, {
+		"key": "linkref",
+		"value": "REF-1614172481727"
+	}],
+	"type": "merchantpay",
+	"transactionStatus": "completed",
+	"amount": "200.00",
+	"currency": "RWF",
+	"creationDate": "2021-11-30T12:37:15",
+	"modificationDate": "2021-11-30T12:37:15",
+	"requestDate": "2021-11-30T12:37:15"
+}
+```
+<a name="agent-service-cash-out-auth"></a>
+
+
+<a name="customer-service-cash-out"></a>
+
+# Customer-initiated Cash-out
+
+The agent initiated Cash out can be scenario can be achieved by clicking the following buttons
+
+* Customer-initiated Cash-out
+
+### Create withdrawal transaction - Output
+
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "57972c80-793f-4b5d-82a7-763bdff7465f",
+ 	"status": "pending"
+ }
+```
+
+
+# Customer Cash-out at an ATM using an Authorisation Code
+
+Customer Initiated Cash out at atm using Authorisation Code can be achieved by clicking following button
+
+* Customer Cash-out at an ATM using an Authorisation Code
+
+
+### Create an authorisation code - Output
+
+```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+
+```
+
+###  Request State - Output
+
+```json
+ {
+ 	"notificationMethod": "polling",
+ 	"objectReference": "REF-1638339051465",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "completed"
+ }
+ 
+ 
+
+```
+### View Authorization Code - Output 
+
+```json
+ {
+ 	"amount": "200.00",
+ 	"authorisationCode": "93e2e3ac-e5ee-470e-a1de-ae9757e63106",
+ 	"codeState": "active",
+ 	"creationDate": "2021-11-30T13:42:09",
+ 	"currency": "RWF",
+ 	"modificationDate": "2021-11-30T13:42:09",
+ 	"redemptionAccountIdentifiers": [{
+ 		"key": "accountid",
+ 		"value": "2999"
+ 	},{
+ 		"key": "mandatereference",
+ 		"value": "REF-1637907483978"
+ 	}, {
+ 		"key": "mandatereference",
+ 		"value": "REF-1637909732171"
+ 	}],
+ 	"requestDate": "2021-10-18T10:43:27"
+ }
+```
+
+### Create withdrawal transaction - Output
+
+ 
+ ```json
+ {
+ 	"notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+ }
+```
+<a name="agent-initiated-cash-in"></a>
+
+# Agent-initiated Customer Cash-in
+
+Agent-initiated Customer Cash-in  can be achieved by clicking following button
+
+* Agent-initiated Customer Cash-in
+
+### View Account Name - Output
+
+```json
+{
+	"lei": "AAAA0012345678901299",
+	"name": {
+		"firstName": "Jeff",
+		"fullName": "Jeff Jimmer",
+		"lastName": "Jimmer",
+		"middleName": "James",
+		"title": "Mr"
+	}
+}
+
+```
+
+
+###  Create Deposit Transaction - Output
+
+```json
+{ "notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+ }
+
+```
+
+<a name="register-customer"></a>
+
+# Register a Customer Mobile Money Account
+
+The register a customer in mobile money account can be achieved by clicking the following buttons
+
+* Create a Mobile Money Account
+
+### Create Account - output
+
+```json
+{
+        "notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+}
+```
+
+<a name="verify-customer"></a>
+
+# Verify a Customer’s KYC
+
+Verify a customer KYC can be achieved by clicking the following buttons
+
+* Verify a Customer’s KYC
+
+### View Account information - Output
+
+```java
+
+{
+	"accountIdentifiers": [{
+			"key": "msisdn",
+			"value": "+449999999"
+		},
+		{
+			"key": "walletid",
+			"value": "1"
+		},
+		{
+			"key": "accountid",
+			"value": "1"
+		},
+		{
+			"key": "mandatereference",
+			"value": "REF-1583141449478"
+		},
+		{
+			"key": "linkref",
+			"value": "REF-1473082363913"
+		}
+	],
+	...
+}
+```
+### Update Account Identity - Output
+
+```json
+{
+        "notificationMethod": "callback",
+ 	"objectReference": "1207",
+ 	"pollLimit": 100,
+ 	"serverCorrelationId": "edcb2346-1829-4ce8-b171-2a4b1a105a21",
+ 	"status": "pending"
+}
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
